@@ -186,11 +186,11 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                   value={formData.plan_status}
                   label="وضعیت اجرای طرح"
                   options={[
-                    { value: '1', label: 'لغو شده' },
-                    { value: '2', label: 'در حال اجرا' },
-                    { value: '3', label: 'تکمیل شده' },
-                    { value: '4', label: 'در انتظار' },
-                    { value: '5', label: 'کنسل شده' },
+                    { value: '1', label: 'شروع شده' },
+                    { value: '2', label: ' جمع آوری شده' },
+                    { value: '3', label: 'تمدید شده' },
+                    { value: '4', label: 'سررسید ناموفق' },
+                    { value: '5', label: 'تکمیل شده' },
                   ]}
                   onChange={(e) => {
                     setFormData({ ...formData, plan_status: e.target.value });
