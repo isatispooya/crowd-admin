@@ -74,19 +74,13 @@ const AddInfo = () => {
     setSatusSecond(event.target.value);
   };
   const handleDateChange = (date) => {
-    const gregorianDate = date?.toDate?.();
-    if (gregorianDate) {
-      const localDate = new Date(gregorianDate.getTime() - gregorianDate.getTimezoneOffset() * 60000); // حذف تاثیر منطقه زمانی
-      localDate.setHours(0, 0, 0, 0);
-      const timestamp = Math.floor(localDate.getTime());
+    const timestamp = date?.toDate?.()?.getTime();
+    if (timestamp) {
       setSelectedDate(timestamp);
       localStorage.setItem(`selectedDate_${trace_code}`, timestamp);
-    } else {
-      setSelectedDate('');
-      localStorage.removeItem(`selectedDate_${trace_code}`);
     }
   };
-  
+
   const handleSubmit = () => {
     if (!rateOfReturn) {
       toast.error('لطفاً نرخ بازدهی را وارد کنید!');

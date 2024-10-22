@@ -4,7 +4,7 @@ import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { DeleteModal } from 'src/components/modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import MessagePage from 'src/module/message/page/messagepage';
+import MessagePage from 'src/module/Create_receiveRrequests/message/page';
 import CardFeature from '../feature/cartfeature';
 import { deleteCard } from '../service/cartService';
 import useGetCards from '../service/useGetCarts';
