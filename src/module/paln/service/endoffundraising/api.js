@@ -21,6 +21,5 @@ export const getEndOfFundraising = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });
-
-  return response.data;
+  return response.data.date_payments;
 };

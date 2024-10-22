@@ -20,37 +20,37 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
       title: 'تعداد کل طرح‌ها',
       total: data ? data['all plan'] : 0,
       icon: ListAltIcon,
-      color: '#3f51b5',
+      color: '#4a90e2', // Soft blue
     },
     {
       title: 'تعداد طرح‌های منقضی شده',
       total: data ? data['expire plan'] : 0,
       icon: AssignmentLateIcon,
-      color: '#f44336',
+      color: '#e74c3c', // Soft red
     },
     {
       title: 'تعداد طرح‌های فعال',
       total: data ? data['active plan'] : 0,
       icon: PlayCircleOutlineIcon,
-      color: '#4caf50',
+      color: '#27ae60', // Soft green
     },
     {
       title: 'تعداد کل درخواست‌ها',
       total: data ? data['all cart'] : 0,
       icon: ShoppingCartIcon,
-      color: '#2196f3',
+      color: '#2980b9', // Soft blue
     },
     {
       title: 'تعداد درخواست‌های پایان یافته',
       total: data ? data['expire cart'] : 0,
       icon: CheckCircleOutlineIcon,
-      color: '#ff9800',
+      color: '#f39c12', // Soft orange
     },
     {
       title: 'تعداد درخواست‌های فعال',
       total: data ? data['active cart'] : 0,
       icon: MonetizationOnIcon,
-      color: '#00bcd4',
+      color: '#00bcd4', // Soft cyan
     },
   ];
 
@@ -78,10 +78,10 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
                 justifyContent: 'space-between',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
                 transition: '0.3s',
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,1))',
+                background: `linear-gradient(135deg, ${widget.color}15, ${widget.color}30)`,
                 '&:hover': {
                   transform: 'scale(1.05)',
-                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.2)',
                 },
                 ...sx,
               }}
@@ -95,7 +95,7 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
                   flexGrow: 1,
                 }}
               >
-                <Typography variant="h4" sx={{  marginBottom: '4px' }}>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '4px', color: widget.color }}>
                   {widget.total === 0 ? 0 : fShortenNumber(widget.total)}
                 </Typography>
 
@@ -112,6 +112,11 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: widget.color,
+                  transition: '0.3s',
+                  '&:hover': {
+                    transform: 'scale(1.2)',
+                    color: '#fff',
+                  },
                 }}
               >
                 <IconComponent style={{ fontSize: '2.2rem' }} />
