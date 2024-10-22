@@ -25,7 +25,10 @@ const MessagePage = ({ open, onClose }) => {
   });
 
   const [messageContent, setMessageContent] = useState('');
-  const [sendStatus, setSendStatus] = useState(false);
+  const [sendStatus, setSendStatus] = useState(() => {
+    const savedStatus = localStorage.getItem('sendStatus');
+    return savedStatus === 'true'; // به boolean تبدیل کنید
+  });
 
   const mutation = useMutation({
     mutationKey: ['sendMessage', cartId],
@@ -38,10 +41,21 @@ const MessagePage = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    if (data?.message?.message) {
-      setMessageContent(data.message.message);
+    if (data?.message) {
+      setMessageContent(data.message);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (data?.status) {
+      setSendStatus(data.status);
+    }
+  }, [data]);
+
+  // ذخیره کردن sendStatus در localStorage
+  useEffect(() => {
+    localStorage.setItem('sendStatus', sendStatus);
+  }, [sendStatus]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">

@@ -60,7 +60,7 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
       container
       spacing={2}
       justifyContent="center"
-      sx={{  mb: 4, mx: 'auto', maxWidth: '100%', width: '100%' }}
+      sx={{ mb: 4, mx: 'auto', maxWidth: '100%', width: '100%' }}
     >
       {widgetData.map((widget, index) => {
         const IconComponent = widget.icon;

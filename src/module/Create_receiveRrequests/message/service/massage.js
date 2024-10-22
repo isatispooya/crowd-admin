@@ -3,12 +3,13 @@ import { getCookie } from 'src/api/cookie';
 
 const accessApi = getCookie('accessApi');
 
-export const sendMessage = async (id, message, sms) => {
-  const url = sms ? `/api/message/admin/${id}/?send_sms=true` : `/api/message/admin/${id}/`;
+export const sendMessage = async (cardSelected, message, sendStatus) => {
+  const url = `/api/message/admin/${cardSelected}/`;
   const response = await api.post(
     url,
     {
       message,
+      send_sms: sendStatus,
     },
     {
       headers: {
@@ -20,12 +21,12 @@ export const sendMessage = async (id, message, sms) => {
   return response.data;
 };
 
-export const fetchUserMessage = async (cartId) => {
-  const response = await api.get(`/api/message/admin/${cartId}/`, {
+export const fetchUserMessage = async (cardSelected) => {
+  const response = await api.get(`/api/message/admin/${cardSelected}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
-  });
+  });  
   return response.data;
 };
