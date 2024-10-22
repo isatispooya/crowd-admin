@@ -3,7 +3,7 @@ const { getComments } = require('./api');
 
 const useGetComments = (trac_code) => {
   const { data, isError, isPending, isSuccess, refetch } = useQuery({
-    queryKey: ['comments'],
+    queryKey: ['comments',trac_code],
     queryFn: () => getComments(trac_code),
   });
   return {

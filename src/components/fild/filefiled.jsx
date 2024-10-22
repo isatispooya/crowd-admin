@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Switch, FormControl, FormLabel, Input, Button } from '@mui/material';
 import { OnRun } from 'src/api/OnRun';
-import { sanitizeInput } from 'src/utils/utils';
 
 const SwitchWithFileInput = ({
   switchLabel,
@@ -12,7 +11,7 @@ const SwitchWithFileInput = ({
   localData,
   setLocalData,
   handleFileRemove,
-}) => {
+}) => {  
   return (
     <Box sx={{ marginBottom: '16px' }}>
       <div dir="ltr">
@@ -67,10 +66,7 @@ const SwitchWithFileInput = ({
           <Input
             name={fileKey}
             type="file"
-            onChange={(e) => {
-              const sanitizedFileName = sanitizeInput(e.target.files[0]?.name || '');
-              setLocalData({ ...localData, [fileKey]: sanitizedFileName });
-            }}
+            onChange={(e) => setLocalData({ ...localData, [fileKey]: e.target.files[0] })}
             sx={{
               borderRadius: '8px',
               width: '100%',

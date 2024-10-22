@@ -8,7 +8,7 @@ const usePostGuarante = () => {
 
   const { refetch } = useGetGuarante();
   const { date, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['PostGuarante'],
+    mutationKey: ['PostGuarante',trace_code],
     mutationFn: (postData) => PostGuarante(trace_code,postData),
     onSettled: () => {
       refetch();

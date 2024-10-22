@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextField } from '@mui/material';
 import PropTypes from 'prop-types';
-import { sanitizeInput } from 'src/utils/utils';
 
 const GlobalTextField = ({
   label,
@@ -12,14 +11,8 @@ const GlobalTextField = ({
   type = 'text',
   inputProps = {},
   required = false,
-  disabled = false,
-}) => {
-  const handleChange = (e) => {
-    const sanitizedValue = sanitizeInput(e.target.value);
-    onChange(sanitizedValue);
-  };
-
-  return (
+  disabled = false, 
+}) => (
     <TextField
       type={type}
       contractData={contractData}
@@ -29,17 +22,16 @@ const GlobalTextField = ({
       fullWidth
       sx={{ mb: 2 }}
       value={value}
-      onChange={handleChange} // Use sanitized handleChange
+      onChange={onChange}
       inputProps={{
         ...inputProps,
         inputMode: type === 'number' ? 'numeric' : undefined,
         pattern: type === 'number' ? '[0-9]*' : undefined,
       }}
       required={required}
-      disabled={disabled}
+      disabled={disabled} 
     />
   );
-};
 
 GlobalTextField.propTypes = {
   label: PropTypes.string,
@@ -50,7 +42,7 @@ GlobalTextField.propTypes = {
   required: PropTypes.bool,
   contractData: PropTypes.any,
   setContractData: PropTypes.func,
-  disabled: PropTypes.bool,
+  disabled: PropTypes.bool, 
 };
 
 export default GlobalTextField;

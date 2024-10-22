@@ -8,7 +8,7 @@ const useGetGuarante = () => {
   const { trace_code } = useParams();
 
   const { data, isPending, isSuccess ,isError, error, refetch } = useQuery({
-    queryKey: ['GetGuarante'],
+    queryKey: ['GetGuarante',trace_code],
     queryFn: () => GetGuarante(trace_code),
   });
   return {

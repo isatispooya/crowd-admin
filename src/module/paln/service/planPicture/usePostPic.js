@@ -5,7 +5,6 @@ import { getCookie } from 'src/api/cookie';
 export const usePostPic = (trace_code) => {
   const accessApi = getCookie('accessApi');
 
-  // Define the function that sends the picture data
   const sendPlanPic = async (data) => {
     const response = await api.post(`/api/send/picture/${trace_code}/`, data, {
       headers: {
