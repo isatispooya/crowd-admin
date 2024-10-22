@@ -1,45 +1,44 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import SvgColor from 'src/components/svg-color';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ListIcon from '@mui/icons-material/List';
+import PeopleIcon from '@mui/icons-material/People';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import SecurityIcon from '@mui/icons-material/Security';
 
 // ----------------------------------------------------------------------
 
-const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-);
 
 const navConfig = [
   {
     title: 'میزکار',
     path: '/',
-    icon: icon('ic_sheet'),
+    icon: <DashboardIcon className="text-2xl" />,
   },
-
   {
     title: 'ایجاد و پیگیری درخواست',
     path: '/card',
-    icon: icon('ic_analytics'),
+    icon: <AssignmentIcon className="text-2xl" />,
   },
-
   {
     title: 'طرح ها',
     path: '/plans',
-    icon: icon('ic_sheet'),
+    icon: <ListIcon className="text-2xl" />,
   },
   {
     title: 'اطلاعات کاربران',
     path: '/user',
-    icon: icon('ic_sheet'),
+    icon: <PeopleIcon className="text-2xl" />,
   },
-
   {
     title: 'کمیته ارزیابی',
     path: '/evaluationCommittee',
-    icon: icon('ic_sheet'),
+    icon: <AssessmentIcon className="text-2xl" />,
   },
   {
     title: 'کمیته ریسک',
     path: '/riskCommittee',
-    icon: icon('ic_sheet'),
+    icon: <SecurityIcon className="text-2xl" />,
   },
 ];
 

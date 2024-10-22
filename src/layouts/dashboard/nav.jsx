@@ -11,10 +11,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { usePathname, useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 import { useResponsive } from 'src/hooks/use-responsive';
-import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 import { getCookie } from 'src/api/cookie';
 import SvgColor from 'src/components/svg-color';
+import { Typography } from '@mui/material';
+import { motion } from 'framer-motion';
 import navConfig from './config-navigation';
 import { NAV } from './config-layout';
 
@@ -25,7 +26,6 @@ export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
   const accessApi = getCookie('accessApi');
-
 
   const exit = () => {
     document.cookie.split(';').forEach((c) => {
@@ -41,8 +41,6 @@ export default function Nav({ openNav, onCloseNav }) {
       router.push('/login');
     }
   }, [accessApi, router]);
-
-
 
   useEffect(() => {
     if (openNav) {
@@ -92,10 +90,53 @@ export default function Nav({ openNav, onCloseNav }) {
           height: 1,
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+      <motion.div
+        initial={{ y: -200, opacity: 0 }}
+        animate={{
+          y: [0, 20, 0],
+          opacity: [0, 1],
+        }}
+        transition={{ duration: 1, ease: 'easeInOut' }}
+      >
+        <Box
+          component="img"
+          src="/assets/crowdlogo.png"
+          alt="لوگو"
+          sx={{
+            backgroundColor: '#ffffff',
+            width: 150,
+            height: 150,
+            mx: 'auto',
+            mb: 2,
+          }}
+        />
+      </motion.div>
+
+      <Box
+        sx={{
+          bgcolor: 'background.paper',
+          borderRadius: 2,
+          padding: 2,
+          boxShadow: 6,
+          textAlign: 'center',
+          width: '80%',
+          maxWidth: 300,
+          mt: 1,
+          mb: 4,
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          خوش آمدید 👋
+        </Typography>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          امیدواریم تجربه خوبی داشته باشید.
+        </Typography>
+      </Box>
+
       {renderAccount}
       {renderMenu}
       <Box sx={{ flexGrow: 1 }} />
