@@ -21,7 +21,7 @@ const navConfig = [
   },
 
   {
-    title: ' طرح',
+    title: 'طرح ها',
     path: '/plans',
     icon: icon('ic_sheet'),
   },

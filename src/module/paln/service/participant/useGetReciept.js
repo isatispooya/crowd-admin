@@ -4,7 +4,7 @@ import { getCookie } from 'src/api/cookie';
 
 const accessApi = getCookie('accessApi');
 
- const GetParticipant = async (id) => {
+const GetParticipant = async (id) => {
   const response = await api.get(`api/bank/reciept/payment/admin/${id}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
@@ -12,15 +12,12 @@ const accessApi = getCookie('accessApi');
     },
   });
 
- 
   return response.data;
 };
 
-
-
 const useGetReciept = (id) => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['reciept',id],
+    queryKey: ['reciept', id],
     queryFn: () => GetParticipant(id),
   });
   return {
@@ -31,6 +28,5 @@ const useGetReciept = (id) => {
     refetch,
   };
 };
-
 
 export default useGetReciept;

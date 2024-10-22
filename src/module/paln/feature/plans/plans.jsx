@@ -38,7 +38,7 @@ const Plans = () => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-700"> طرح</h1>
+          <h1 className="text-2xl font-bold text-gray-700">  طرح ها</h1>
         </div>
 
         <PlanTableFeature planData={planData} refetch={refetch} setPlanData={setPlanData} />
