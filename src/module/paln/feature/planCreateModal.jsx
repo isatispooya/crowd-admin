@@ -125,7 +125,11 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <TextField
-                  value={formData.amount_of_shareholders ? formatNumber(formData.amount_of_shareholders) : ''}
+                  value={
+                    formData.amount_of_shareholders
+                      ? formatNumber(formData.amount_of_shareholders)
+                      : ''
+                  }
                   label="میزان سود"
                   type="number"
                   InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}

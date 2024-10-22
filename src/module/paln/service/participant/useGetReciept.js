@@ -1,4 +1,3 @@
-import { id_ID } from '@faker-js/faker';
 import { useQuery } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';

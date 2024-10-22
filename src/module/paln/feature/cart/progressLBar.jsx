@@ -30,9 +30,9 @@ const ProgressLineChart = ({ amount_collected_now, label, total_price }) => {
         </div>
         <span className="ml-5 px-2 text-sm font-medium text-gray-700">
           {Math.min(
-            isNaN(amount_collected_now / total_price) * 100
+            isNaN(amount_collected_now / total_price) || total_price === 0
               ? 0
-              : (amount_collected_now / total_price) * 100,
+              : Math.round((amount_collected_now / total_price) * 100),
             100
           )}
           %

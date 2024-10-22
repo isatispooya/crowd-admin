@@ -24,6 +24,12 @@ const PlanComments = () => {
     setOpenModal(false);
   };
 
+  const sanitizeInput = (input) => {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(input));
+    return div.innerHTML;
+  };
+
   if (isPending) {
     return (
       <Box
@@ -53,14 +59,16 @@ const PlanComments = () => {
       title: 'متن نظر',
       field: 'comment',
       width: 440,
-      formatter: (cell) => cell.getValue() || '',
+      formatter: (cell) => sanitizeInput(cell.getValue() || ''),
     },
+
     {
       title: 'پاسخ',
       field: 'answer',
       width: 440,
-      formatter: (cell) => cell.getValue() || '',
+      formatter: (cell) => sanitizeInput(cell.getValue() || ''),
     },
+
     {
       title: 'وضعیت',
       field: 'status',
