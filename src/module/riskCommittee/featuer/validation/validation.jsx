@@ -14,7 +14,6 @@ const Validation = () => {
 
   useEffect(() => {
     if (!isError && data && !isPending) {
-      // داده‌های مدنظر از API گرفته می‌شوند و در formData ذخیره می‌شوند
       setFormData(data.data.managers.map((item) => ({
         national_code: item.national_code,
         name: item.name,
@@ -25,7 +24,6 @@ const Validation = () => {
     }
   }, [data, isError, isPending]);
 
-  console.log(formData);
 
   return (
     <div

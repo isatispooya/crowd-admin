@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AttachmentForm = ({ formData, onFileChange }) => {
-  console.log(formData);
 
   const handleFileChange = (event) => {
     const { name, files } = event.target;

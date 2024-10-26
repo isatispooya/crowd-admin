@@ -4,7 +4,6 @@ import PaymentFeature from '../feature/paymentfeature';
 import { fetchPayment } from '../service/paymentService';
 
 const PaymentPage = () => {
-  console.log('h');
   const { data } = useQuery({
     queryKey: ['planDetail'],
     queryFn: fetchPayment,

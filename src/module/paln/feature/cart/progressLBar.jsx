@@ -3,10 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BsArrow90DegDown } from 'react-icons/bs';
 
-const ProgressLineChart = ({ amount_collected_now, label, total_price }) => {
-  console.log((amount_collected_now / total_price) * 100);
-
-  return (
+const ProgressLineChart = ({ amount_collected_now, label, total_price }) => (
     <div className="w-full flex flex-col items-start space-y-2">
       <label
         htmlFor="progress"
@@ -40,7 +37,6 @@ const ProgressLineChart = ({ amount_collected_now, label, total_price }) => {
       </div>
     </div>
   );
-};
 
 ProgressLineChart.propTypes = {
   total_price: PropTypes.number,

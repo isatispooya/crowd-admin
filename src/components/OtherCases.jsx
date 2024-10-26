@@ -43,12 +43,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
     mutation.mutate();
     handleNext();
   };
-
-
-console.log(localData);
   
   
-
   return (
     <div
       style={{

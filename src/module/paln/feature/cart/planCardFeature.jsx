@@ -108,7 +108,6 @@ const PlanTableFeature = () => {
     .sort((a, b) => new Date(b.plan?.created_at) - new Date(a.plan?.created_at))
     .reverse();
 
-  console.log(planData[2]?.information_complete.amount_collected_now);
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>

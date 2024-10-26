@@ -25,7 +25,6 @@ const Validation = () => {
     }
   }, [data, isError, isPending]);
 
-  console.log(formData);
 
   return (
     <div

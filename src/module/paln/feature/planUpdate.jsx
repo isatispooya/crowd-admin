@@ -30,7 +30,6 @@ const PlanUpdate = ({ planData, idRow, refetch }) => {
   }, [planData]);
 
   const mutation = useMutation({
-    mutationFn: () => console.log(idRow, data),
     onSuccess: () => {
       toast.success('تغییرات شما با موفقیت اعمال شد');
       refetch();

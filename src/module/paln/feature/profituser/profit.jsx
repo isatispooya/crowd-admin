@@ -22,7 +22,6 @@ import useGetProfit from './service/useProfitGet';
 const ProfitPage = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetProfit(trace_code);
-  console.log(data);
   
   
   const formatNumber = (value) =>

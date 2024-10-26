@@ -85,7 +85,6 @@ const FormCompanyInfo = ({ onFileChange }) => {
       return updated;
     });
   };
-  console.log(localData);
 
   return localData ? (
     <div dir="rtl">

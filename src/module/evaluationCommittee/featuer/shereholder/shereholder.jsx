@@ -14,7 +14,6 @@ const Shereholder = () => {
     }
   }, [data, isError, isPending]);
 
-  console.log(fetchedData);
 
   return (
     <div

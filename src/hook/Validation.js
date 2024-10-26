@@ -14,8 +14,6 @@ export const fetchValidation = async (id) => {
       },
     });
 
-    console.log('validation', response.data);
-
     return response.data;
   } catch (error) {
     console.error('Error fetching manager data:', error);

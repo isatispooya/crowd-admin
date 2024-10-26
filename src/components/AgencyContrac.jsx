@@ -1,9 +1,6 @@
 import { Box } from '@mui/joy';
 
-const AgencyContract = () => {
-  console.log('hi');
-
-  return (
+const AgencyContract = () => (
     <div
       style={{
         display: 'flex',
@@ -43,6 +40,5 @@ const AgencyContract = () => {
       </Box>
     </div>
   );
-};
 
 export default AgencyContract;

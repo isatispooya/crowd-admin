@@ -4,7 +4,6 @@ import { getCookie } from "src/api/cookie";
 
 
 export const fetchStatus = async (id) => {
-  console.log(id);
   
     try {
       const access = await getCookie('access');

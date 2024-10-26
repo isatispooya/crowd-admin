@@ -3,7 +3,6 @@ import api from './apiClient';
 import { getCookie } from './cookie';
 
 export const getStep1 = async (id) => {
-  console.log('111', id);
 
   let response;
   if (id) {
@@ -72,7 +71,6 @@ export const getStep1 = async (id) => {
 };
 
 export const createCart = async (data, id) => {
-  console.log(data);
 
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');

@@ -27,7 +27,6 @@ const PaymentFeature = ({ data }) => {
     if (value == null) return '0';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
-  console.log(selectedRow);
 
   const columns = [
     { title: 'شناسه', field: 'id', width: 100, headerFilter: 'input' },

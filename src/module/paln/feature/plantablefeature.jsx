@@ -81,7 +81,6 @@ const PlanTableFeature = ({ planData, refetch }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  console.log(planData);
 
   const columns = [
     { title: 'نام طرح', field: 'plan_name', width: 300, headerFilter: 'input' },

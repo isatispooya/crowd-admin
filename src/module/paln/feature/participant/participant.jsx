@@ -41,7 +41,6 @@ const PlanInvestors = () => {
   const [localData, setLocalData] = useState([]);
   const { data: respiet } = useGetReciept(selectedRow?.id);
 
-  console.log(respiet, 'plan');
   useEffect(() => {
     if (data) {
       setLocalData(data);

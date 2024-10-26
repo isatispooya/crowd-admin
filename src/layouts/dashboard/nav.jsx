@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import navConfig from './config-navigation';
 import { NAV } from './config-layout';
+import usePostLogOut from './service/getpost';
 
 export default function Nav({ openNav, onCloseNav }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,12 +28,15 @@ export default function Nav({ openNav, onCloseNav }) {
   const upLg = useResponsive('up', 'lg');
   const accessApi = getCookie('accessApi');
 
+  const { mutate } = usePostLogOut();
+
   const exit = () => {
     document.cookie.split(';').forEach((c) => {
       document.cookie = c
         .replace(/^ +/, '')
         .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
     });
+    mutate();
     router.push('/login');
   };
 

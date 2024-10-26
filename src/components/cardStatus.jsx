@@ -11,7 +11,6 @@ const CardStatus = ({ card, openStatusModal, cardSelected }) => {
     queryFn: () => fetchStatus(cardSelected),
   });
   const [formData, setFormData] = useState([]);
-console.log("123456789",cardSelected);
 
 
   

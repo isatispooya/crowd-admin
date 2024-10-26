@@ -30,7 +30,6 @@ const History = ({ cardSelected }) => {
             setNationalCode(manager.national_code);
             setLock(manager.lock);
           }
-          console.log(response.data);
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -51,7 +50,6 @@ const History = ({ cardSelected }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('File upload response:', response.data); 
       setHistoryData(response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -60,7 +58,6 @@ const History = ({ cardSelected }) => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    console.log('Selected file:', selectedFile);
     setFile(selectedFile);
   };
 

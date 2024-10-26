@@ -11,7 +11,6 @@ export const GetCardPlan = async () => {
     },
   });
 
-  console.log(response.data);
   
 
   return response.data;

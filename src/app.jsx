@@ -36,7 +36,7 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
-    if (window.self !== window.top) {
+    if (window.self !== window.top) { 
       window.top.location = window.self.location;
     }
   }, []);

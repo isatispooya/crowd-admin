@@ -11,7 +11,6 @@ export const fetchCommit = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });
-  console.log(response.data, '123456');
   return response.data;
 };
 

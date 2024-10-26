@@ -9,8 +9,6 @@ const ReportLastYear = () => {
   const { cartId } = UseCartId();
   const { data } = useGetCards(cartId);
 
-  console.log(data);
-
   const [localData, setLocalData] = useState({
     financial_report_lastyear: null,
     audit_report_lastyear: null,

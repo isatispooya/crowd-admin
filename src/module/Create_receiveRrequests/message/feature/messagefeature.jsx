@@ -1,18 +1,7 @@
 import { Box, FormControlLabel, Switch, TextareaAutosize } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const MessageFeature = ({ sendStatus, messageContent, setMessageContent, setSendStatus }) => {
-  
-  
-  
-  console.log('مسیج',messageContent);
-  console.log('وضعیت',sendStatus);
-  
-  
-  
-  
-  
-  return(
+const MessageFeature = ({ sendStatus, messageContent, setMessageContent, setSendStatus }) => (
   <Box
     sx={{
       display: 'flex',
@@ -41,7 +30,7 @@ const MessageFeature = ({ sendStatus, messageContent, setMessageContent, setSend
       label="وضعیت ارسال پیام"
     />
   </Box>
-)};
+);
 
 MessageFeature.propTypes = {
   sendStatus: PropTypes.bool, 
