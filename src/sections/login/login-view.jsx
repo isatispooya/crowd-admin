@@ -97,16 +97,29 @@ export default function LoginView() {
             router.push('/ProfilePage');
           }
           toast.warning(response.data.message);
+  
+     
         })
         .catch((error) => {
-          console.error('خطا:', error);
-          toast.error('خطا در ارسال درخواست به سرور.');
+          if (error.response?.status === 400) {
+            toast.error('دسترسی شما محدود شده است. بازگشت به صفحه اصلی');
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000); 
+          } else {
+            toast.error(error.response?.data?.message || 'خطا در ورود');
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000); 
+          }
         })
         .finally(() => {
           setLoading(false);
         });
     }
   };
+  
+  
 
   useEffect(getCaptcha, []);
 

@@ -28,7 +28,10 @@ export default function Nav({ openNav, onCloseNav }) {
   const upLg = useResponsive('up', 'lg');
   const accessApi = getCookie('accessApi');
 
+
+
   const { mutate } = usePostLogOut();
+
 
   const exit = () => {
     document.cookie.split(';').forEach((c) => {
@@ -36,7 +39,7 @@ export default function Nav({ openNav, onCloseNav }) {
         .replace(/^ +/, '')
         .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
     });
-    mutate();
+    mutate()
     router.push('/login');
   };
 
