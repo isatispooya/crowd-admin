@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
@@ -26,7 +26,6 @@ const ShereHolder = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>شناسه ملی</TableCell>
                 <TableCell>نوع سهام‌دار</TableCell>
                 <TableCell>نام</TableCell>
                 <TableCell>نام خانوادگی</TableCell>
@@ -37,10 +36,7 @@ const ShereHolder = () => {
             <TableBody>
               {data.shareholder.map((shareholder, index) => (
                 <TableRow key={index}>
-                  <TableCell>{shareholder.national_id || 'اطلاعات موجود نیست'}</TableCell>
-                  <TableCell>
-                    {shareholder.shareholder_type === 1 ? 'حقیقی' : 'حقوقی'}
-                  </TableCell>
+                  <TableCell>{shareholder.shareholder_type === 1 ? 'حقیقی' : 'حقوقی'}</TableCell>
                   <TableCell>{shareholder.first_name || 'اطلاعات موجود نیست'}</TableCell>
                   <TableCell>{shareholder.last_name || 'اطلاعات موجود نیست'}</TableCell>
                   <TableCell>{`${shareholder.share_percent}%` || 'اطلاعات موجود نیست'}</TableCell>

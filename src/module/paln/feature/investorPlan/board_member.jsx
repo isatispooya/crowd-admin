@@ -1,11 +1,18 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
 
 const BoardMember = () => {
   const { trace_code } = useParams();
   const { data } = useGetPlanDetail(trace_code);
-
 
   return (
     <TableContainer component={Paper} sx={{ mt: 3, p: 2 }}>
@@ -14,9 +21,6 @@ const BoardMember = () => {
           <TableRow>
             <TableCell>نام</TableCell>
             <TableCell>نام خانوادگی</TableCell>
-            <TableCell>شماره ملی</TableCell>
-            <TableCell>شماره موبایل</TableCell>
-            <TableCell>ایمیل</TableCell>
             <TableCell>سمت</TableCell>
           </TableRow>
         </TableHead>
@@ -26,9 +30,6 @@ const BoardMember = () => {
               <TableRow key={index}>
                 <TableCell>{member.first_name || 'ناموجود'}</TableCell>
                 <TableCell>{member.last_name || 'ناموجود'}</TableCell>
-                <TableCell>{member.national_id || 'ناموجود'}</TableCell>
-                <TableCell>{member.mobile_number || 'ناموجود'}</TableCell>
-                <TableCell>{member.email_address || 'ناموجود'}</TableCell>
                 <TableCell>{member.organization_post_description || 'ناموجود'}</TableCell>
               </TableRow>
             ))
