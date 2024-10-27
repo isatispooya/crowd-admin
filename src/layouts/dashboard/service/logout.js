@@ -5,16 +5,16 @@ export const LogOut = async () => {
   const url = `/api/log/out/`;
   const accessApi = getCookie('accessApi');
 
-  if (!accessApi) {
-    return null;
-  }
-
-  const response = await api.post(url, null, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await api.post(
+    url,
+    { data: '' },
+    {
+      headers: {
+        Authorization: `Bearer ${accessApi}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
   return response.data;
 };

@@ -34,13 +34,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
 
   const exit = () => {
-    document.cookie.split(';').forEach((c) => {
-      document.cookie = c
-        .replace(/^ +/, '')
-        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-    });
     mutate()
-    router.push('/login');
   };
 
   useEffect(() => {
