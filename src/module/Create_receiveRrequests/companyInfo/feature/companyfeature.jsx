@@ -63,6 +63,10 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                 <div className="mt-10">
                   <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center mb-8">
                     <h1 className="text-2xl font-bold text-gray-700">پیوست اسناد</h1>
+                    <p className="mt-4 text-red-500">
+                      تایپ های مجاز برای ارسال فایل :png ,jpg ,pdf ,rar ,jpeg ,docx ,xlsx ,csv ,xls
+                      , zip
+                    </p>
                   </div>
                   <Box
                     sx={{

@@ -1376,7 +1376,9 @@ const FormCompanyInfo = ({ onFileChange }) => {
                 تایید
               </Button>
             </div>
-
+            <p className="bg-red-700 z-50">
+              تایپ های مجاز برای ارسال فایل :png ,jpg ,pdf ,rar ,jpeg ,docx ,xlsx ,csv ,xls , zip
+            </p>
             {clicked && <p className="mt-4 text-center text-gray-600">{data.massage}</p>}
           </form>
         </Box>

@@ -81,6 +81,7 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                         حجم فایل می تواند 20 مگابایت باشد
                       </p>
                     </div>
+
                     <Box
                       sx={{
                         display: 'flex',
@@ -91,6 +92,10 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                         width: '100%',
                       }}
                     >
+                                            <p>
+                        تایپ های مجاز برای ارسال فایل :png ,jpg ,pdf ,rar ,jpeg ,docx ,xlsx ,csv
+                        ,xls , zip
+                      </p>
                       <ReportLastYear
                         setLocalData={setLocalData}
                         localData={localData}

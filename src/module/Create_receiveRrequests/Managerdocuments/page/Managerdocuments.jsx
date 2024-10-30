@@ -11,10 +11,8 @@ const ManagerdocumentsPage = () => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
 
-  const { data, isPending,isError } = useGetResume(cartId)
+  const { data, isPending, isError } = useGetResume(cartId);
   const [formData, setFormData] = useState([]);
-  
-  
 
   useEffect(() => {
     if (!isError && data && !isPending) {
@@ -36,19 +34,22 @@ const ManagerdocumentsPage = () => {
     setFormData(newFormData);
   };
 
-
-  const {mutate,isError:isErrorPost,isPending:isPendingPost,isSuccess:isSuccessPost} = usePostResume(cartId)
+  const {
+    mutate,
+    isError: isErrorPost,
+    isPending: isPendingPost,
+    isSuccess: isSuccessPost,
+  } = usePostResume(cartId);
 
   const handleButtonClick = () => {
-    mutate({formData});
+    mutate({ formData });
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (!isErrorPost && !isPendingPost && isSuccessPost) {
-      incrementPage()
+      incrementPage();
     }
-  },[incrementPage, isErrorPost, isPendingPost, isSuccessPost])
+  }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
   return (
     <div
@@ -76,21 +77,24 @@ const ManagerdocumentsPage = () => {
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center ">
           <h1 className="text-2xl font-bold text-gray-700">مستندات مدیران</h1>
+          <p className="text-red-500 mt-2">
+            تایپ های مجاز برای ارسال فایل :png ,jpg ,pdf ,rar ,jpeg ,docx ,xlsx ,csv ,xls , zip
+          </p>
         </div>
 
         {formData.length > 0 &&
           formData.map((item, index) => (
             <ManagerdocumentsFeatuer
-            key={item.id || index} 
-            index={index}
-            item={item} 
-            handleSwitchChange={handleSwitchChange}
-            handleTextFieldChange={handleTextFieldChange}
-            formData={Array.isArray(formData) ? formData : []}
-            setFormData={setFormData}
-          />
+              key={item.id || index}
+              index={index}
+              item={item}
+              handleSwitchChange={handleSwitchChange}
+              handleTextFieldChange={handleTextFieldChange}
+              formData={Array.isArray(formData) ? formData : []}
+              setFormData={setFormData}
+            />
           ))}
-          
+
         <SubmitButton onClick={handleButtonClick} />
       </Box>
     </div>

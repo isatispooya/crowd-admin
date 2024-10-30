@@ -77,6 +77,9 @@ const HistoryPage = () => {
       <Box sx={Styles.box}>
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">سوءپیشینه</h1>
+          <p className="text-red-500 mt-3">
+            تایپ های مجاز برای ارسال فایل :png ,jpg ,pdf ,rar ,jpeg ,docx ,xlsx ,csv ,xls , zip
+          </p>
         </div>
         {formData.length > 0 &&
           formData.map((item, index) => {

@@ -82,6 +82,8 @@ const Resume = ({ cardSelected, handleNext }) => {
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-700">مستندات مدیران</h1>
+
+
         </div>
         {formData.length > 0 ? (
           formData.map((item, index) => (
