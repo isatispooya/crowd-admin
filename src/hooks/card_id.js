@@ -8,8 +8,8 @@ const UseCartId = () => {
     initialData: 0,
   });
 
-  const setCartId = (id) => {
-    queryClient.setQueryData(['cartId'], id);
+  const setCartId = (unique_id) => {
+    queryClient.setQueryData(['cartId'], unique_id);
   };
   return {
     cartId,

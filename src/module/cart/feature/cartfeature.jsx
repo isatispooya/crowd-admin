@@ -17,10 +17,10 @@ const CardFeature = ({
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  const { mutate } = usePostFinish(card.id);
+  const { mutate } = usePostFinish(card.unique_id);
   const handleFinish = () => {
     mutate({
-      cartId: card.id,
+      cartId: card.unique_id,
       finish_cart: !card.finish_cart,
     });
   };
@@ -33,7 +33,7 @@ const CardFeature = ({
     >
       <Box
         className="bg-white shadow-lg rounded-3xl p-4 flex flex-col justify-between items-center cursor-pointer transition-all duration-300 hover:shadow-2xl w-full max-w-[350px]"
-        onClick={() => handleCardClick(card.id)}
+        onClick={() => handleCardClick(card.unique_id)}
       >
         <div className="flex justify-end w-full mb-4">
           <Button
@@ -70,7 +70,7 @@ const CardFeature = ({
           <Button
             onClick={(e) => {
               e.stopPropagation();
-              handleClick(card.id);
+              handleClick(card.unique_id);
             }}
             variant="contained"
             color="primary"
@@ -97,7 +97,7 @@ const CardFeature = ({
             style={{ fontSize: '28px', cursor: 'pointer', color: '#007bff' }}
             onClick={(e) => {
               e.stopPropagation();
-              handleModalOpen(setSendMessageModalOpen, card.id);
+              handleModalOpen(setSendMessageModalOpen, card.unique_id);
             }}
           />
         </div>

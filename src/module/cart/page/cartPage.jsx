@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion'; 
+import { motion } from 'framer-motion';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { DeleteModal } from 'src/components/modal';
@@ -18,7 +18,7 @@ const CardPage = () => {
   const queryClient = useQueryClient();
   const { data, isError, isPending } = useGetCards(cartId);
   const mutation = useMutation({
-    mutationFn: (id) => deleteCard(id),
+    mutationFn: (unique_id) => deleteCard(unique_id),
     onSuccess: () => {
       queryClient.invalidateQueries(['card', cartId]);
       setDeleteModalOpen(false);
@@ -31,17 +31,17 @@ const CardPage = () => {
     }
   }, [data, isError, isPending]);
 
-  const handleCardClick = (id) => {
-    setCartId(id);
+  const handleCardClick = (unique_id) => {
+    setCartId(unique_id);
   };
 
-  const handleModalOpen = (modalSetter, id) => {
-    setCartId(id);
+  const handleModalOpen = (modalSetter, unique_id) => {
+    setCartId(unique_id);
     modalSetter(true);
   };
 
-  const handleClick = (id) => {
-    setCartId(id);
+  const handleClick = (unique_id) => {
+    setCartId(unique_id);
     incrementPage();
   };
 
@@ -68,7 +68,7 @@ const CardPage = () => {
             {cards.length > 0 &&
               cards.map((card) => (
                 <motion.div
-                  key={card.id}
+                  key={card.unique_id}
                   whileTap={{ scale: 0.95 }}
                   transition={{
                     type: 'spring',
@@ -84,7 +84,7 @@ const CardPage = () => {
                     handleModalOpen={handleModalOpen}
                     setCards={setCards}
                     openDeleteModal={() => {
-                      setCartId(card.id);
+                      setCartId(card.unique_id);
                       setDeleteModalOpen(true);
                     }}
                   />

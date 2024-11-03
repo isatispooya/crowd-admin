@@ -38,6 +38,10 @@ const FormCompanyInfo = ({ onFileChange }) => {
     queryKey: ['cartDetail', cartId],
     queryFn: () => getStep1(cartId),
   });
+  console.log(data , "qqqqqqq")
+
+
+
 
   const [localData, setLocalData] = useState(() => data || {});
 
