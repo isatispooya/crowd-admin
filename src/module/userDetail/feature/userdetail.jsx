@@ -58,7 +58,7 @@ const UserDetail = () => {
   const { mutate } = usePostOtpUser();
   const { userId } = useParams();
 
-  const { data } = useGetUserDetail(userId);
+  const { data, refetch } = useGetUserDetail(userId);
 
   const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ?? '';
 
@@ -94,7 +94,7 @@ const UserDetail = () => {
           >
             <AutoModeIcon className="text-black text-3xl" />
           </motion.button>
-          {showRefresh && <Refresh setShowRefresh={setShowRefresh} />}
+          {showRefresh && <Refresh setShowRefresh={setShowRefresh} refetch={refetch} />}
         </Box>
 
         {sections.map(({ id, label, component }) => (

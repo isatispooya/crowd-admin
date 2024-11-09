@@ -58,7 +58,7 @@ const UserDetail = () => {
   const { mutate } = usePostOtpUser();
   const { userId } = useParams();
 
-  const { data, isLoading } = useGetUserDetail(userId);
+  const { data, isLoading, refetch } = useGetUserDetail(userId);
 
   const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ?? '';
 
@@ -71,9 +71,15 @@ const UserDetail = () => {
     setShowRefresh(true);
   };
 
+  React.useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -95,6 +101,14 @@ const UserDetail = () => {
           <Typography variant="h4" className="text-gray-700 font-bold">
             اطلاعات کاربر
           </Typography>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: 'spring', stiffness: 150, damping: 25 }}
+            className="bg-blue-500 mt-4 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          >
+            ورود به کارتابل کاربر
+          </motion.button>
           <motion.button
             type="button"
             onClick={openModal}
