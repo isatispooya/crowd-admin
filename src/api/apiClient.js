@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { OnRun } from './OnRun';
+import { setCookie } from './cookie';
 
 const api = axios.create({
   baseURL: OnRun,
@@ -9,4 +10,22 @@ const api = axios.create({
   },
 });
 
+let navigationFunction = null;
+
+export const setNavigationFunction = (navigate) => {
+  navigationFunction = navigate;
+};
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      setCookie('accessApi', '', 0);
+      if (navigationFunction) {
+        navigationFunction('/login');
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 export default api;

@@ -73,7 +73,7 @@ const CardList = () => {
     setSendMessageModalOpen(false);
     setSelectedCardId(null);
   };
-  console.log(cards)
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
       <div className="bg-white shadow-2xl rounded-3xl p-6 sm:p-8 lg:p-10 max-w-7xl w-full">
@@ -89,7 +89,7 @@ const CardList = () => {
                   className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 min-w-[240px] max-w-[320px] h-auto"
                   onClick={() => handleCardClick(card.unique_id)}
                 >
-                  {console.log(card.unique_id)}
+               
                   <div className="flex flex-col items-center space-y-4 sm:space-y-5">
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                       {card.company_name}

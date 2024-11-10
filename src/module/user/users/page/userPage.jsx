@@ -45,7 +45,7 @@ const UserPage = () => {
           </div>
         )}
 
-        {data && <UserFeature/>}
+        {data && <UserFeature />}
       </Box>
     </div>
   );

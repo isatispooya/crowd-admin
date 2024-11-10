@@ -10,7 +10,7 @@ const usePostLogOut = () => {
     mutationKey: ['logOut'],
     mutationFn: () => LogOut(),
     onSettled: () => {
-      setCookie('sym', '', { expires: new Date(0), path: '/' });
+      setCookie('accessApi', '', 0);
       document.cookie.split(';').forEach((c) => {
         document.cookie = c
           .replace(/^ +/, '')

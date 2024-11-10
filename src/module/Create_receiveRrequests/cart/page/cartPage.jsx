@@ -18,7 +18,7 @@ const CardPage = () => {
   const queryClient = useQueryClient();
   const { data, isError, isPending } = useGetCards(cartId);
 
-  console.log(cards);
+
   
 
   const mutation = useMutation({

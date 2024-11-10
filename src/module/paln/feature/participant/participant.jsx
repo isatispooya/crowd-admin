@@ -31,10 +31,8 @@ import useGetReciept from '../../service/participant/useGetReciept';
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isPending, refetch } = useGetParticipant(trace_code);
-
   const { mutate } = usePostParticipant(trace_code);
   const [status, setStatus] = useState('0');
-
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [statusSwitch, setStatusSwitch] = useState(false);
@@ -148,7 +146,6 @@ const PlanInvestors = () => {
       </div>
     );
   }
-  
 
   return (
     <div>
@@ -231,6 +228,28 @@ const PlanInvestors = () => {
                       <TableCell>مبلغ</TableCell>
                       <TableCell>{formatNumber(item.value)}</TableCell>
                     </TableRow>
+                    {item.url_id ? (
+                      <TableRow>
+                        <TableCell>دانلود فایل</TableCell>
+                        <TableCell>
+                          <a
+                            href={item.url_id}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              color: '#1976d2',
+                              textDecoration: 'underline',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            دانلود فایل
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      <div className="text-sm mt-6">فایلی برای دانلود وجود نداره</div>
+                    )}
                   </TableBody>
                 </Table>
               ))

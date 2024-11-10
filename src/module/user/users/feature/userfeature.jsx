@@ -6,7 +6,7 @@ import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 import useGetUser from '../services/useGetUser';
 
 const formatDate = (dateString) => {
-  if (!dateString) return 'تاریخ نامعتبر';
+ 
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('fa-IR', {
     year: 'numeric',
@@ -19,12 +19,14 @@ const formatDate = (dateString) => {
 const mapUserData = (users) =>
   users.map((user) => {
     const personalInfo = user.private_person?.[0] || user.legal_person_stakeholders?.[0] || {};
+    const legalInfo = user.legal_person?.[0] || {};
 
     return {
       id: user.id,
       fullName: `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim(),
       fatherName: personalInfo.fatherName || '',
       uniqueIdentifier: user.uniqueIdentifier || '',
+      companyName: legalInfo.companyName || '',
       birthDate: personalInfo.birthDate || '',
       gender: personalInfo.gender || '',
       placeOfBirth: personalInfo.placeOfBirth || '',
@@ -58,6 +60,7 @@ const columns = [
 const UserFeature = () => {
   const navigate = useNavigate();
   const { data: rawData } = useGetUser();
+
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 

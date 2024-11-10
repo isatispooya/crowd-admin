@@ -38,19 +38,14 @@ const FormCompanyInfo = ({ onFileChange }) => {
     queryKey: ['cartDetail', cartId],
     queryFn: () => getStep1(cartId),
   });
-  console.log(data , "qqqqqqq")
-
-
-
 
   const [localData, setLocalData] = useState(() => data || {});
-
   useEffect(() => {
     if (isSuccess && data) {
       setLocalData(data.data.cart);
     }
   }, [isSuccess, data]);
-
+  
   useEffect(() => {
     if (isError) {
       toast.warning(error);
