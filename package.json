@@ -34,6 +34,7 @@
     "bootstrap": "^5.3.3",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.13",
+    "file-saver": "^2.0.5",
     "framer-motion": "^11.11.4",
     "history": "^5.3.0",
     "jalaliday": "^2.3.0",
@@ -60,7 +61,7 @@
     "simplebar-react": "^3.2.4",
     "stylis": "^4.3.2",
     "stylis-plugin-rtl": "^2.1.1",
-    "tabulator-tables": "^6.2.5",
+    "tabulator-tables": "^6.3.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
