@@ -112,7 +112,6 @@ const PlanInvestors = () => {
       width: 150,
       formatter: (row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
     },
-
     {
       title: 'وضعیت',
       field: 'status',
@@ -135,7 +134,6 @@ const PlanInvestors = () => {
       },
       cellClick: (e, cell) => handleStatusClick(cell.getData()),
     },
-
     { title: 'کاربر', field: 'user', hozAlign: 'center', width: 350 },
   ];
 

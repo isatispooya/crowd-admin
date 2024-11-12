@@ -1,6 +1,6 @@
 export function setCookie(cname, cvalue, exdays, isHostPrefix = false) {
   const d = new Date();
-  d.setTime(d.getTime() + exdays * 15 * 60 * 1000);
+  d.setTime(d.getTime() + exdays * 2* 60 * 60 * 1000);
   const expires = `expires=${d.toUTCString()}`;
   let cookieName = cname;
   const isHttps = window.location.protocol === 'https:';

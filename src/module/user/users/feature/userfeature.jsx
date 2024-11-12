@@ -6,7 +6,7 @@ import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 import useGetUser from '../services/useGetUser';
 
 const formatDate = (dateString) => {
- 
+  if (!dateString) return '';
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('fa-IR', {
     year: 'numeric',
@@ -60,7 +60,6 @@ const columns = [
 const UserFeature = () => {
   const navigate = useNavigate();
   const { data: rawData } = useGetUser();
-
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 

@@ -81,45 +81,65 @@ export default function LoginView() {
   const handleCode = () => {
     if (otp.length !== 5) {
       toast.warning('کد صحیح نیست');
-    } else {
-      setLoading(true);
-      axios({
-        method: 'POST',
-        url: `${OnRun}/api/login/admin/`,
-        data: { uniqueIdentifier: nationalCode, code: otp },
-      })
-        .then((response) => {
-          setCookie('accessApi', response.data.access, 5);
+      return;
+    }
+    setLoading(true);
+
+    axios({
+      method: 'POST',
+      url: `${OnRun}/api/login/admin/`,
+      data: { uniqueIdentifier: nationalCode, code: otp },
+    })
+      .then((response) => {
+        if (response.data?.access) {
+          setCookie('accessApi', response.data.access, 1);
           toast.success('ورود با موفقیت انجام شد');
+
           if (registerd) {
             router.push('/');
           } else {
             router.push('/ProfilePage');
           }
-          toast.warning(response.data.message);
-  
-     
-        })
-        .catch((error) => {
-          if (error.response?.status === 400) {
-            toast.error('دسترسی شما محدود شده است. بازگشت به صفحه اصلی');
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000); 
-          } else {
-            toast.error(error.response?.data?.message || 'خطا در ورود');
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000); 
+
+          if (response.data.message) {
+            toast.info(response.data.message);
           }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+        } else {
+          toast.error(response.data.message || 'خطای دسترسی');
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 400:
+              toast.error('دسترسی شما محدود شده است. بازگشت به صفحه اصلی');
+              setTimeout(() => {
+                window.location.reload();
+              }, 3000);
+              break;
+            case 401:
+              toast.error('ورود نامعتبر است، لطفا دوباره تلاش کنید');
+              break;
+            case 403:
+              toast.error('دسترسی غیرمجاز، با پشتیبانی تماس بگیرید');
+              break;
+            case 500:
+              toast.error('خطای سرور، لطفا بعدا دوباره تلاش کنید');
+              break;
+            default:
+              toast.error(error.response.data?.message || 'خطای در برقراری ارتباط');
+              break;
+          }
+        } else if (error.request) {
+          toast.error('پاسخی از سرور دریافت نشد، اینترنت خود را بررسی کنید');
+        } else {
+          toast.error(error.message || 'خطای در برقرای ارتباط دوباره تلاش کنید');
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
-  
-  
 
   useEffect(getCaptcha, []);
 
