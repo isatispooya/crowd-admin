@@ -23,21 +23,27 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
+import { OnRun } from 'src/api/OnRun';
 import moment from 'moment-jalaali';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import usePostParticipant from '../../service/participant/usePostParticipant';
 import useGetReciept from '../../service/participant/useGetReciept';
+import usePostInvestor from './hooks/usePostInvestor';
+import { errorMsg } from './dargahmsg';
 
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isPending, refetch } = useGetParticipant(trace_code);
+
+  const { mutate: mutateInquiry } = usePostInvestor(trace_code);
   const { mutate } = usePostParticipant(trace_code);
+
   const [status, setStatus] = useState('0');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [statusSwitch, setStatusSwitch] = useState(false);
   const [localData, setLocalData] = useState([]);
-  const { data: respiet } = useGetReciept(selectedRow?.id);
+  const { data: respiet ,refetch: refetchReciept} = useGetReciept(selectedRow?.id);
 
   useEffect(() => {
     if (data) {
@@ -102,7 +108,7 @@ const PlanInvestors = () => {
       width: 200,
       formatter: (cell) => {
         const value = cell.getValue();
-        return value ? moment(value).format('jYYYY/jMM/jDD') : 'تاریخ مشخص نشده';
+        return value ? moment(value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده';
       },
     },
     {
@@ -111,6 +117,13 @@ const PlanInvestors = () => {
       hozAlign: 'center',
       width: 150,
       formatter: (row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
+    },
+    {
+      title: 'نوع',
+      field: 'document',
+      hozAlign: 'center',
+      width: 150,
+      formatter: (cell) => (cell.getValue() ? 'فیش بانکی' : 'درگاه'),
     },
     {
       title: 'وضعیت',
@@ -144,6 +157,12 @@ const PlanInvestors = () => {
       </div>
     );
   }
+
+  const handlePostInquiry = (id) => {
+    mutateInquiry(id);
+    refetchReciept()
+  };
+
 
   return (
     <div>
@@ -193,78 +212,124 @@ const PlanInvestors = () => {
             </Typography>
           </Box>
         )}
+      </Box>
 
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <DialogContent sx={{ p: 4, minWidth: '600px' }}>
-            <FormControl fullWidth>
-              <InputLabel>وضعیت</InputLabel>
-              <Select value={status} onChange={handleStatusChange} label="وضعیت">
-                <MenuItem value="0">رد شده</MenuItem>
-                <MenuItem value="1">در حال بررسی</MenuItem>
-                <MenuItem value="2">تایید موقت</MenuItem>
-                <MenuItem value="3">تایید نهایی</MenuItem>
-              </Select>
-            </FormControl>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogContent sx={{ p: 4, minWidth: '600px' }}>
+          <FormControl fullWidth>
+            <InputLabel>وضعیت</InputLabel>
+            <Select value={status} onChange={handleStatusChange} label="وضعیت">
+              <MenuItem value="0">رد شده</MenuItem>
+              <MenuItem value="1">در حال بررسی</MenuItem>
+              <MenuItem value="2">تایید موقت</MenuItem>
+              <MenuItem value="3">تایید نهایی</MenuItem>
+            </Select>
+          </FormControl>
 
-            {respiet && Array.isArray(respiet) && respiet.length > 0 ? (
-              respiet.map((item, index) => (
-                <Table key={index}>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>نوع پرداخت</TableCell>
-                      <TableCell>{item.document ? 'درگاه' : 'فیش'}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>مقدار</TableCell>
-                      <TableCell>{item.amount}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>شناسه پرداخت</TableCell>
-                      <TableCell>{item.payment_id}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>مبلغ</TableCell>
-                      <TableCell>{formatNumber(item.value)}</TableCell>
-                    </TableRow>
-                    {item.url_id ? (
+          {respiet && Array.isArray(respiet) && respiet.length > 0 ? (
+            respiet.map((item, index) => (
+              <Table key={index}>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>نوع پرداخت</TableCell>
+                    <TableCell>{item.document ? 'فیش' : 'درگاه'}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>مقدار</TableCell>
+                    <TableCell>{item.amount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>شماره فاکتور</TableCell>
+                    <TableCell>{item.payment_id}</TableCell>
+                  </TableRow>
+
+                  {item.document === false && (
+                    <>
                       <TableRow>
-                        <TableCell>دانلود فایل</TableCell>
+                        <TableCell> شماره ارجاع درگاه</TableCell>
+                        <TableCell>{item.reference_number}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>شماره پیگیری</TableCell>
+                        <TableCell>{item.track_id}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>شماره کارت</TableCell>
+                        <TableCell>{item.card_number}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>کد وضعیت درگاه</TableCell>
+                        <TableCell>{item.code_status_payment}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell> وضعیت درگاه</TableCell>
+                        <TableCell>{errorMsg[item.code_status_payment]}</TableCell>
+                      </TableRow>
+                    </>
+                  )}
+
+                  <TableRow>
+                    <TableCell>مبلغ</TableCell>
+                    <TableCell>{formatNumber(item.value)}</TableCell>
+                  </TableRow>
+                  {item.picture ? (
+                    <TableRow>
+                      <TableCell>دانلود فایل</TableCell>
+                      <TableCell>
+                        <a
+                          href={`${OnRun}${item.picture}`}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: '#1976d2',
+                            textDecoration: 'underline',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          دانلود فایل
+                        </a>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={2} align="center">
+                        <span className="text-sm mt-6">فایلی برای دانلود وجود ندارد</span>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {item.document === false && (
+                    <>
+                      <TableRow>
+                        <TableCell>استعلام پرداخت</TableCell>
                         <TableCell>
-                          <a
-                            href={item.url_id}
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              color: '#1976d2',
-                              textDecoration: 'underline',
-                              cursor: 'pointer',
-                            }}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handlePostInquiry(item.id)}
                           >
-                            دانلود فایل
-                          </a>
+                            دریافت
+                          </Button>
                         </TableCell>
                       </TableRow>
-                    ) : (
-                      <div className="text-sm mt-6">فایلی برای دانلود وجود نداره</div>
-                    )}
-                  </TableBody>
-                </Table>
-              ))
-            ) : (
-              <p>هیچ داده‌ای برای نمایش وجود ندارد.</p>
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleConfirm} color="primary">
-              تایید
-            </Button>
-            <Button onClick={() => setOpenDialog(false)} color="secondary">
-              لغو
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
+                    </>
+                  )}
+                </TableBody>
+              </Table>
+            ))
+          ) : (
+            <p>هیچ داده‌ای برای نمایش وجود ندارد.</p>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirm} color="primary">
+            تایید
+          </Button>
+          <Button onClick={() => setOpenDialog(false)} color="secondary">
+            لغو
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

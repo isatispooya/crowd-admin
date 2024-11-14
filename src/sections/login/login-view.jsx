@@ -151,6 +151,11 @@ export default function LoginView() {
           autoComplete="off"
           value={nationalCode}
           onChange={(e) => setNationalCode(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              (step === 1 ? applyNationalCode : handleCode)();
+            }
+          }}
           label="شناسه ملی"
         />
 
@@ -159,6 +164,9 @@ export default function LoginView() {
             <TextField
               autoComplete="off"
               onChange={(e) => setCaptchaInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') applyNationalCode();
+              }}
               label="کپچا"
               value={captchaInput}
             />
@@ -168,7 +176,14 @@ export default function LoginView() {
             <Box sx={{ mb: 3 }} />
           </>
         ) : (
-          <TextField value={otp} onChange={(e) => setOtp(e.target.value)} label="کد تایید" />
+          <TextField
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCode();
+            }}
+            label="کد تایید"
+          />
         )}
       </Stack>
 
