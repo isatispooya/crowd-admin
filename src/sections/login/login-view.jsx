@@ -14,6 +14,7 @@ import { setCookie, getCookie } from 'src/api/cookie';
 import { useRouter } from 'src/routes/hooks';
 import { bgGradient } from 'src/theme/css';
 import { OnRun } from 'src/api/OnRun';
+import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function LoginView() {
@@ -48,6 +49,7 @@ export default function LoginView() {
   });
 
   const applyNationalCode = () => {
+    getCaptcha();
     if (captchaInput.length === 0) {
       toast.warning('کد تصویر صحیح نیست');
     } else if (nationalCode.length !== 10) {
@@ -142,14 +144,23 @@ export default function LoginView() {
   };
 
   useEffect(getCaptcha, []);
-
   const renderForm = (
     <>
       <ToastContainer autoClose={3000} />
-      <Stack spacing={3} sx={{ mb: 3 }}>
+      <Stack
+        spacing={3}
+        sx={{
+          mb: 3,
+          padding: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '10px',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+        }}
+      >
         <TextField
           autoComplete="off"
           value={nationalCode}
+          disabled={step === 2}
           onChange={(e) => setNationalCode(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -157,6 +168,18 @@ export default function LoginView() {
             }
           }}
           label="شناسه ملی"
+          sx={{
+            '& .MuiInputBase-root': {
+              borderRadius: '8px',
+              backgroundColor: '#fafafa',
+            },
+            '& label.Mui-focused': {
+              color: '#3f51b5',
+            },
+            '& .MuiOutlinedInput-root:hover': {
+              borderColor: '#3f51b5',
+            },
+          }}
         />
 
         {step === 1 ? (
@@ -169,8 +192,30 @@ export default function LoginView() {
               }}
               label="کپچا"
               value={captchaInput}
+              sx={{
+                '& .MuiInputBase-root': {
+                  borderRadius: '8px',
+                  backgroundColor: '#fafafa',
+                },
+                '& label.Mui-focused': {
+                  color: '#3f51b5',
+                },
+              }}
             />
-            <Button onClick={getCaptcha}>
+            <Button
+              onClick={getCaptcha}
+              sx={{
+                padding: 1,
+                borderRadius: '8px',
+                border: '1px solid #e0e0e0',
+                '& img': {
+                  height: '40px',
+                },
+                '&:hover': {
+                  backgroundColor: '#f0f0f0',
+                },
+              }}
+            >
               <img src={`data:image/png;base64,${captchaImage}`} alt="captcha" />
             </Button>
             <Box sx={{ mb: 3 }} />
@@ -183,41 +228,40 @@ export default function LoginView() {
               if (e.key === 'Enter') handleCode();
             }}
             label="کد تایید"
+            sx={{
+              '& .MuiInputBase-root': {
+                borderRadius: '8px',
+                backgroundColor: '#fafafa',
+              },
+              '& label.Mui-focused': {
+                color: '#3f51b5',
+              },
+            }}
           />
         )}
       </Stack>
 
-      {step === 1 ? (
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          sx={{
-            bgcolor: 'primary.main',
-            color: 'white',
-            '&:hover': {
-              bgcolor: 'primary.dark',
-            },
-          }}
-          onClick={applyNationalCode}
-          loading={loading}
-        >
-          تایید
-        </LoadingButton>
-      ) : (
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          color="inherit"
-          onClick={handleCode}
-          loading={loading}
-        >
-          تایید
-        </LoadingButton>
-      )}
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        sx={{
+          bgcolor: step === 1 ? 'primary.main' : 'secondary.main',
+          color: 'white',
+          borderRadius: '10px',
+          padding: '12px',
+          fontWeight: 'bold',
+          boxShadow: '0 3px 8px rgba(0, 0, 0, 0.2)',
+          '&:hover': {
+            bgcolor: step === 1 ? 'primary.dark' : 'secondary.dark',
+          },
+        }}
+        onClick={step === 1 ? applyNationalCode : handleCode}
+        loading={loading}
+      >
+        تایید
+      </LoadingButton>
     </>
   );
 
@@ -225,36 +269,98 @@ export default function LoginView() {
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.background.default, 0.9),
+          color: alpha(theme.palette.primary.light, 0.3), // Light blue gradient
           imgUrl: '/assets/background/overlay_4.jpg',
         }),
         height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <Stack alignItems="center" justifyContent="center" sx={{ minHeight: '100vh' }}>
-        <Card
-          sx={{
-            p: 5,
-            width: 1,
-            maxWidth: 420,
-          }}
+      {/* Background Animation */}
+      <motion.div
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute',
+          width: '200%',
+          height: '200%',
+          background: `radial-gradient(circle, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+          zIndex: 0,
+        }}
+      />
+
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          width: '100%',
+          maxWidth: '420px',
+          mx: 'auto',
+          padding: 2,
+          position: 'relative',
+          zIndex: 1, // Ensure it stays above the background animation
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <Typography variant="h4" style={{ textAlign: 'center' }}>
-            ایساتیس کراد
-          </Typography>
-          <Typography
-            sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}
-            variant="h6"
+          <Card
+            sx={{
+              p: 5,
+              width: '100%',
+              boxShadow: '0px 6px 24px rgba(0, 0, 0, 0.15)',
+              borderRadius: '16px',
+              backgroundColor: alpha(theme.palette.background.paper, 0.95),
+              border: `1px solid ${theme.palette.primary.light}`,
+            }}
           >
-            درگاه ورود مدیریت ایساتیس کراد
-          </Typography>
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              ورود
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{
+                fontWeight: 'bold',
+                color: theme.palette.primary.main,
+                marginBottom: 2,
+              }}
+            >
+              ایساتیس کراد
             </Typography>
-          </Divider>
-          {renderForm}
-        </Card>
+            <Typography
+              variant="h6"
+              align="center"
+              sx={{
+                color: theme.palette.text.secondary,
+                marginBottom: 3,
+              }}
+            >
+              درگاه ورود مدیریت ایساتیس کراد
+            </Typography>
+            <Divider
+              sx={{
+                my: 3,
+                '&::before, &::after': {
+                  borderColor: theme.palette.primary.light,
+                },
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.text.secondary,
+                }}
+              >
+                ورود
+              </Typography>
+            </Divider>
+            {renderForm}
+          </Card>
+        </motion.div>
       </Stack>
     </Box>
   );

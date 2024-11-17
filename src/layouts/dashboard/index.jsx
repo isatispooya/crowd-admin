@@ -14,17 +14,17 @@ export default function DashboardLayout({ children }) {
 
   return (
     <Box
-        sx={{
-          minHeight: 1,
-          display: 'flex',
-          flexDirection: { xs: 'column', lg: 'row' },
-        }}
-      >
-        <Nav  openNav={openNav} onCloseNav={() => setOpenNav(false)} />
+      sx={{
+        minHeight: 1,
+        display: 'flex',
+        flexDirection: { xs: 'column', lg: 'row' },
+      }}
+    >
+      <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
 
-        <Main >{children}</Main>
-        <ScrollToTopButton/>
-      </Box>
+      <Main>{children}</Main>
+      <ScrollToTopButton />
+    </Box>
   );
 }
 

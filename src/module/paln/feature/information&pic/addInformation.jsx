@@ -74,25 +74,22 @@ const AddInfo = () => {
   const handleSelectChange = (event) => {
     setSatusSecond(event.target.value);
   };
-const handleDateChange = (date) => {
-  if (date) {
-    const localDate = new DateObject({
-      year: date.year,
-      month: date.month.index + 1,
-      day: date.day,
-      calendar: persian,
-      locale: persian_fa,
-    });
+  const handleDateChange = (date) => {
+    if (date) {
+      const localDate = new DateObject({
+        year: date.year,
+        month: date.month.index + 1,
+        day: date.day,
+        calendar: persian,
+        locale: persian_fa,
+      });
 
-    const dateAtMidnight = new Date(localDate.toDate().setHours(0, 0, 0, 0)).getTime();
+      const dateAtMidnight = new Date(localDate.toDate().setHours(0, 0, 0, 0)).getTime();
 
-    setSelectedDate(dateAtMidnight);
-    localStorage.setItem(`selectedDate_${trace_code}`, dateAtMidnight);
-  }
-};
-
-  
-  
+      setSelectedDate(dateAtMidnight);
+      localStorage.setItem(`selectedDate_${trace_code}`, dateAtMidnight);
+    }
+  };
 
   const handleSubmit = () => {
     if (!rateOfReturn) {
@@ -103,17 +100,13 @@ const handleDateChange = (date) => {
       toast.error('لطفاً وضعیت طرح را انتخاب کنید!');
       return;
     }
-    if (!selectedDate) {
-      toast.error('لطفاً تاریخ پایان را انتخاب کنید!');
-      return;
-    }
-  
+
     mutate(
       {
         rate_of_return: rateOfReturn,
         status_show: statusShow,
         status_second: satusSecond,
-        payment_date: selectedDate, 
+        payment_date: selectedDate,
       },
       {
         onSuccess: () => {
@@ -126,7 +119,6 @@ const handleDateChange = (date) => {
       }
     );
   };
-  
 
   return (
     <>

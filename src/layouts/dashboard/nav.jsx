@@ -28,13 +28,10 @@ export default function Nav({ openNav, onCloseNav }) {
   const upLg = useResponsive('up', 'lg');
   const accessApi = getCookie('accessApi');
 
-
-
   const { mutate } = usePostLogOut();
 
-
   const exit = () => {
-    mutate()
+    mutate();
   };
 
   useEffect(() => {
@@ -119,7 +116,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box
         sx={{
-          bgcolor: 'background.paper',
+          bgcolor: '#524175',
           borderRadius: 2,
           padding: 2,
           boxShadow: 6,
@@ -130,11 +127,25 @@ export default function Nav({ openNav, onCloseNav }) {
           mb: 4,
         }}
       >
-        <Typography variant="h6" sx={{ mb: 1 }}>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: '',
+
+              mb: 2,
+              textTransform: 'capitalize',
+              bgcolor: '#ffffff',
+              color: '#524175',
+              padding: '8px',
+              borderRadius: '4px',
+            }}
+          >
+            پنل ادمین
+          </Typography>
+        </motion.div>
+        <Typography variant="h6" sx={{ mb: 1, color: 'white' }}>
           خوش آمدید 👋
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          امیدواریم تجربه خوبی داشته باشید.
         </Typography>
       </Box>
 
@@ -149,7 +160,7 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
-        bgcolor: 'background.default',
+        bgcolor: '#524175',
         boxShadow: 2,
         borderRadius: 2,
         position: 'relative',
