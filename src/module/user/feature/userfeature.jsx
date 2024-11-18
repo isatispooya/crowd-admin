@@ -61,7 +61,7 @@ const UserFeature = () => {
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 
-  const handleRowClick = (e, row) => navigate(`/userDetail/${row.getData().id}`);
+
 
   useEffect(() => {
     const handleWheel = (event) => {};
@@ -75,8 +75,17 @@ const UserFeature = () => {
         data={formattedData}
         columns={columns}
         layout="fitDataStretch"
-        options={{ movableRows: true }}
-        events={{ rowClick: handleRowClick }}
+        options={{
+          movableRows: true,
+          rowContextMenu: [
+            {
+              label: 'مشاهده جزئیات',
+              action: (e, row) => {
+                navigate(`/userDetail/${row.getData().id}`);
+              },
+            },
+          ],
+        }}
       />
     </div>
   );

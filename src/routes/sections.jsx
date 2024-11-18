@@ -4,6 +4,7 @@ import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import DashboardLayout from 'src/layouts/dashboard';
+import Tasks from 'src/module/tasks/tasks';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
@@ -60,9 +61,9 @@ export default function Router() {
         { path: 'user', element: motionWrapper(UserPage) },
         { path: 'evaluationCommittee', element: motionWrapper(EvaluationCommittee) },
         { path: 'evaluationCommittee/:cartId', element: motionWrapper(EvaluationCommitteeDetails) },
-
         { path: 'riskCommittee', element: motionWrapper(RiskCommittee) },
         { path: 'riskCommittee/:cartId', element: motionWrapper(RiskCommitteeDetails) },
+        { path: 'tasks', element: motionWrapper(Tasks) },
       ],
     },
     {

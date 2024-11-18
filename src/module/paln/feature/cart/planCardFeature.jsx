@@ -58,7 +58,7 @@ const PlanTableFeature = () => {
       case '1':
         return 'شروع شده';
       case '2':
-        return 'جمع آوری';
+        return 'شروع نشده';
       case '3':
         return 'تمدید شده';
       case '5':
@@ -107,7 +107,6 @@ const PlanTableFeature = () => {
     )
     .sort((a, b) => new Date(b.plan?.created_at) - new Date(a.plan?.created_at))
     .reverse();
-
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>

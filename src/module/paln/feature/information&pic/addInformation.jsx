@@ -172,7 +172,7 @@ const AddInfo = () => {
                 <em>وضعیت طرح را انتخاب کنید</em>
               </MenuItem>
               <MenuItem value="1">شروع شده</MenuItem>
-              <MenuItem value="2">جمع آوری</MenuItem>
+              <MenuItem value="2">شروع نشده</MenuItem>
               <MenuItem value="3">تمدید شده</MenuItem>
               <MenuItem value="5">تکمیل شده</MenuItem>
               <MenuItem value="4">سررسید ناموفق</MenuItem>

@@ -191,7 +191,7 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                   label="وضعیت اجرای طرح"
                   options={[
                     { value: '1', label: 'شروع شده' },
-                    { value: '2', label: ' جمع آوری شده' },
+                    { value: '2', label: 'شروع نشده' },
                     { value: '3', label: 'تمدید شده' },
                     { value: '4', label: 'سررسید ناموفق' },
                     { value: '5', label: 'تکمیل شده' },

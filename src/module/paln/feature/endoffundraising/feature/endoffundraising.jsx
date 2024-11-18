@@ -58,7 +58,7 @@ const EndOffUndraisingPage = () => {
     const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
     return localDate.toISOString().split('T')[0];
   };
-  
+
   const handleSubmit = () => {
     const updatedData = formData.map((item) => ({
       amount_operator: parseFloat(item.amount_operator) || 0,
@@ -75,7 +75,7 @@ const EndOffUndraisingPage = () => {
       plan: item.plan,
       type: item.type || '2',
     }));
-  
+
     mutate(
       { updatedData },
       {
@@ -88,7 +88,6 @@ const EndOffUndraisingPage = () => {
       }
     );
   };
-  
 
   return (
     <div className="items-center p-4">
@@ -219,13 +218,13 @@ const EndOffUndraisingPage = () => {
                       elevation={3}
                       sx={{ p: 3, mb: 3, borderRadius: '12px', backgroundColor: 'grey.200' }}
                     >
-                      <Box className="bg-gray-200 text-center py-4 rounded-t-lg mb-8">
+                      <Box className="bg-gray-200 text-center py-4 w-auto rounded-t-lg mb-8">
                         <Typography variant="h5" component="h1" className="text-gray-700 font-bold">
                           دستی
                         </Typography>
                       </Box>
                       <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} sm={6}>
                           <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
                             مبلغ :
                           </Typography>
@@ -254,7 +253,7 @@ const EndOffUndraisingPage = () => {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} sm={6}>
                           <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
                             نوع :
                           </Typography>
@@ -274,7 +273,7 @@ const EndOffUndraisingPage = () => {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
+                        <Grid item xs={12} sm={6}>
                           <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
                             تاریخ چک:
                           </Typography>
@@ -292,7 +291,7 @@ const EndOffUndraisingPage = () => {
                               handleDateChange(index, 'date_capitalization_operator', date)
                             }
                             style={{
-                              minWidth: '17.5em',
+                              width: '100%',
                               height: '55px',
                               padding: '15px',
                               borderRadius: '8px',
@@ -302,7 +301,7 @@ const EndOffUndraisingPage = () => {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
+                        <Grid item xs={12} sm={6}>
                           <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
                             تاریخ سود:
                           </Typography>
@@ -318,7 +317,7 @@ const EndOffUndraisingPage = () => {
                             }
                             onChange={(date) => handleDateChange(index, 'date_operator', date)}
                             style={{
-                              minWidth: '17.5em',
+                              width: '100%',
                               height: '55px',
                               padding: '15px',
                               borderRadius: '8px',

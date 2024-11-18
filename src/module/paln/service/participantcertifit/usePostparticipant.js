@@ -1,6 +1,6 @@
 import { getCookie } from 'src/api/cookie';
 import api from 'src/api/apiClient';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const useGetParticipationsTable = (trace_code) => {
   const accessApi = getCookie('accessApi');
@@ -19,9 +19,28 @@ const useGetParticipationsTable = (trace_code) => {
     return response.data;
   };
 
+  const postParticipant = async (data) => {
+    const response = await api.post(
+      `/api/send/participation/certificate/farabours/admin/${trace_code}/`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessApi}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  };
+
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['getTable'],
     queryFn: () => getTable(),
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['postParticipant'],
+    mutationFn: ({ fdata, tracecode }) => postParticipant({ fdata, tracecode }),
   });
 
   return {
@@ -29,6 +48,8 @@ const useGetParticipationsTable = (trace_code) => {
     isLoading,
     isError,
     isSuccess,
+    mutate,
+    isPending,
   };
 };
 

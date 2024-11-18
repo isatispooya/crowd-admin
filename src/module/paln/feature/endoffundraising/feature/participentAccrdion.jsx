@@ -1,22 +1,242 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/button-has-type */
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ReactTabulator } from 'react-tabulator';
+import 'react-tabulator/lib/styles.css';
+import 'react-tabulator/lib/css/tabulator.min.css';
 import useGetParticipationsTable from 'src/module/paln/service/participantcertifit/usePostparticipant';
+import { formatNumber } from 'src/utils/formatNumbers';
+import { motion, AnimatePresence } from 'framer-motion';
+import ParticipantDetailsDialog from './ParticipantDetailsDialog';
 
 const ParticipentAccrdion = ({ form }) => {
   const { trace_code } = useParams();
-  const { data, isError, isSuccess } = useGetParticipationsTable(trace_code);
+  const { data, isError, isSuccess, mutate } = useGetParticipationsTable(trace_code);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [paymentTypeFilter, setPaymentTypeFilter] = useState('all');
+  const [sendStatusFilter, setSendStatusFilter] = useState('all');
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleSend = () => {
-    
+    mutate({ data: form, trace_code });
+    setShowConfirm(false);
   };
 
-  console.log(data)
+  const columns = [
+    {
+      title: 'مقدار',
+      field: 'amount',
+    },
+    {
+      title: 'مبلغ',
+      field: 'value',
+      formatter: (cell) => formatNumber(cell.getValue()),
+    },
+    {
+      title: 'نوع پرداخت',
+      field: 'document',
+      formatter: (cell) => (cell.getValue() ? 'فیش بانکی' : 'درگاه'),
+    },
+    {
+      title: 'مبلغ تایید شده',
+      field: 'provided_finance_price_farabourse',
+    },
+    {
+      title: 'وضعیت ارسال به فرابورس',
+      field: 'send_farabours',
+      formatter: (cell) => (cell.getValue() ? 'ارسال شده ' : 'ارسال نشده'),
+    },
+
+    {
+      title: 'شماره پیگیری',
+      field: 'track_id',
+    },
+    {
+      title: 'پیام فرابورس',
+      field: 'message_farabourse',
+    },
+    {
+      title: 'خطای فرابورس',
+      field: 'error_no_farabourse',
+    },
+    {
+      title: 'نام کاربر',
+      field: 'user_name',
+    },
+    {
+      title: 'شناسه ملی کاربر',
+      field: 'user',
+    },
+  ];
+
+  const options = {
+    layout: 'fitColumns',
+    responsiveLayout: 'hide',
+    height: '400px',
+    selectable: 1,
+    clickableRows: true,
+  };
+
+  const handleRowClick = (e, row) => {
+    setSelectedRow(row.getData());
+    setShowDetails(true);
+  };
+
+  const filteredData = data?.filter((row) => {
+    const matchPaymentType =
+      paymentTypeFilter === 'all' ||
+      (paymentTypeFilter === 'bank' && row.document) ||
+      (paymentTypeFilter === 'gateway' && !row.document);
+
+    const matchSendStatus =
+      sendStatusFilter === 'all' ||
+      (sendStatusFilter === 'sent' && row.send_farabours) ||
+      (sendStatusFilter === 'notSent' && !row.send_farabours);
+
+    return matchPaymentType && matchSendStatus;
+  });
 
   return (
-    <div className="flex justify-center items-center">
-      <button onClick={handleSend} className="bg-blue-700 py-2 px-3 rounded-md text-white">fgjh</button>
+    <div className="w-full p-4">
+      <div className="mb-4 flex items-center justify-between bg-white rounded-lg shadow-sm p-3">
+        <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-2">
+            <label htmlFor="paymentType" className="text-gray-700">
+              نوع پرداخت:
+            </label>
+            <select
+              id="paymentType"
+              value={paymentTypeFilter}
+              onChange={(e) => setPaymentTypeFilter(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 
+                       focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">همه</option>
+              <option value="bank">فیش بانکی</option>
+              <option value="gateway">درگاه</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label htmlFor="sendStatus" className="text-gray-700">
+              وضعیت ارسال:
+            </label>
+            <select
+              id="sendStatus"
+              value={sendStatusFilter}
+              onChange={(e) => setSendStatusFilter(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 
+                       focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">همه</option>
+              <option value="sent">ارسال شده</option>
+              <option value="notSent">ارسال نشده</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setShowConfirm(true)}
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg
+                   shadow-md hover:shadow-lg transition-all duration-200 font-medium
+                   flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            />
+          </svg>
+          ارسال به فرابورس
+        </button>
+      </div>
+
+      {isSuccess && filteredData && (
+        <ReactTabulator
+          data={filteredData}
+          columns={columns}
+          options={options}
+          events={{
+            rowClick: handleRowClick,
+          }}
+        />
+      )}
+      {isError && <div className="text-red-500">خطا در دریافت اطلاعات</div>}
+
+      <AnimatePresence>
+        {showConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            onClick={() => setShowConfirm(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', duration: 0.3 }}
+              className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <motion.div initial={{ y: -10 }} animate={{ y: 0 }} className="mb-4">
+                  <svg
+                    className="mx-auto h-12 w-12 text-yellow-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </motion.div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">تایید ارسال</h3>
+                <p className="text-gray-500 ">آیا از ارسال به فرابورس اطمینان دارید؟</p>
+                <p className="text-red-500  mb-6">این عملیات بدون بازگشت هست</p>
+              </div>
+
+              <div className="flex gap-3 justify-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg
+                           shadow-md hover:shadow-lg transition-colors duration-200 font-medium"
+                  onClick={handleSend}
+                >
+                  بله، ارسال شود
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg
+                           shadow-md hover:shadow-lg transition-colors duration-200 font-medium"
+                  onClick={() => setShowConfirm(false)}
+                >
+                  انصراف
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <ParticipantDetailsDialog
+        open={showDetails}
+        onClose={() => setShowDetails(false)}
+        rowData={selectedRow}
+        traceCode={trace_code}
+      />
     </div>
   );
 };
