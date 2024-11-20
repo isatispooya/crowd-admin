@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { CircularProgress, Alert, Select, MenuItem } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import useVerificationReceipt from '../hooks/VerificationReceipt';
 import usePostVerificationReceipt from '../hooks/postVerificationReceipt';
-import { CircularProgress, Alert, Dialog, DialogTitle, DialogContent, DialogActions, Button, Select, MenuItem, FormControl, InputLabel, Switch, FormControlLabel } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 
 const VerificationReceipt = () => {
   const { data, isError, isPending } = useVerificationReceipt();
@@ -24,17 +24,15 @@ const VerificationReceipt = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  console.log(data);
-  
 
   const handleConfirmSubmit = () => {
-    const data = {
+    const mutationData = {
       id: selectedRow.id,
       operation_type: operationType,
       payment_status: paymentStatus,
-      profit_payment_comment: comments[selectedRow.id] || selectedRow.profit_payment_comment
+      profit_payment_comment: comments[selectedRow.id] || selectedRow.profit_payment_comment,
     };
-    mutate(data);
+    mutate(mutationData);
     handleCloseModal();
   };
 
@@ -50,7 +48,7 @@ const VerificationReceipt = () => {
       renderCell: (params) => (
         <input
           type="text"
-          style={{background: 'transparent'}}
+          style={{ background: 'transparent' }}
           value={(comments[params.row.id] ?? params.row.profit_payment_comment) || ''}
           onChange={(e) => {
             setComments((prev) => ({
@@ -62,7 +60,7 @@ const VerificationReceipt = () => {
             mutate({
               id: params.row.id,
               profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: params.row.profit_payment_completed
+              profit_payment_completed: params.row.profit_payment_completed,
             });
           }}
         />
@@ -79,7 +77,7 @@ const VerificationReceipt = () => {
             mutate({
               id: params.row.id,
               profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: e.target.value
+              profit_payment_completed: e.target.value,
             });
           }}
           size="small"
@@ -90,35 +88,19 @@ const VerificationReceipt = () => {
         </Select>
       ),
     },
-    {
-      field: 'actions',
-      headerName: 'عملیات',
-      width: 150,
-      renderCell: (params) => (
-        <button
-          type="button"
-          onClick={() => handleOpenModal(params.row)}
-          disabled={isPendingMutation}
-        >
-          {params.row.profit_payment_completed ? 'لغو تکمیل' : 'تکمیل پرداخت'}
-        </button>
-      ),
-    },
   ];
 
   return (
-    <>
-      <div style={{ height: 800, width: '100%' }}>
-        <DataGrid
-          rows={data || []}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          disableSelectionOnClick
-          disableColumnMenu
-        />
-      </div>
-    </>
+    <div style={{ height: 800, width: '100%' }}>
+      <DataGrid
+        rows={data || []}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        disableSelectionOnClick
+        disableColumnMenu
+      />
+    </div>
   );
 };
 

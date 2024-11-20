@@ -167,7 +167,7 @@ export default function LoginView() {
               (step === 1 ? applyNationalCode : handleCode)();
             }
           }}
-          label="شناسه ملی"
+          label="شناسه کاربر"
           sx={{
             '& .MuiInputBase-root': {
               borderRadius: '8px',

@@ -22,8 +22,7 @@ import useGetProfit from './service/useProfitGet';
 const ProfitPage = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetProfit(trace_code);
-  
-  
+
   const formatNumber = (value) =>
     value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '—';
   const roundValue = (value) => (value !== null ? Math.round(value).toLocaleString() : '—');
@@ -31,9 +30,9 @@ const ProfitPage = () => {
   const fields = [
     { label: 'نام و نام خانوادگی', key: 'user_name' },
     { label: 'مبلغ', key: 'value', formatter: formatNumber },
-    { label: 'کاربر', key: 'user' },
+    { label: 'شماره ملی', key: 'user' },
     { label: 'تعداد گواهی', key: 'amount' },
-    { label: 'شماره حساب', key: 'account_number' },
+    { label: 'شماره شبا', key: 'account_number' },
     { label: 'مبلغ سود اول', key: 'value1', formatter: roundValue },
     { label: 'مبلغ سود دوم', key: 'value2', formatter: roundValue },
     { label: 'مبلغ سود سوم', key: 'value3', formatter: roundValue },
@@ -61,7 +60,7 @@ const ProfitPage = () => {
   const renderedTable = useMemo(() => {
     if (!data || data.length === 0) return null;
     if (isLoading) return <p>در حال بارگذاری...</p>;
-
+4
     return (
       <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
         <Table sx={{ minWidth: 750 }} size="small" aria-label="simple table">
@@ -84,7 +83,7 @@ const ProfitPage = () => {
                 ))}
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody>  
         </Table>
       </TableContainer>
     );
@@ -139,8 +138,8 @@ const ProfitPage = () => {
             px: 2,
             display: 'flex',
             alignSelf: 'end',
-            marginTop:2,
-            marginBottom:2
+            marginTop: 2,
+            marginBottom: 2,
           }}
           variant="outlined"
           startIcon={<FileDownloadIcon />}

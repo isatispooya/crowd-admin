@@ -6,31 +6,12 @@ import usePostVerificationPayment from '../hooks/postVerificationPayment';
 
 const VerificationPayment = () => {
   const { data, isError, isPending } = useVerificationPayment();
-  const { mutate, isPending: isPendingMutation } = usePostVerificationPayment();
+  const { mutate } = usePostVerificationPayment();
   const [comments, setComments] = useState({});
-  const [paymentStatus, setPaymentStatus] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [operationType, setOperationType] = useState('');
-  const [openModal, setOpenModal] = useState(false);
+  const [paymentStatus] = useState(false);
 
   if (isPending) return <CircularProgress />;
   if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
-
-  const handleOpenModal = (row) => {
-    setSelectedRow(row);
-    setOperationType(row.profit_payment_completed ? 'cancel' : 'complete');
-    setPaymentStatus(row.profit_payment_completed);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedRow(null);
-    setOperationType('');
-    setPaymentStatus(false);
-  };
-
-
 
   const columns = [
     { field: 'amount_operator', headerName: 'مبلغ', width: 130 },
@@ -44,7 +25,7 @@ const VerificationPayment = () => {
       renderCell: (params) => (
         <input
           type="text"
-          style={{background: 'transparent'}}
+          style={{ background: 'transparent' }}
           value={(comments[params.row.id] ?? params.row.profit_payment_comment) || ''}
           onChange={(e) => {
             setComments((prev) => ({
@@ -56,7 +37,7 @@ const VerificationPayment = () => {
             mutate({
               id: params.row.id,
               profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: params.row.profit_payment_completed
+              profit_payment_completed: params.row.profit_payment_completed,
             });
           }}
         />
@@ -73,7 +54,7 @@ const VerificationPayment = () => {
             mutate({
               id: params.row.id,
               profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: e.target.value
+              profit_payment_completed: e.target.value,
             });
           }}
           size="small"
@@ -84,44 +65,27 @@ const VerificationPayment = () => {
         </Select>
       ),
     },
-    {
-      field: 'actions',
-      headerName: 'وضعیت',
-      width: 150,
-      renderCell: (params) => (
-        <button
-          type="button"
-          onClick={() => handleOpenModal(params. row)}
-          disabled={isPendingMutation}
-        >
-          {params.row.profit_payment_completed ? ' تکمیل' : 'تکمیل پرداخت'}
-        </button>
-      ),
-    },
   ];
 
   const handleSubmit = (row) => {
     mutate({
       id: row.id,
       profit_payment_comment: comments[row.id] ?? row.profit_payment_comment,
-      profit_payment_completed: paymentStatus
+      profit_payment_completed: paymentStatus,
     });
   };
 
   return (
-  
-      <div style={{ height: 800, width: '100%' }}>
-        <DataGrid
-          rows={data || []}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          disableSelectionOnClick
-          disableColumnMenu
-        />
-      </div>
-
-  
+    <div style={{ height: 800, width: '100%' }}>
+      <DataGrid
+        rows={data || []}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        disableSelectionOnClick
+        disableColumnMenu
+      />
+    </div>
   );
 };
 
