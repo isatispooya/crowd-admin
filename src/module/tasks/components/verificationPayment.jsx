@@ -1,17 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  CircularProgress,
-  Alert,
-} from '@mui/material';
+import { useState } from 'react';
 import useVerificationPayment from '../hooks/VerificationPayment';
 import usePostVerificationPayment from '../hooks/postVerificationPayment';
-import { useState } from 'react';
 
 const VerificationPayment = () => {
   const { data, isError, isPending } = useVerificationPayment();

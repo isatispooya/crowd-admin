@@ -135,7 +135,7 @@ export default function LoginView() {
         } else if (error.request) {
           toast.error('پاسخی از سرور دریافت نشد، اینترنت خود را بررسی کنید');
         } else {
-          toast.error(error.message || 'خطای در برقرای ارتباط دوباره تلاش کنید');
+          toast.error(error.response.data?.message|| 'خطای در برقرای ارتباط دوباره تلاش کنید');
         }
       })
       .finally(() => {
@@ -221,25 +221,64 @@ export default function LoginView() {
             <Box sx={{ mb: 3 }} />
           </>
         ) : (
-          <TextField
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleCode();
-            }}
-            label="کد تایید"
-            sx={{
-              '& .MuiInputBase-root': {
-                borderRadius: '8px',
-                backgroundColor: '#fafafa',
-              },
-              '& label.Mui-focused': {
-                color: '#3f51b5',
-              },
-            }}
-          />
+          <><TextField
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleCode();
+              } }
+              label="کد تایید"
+              sx={{
+                '& .MuiInputBase-root': {
+                  borderRadius: '8px',
+                  backgroundColor: '#fafafa',
+                },
+                '& label.Mui-focused': {
+                  color: '#3f51b5',
+                },
+              }} /><Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mb: 2 }}>
+                <LoadingButton
+                  size="medium"
+                  type="submit"
+                  variant="outlined"
+                  sx={{
+                    color: step === 1 ? 'primary.main' : 'secondary.main',
+                    borderColor: step === 1 ? 'primary.main' : 'secondary.main',
+                    borderWidth: '2px',
+                    borderRadius: '12px',
+                    padding: '8px',
+                    fontSize: '0.875rem',
+                    fontWeight: 700,
+                    textTransform: 'none',
+                    letterSpacing: '0.5px',
+                    transition: 'all 0.2s ease-in-out',
+                    width: '200px',
+                    '&:hover': {
+                      borderWidth: '2px',
+                      borderColor: step === 1 ? 'primary.dark' : 'secondary.dark',
+                      color: step === 1 ? 'primary.dark' : 'secondary.dark',
+                      backgroundColor: 'transparent',
+                      transform: 'translateY(-2px)',
+                    },
+                    '&:active': {
+                      transform: 'translateY(1px)',
+                    }
+                  }}
+                  onClick={() => {
+                    setStep(1);
+                    setCaptchaInput('');
+                  } }
+                  loading={loading}
+                >
+                  ویرایش
+                </LoadingButton>
+              </Box></>
+
+
         )}
       </Stack>
+
+
 
       <LoadingButton
         fullWidth

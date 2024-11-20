@@ -15,14 +15,14 @@ import DialogPopup from './dialogPopup';
 
 const PlanInvestors = () => {
   const { trace_code } = useParams();
-  const { data, isPending, refetch } = useGetParticipant(trace_code);
+  const { data, isPending } = useGetParticipant(trace_code);
 
   const [status, setStatus] = useState('0');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [statusSwitch, setStatusSwitch] = useState(false);
   const [localData, setLocalData] = useState([]);
-  const { data: respiet, refetch: refetchReciept } = useGetReciept(selectedRow?.id);
+  const { data: respiet } = useGetReciept(selectedRow?.id);
 
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
