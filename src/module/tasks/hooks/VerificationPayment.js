@@ -14,12 +14,12 @@ const useVerificationPayment = () => {
     return response.data;
   };
 
-  const { data, isError, isPending } = useQuery({
-    queryKey: ['VerificationPayment'],
+  const { data, isError, isPending, refetch } = useQuery({
+    queryKey: ['verificationPayment'],
     queryFn: getVerificationPayment,
   });
 
-  return { data, isError, isPending };
+  return { data, isError, isPending, refetch };
 };
 
 export default useVerificationPayment;

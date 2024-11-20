@@ -1,3 +1,5 @@
+import { CircularProgress, Alert, Select, MenuItem } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import { useState } from 'react';
 import useVerificationPayment from '../hooks/VerificationPayment';
 import usePostVerificationPayment from '../hooks/postVerificationPayment';
@@ -5,74 +7,121 @@ import usePostVerificationPayment from '../hooks/postVerificationPayment';
 const VerificationPayment = () => {
   const { data, isError, isPending } = useVerificationPayment();
   const { mutate, isPending: isPendingMutation } = usePostVerificationPayment();
-
-  // Add state for managing comments
   const [comments, setComments] = useState({});
+  const [paymentStatus, setPaymentStatus] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [operationType, setOperationType] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
-  if (isPending) {
-    return <CircularProgress />;
-  }
+  if (isPending) return <CircularProgress />;
+  if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
 
-  if (isError) {
-    return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
-  }
+  const handleOpenModal = (row) => {
+    setSelectedRow(row);
+    setOperationType(row.profit_payment_completed ? 'cancel' : 'complete');
+    setPaymentStatus(row.profit_payment_completed);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedRow(null);
+    setOperationType('');
+    setPaymentStatus(false);
+  };
+
+
+
+  const columns = [
+    { field: 'amount_operator', headerName: 'مبلغ', width: 130 },
+    { field: 'date_capitalization_operator', headerName: 'تاریخ سود سرمایه گذار', width: 180 },
+    { field: 'date_operator', headerName: 'تاریخ', width: 130 },
+    { field: 'plan', headerName: 'طرح', width: 130 },
+    {
+      field: 'profit_payment_comment',
+      headerName: 'کامنت',
+      width: 200,
+      renderCell: (params) => (
+        <input
+          type="text"
+          style={{background: 'transparent'}}
+          value={(comments[params.row.id] ?? params.row.profit_payment_comment) || ''}
+          onChange={(e) => {
+            setComments((prev) => ({
+              ...prev,
+              [params.row.id]: e.target.value,
+            }));
+          }}
+          onBlur={() => {
+            mutate({
+              id: params.row.id,
+              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
+              profit_payment_completed: params.row.profit_payment_completed
+            });
+          }}
+        />
+      ),
+    },
+    {
+      field: 'profit_payment_completed',
+      headerName: 'سود پرداخت تکمیل شده',
+      width: 200,
+      renderCell: (params) => (
+        <Select
+          value={params.value}
+          onChange={(e) => {
+            mutate({
+              id: params.row.id,
+              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
+              profit_payment_completed: e.target.value
+            });
+          }}
+          size="small"
+          sx={{ minWidth: 120 }}
+        >
+          <MenuItem value="true">بله</MenuItem>
+          <MenuItem value="false">خیر</MenuItem>
+        </Select>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'وضعیت',
+      width: 150,
+      renderCell: (params) => (
+        <button
+          type="button"
+          onClick={() => handleOpenModal(params. row)}
+          disabled={isPendingMutation}
+        >
+          {params.row.profit_payment_completed ? ' تکمیل' : 'تکمیل پرداخت'}
+        </button>
+      ),
+    },
+  ];
 
   const handleSubmit = (row) => {
     mutate({
       id: row.id,
       profit_payment_comment: comments[row.id] ?? row.profit_payment_comment,
-      profit_payment_completed: !row.profit_payment_completed,
+      profit_payment_completed: paymentStatus
     });
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>مبلغ</TableCell>
-            <TableCell>تاریخ سود سرمایه گذار</TableCell>
-            <TableCell>تاریخ</TableCell>
-            <TableCell>طرح</TableCell>
-            <TableCell>کامنت</TableCell>
-            <TableCell>سود پرداخت تکمیل شده</TableCell>
-            <TableCell>عملیات</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.amount_operator}</TableCell>
-              <TableCell>{row.date_capitalization_operator}</TableCell>
-              <TableCell>{row.date_operator}</TableCell>
-              <TableCell>{row.plan}</TableCell>
-              <TableCell>
-                <input
-                  type="text"
-                  value={(comments[row.id] ?? row.profit_payment_comment) || ''}
-                  onChange={(e) => {
-                    setComments((prev) => ({
-                      ...prev,
-                      [row.id]: e.target.value,
-                    }));
-                  }}
-                />
-              </TableCell>
-              <TableCell>{row.profit_payment_completed ? 'بله' : 'خیر'}</TableCell>
-              <TableCell>
-                <button
-                  type="button"
-                  onClick={() => handleSubmit(row)}
-                  disabled={isPendingMutation}
-                >
-                  {row.profit_payment_completed ? 'لغو تکمیل' : 'تکمیل پرداخت'}
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+  
+      <div style={{ height: 800, width: '100%' }}>
+        <DataGrid
+          rows={data || []}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          disableSelectionOnClick
+          disableColumnMenu
+        />
+      </div>
+
+  
   );
 };
 
