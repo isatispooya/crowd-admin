@@ -1,4 +1,4 @@
-import { Container, Tab, Tabs } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import VerificationPayment from './components/verificationPayment';
@@ -6,7 +6,7 @@ import VerificationReceipt from './components/verificationReceipt';
 
 const Tasks = () => {
   const [value, setValue] = useState(0);
-  const [tasks, setTasks] = useState([]);
+ 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

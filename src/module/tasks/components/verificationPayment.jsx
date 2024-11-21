@@ -8,7 +8,7 @@ const VerificationPayment = () => {
   const { data, isError, isPending } = useVerificationPayment();
   const { mutate } = usePostVerificationPayment();
   const [comments, setComments] = useState({});
-  const [paymentStatus] = useState(false);
+  // const [paymentStatus] = useState(false);
 
   if (isPending) return <CircularProgress />;
   if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
@@ -67,13 +67,13 @@ const VerificationPayment = () => {
     },
   ];
 
-  const handleSubmit = (row) => {
-    mutate({
-      id: row.id,
-      profit_payment_comment: comments[row.id] ?? row.profit_payment_comment,
-      profit_payment_completed: paymentStatus,
-    });
-  };
+  // const handleSubmit = (row) => {
+  //   mutate({
+  //     id: row.id,
+  //     profit_payment_comment: comments[row.id] ?? row.profit_payment_comment,
+  //     profit_payment_completed: paymentStatus,
+  //   });
+  // };
 
   return (
     <div style={{ height: 800, width: '100%' }}>

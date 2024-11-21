@@ -6,35 +6,35 @@ import usePostVerificationReceipt from '../hooks/postVerificationReceipt';
 
 const VerificationReceipt = () => {
   const { data, isError, isPending } = useVerificationReceipt();
-  const { mutate, isPending: isPendingMutation } = usePostVerificationReceipt();
+  const { mutate } = usePostVerificationReceipt();
   const [comments, setComments] = useState({});
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [operationType, setOperationType] = useState('');
-  const [paymentStatus, setPaymentStatus] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
+  // const [selectedRow, setSelectedRow] = useState(null);
+  // const [operationType, setOperationType] = useState('');
+  // const [paymentStatus, setPaymentStatus] = useState(false);
 
   if (isPending) return <CircularProgress />;
   if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
 
-  const handleOpenModal = (row) => {
-    setSelectedRow(row);
-    setOpenModal(true);
-  };
+  // const handleOpenModal = (row) => {
+  //   setSelectedRow(row);
+  //   setOpenModal(true);
+  // };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   setOpenModal(false);
+  // };
 
-  const handleConfirmSubmit = () => {
-    const mutationData = {
-      id: selectedRow.id,
-      operation_type: operationType,
-      payment_status: paymentStatus,
-      profit_payment_comment: comments[selectedRow.id] || selectedRow.profit_payment_comment,
-    };
-    mutate(mutationData);
-    handleCloseModal();
-  };
+  // const handleConfirmSubmit = () => {
+  //   const mutationData = {
+  //     id: selectedRow.id,
+  //     operation_type: operationType,
+  //     payment_status: paymentStatus,
+  //     profit_payment_comment: comments[selectedRow.id] || selectedRow.profit_payment_comment,
+  //   };
+  //   mutate(mutationData);
+  //   handleCloseModal();
+  // };
 
   const columns = [
     { field: 'amount_operator', headerName: 'مبلغ', width: 130 },

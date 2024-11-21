@@ -60,7 +60,7 @@ const ProfitPage = () => {
   const renderedTable = useMemo(() => {
     if (!data || data.length === 0) return null;
     if (isLoading) return <p>در حال بارگذاری...</p>;
-4
+
     return (
       <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
         <Table sx={{ minWidth: 750 }} size="small" aria-label="simple table">
@@ -83,7 +83,7 @@ const ProfitPage = () => {
                 ))}
               </TableRow>
             ))}
-          </TableBody>  
+          </TableBody>
         </Table>
       </TableContainer>
     );

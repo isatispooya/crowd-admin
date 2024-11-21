@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import { useNavigate } from 'react-router-dom';
 import 'react-tabulator/lib/styles.css';
-import { AiOutlineEye } from 'react-icons/ai';
+
 import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 import useGetUser from '../services/useGetUser';
 import { exportToExcel } from '../../../../utils/excelExport';

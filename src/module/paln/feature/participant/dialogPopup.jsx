@@ -39,7 +39,7 @@ const DialogPopup = ({
   const { trace_code } = useParams();
   const { mutate: mutateInquiry } = usePostInvestor(trace_code);
   const { mutate } = usePostParticipant(trace_code);
-  const { data, isPending, refetch: refetchParticipant } = useGetParticipant(trace_code);
+  const { refetch: refetchParticipant } = useGetParticipant(trace_code);
   const handleConfirm = () => {
     if (selectedRow) {
       const updatedRow = { ...selectedRow, status: statusSwitch };
