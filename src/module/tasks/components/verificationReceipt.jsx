@@ -1,44 +1,30 @@
 import { useState } from 'react';
 import { CircularProgress, Alert, Select, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import useVerificationReceipt from '../hooks/VerificationReceipt';
 import usePostVerificationReceipt from '../hooks/postVerificationReceipt';
+import { localeText } from '../consts/localText';
 
 const VerificationReceipt = () => {
   const { data, isError, isPending } = useVerificationReceipt();
   const { mutate } = usePostVerificationReceipt();
   const [comments, setComments] = useState({});
-  // const [openModal, setOpenModal] = useState(false);
-  // const [selectedRow, setSelectedRow] = useState(null);
-  // const [operationType, setOperationType] = useState('');
-  // const [paymentStatus, setPaymentStatus] = useState(false);
 
   if (isPending) return <CircularProgress />;
   if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
 
-  // const handleOpenModal = (row) => {
-  //   setSelectedRow(row);
-  //   setOpenModal(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setOpenModal(false);
-  // };
-
-  // const handleConfirmSubmit = () => {
-  //   const mutationData = {
-  //     id: selectedRow.id,
-  //     operation_type: operationType,
-  //     payment_status: paymentStatus,
-  //     profit_payment_comment: comments[selectedRow.id] || selectedRow.profit_payment_comment,
-  //   };
-  //   mutate(mutationData);
-  //   handleCloseModal();
-  // };
-
   const columns = [
-    { field: 'amount_operator', headerName: 'مبلغ', width: 130 },
-    { field: 'date_capitalization_operator', headerName: 'تاریخ سود سرمایه گذار', width: 180 },
+    {
+      field: 'amount_operator',
+      headerName: 'مبلغ',
+      width: 130,
+      valueFormatter: (value) => {
+        const numValue = Number(value);
+        if (Number.isNaN(numValue)) return '0';
+        return numValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      },
+    },
     { field: 'date_operator', headerName: 'تاریخ', width: 130 },
     { field: 'plan', headerName: 'طرح', width: 130 },
     {
@@ -68,7 +54,7 @@ const VerificationReceipt = () => {
     },
     {
       field: 'profit_payment_completed',
-      headerName: 'سود پرداخت تکمیل شده',
+      headerName: 'تکمیل شده',
       width: 200,
       renderCell: (params) => (
         <Select
@@ -90,6 +76,15 @@ const VerificationReceipt = () => {
     },
   ];
 
+  const transformDataForExcel = (excelData) =>
+    excelData.map((item) => ({
+      مبلغ: item.amount_operator || '0',
+      تاریخ: item.date_operator || '',
+      طرح: item.plan || '',
+      کامنت: item.profit_payment_comment || '',
+      'سود پرداخت تکمیل شده': item.profit_payment_completed === 'true' ? 'بله' : 'خیر',
+    }));
+
   return (
     <div style={{ height: 800, width: '100%' }}>
       <DataGrid
@@ -99,6 +94,24 @@ const VerificationReceipt = () => {
         rowsPerPageOptions={[10]}
         disableSelectionOnClick
         disableColumnMenu
+        filterMode="client"
+        localeText={localeText}
+        slots={{
+          toolbar: (props) => (
+            <CustomDataGridToolbar
+              {...props}
+              data={data}
+              fileName="گزارش-سود"
+              customExcelData={transformDataForExcel}
+            />
+          ),
+        }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
       />
     </div>
   );

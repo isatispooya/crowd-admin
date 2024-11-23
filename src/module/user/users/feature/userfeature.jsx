@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useRef, useCallback } from 'react';
-import { ReactTabulator } from 'react-tabulator';
-import { useNavigate } from 'react-router-dom';
-import 'react-tabulator/lib/styles.css';
+import React, { useEffect, useMemo, useCallback } from 'react';
 
-import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
+import { useNavigate } from 'react-router-dom';
+
+import { DataGrid } from '@mui/x-data-grid';
+import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
+import { localeText } from 'src/module/tasks/consts/localText';
 import useGetUser from '../services/useGetUser';
 import { exportToExcel } from '../../../../utils/excelExport';
 
@@ -54,94 +55,66 @@ const mapUserData = (users) =>
 const UserFeature = () => {
   const navigate = useNavigate();
   const { data: rawData } = useGetUser();
-  const tableRef = useRef(null);
-  const handleRowClick = (e, row) => navigate(`/userDetail/${row.getData().id}`);
+
+  const handleRowClick = (params) => {
+    navigate(`/userDetail/${params.row.id}`);
+  };
 
   const columns = [
     {
-      title: 'عملیات',
-      formatter(cell, formatterParams, onRendered) {
-        const button = document.createElement('button');
-        const icon = document.createElement('i');
-        icon.className = 'ai ai-eye-outline';
-        
-        // ایجاد SVG آیکون
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', '0 0 24 24');
-        svg.setAttribute('fill', 'currentColor');
-        svg.setAttribute('width', '16');
-        svg.setAttribute('height', '16');
-        
-        svg.innerHTML = `
-          <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-          <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
-        `;
-        
-        button.appendChild(svg);
-        button.style.background = 'none';
-        button.style.border = 'none';
-        button.style.cursor = 'pointer';
-        button.style.padding = '4px';
-        button.style.display = 'flex';
-        button.style.alignItems = 'center';
-        button.style.justifyContent = 'center';
-        button.title = 'مشاهده';
-        button.style.color = '#2563eb'; // رنگ آبی
-
-        button.onmouseover = () => {
-          button.style.color = '#1d4ed8'; // رنگ آبی تیره‌تر برای hover
-        };
-
-        button.onmouseout = () => {
-          button.style.color = '#2563eb'; // برگشت به رنگ اصلی
-        };
-
-        button.onclick = (e) => {
-          e.stopPropagation();
-          handleRowClick(e, cell.getRow());
-        };
-
-        return button;
-      },
+      field: 'actions',
+      headerName: 'عملیات',
       width: 50,
-      hozAlign: 'center',
-      headerSort: false,
-      headerFilter: false,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRowClick(params);
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '4px',
+            color: '#2563eb',
+          }}
+          title="مشاهده"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+            <path fillRule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clipRule="evenodd" />
+          </svg>
+        </button>
+      ),
     },
+    { field: 'fullName', headerName: 'نام و نام خانوادگی', width: 150, filterable: true },
+    { field: 'mobile', headerName: 'شماره همراه', width: 120, filterable: true },
+    { field: 'companyName', headerName: 'نام شرکت', width: 150, filterable: true },
+    { field: 'fatherName', headerName: 'نام پدر', width: 120, filterable: true },
+    { field: 'uniqueIdentifier', headerName: 'کدملی', width: 120, filterable: true },
     {
-      title: 'ردیف',
-      formatter: 'rownum',
-      width: 50,
-      headerSort: false,
-      hozAlign: 'center',
-      headerHozAlign: 'center',
-      cssClass: 'row-number',
-      resizable: false,
-    },
-    { title: 'نام و نام خانوادگی', field: 'fullName', minWidth: 150, headerFilter: 'input' },
-    { title: 'شماره همراه', field: 'mobile', minWidth: 120, headerFilter: 'input' },
-    { title: 'نام شرکت', field: 'companyName', minWidth: 150, headerFilter: 'input' },
-    { title: 'نام پدر', field: 'fatherName', minWidth: 100, headerFilter: 'input' },
-    { title: 'کدملی', field: 'uniqueIdentifier', minWidth: 100, headerFilter: 'input' },
-    {
-      title: 'تاریخ تولد',
       field: 'birthDate',
-      minWidth: 100,
-      formatter: (cell) => formatDate(cell.getValue()),
-      headerFilter: 'input',
+      headerName: 'تاریخ تولد',
+      width: 120,
+      valueFormatter: (params) => formatDate(params.value),
+      filterable: true,
     },
     {
-      title: 'جنسیت',
       field: 'gender',
-      minWidth: 80,
-      formatter: (cell) => (cell.getValue() === 'Female' ? 'زن' : 'مرد'),
-      headerFilter: 'input',
+      headerName: 'جنسیت',
+      width: 100,
+      valueFormatter: (params) => (params.value === 'Female' ? 'زن' : 'مرد'),
+      filterable: true,
     },
-    { title: 'محل تولد', field: 'placeOfBirth', minWidth: 100, headerFilter: 'input' },
-    { title: 'محل صدور', field: 'placeOfIssue', minWidth: 100, headerFilter: 'input' },
-    { title: 'شماره حساب', field: 'accountNumber', minWidth: 120, headerFilter: 'input' },
-    { title: 'بانک', field: 'accountBank', minWidth: 100, headerFilter: 'input' },
+    { field: 'placeOfBirth', headerName: 'محل تولد', width: 120, filterable: true },
+    { field: 'placeOfIssue', headerName: 'محل صدور', width: 120, filterable: true },
+    { field: 'accountNumber', headerName: 'شماره حساب', width: 150, filterable: true },
+    { field: 'accountBank', headerName: 'بانک', width: 120, filterable: true },
   ];
+  
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 
   const downloadExcel = useCallback(() => {
@@ -180,38 +153,26 @@ const UserFeature = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
-        <button
-          type="button"
-          onClick={downloadExcel}
-          disabled={!formattedData || formattedData.length === 0}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: formattedData?.length ? '#4CAF50' : '#cccccc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: formattedData?.length ? 'pointer' : 'not-allowed',
-            marginRight: '8px',
-          }}
-        >
-          دانلود اکسل
-        </button>
-      </div>
-      <ReactTabulator
-        ref={tableRef}
-        data={formattedData}
+      <DataGrid
         columns={columns}
-        options={{
-          pagination: true,
-          paginationSize: 10,
-          paginationSizeSelector: [10, 20, 50, 100],
-          paginationButtonCount: 3,
-          paginationCounter: 'rows',
-          movableColumns: true,
-          height: '70vh',
-          layout: 'fitDataFill',
-          renderHorizontal: 'virtual',
+        rows={formattedData || []}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        disableSelectionOnClick
+        disableColumnMenu
+        filterMode="client"
+        localeText={localeText}
+        onRowClick={handleRowClick}
+        slots={{
+          toolbar: (props) => (
+            <CustomDataGridToolbar {...props} data={formattedData} fileName="گزارش-پرداخت" transformDataForExcel={downloadExcel} />
+          ),
+        }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
         }}
       />
     </div>

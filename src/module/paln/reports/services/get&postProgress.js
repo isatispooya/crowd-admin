@@ -13,7 +13,7 @@ export const GetProgress = async (trace_code) => {
   return response.data;
 };
 
-export const PostProgress = async (trace_code, postData) => {
+export const PostProgress = async (trace_code, postData , id ) => {
   const formData = new FormData();
 
   if (postData.file) {
@@ -22,7 +22,7 @@ export const PostProgress = async (trace_code, postData) => {
   if (postData.title) {
     formData.append('title', postData.title);
   }
-  const response = await api.post(`/api/progres/report/admin/${trace_code}/`, formData, {
+  const response = await api.patch(`/api/progres/report/admin/${trace_code}/${id}/`, formData, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',

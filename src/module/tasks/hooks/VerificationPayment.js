@@ -13,7 +13,6 @@ const useVerificationPayment = () => {
     });
     return response.data;
   };
-
   const { data, isError, isPending, refetch } = useQuery({
     queryKey: ['verificationPayment'],
     queryFn: getVerificationPayment,

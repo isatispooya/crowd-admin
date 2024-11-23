@@ -5,7 +5,7 @@ import { getCookie } from 'src/api/cookie';
 const usePostVerificationPayment = () => {
   const queryClient = useQueryClient();
   const accessApi = getCookie('accessApi');
-  
+
   const patchVerificationPayment = async (data) => {
     const response = await api.patch(`/api/check/verification/payment/admin/`, data, {
       headers: {

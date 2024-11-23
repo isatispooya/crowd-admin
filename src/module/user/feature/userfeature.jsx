@@ -3,6 +3,9 @@ import { ReactTabulator } from 'react-tabulator';
 import { useNavigate } from 'react-router-dom';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
+import { DataGrid } from '@mui/x-data-grid';
+import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
+import { localeText } from 'src/module/tasks/consts/localText';
 import useGetUser from '../services/useGetUser';
 
 const formatDate = (dateString) => {
@@ -56,12 +59,20 @@ const columns = [
 ];
 
 const UserFeature = () => {
+
   const navigate = useNavigate();
   const { data: rawData } = useGetUser();
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 
-
+  const transformDataForExcel = (excelData) =>
+    excelData.map((item) => ({
+      مبلغ: item.amount_operator || '0',
+      'تاریخ سود سرمایه گذار': item.date_capitalization_operator || '',
+      طرح: item.plan || '',
+      کامنت: item.profit_payment_comment || '',
+      'سود پرداخت تکمیل شده': item.profit_payment_completed === 'true' ? 'بله' : 'خیر',
+    }));
 
   useEffect(() => {
     const handleWheel = (event) => {};
@@ -71,7 +82,7 @@ const UserFeature = () => {
 
   return (
     <div>
-      <ReactTabulator
+      {/* <ReactTabulator
         data={formattedData}
         columns={columns}
         layout="fitDataStretch"
@@ -85,6 +96,33 @@ const UserFeature = () => {
               },
             },
           ],
+        }}
+      /> */}
+
+      <DataGrid
+        columns={columns}
+        rows={formattedData || []}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        disableSelectionOnClick
+        disableColumnMenu
+        filterMode="client"
+        localeText={localeText}
+        slots={{
+          toolbar: (props) => (
+            <CustomDataGridToolbar
+              {...props}
+              data={formattedData}
+              fileName="گزارش-پرداخت"
+              customExcelData={transformDataForExcel}
+            />
+          ),
+        }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
         }}
       />
     </div>

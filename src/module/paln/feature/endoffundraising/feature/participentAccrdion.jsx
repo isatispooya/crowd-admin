@@ -10,10 +10,12 @@ import useGetParticipationsTable from 'src/module/paln/service/participantcertif
 import { formatNumber } from 'src/utils/formatNumbers';
 import { motion, AnimatePresence } from 'framer-motion';
 import ParticipantDetailsDialog from './ParticipantDetailsDialog';
+import usePostFinishPlanSms from '../hooks/usePostFinishPlanSms';
 
 const ParticipentAccrdion = ({ form }) => {
   const { trace_code } = useParams();
   const { data, isError, isSuccess, mutate } = useGetParticipationsTable(trace_code);
+  const { mutate: finishSms } = usePostFinishPlanSms(trace_code);
   const [showConfirm, setShowConfirm] = useState(false);
   const [paymentTypeFilter, setPaymentTypeFilter] = useState('all');
   const [sendStatusFilter, setSendStatusFilter] = useState('all');
@@ -22,6 +24,11 @@ const ParticipentAccrdion = ({ form }) => {
 
   const handleSend = () => {
     mutate({ data: form, trace_code });
+    setShowConfirm(false);
+  };
+
+  const handleFinishSms = () => {
+    finishSms();
     setShowConfirm(false);
   };
 
@@ -49,7 +56,6 @@ const ParticipentAccrdion = ({ form }) => {
       field: 'send_farabours',
       formatter: (cell) => (cell.getValue() ? 'ارسال شده ' : 'ارسال نشده'),
     },
-
     {
       title: 'شماره پیگیری',
       field: 'track_id',
@@ -137,7 +143,22 @@ const ParticipentAccrdion = ({ form }) => {
             </select>
           </div>
         </div>
-
+        <button
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg
+                   shadow-md hover:shadow-lg transition-all duration-200 font-medium
+                   flex items-center gap-2"
+          onClick={handleFinishSms}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            />
+          </svg>
+          ارسال تاییده
+        </button>
         <button
           onClick={() => setShowConfirm(true)}
           className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg

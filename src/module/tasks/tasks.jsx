@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import VerificationPayment from './components/verificationPayment';
 import VerificationReceipt from './components/verificationReceipt';
+import Warranty from './components/warranty';
 
 const Tasks = () => {
   const [value, setValue] = useState(0);
- 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -19,7 +19,7 @@ const Tasks = () => {
       case 1:
         return <VerificationReceipt />;
       case 2:
-        return <h1>تمدید ضمانت نامه ها</h1>;
+        return <Warranty />;
       case 3:
         return <h1>گزارش پیشرفت سه ماهه</h1>;
       case 4:
@@ -35,7 +35,7 @@ const Tasks = () => {
         <div className="bg-gray-200 text-white rounded-t-3xl p-4 sm:p-6 text-center">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-700">فرایند ها</h1>
         </div>
-        
+
         <div className="p-4 sm:p-6 lg:p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

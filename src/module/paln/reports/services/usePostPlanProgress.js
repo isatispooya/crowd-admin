@@ -2,11 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import useGetProgress from './useGetPlanProgress';
 import { PostProgress } from './get&postProgress';
 
-const usePostProgress = (trace_code) => {
+const usePostProgress = (trace_code, id) => {
   const { refetch } = useGetProgress(trace_code);
+  
   const { date, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['PostPlanProgress', trace_code],
-    mutationFn: (postData) => PostProgress(trace_code, postData),
+    mutationKey: ['PostPlanProgress', trace_code, id],
+    mutationFn: (postData) => PostProgress(trace_code, id, postData),
     onSettled: () => {
       refetch();
     },
@@ -22,5 +23,4 @@ const usePostProgress = (trace_code) => {
     isSuccess,
   };
 };
-
 export default usePostProgress;
