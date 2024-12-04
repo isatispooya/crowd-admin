@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import VerificationPayment from './components/verificationPayment';
 import VerificationReceipt from './components/verificationReceipt';
 import Warranty from './components/warranty';
+import AuditReport from './components/auditReport';
+import ProgressReport from './components/prgressReport';
 
 const Tasks = () => {
   const [value, setValue] = useState(0);
@@ -21,9 +23,9 @@ const Tasks = () => {
       case 2:
         return <Warranty />;
       case 3:
-        return <h1>گزارش پیشرفت سه ماهه</h1>;
+        return <ProgressReport />;
       case 4:
-        return <h1>گزارش حسابرسی شش ماهه</h1>;
+        return <AuditReport />;
       default:
         return null;
     }
@@ -52,8 +54,8 @@ const Tasks = () => {
               <Tab label="چک های سرمایه پذیر" />
               <Tab label="پرداخت سود سرمایه گذار" />
               <Tab label="تمدید ضمانت نامه ها" />
-              <Tab label="گزارش پیشرفت سه ماهه" />
-              <Tab label="گزارش حسابرسی شش ماهه" />
+              <Tab label="گزارش پیشرفت" />
+              <Tab label="گزارش حسابرسی" />
             </Tabs>
             {renderTabsComponents()}
           </motion.div>

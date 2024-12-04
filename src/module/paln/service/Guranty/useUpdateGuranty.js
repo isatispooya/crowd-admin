@@ -8,12 +8,13 @@ const useUpdateGuaranty = (trace_code) => {
 
   const { data, mutate, isPending, isError, isSuccess } = useMutation({
     mutationKey: ['UpdateGuaranty', trace_code],
-    mutationFn: (updateData) => UpdateGuaranty(trace_code, updateData),
+    mutationFn: UpdateGuaranty,
     onSettled: () => {
       refetch();
     },
     onSuccess: () => {
       toast.success('بروزرسانی با موفقیت انجام شد!');
+      refetch();
     },
     onError: () => {
       toast.error('خطا در بروزرسانی لطفاً دوباره تلاش کنید.');

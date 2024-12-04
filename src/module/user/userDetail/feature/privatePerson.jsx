@@ -22,8 +22,8 @@ const PrivatePerson = () => {
     { label: 'محل تولد', value: (item) => item.placeOfBirth || 'ندارد' },
     { label: 'محل صدور', value: (item) => item.placeOfIssue || 'ندارد' },
     { label: 'سری شناسنامه', value: (item) => item.seriSh || 'ندارد' },
-    { label: 'شماره شناسنامه', value: (item) => item.serial || 'ندارد' },
-    { label: 'شماره شناسایی', value: (item) => item.shNumber || 'ندارد' },
+    { label: 'سریال شناسنامه', value: (item) => item.serial || 'ندارد' },
+    { label: 'شماره شناسنامه', value: (item) => item.shNumber || 'ندارد' },
     { label: 'امضا', value: (item) => (item.signatureFile ? 'وجود دارد' : 'ندارد') },
   ];
 

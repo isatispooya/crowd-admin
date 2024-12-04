@@ -1,31 +1,57 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
+import { DataGrid } from '@mui/x-data-grid';
 import { MenuItem, Select } from '@mui/material';
-import useGetWarranty from '../hooks/getWarranty';
-import usePostWarranty from '../hooks/postWarranty';
 import { localeText } from '../consts/localText';
+import useGetAuditt from '../hooks/getAudit';
+import usePostAuditt from '../hooks/postAuditt';
 
-const Warranty = () => {
-  const { data } = useGetWarranty();
-  const { mutate } = usePostWarranty();
+const AuditReport = () => {
+  const { data } = useGetAuditt();
+  const { mutate } = usePostAuditt();
+
+
+  console.log(data)
   const [comments, setComments] = useState({});
   const transformDataForExcel = (excelData) =>
     excelData.map((item) => ({
-      صادرکننده: item.exporter || '',
-      'نوع ضمانت نامه': item.kind_of_warranty || '',
-      یادداشت: item.comment || '',
-      طرح: item.plan || '',
-      'تکمیل شده': item.completed || '',
+      شناسه: item.id || '',
+      عنوان: item.title || '',
+      تاریخ: item.date || '',
+      دوره: item.period || '',
+      توضیحات: item.comment || '',
+      وضعیت: item.completed ? 'تکمیل شده' : 'در حال انجام',
     }));
-
   const columns = [
-    { field: 'exporter', headerName: 'صادرکننده', width: 130 },
-    { field: 'kind_of_warranty', headerName: 'نوع ضمانت نامه', width: 130 },
+    {
+      field: 'id',
+      headerName: 'شناسه',
+      width: 90,
+    },
+    {
+      field: 'title',
+      headerName: 'عنوان',
+      width: 200,
+    },
+    {
+      field: 'date',
+      headerName: 'تاریخ',
+      width: 130,
+    },
+    {
+      field: 'period',
+      headerName: 'دوره',
+      width: 100,
+    },
+    {
+      field: 'plan',
+      headerName: 'طرح',
+      width: 100,
+    },
     {
       field: 'comment',
       headerName: 'توضیحات',
-      width: 130,
+      width: 200,
       renderCell: (params) => (
         <input
           type="text"
@@ -40,11 +66,10 @@ const Warranty = () => {
         />
       ),
     },
-    { field: 'plan', headerName: 'طرح', width: 130 },
     {
       field: 'completed',
-      headerName: 'تکمیل ',
-      width: 130,
+      headerName: 'وضعیت',
+      width: 120,
       renderCell: (params) => (
         <Select
           value={params.row.completed}
@@ -67,7 +92,7 @@ const Warranty = () => {
   ];
 
   return (
-    <div style={{ height: 800, width: '100%' }}>
+    <div>
       <DataGrid
         rows={data || []}
         columns={columns}
@@ -82,7 +107,7 @@ const Warranty = () => {
             <CustomDataGridToolbar
               {...props}
               data={data}
-              fileName="گزارش-ضمانت‌نامه"
+              fileName="گزارش-پرداخت"
               customExcelData={transformDataForExcel}
             />
           ),
@@ -98,4 +123,4 @@ const Warranty = () => {
   );
 };
 
-export default Warranty;
+export default AuditReport;

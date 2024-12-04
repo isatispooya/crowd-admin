@@ -1,45 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, TextField, Link, Button, CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Link, CircularProgress, Button } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
-import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-
-import { DeleteModal } from 'src/components/modal';
 import useGetAudit from '../services/useGetAudit';
-import useDeleteAudit from '../services/useDelAudit';
-import usePostAudit from '../services/usePostAudit';
+import EditModal2 from './editModal2';
 
 const PlanAudit = () => {
   const { trace_code } = useParams();
-  const { data, isLoading } = useGetAudit(trace_code);
-  const [files, setFiles] = useState([]);
-  const [postData, setPostData] = useState({});
-  const [openModal, setOpenModal] = useState(false);
-  const [docToDelete, setDocToDelete] = useState(null);
-  const fileInputRef = useRef(null);
+  const { data, isLoading, refetch: refreshList } = useGetAudit(trace_code);
 
-  const { mutate } = usePostAudit(trace_code);
-  const { mutate: mutateDelete } = useDeleteAudit(trace_code);
+  const [open, setOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState(null);
 
-  useEffect(() => {
-    if (data) {
-      setFiles(data);
-    }
-  }, [data]);
-
-  const handleButtonClick = () => {
-    mutate(postData);
-    setPostData({ title: '', file: null });
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-    toast.success(' گزارش حسابرسی با موفقیت ارسال شد');
-  };
-
-  const handleDelete = (id) => {
-    setDocToDelete(id);
-    setOpenModal(true);
+  const handleEditClick = (doc) => {
+    setSelectedDoc(doc);
+    setOpen(true);
   };
 
   if (isLoading) {
@@ -68,52 +44,7 @@ const PlanAudit = () => {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          marginTop: '20px',
-          padding: '16px',
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          backgroundColor: '#fff',
-        }}
-      >
-        <Box sx={{ marginBottom: '15px' }}>
-          <TextField
-            value={postData.title || ''}
-            placeholder="عنوان"
-            onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
-            fullWidth
-            sx={{ marginBottom: '10px' }}
-          />
-          <TextField
-            type="file"
-            inputRef={fileInputRef}
-            onChange={(e) => setPostData((prev) => ({ ...prev, file: e.target.files[0] }))}
-            fullWidth
-            inputProps={{ accept: 'application/pdf,image/*' }}
-            sx={{ marginBottom: '10px' }}
-          />
-        </Box>
-
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={handleButtonClick}
-            disabled={!postData.title || !postData.file}
-            sx={{
-              color: '#fff',
-              '&:hover': { backgroundColor: '#303f9f' },
-              padding: '6px 12px',
-              borderRadius: '8px',
-            }}
-          >
-            ارسال
-          </Button>
-        </Box>
-      </Box>
-
-      {files.map((doc) => (
+      {data?.map((doc) => (
         <Box
           key={doc.id}
           sx={{
@@ -129,50 +60,53 @@ const PlanAudit = () => {
         >
           <Box sx={{ flex: 1 }}>
             <Typography>عنوان: {doc.title}</Typography>
-            <Link
-              href={`${OnRun}/${doc.file}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                fontSize: '16px',
-                color: '#1976d2',
-                fontWeight: '500',
-                transition: 'color 0.3s',
-                '&:hover': { textDecoration: 'underline', color: '#115293' },
-              }}
-            >
-              فایل بارگزاری شده
-            </Link>
-            <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }} />
+
+            {doc.file && (
+              <>
+                <Link
+                  href={`${OnRun}/${doc.file}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    fontSize: '16px',
+                    color: '#1976d2',
+                    fontWeight: '500',
+                    transition: 'color 0.3s',
+                    '&:hover': { textDecoration: 'underline', color: '#115293' },
+                  }}
+                >
+                  فایل بارگزاری شده
+                </Link>
+                <FileCopyOutlinedIcon
+                  sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+                />
+              </>
+            )}
           </Box>
+
           <Button
             variant="outlined"
             size="small"
-            color="error"
-            onClick={() => handleDelete(doc.id)}
+            color="primary"
+            onClick={() => handleEditClick(doc)}
             sx={{
               marginLeft: '10px',
               borderRadius: '8px',
             }}
           >
-            حذف
+            ویرایش
           </Button>
+
+          <EditModal2
+            open={open}
+            onClose={() => setOpen(false)}
+            title={selectedDoc?.title || ''}
+            trace_code={trace_code}
+            id={selectedDoc?.id}
+            refreshList={refreshList}
+          />
         </Box>
       ))}
-
-      <DeleteModal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        onConfirm={() => {
-          mutateDelete(docToDelete, {
-            onSuccess: () => {
-              setFiles((prevFiles) => prevFiles.filter((file) => file.id !== docToDelete));
-              toast.success('گزارش حسابرسی مورد نظر با موفقیت حذف شد');
-              setOpenModal(false);
-            },
-          });
-        }}
-      />
     </Box>
   );
 };

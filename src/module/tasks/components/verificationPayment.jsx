@@ -39,7 +39,7 @@ const VerificationPayment = () => {
     { field: 'plan', headerName: 'طرح', width: 130 },
     {
       field: 'profit_payment_comment',
-      headerName: 'کامنت',
+      headerName: 'توضیحات',
       width: 200,
       renderCell: (params) => (
         <input
@@ -66,23 +66,30 @@ const VerificationPayment = () => {
       field: 'profit_payment_completed',
       headerName: 'تکمیل شده',
       width: 200,
-      renderCell: (params) => (
-        <Select
-          value={params.value}
-          onChange={(e) => {
-            mutate({
-              id: params.row.id,
-              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: e.target.value,
-            });
-          }}
-          size="small"
-          sx={{ minWidth: 120 }}
-        >
-          <MenuItem value="true">بله</MenuItem>
-          <MenuItem value="false">خیر</MenuItem>
-        </Select>
-      ),
+      renderCell: (params) => {
+        const currentValue = String(params.value);
+
+        return (
+          <Select
+            value={currentValue}
+            onChange={(e) => {
+              const newValue = e.target.value === 'true';
+              params.row.profit_payment_completed = newValue;
+              mutate({
+                id: params.row.id,
+                profit_payment_comment:
+                  comments[params.row.id] ?? params.row.profit_payment_comment,
+                profit_payment_completed: newValue,
+              });
+            }}
+            size="small"
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value="true">بله</MenuItem>
+            <MenuItem value="false">خیر</MenuItem>
+          </Select>
+        );
+      },
     },
   ];
 

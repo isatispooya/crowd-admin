@@ -23,7 +23,7 @@ const PlanGuaranty = () => {
   const { data: guarantyData, isPending, error: queryError } = useGetGuaranty(trace_code);
   const { mutate } = usePostGuaranty(trace_code);
   const { mutate: deleteGuarante } = useDeleteGuarante(trace_code);
-  const { mutate: updateMutate } = useUpdateGuaranty(trace_code);
+  const { mutate: updateMutate } = useUpdateGuaranty();
   const [isEditing, setIsEditing] = useState(false);
 
   // State for managing the delete confirmation modal

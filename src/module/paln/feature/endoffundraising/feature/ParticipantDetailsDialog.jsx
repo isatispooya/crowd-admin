@@ -16,7 +16,7 @@ const ParticipantDetailsDialog = ({ open, onClose, rowData, traceCode }) => {
 
   const handlePostCer = () => {
     if (rowData?.user) {
-      mutate(rowData.user);
+      mutate({ uniqueIdentifier: rowData.user });
     } else {
       console.error('User data is missing');
     }

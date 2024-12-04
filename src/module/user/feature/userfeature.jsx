@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { ReactTabulator } from 'react-tabulator';
-import { useNavigate } from 'react-router-dom';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 import { DataGrid } from '@mui/x-data-grid';
@@ -44,14 +42,17 @@ const columns = [
     title: 'تاریخ تولد',
     field: 'birthDate',
     width: 200,
-    formatter: (cell) => formatDate(cell.getValue()),
+    formatter: (cell) => formatDate(cell.getValue() ),
     headerFilter: 'input',
   },
   {
     title: 'جنسیت',
     field: 'gender',
     width: 150,
-    formatter: (cell) => (cell.getValue() === 'Female' ? 'زن' : 'مرد'),
+    formatter: (cell) => {
+      console.log('Gender cell value:', cell.getValue());
+      return cell.getValue() === 'Female' ? 'زن' : 'مرد';
+    },
     headerFilter: 'input',
   },
   { title: 'محل تولد', field: 'placeOfBirth', width: 150, headerFilter: 'input' },
@@ -60,7 +61,6 @@ const columns = [
 
 const UserFeature = () => {
 
-  const navigate = useNavigate();
   const { data: rawData } = useGetUser();
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
@@ -82,23 +82,6 @@ const UserFeature = () => {
 
   return (
     <div>
-      {/* <ReactTabulator
-        data={formattedData}
-        columns={columns}
-        layout="fitDataStretch"
-        options={{
-          movableRows: true,
-          rowContextMenu: [
-            {
-              label: 'مشاهده جزئیات',
-              action: (e, row) => {
-                navigate(`/userDetail/${row.getData().id}`);
-              },
-            },
-          ],
-        }}
-      /> */}
-
       <DataGrid
         columns={columns}
         rows={formattedData || []}

@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
 import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
@@ -59,7 +57,8 @@ const UserFeature = () => {
   const handleRowClick = (params) => {
     navigate(`/userDetail/${params.row.id}`);
   };
-
+ 
+  console.log(rawData);
   const columns = [
     {
       field: 'actions',
@@ -99,14 +98,14 @@ const UserFeature = () => {
       field: 'birthDate',
       headerName: 'تاریخ تولد',
       width: 120,
-      valueFormatter: (params) => formatDate(params.value),
+      
       filterable: true,
     },
     {
       field: 'gender',
       headerName: 'جنسیت',
       width: 100,
-      valueFormatter: (params) => (params.value === 'Female' ? 'زن' : 'مرد'),
+      formatter: (cell) => (cell.getValue() === 'Female' ? 'زن' : 'مرد'),
       filterable: true,
     },
     { field: 'placeOfBirth', headerName: 'محل تولد', width: 120, filterable: true },
@@ -114,7 +113,7 @@ const UserFeature = () => {
     { field: 'accountNumber', headerName: 'شماره حساب', width: 150, filterable: true },
     { field: 'accountBank', headerName: 'بانک', width: 120, filterable: true },
   ];
-  
+
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 
   const downloadExcel = useCallback(() => {

@@ -37,8 +37,8 @@ export const DeleteGuaranty = async (trace_code, docId) => {
   return response.data;
 };
 
-export const UpdateGuaranty = async (trace_code, updateData) => {
-  const response = await api.patch(`/api/warranty/admin/${trace_code}/`, updateData, {
+export const UpdateGuaranty = async ( updateData) => {
+  const response = await api.patch(`/api/warranty/admin/`, updateData, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',

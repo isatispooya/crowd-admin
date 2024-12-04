@@ -8,6 +8,7 @@ import { localeText } from '../consts/localText';
 
 const VerificationReceipt = () => {
   const { data, isError, isPending } = useVerificationReceipt();
+
   const { mutate } = usePostVerificationReceipt();
   const [comments, setComments] = useState({});
 
@@ -28,14 +29,14 @@ const VerificationReceipt = () => {
     { field: 'date_operator', headerName: 'تاریخ', width: 130 },
     { field: 'plan', headerName: 'طرح', width: 130 },
     {
-      field: 'profit_payment_comment',
-      headerName: 'کامنت',
+      field: 'profit_receipt_comment',
+      headerName: 'توضیحات',
       width: 200,
       renderCell: (params) => (
         <input
           type="text"
           style={{ background: 'transparent' }}
-          value={(comments[params.row.id] ?? params.row.profit_payment_comment) || ''}
+          value={(comments[params.row.id] ?? params.row.profit_receipt_comment) || ''}
           onChange={(e) => {
             setComments((prev) => ({
               ...prev,
@@ -45,34 +46,47 @@ const VerificationReceipt = () => {
           onBlur={() => {
             mutate({
               id: params.row.id,
-              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: params.row.profit_payment_completed,
+              profit_receipt_comment: comments[params.row.id] ?? params.row.profit_receipt_comment,
+              profit_receipt_completed: params.row.profit_receipt_completed,
             });
           }}
         />
       ),
     },
     {
-      field: 'profit_payment_completed',
-      headerName: 'تکمیل شده',
+      field: 'profit_receipt_completed',
+      headerName: 'تکمیل',
       width: 200,
-      renderCell: (params) => (
-        <Select
-          value={params.value}
-          onChange={(e) => {
-            mutate({
-              id: params.row.id,
-              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: e.target.value,
-            });
-          }}
-          size="small"
-          sx={{ minWidth: 120 }}
-        >
-          <MenuItem value="true">بله</MenuItem>
-          <MenuItem value="false">خیر</MenuItem>
-        </Select>
-      ),
+      renderCell: (params) => {
+        const currentValue = String(params.value);
+
+        return (
+          <Select
+            value={currentValue}
+            onChange={(e) => {
+              const newValue = e.target.value === 'true';
+              params.row.profit_receipt_completed = newValue;
+              console.log('Sending to server:', {
+                id: params.row.id,
+                profit_receipt_comment:
+                  comments[params.row.id] ?? params.row.profit_receipt_comment,
+                profit_receipt_completed: newValue,
+              });
+              mutate({
+                id: params.row.id,
+                profit_receipt_comment:
+                  comments[params.row.id] ?? params.row.profit_receipt_comment,
+                profit_receipt_completed: newValue,
+              });
+            }}
+            size="small"
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value="true">بله</MenuItem>
+            <MenuItem value="false">خیر</MenuItem>
+          </Select>
+        );
+      },
     },
   ];
 
@@ -81,8 +95,8 @@ const VerificationReceipt = () => {
       مبلغ: item.amount_operator || '0',
       تاریخ: item.date_operator || '',
       طرح: item.plan || '',
-      کامنت: item.profit_payment_comment || '',
-      'سود پرداخت تکمیل شده': item.profit_payment_completed === 'true' ? 'بله' : 'خیر',
+      توضیحات: item.profit_receipt_comment || '',
+      'سود پرداخت تکمیل شده': item.profit_receipt_completed === 'true' ? 'بله' : 'خیر',
     }));
 
   return (

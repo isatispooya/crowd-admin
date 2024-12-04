@@ -13,24 +13,7 @@ export const GetProgress = async (trace_code) => {
   return response.data;
 };
 
-export const PostProgress = async (trace_code, postData , id ) => {
-  const formData = new FormData();
 
-  if (postData.file) {
-    formData.append('file', postData.file);
-  }
-  if (postData.title) {
-    formData.append('title', postData.title);
-  }
-  const response = await api.patch(`/api/progres/report/admin/${trace_code}/${id}/`, formData, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  return response.data;
-};
 
 export const DeleteProgress = async (docId) => {
   const response = await api.delete(`/api/progres/report/admin/${docId}/`, {

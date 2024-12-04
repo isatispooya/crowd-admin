@@ -27,15 +27,9 @@ export const localeText = {
   filterPanelInputLabel: 'مقدار',
   filterPanelInputPlaceholder: 'مقدار فیلتر',
   filterOperatorDoesNotContain: 'شامل نمی‌شود',
- 
-
-
   filterOperatorDoesNotEqual: 'مساوی نمی‌شود',
-  // دکمه‌های عمومی
   clearFilter: 'پاک کردن فیلتر',
   close: 'بستن',
-
-  // وضعیت نمایش
   noRowsLabel: 'بدون سطر',
   noResultsOverlayLabel: 'نتیجه‌ای یافت نشد.',
 

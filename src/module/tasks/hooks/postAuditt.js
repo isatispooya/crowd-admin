@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
-import useGetWarranty from './getWarranty';
+import useGetAuditt from './getAudit';
 
-const usePostWarranty = () => {
+const usePostAuditt = () => {
   const accessApi = getCookie('accessApi');
   const queryClient = useQueryClient();
-  const { refetch: refreshList } = useGetWarranty();
+  const { refetch: refreshList } = useGetAuditt();
 
-  const patchWarranty = async (data) => {
-    const response = await api.patch(`/api/warranty/admin/`, data, {
+  const patchAudit = async (data) => {
+    const response = await api.patch(`/api/audit/report/id/admin/`, data, {
       headers: {
         Authorization: `Bearer ${accessApi}`,
       },
@@ -18,10 +18,10 @@ const usePostWarranty = () => {
   };
 
   const { mutate, data, isError, isPending } = useMutation({
-    mutationKey: ['patchWarranty'],
-    mutationFn: patchWarranty,
+    mutationKey: ['patchAudit'],
+    mutationFn: patchAudit,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['warranty'] });
+      queryClient.invalidateQueries({ queryKey: ['audit'] });
       refreshList();
     },
   });
@@ -29,4 +29,4 @@ const usePostWarranty = () => {
   return { mutate, data, isError, isPending };
 };
 
-export default usePostWarranty;
+export default usePostAuditt;

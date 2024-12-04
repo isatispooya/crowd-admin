@@ -3,12 +3,12 @@
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ReactTabulator } from 'react-tabulator';
-import 'react-tabulator/lib/styles.css';
-import 'react-tabulator/lib/css/tabulator.min.css';
+import { DataGrid } from '@mui/x-data-grid';
 import useGetParticipationsTable from 'src/module/paln/service/participantcertifit/usePostparticipant';
 import { formatNumber } from 'src/utils/formatNumbers';
 import { motion, AnimatePresence } from 'framer-motion';
+import { localeText } from 'src/module/tasks/consts/localText';
+import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import ParticipantDetailsDialog from './ParticipantDetailsDialog';
 import usePostFinishPlanSms from '../hooks/usePostFinishPlanSms';
 
@@ -34,62 +34,58 @@ const ParticipentAccrdion = ({ form }) => {
 
   const columns = [
     {
-      title: 'مقدار',
       field: 'amount',
+      headerName: 'مقدار',
+      flex: 1,
     },
     {
-      title: 'مبلغ',
       field: 'value',
-      formatter: (cell) => formatNumber(cell.getValue()),
+      headerName: 'مبلغ',
+      flex: 1,
     },
     {
-      title: 'نوع پرداخت',
       field: 'document',
-      formatter: (cell) => (cell.getValue() ? 'فیش بانکی' : 'درگاه'),
+      headerName: 'نوع پرداخت',
+      flex: 1,
+      valueFormatter: (params) => (params.value ? 'فیش بانکی' : 'درگاه'),
     },
     {
-      title: 'مبلغ تایید شده',
       field: 'provided_finance_price_farabourse',
+      headerName: 'مبلغ تایید شده',
+      flex: 1,
     },
     {
-      title: 'وضعیت ارسال به فرابورس',
       field: 'send_farabours',
-      formatter: (cell) => (cell.getValue() ? 'ارسال شده ' : 'ارسال نشده'),
+      headerName: 'وضعیت ارسال به فرابورس',
+      flex: 1,
+      valueFormatter: (params) => (params.value ? 'ارسال شده ' : 'ارسال نشده'),
     },
     {
-      title: 'شماره پیگیری',
       field: 'track_id',
+      headerName: 'شماره پیگیری',
+      flex: 1,
     },
     {
-      title: 'پیام فرابورس',
       field: 'message_farabourse',
+      headerName: 'پیام فرابورس',
+      flex: 1,
     },
     {
-      title: 'خطای فرابورس',
       field: 'error_no_farabourse',
+      headerName: 'خطای فرابورس',
+      flex: 1,
     },
     {
-      title: 'نام کاربر',
       field: 'user_name',
+      headerName: 'نام کاربر',
+      flex: 1,
     },
     {
-      title: 'شناسه ملی کاربر',
       field: 'user',
+      headerName: 'شناسه ملی کاربر',
+      flex: 1,
     },
   ];
-
-  const options = {
-    layout: 'fitColumns',
-    responsiveLayout: 'hide',
-    height: '400px',
-    selectable: 1,
-    clickableRows: true,
-  };
-
-  const handleRowClick = (e, row) => {
-    setSelectedRow(row.getData());
-    setShowDetails(true);
-  };
 
   const filteredData = data?.filter((row) => {
     const matchPaymentType =
@@ -178,15 +174,39 @@ const ParticipentAccrdion = ({ form }) => {
       </div>
 
       {isSuccess && filteredData && (
-        <ReactTabulator
-          data={filteredData}
+        <DataGrid
+          rows={filteredData}
           columns={columns}
-          options={options}
-          events={{
-            rowClick: handleRowClick,
+          getRowId={(row) => row.track_id}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          disableSelectionOnClick
+          disableColumnMenu
+          filterMode="client"
+          localeText={localeText}
+          autoHeight
+          onRowClick={(params) => {
+            setSelectedRow(params.row);
+            setShowDetails(true);
+          }}
+          slots={{
+            toolbar: (props) => (
+              <CustomDataGridToolbar
+                {...props}
+                data={filteredData}
+                fileName="گزارش-مشارکت‌کنندگان"
+              />
+            ),
+          }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
           }}
         />
       )}
+
       {isError && <div className="text-red-500">خطا در دریافت اطلاعات</div>}
 
       <AnimatePresence>

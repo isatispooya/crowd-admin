@@ -18,6 +18,7 @@ import TradingCodes from './tradingcodes';
 import Refresh from './refreshDetails';
 import usePostOtpUser from '../service/usePostOtpUser';
 import useGetUserDetail from '../service/useGetUserDetail';
+import UserAccounts from './userAccounts';
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -50,6 +51,7 @@ const sections = [
   { id: 'financial', label: 'اطلاعات مالی', component: <FinancialInfo /> },
   { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
   { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
+  { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
 ];
 
 const UserDetail = () => {

@@ -12,6 +12,9 @@ const ProfitPage = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetProfit(trace_code);
 
+
+
+
   const formatNumber = (value) => {
     if (value === null || value === undefined || Number.isNaN(value)) return '—';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -32,6 +35,7 @@ const ProfitPage = () => {
     { label: 'مبلغ سود دوم', key: 'value2',  },
     { label: 'مبلغ سود سوم', key: 'value3', },
     { label: 'مبلغ سود چهارم', key: 'value4',  },
+   
   ];
 
   const columns = useMemo(
