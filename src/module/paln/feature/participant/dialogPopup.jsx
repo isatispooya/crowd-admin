@@ -28,6 +28,7 @@ const DialogPopup = ({
   selectedRow,
   setSelectedRow,
   statusSwitch,
+  setStatusSwitch,
   status,
   localData,
   setLocalData,
@@ -64,6 +65,7 @@ const DialogPopup = ({
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
+    setStatusSwitch(newStatus);
     setStatus(newStatus);
   };
 
@@ -203,6 +205,7 @@ DialogPopup.propTypes = {
   refetchReciept: PropTypes.func.isRequired,
   respiet: PropTypes.array,
   setStatus: PropTypes.func.isRequired,
+  setStatusSwitch: PropTypes.func.isRequired,
 };
 
 export default DialogPopup;

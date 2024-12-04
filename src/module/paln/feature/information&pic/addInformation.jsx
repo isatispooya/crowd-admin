@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   TextField,
@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   Grid,
+  InputLabel,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -28,19 +29,14 @@ const AddInfo = () => {
   const [statusShow, setStatusShow] = useState(false);
   const [satusSecond, setSatusSecond] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-
-  useEffect(() => {
-    const storedDate = localStorage.getItem(`selectedDate_${trace_code}`);
-    if (storedDate) {
-      const date = new Date(storedDate);
-      setSelectedDate(date.getTime());
-    }
-  }, [trace_code]);
+  const [periodLength, setPeriodLength] = useState('');
+  const [paybackPeriod, setPaybackPeriod] = useState('');
 
   const { data, refetch } = useGetAddInfo(trace_code);
+
   const { mutate, isPending, isError } = usePostInfo(trace_code);
 
-  useEffect(() => {
+  const loadDataFromServer = useCallback(() => {
     if (data) {
       const paymentDate = data.payment_date ? new DateObject(data.payment_date) : null;
       let timestamp = null;
@@ -56,12 +52,26 @@ const AddInfo = () => {
       setRateOfReturn(data.rate_of_return || '');
       setStatusShow(data.status_show || false);
       setSatusSecond(data.status_second || '');
+      setPeriodLength(data.period_length || '');
+      setPaybackPeriod(data.payback_period || '');
 
       if (timestamp !== null) {
         localStorage.setItem(`selectedDate_${trace_code}`, timestamp);
       }
     }
   }, [data, trace_code]);
+
+  useEffect(() => {
+    loadDataFromServer();
+  }, [loadDataFromServer]);
+
+  useEffect(() => {
+    const storedDate = localStorage.getItem(`selectedDate_${trace_code}`);
+    if (storedDate) {
+      const date = new Date(parseInt(storedDate, 10));
+      setSelectedDate(date.getTime());
+    }
+  }, [trace_code]);
 
   const handleInputChange = (event) => {
     setRateOfReturn(event.target.value);
@@ -74,6 +84,11 @@ const AddInfo = () => {
   const handleSelectChange = (event) => {
     setSatusSecond(event.target.value);
   };
+
+  const handlePaybackPeriodChange = (event) => {
+    setPaybackPeriod(event.target.value);
+  };
+
   const handleDateChange = (date) => {
     if (date) {
       const localDate = new DateObject({
@@ -101,23 +116,24 @@ const AddInfo = () => {
       return;
     }
 
-    mutate(
-      {
-        rate_of_return: rateOfReturn,
-        status_show: statusShow,
-        status_second: satusSecond,
-        payment_date: selectedDate,
+    const dataToSubmit = {
+      rate_of_return: parseFloat(rateOfReturn),
+      status_show: statusShow,
+      status_second: parseInt(satusSecond, 10),
+      payment_date: selectedDate,
+      period_length: parseInt(periodLength, 10),
+      payback_period: paybackPeriod,
+    };
+
+    mutate(dataToSubmit, {
+      onSuccess: () => {
+        toast.success('اطلاعات با موفقیت ثبت شد!');
+        refetch();
       },
-      {
-        onSuccess: () => {
-          toast.success('اطلاعات با موفقیت ثبت شد!');
-          refetch();
-        },
-        onError: () => {
-          toast.error('خطا در ثبت اطلاعات!');
-        },
-      }
-    );
+      onError: (error) => {
+        toast.error(`خطا در ثبت اطلاعات: ${error.message || 'لطفاً دوباره تلاش کنید'}`);
+      },
+    });
   };
 
   return (
@@ -165,12 +181,15 @@ const AddInfo = () => {
               />
             </FormGroup>
           </FormControl>
-
           <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
-            <Select value={satusSecond} onChange={handleSelectChange} displayEmpty>
-              <MenuItem value="">
-                <em>وضعیت طرح را انتخاب کنید</em>
-              </MenuItem>
+            <InputLabel id="status-select-label">وضعیت طرح</InputLabel>
+            <Select
+              labelId="status-select-label"
+              value={satusSecond}
+              onChange={handleSelectChange}
+              displayEmpty
+              label="وضعیت طرح"
+            >
               <MenuItem value="1">شروع شده</MenuItem>
               <MenuItem value="2">شروع نشده</MenuItem>
               <MenuItem value="3">تمدید شده</MenuItem>
@@ -178,8 +197,48 @@ const AddInfo = () => {
               <MenuItem value="4">سررسید ناموفق</MenuItem>
             </Select>
           </FormControl>
-        </Box>
 
+        
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
+            <InputLabel id="payback-period-select-label">دوره بازپرداخت</InputLabel>
+            <Select 
+              labelId="payback-period-select-label"
+              value={paybackPeriod} 
+              onChange={handlePaybackPeriodChange}
+              displayEmpty
+              label="دوره بازپرداخت"
+            >
+              <MenuItem value="2">در پایان طرح</MenuItem>
+              <MenuItem value="1">سه ماهه</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
+            <TextField
+              type="number" 
+              label="طول دوره (ماه)"
+              value={periodLength || ''}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                if ((value >= 1 && value <= 12) || e.target.value === '') {
+                  setPeriodLength(e.target.value);
+                }
+              }}
+              onBlur={() => {
+                if (periodLength === '') {
+                  setPeriodLength('1');
+                }
+              }}
+              inputProps={{
+                min: 1,
+                max: 12,
+                step: 1
+              }}
+              helperText={periodLength ? `${periodLength} ماهه` : 'لطفا عددی بین 1 تا 12 وارد کنید'}
+            />
+          </FormControl>
+        </Box>
+      
         <Box
           sx={{
             width: '100%',
