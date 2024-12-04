@@ -30,7 +30,7 @@ const Refresh = ({ setShowRefresh }) => {
   const { mutate } = useUpdateUser();
   const { data, isLoading, error } = useGetUserDetail(userId);
   const { mutate: mutateOtp } = usePostOtpUser();
-  const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ?? '';
+  const nationalCode = data?.uniqueIdentifier;
 
   const handleClose = () => {
     if (typeof setShowRefresh === 'function') {
