@@ -16,7 +16,7 @@ export const usePostInfo = (trace_code) => {
         payment_date: data.payment_date,
         payback_period: String(data.payback_period),
         period_length: Number(data.period_length),
-        plan: Number(data.plan)
+       
       };
 
       console.log('Sending formatted data:', formattedData);

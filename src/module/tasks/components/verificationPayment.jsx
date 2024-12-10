@@ -1,4 +1,4 @@
-import { CircularProgress, Alert, Select, MenuItem } from '@mui/material';
+import { CircularProgress, Alert, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useState } from 'react';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
@@ -10,6 +10,8 @@ const VerificationPayment = () => {
   const { data, isError, isPending } = useVerificationPayment();
   const { mutate } = usePostVerificationPayment();
   const [comments, setComments] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   if (isPending) return <CircularProgress />;
   if (isError) return <Alert severity="error">دریافت اطلاعات با خطا مواجه شد</Alert>;
@@ -42,24 +44,23 @@ const VerificationPayment = () => {
       headerName: 'توضیحات',
       width: 200,
       renderCell: (params) => (
-        <input
-          type="text"
-          style={{ background: 'transparent' }}
-          value={(comments[params.row.id] ?? params.row.profit_payment_comment) || ''}
-          onChange={(e) => {
-            setComments((prev) => ({
-              ...prev,
-              [params.row.id]: e.target.value,
-            }));
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => {
+            setSelectedRow(params.row);
+            setOpenDialog(true);
           }}
-          onBlur={() => {
-            mutate({
-              id: params.row.id,
-              profit_payment_comment: comments[params.row.id] ?? params.row.profit_payment_comment,
-              profit_payment_completed: params.row.profit_payment_completed,
-            });
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setSelectedRow(params.row);
+              setOpenDialog(true);
+            }
           }}
-        />
+          style={{ cursor: 'pointer', width: '100%' }}
+        >
+          {(comments[params.row.id] ?? params.row.profit_payment_comment) || 'افزودن توضیحات'}
+        </div>
       ),
     },
     {
@@ -94,34 +95,80 @@ const VerificationPayment = () => {
   ];
 
   return (
-    <div style={{ height: 800, width: '100%' }}>
-      <DataGrid
-        rows={data || []}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        disableSelectionOnClick
-        disableColumnMenu
-        filterMode="client"
-        localeText={localeText}
-        slots={{
-          toolbar: (props) => (
-            <CustomDataGridToolbar
-              {...props}
-              data={data}
-              fileName="گزارش-پرداخت"
-              customExcelData={transformDataForExcel}
-            />
-          ),
-        }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-      />
-    </div>
+    <>
+      <div style={{ height: 800, width: '100%' }}>
+        <DataGrid
+          rows={data || []}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          disableSelectionOnClick
+          disableColumnMenu
+          filterMode="client"
+          localeText={localeText}
+          slots={{
+            toolbar: (props) => (
+              <CustomDataGridToolbar
+                {...props}
+                data={data}
+                fileName="گزارش-پرداخت"
+                customExcelData={transformDataForExcel}
+              />
+            ),
+          }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+        />
+      </div>
+
+      <Dialog 
+        open={openDialog} 
+        onClose={() => setOpenDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>ویرایش توضیحات</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            multiline
+            rows={4}
+            fullWidth
+            value={selectedRow ? (comments[selectedRow.id] ?? selectedRow.profit_payment_comment) || '' : ''}
+            onChange={(e) => {
+              if (selectedRow) {
+                setComments((prev) => ({
+                  ...prev,
+                  [selectedRow.id]: e.target.value,
+                }));
+              }
+            }}
+            margin="dense"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>انصراف</Button>
+          <Button 
+            onClick={() => {
+              if (selectedRow) {
+                mutate({
+                  id: selectedRow.id,
+                  profit_payment_comment: comments[selectedRow.id] ?? selectedRow.profit_payment_comment,
+                  profit_payment_completed: selectedRow.profit_payment_completed,
+                });
+              }
+              setOpenDialog(false);
+            }}
+          >
+            ذخیره
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

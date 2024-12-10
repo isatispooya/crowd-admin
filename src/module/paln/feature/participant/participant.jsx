@@ -1,12 +1,12 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useCallback } from 'react';
-import { ReactTabulator } from 'react-tabulator';
-import 'react-tabulator/lib/styles.css';
-import 'react-tabulator/css/tabulator.min.css';
-import { useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Backdrop } from '@mui/material';
 import moment from 'moment-jalaali';
+import { DataGrid } from '@mui/x-data-grid';
+import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
+import { useParams } from 'react-router-dom';
+import { localeText } from 'src/module/tasks/consts/localText';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import useGetReciept from '../../service/participant/useGetReciept';
 import { errorMsg } from './dargahmsg';
@@ -110,110 +110,134 @@ const PlanInvestors = () => {
 
   const columns = [
     {
-      title: 'نام و نام خانوادگی',
       field: 'fulname',
+      headerName: 'نام و نام خانوادگی',
       width: 200,
-      headerSort: false,
-      hozAlign: 'center',
-      headerHozAlign: 'center',
-      cssClass: 'row-number',
-      resizable: false,
-      headerFilter: 'input',
+      filterable: true,
     },
     {
-      title: 'مقدار سهم',
       field: 'amount',
-      hozAlign: 'left',
-      width: 'auto',
-      bottomCalc: 'sum',
-      headerFilter: 'input',
+      headerName: 'مقدار سهم',
+      width: 150,
+      filterable: true,
     },
     {
-      title: 'مبلغ',
       field: 'value',
-      hozAlign: 'center',
-      width: 250,
-      formatter: (cell) => formatNumber(cell.getValue()),
-      headerFilter: 'input',
-      bottomCalc: 'sum',
-      bottomCalcFormatter: (cell) => formatNumber(cell.getValue()),
-    },
-    {
-      title: 'تاریخ ایجاد',
-      field: 'create_date',
-      hozAlign: 'center',
+      headerName: 'مبلغ',
       width: 200,
-      formatter: (cell) => {
-        const value = cell.getValue();
-        return value ? moment(value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده';
-      },
-      headerFilter: 'input',
+      valueFormatter: (params) => formatNumber(params.value),
     },
     {
-      title: 'وضعیت نام',
+      field: 'create_date',
+      headerName: 'تاریخ ایجاد',
+      width: 200,
+      valueFormatter: (params) =>
+        params.value ? moment(params.value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده',
+    },
+    {
       field: 'name_status',
-      hozAlign: 'center',
+      headerName: 'وضعیت نام',
       width: 150,
-      formatter: (row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
-      headerFilter: 'input',
+      valueFormatter: (params) => (params.value ? 'فعال' : 'غیر فعال'),
     },
     {
-      title: 'نوع',
       field: 'document',
-      hozAlign: 'center',
+      headerName: 'نوع',
       width: 150,
-      formatter: (cell) => (cell.getValue() ? 'فیش بانکی' : 'درگاه'),
-      headerFilter: 'input',
+      valueFormatter: (params) => (params.value ? 'فیش بانکی' : 'درگاه'),
     },
     {
-      title: 'وضعیت',
       field: 'status',
-      hozAlign: 'center',
+      headerName: 'وضعیت',
       width: 150,
-      formatter: (row) => {
-        const { status } = row.getData();
-        switch (status) {
+      renderCell: (params) => {
+        let statusText;
+        switch (params.value) {
           case '0':
-            return 'رد شده';
+            statusText = 'رد شده';
+            break;
           case '1':
-            return 'در حال بررسی';
+            statusText = 'در حال بررسی';
+            break;
           case '2':
-            return 'تایید موقت';
+            statusText = 'تایید موقت';
+            break;
           case '3':
-            return 'تایید نهایی';
+            statusText = 'تایید نهایی';
+            break;
           default:
-            return 'نامشخص';
+            statusText = 'نامشخص';
         }
+        return (
+          <button
+            type="button"
+            onClick={() => handleStatusClick(params.row)}
+            onKeyDown={(e) => e.key === 'Enter' && handleStatusClick(params.row)}
+            style={{ cursor: 'pointer', background: 'none', border: 'none' }}
+          >
+            {statusText}
+          </button>
+        );
       },
-      cellClick: (e, cell) => handleStatusClick(cell.getData()),
-      headerFilter: 'input',
     },
     {
-      title: 'شماره پیگیری',
       field: 'track_id',
-      headerFilter: 'input',
+      headerName: 'شماره پیگیری',
+      width: 150,
     },
     {
-      title: 'شماره ارجاع درگاه',
       field: 'reference_number',
-      headerFilter: 'input',
-      width: 'auto',
+      headerName: 'شماره ارجاع درگاه',
+      width: 200,
     },
     {
-      title: 'وضعیت درگاه',
       field: 'code_status_payment',
-      formatter: (cell) => errorMsg[cell.getValue()] || cell.getValue(),
-      headerFilter: 'input',
-      width: 'auto',
+      headerName: 'وضعیت درگاه',
+      width: 200,
+      valueFormatter: (params) => errorMsg[params.value] || params.value,
     },
     {
-      title: 'کاربر',
       field: 'user',
-      hozAlign: 'center',
-      width: 'auto',
-      headerFilter: 'input',
+      headerName: 'کاربر',
+      width: 150,
     },
   ];
+
+  const transformDataForExcel = (data) =>
+    data.map((item, index) => {
+      let statusText;
+      switch (item.status) {
+        case '0':
+          statusText = 'رد شده';
+          break;
+        case '1':
+          statusText = 'در حال بررسی';
+          break;
+        case '2':
+          statusText = 'تایید موقت';
+          break;
+        case '3':
+          statusText = 'تایید نهایی';
+          break;
+        default:
+          statusText = 'نامشخص';
+      }
+
+      return {
+        ردیف: (index + 1).toString(),
+        'نام و نام خانوادگی': item.fulname || '',
+        'شماره همراه': item.mobile || '',
+        نوع: item.document === true ? 'فیش بانکی' : 'درگاه',
+        مقدار: item.amount || '',
+        'کدملی/شناسه': item.user || '',
+        'تاریخ ایجاد': formatDate(item.invoice_date) || '',
+        مبلغ: item.value,
+        'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
+        'شماره پیگیری': item.track_id || '',
+        'شماره ارجاع درگاه': item.reference_number || '',
+        وضعیت: statusText,
+      };
+    });
 
   if (isPending) {
     return (
@@ -328,25 +352,34 @@ const PlanInvestors = () => {
               </div>
             </div>
 
-            <ReactTabulator
-              data={localData}
-              columns={columns}
-              options={{
-                pagination: true,
-                paginationSize: 20,
-                paginationSizeSelector: [10, 20, 50, 100],
-                paginationButtonCount: 3,
-                paginationCounter: 'rows',
-                movableColumns: true,
-                height: '70vh',
-                layout: 'fitDataFill',
-                renderHorizontal: 'virtual',
-                resizableColumns: true,
-                columnResizable: true,
-                responsiveLayout: false,
-              }}
-              layout="fitColumns"
-            />
+            <div style={{ height: '70vh', width: '100%' }}>
+              <DataGrid
+                rows={localData}
+                columns={columns}
+                pageSize={20}
+                localeText={localeText}
+                rowsPerPageOptions={[10, 20, 50, 100]}
+                disableSelectionOnClick
+                disableColumnMenu
+                filterMode="client"
+                slots={{
+                  toolbar: (props) => (
+                    <CustomDataGridToolbar
+                      {...props}
+                      data={localData}
+                      fileName="سرمایه-گذاران"
+                      customExcelData={transformDataForExcel}
+                    />
+                  ),
+                }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                    quickFilterProps: { debounceMs: 500 },
+                  },
+                }}
+              />
+            </div>
           </>
         ) : (
           <Box
