@@ -8,7 +8,6 @@ import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { useParams } from 'react-router-dom';
 import { localeText } from 'src/module/tasks/consts/localText';
 import useGetParticipant from '../../service/participant/useGetParticipant';
-import useGetReciept from '../../service/participant/useGetReciept';
 import { errorMsg } from './dargahmsg';
 import { exportToExcel } from '../../../../utils/excelExport';
 import DialogPopup from './dialogPopup';
@@ -16,13 +15,11 @@ import DialogPopup from './dialogPopup';
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isPending } = useGetParticipant(trace_code);
-
   const [status, setStatus] = useState('0');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [statusSwitch, setStatusSwitch] = useState(false);
   const [localData, setLocalData] = useState([]);
-  const { data: respiet } = useGetReciept(selectedRow?.id);
 
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -86,8 +83,8 @@ const PlanInvestors = () => {
           نوع: item.document === true ? 'فیش بانکی' : 'درگاه',
           مقدار: item.amount || '',
           'کدملی/شناسه': item.user || '',
-          'تاریخ ایجاد': formatDate(item.invoice_date) || '',
-          مبلغ: item.value,
+          'تاریخ ایجاد': formatDate(item.create_date) || '',
+          مبلغ: formatNumber(item.value) || '',
           'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
           'شماره پیگیری': item.track_id || '',
           'شماره ارجاع درگاه': item.reference_number || '',
@@ -125,13 +122,13 @@ const PlanInvestors = () => {
       field: 'value',
       headerName: 'مبلغ',
       width: 200,
-      valueFormatter: (params) => formatNumber(params.value),
+      renderCell: (params) => formatNumber(params.value),
     },
     {
       field: 'create_date',
       headerName: 'تاریخ ایجاد',
       width: 200,
-      valueFormatter: (params) =>
+      renderCell: (params) => 
         params.value ? moment(params.value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده',
     },
     {
@@ -230,8 +227,8 @@ const PlanInvestors = () => {
         نوع: item.document === true ? 'فیش بانکی' : 'درگاه',
         مقدار: item.amount || '',
         'کدملی/شناسه': item.user || '',
-        'تاریخ ایجاد': formatDate(item.invoice_date) || '',
-        مبلغ: item.value,
+        'تاریخ ایجاد': formatDate(item.create_date) || '',
+        مبلغ: formatNumber(item.value) || '',
         'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
         'شماره پیگیری': item.track_id || '',
         'شماره ارجاع درگاه': item.reference_number || '',
@@ -258,6 +255,7 @@ const PlanInvestors = () => {
     }).format(date);
   };
 
+  console.log('54545454545454545454545454546', localData);
   return (
     <div>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isPending}>
@@ -406,7 +404,6 @@ const PlanInvestors = () => {
         setSelectedRow={setSelectedRow}
         statusSwitch={statusSwitch}
         setStatusSwitch={setStatusSwitch}
-        respiet={respiet}
         setStatus={setStatus}
         status={status}
       />

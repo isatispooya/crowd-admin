@@ -66,6 +66,11 @@ const ShareholderPage = () => {
     setDeleteIndex(null);
   };
 
+
+
+  console.log('54545454545454545454545454546',formSections);
+
+
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>

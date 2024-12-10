@@ -21,6 +21,7 @@ import usePostParticipant from '../../service/participant/usePostParticipant';
 import usePostInvestor from './hooks/usePostInvestor';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import { errorMsg } from './dargahmsg';
+import useGetReciept from '../../service/participant/useGetReciept';
 
 const DialogPopup = ({
   openDialog,
@@ -34,13 +35,14 @@ const DialogPopup = ({
   setLocalData,
   refetch,
   refetchReciept,
-  respiet,
   setStatus,
 }) => {
   const { trace_code } = useParams();
   const { mutate: mutateInquiry } = usePostInvestor(trace_code);
   const { mutate } = usePostParticipant(trace_code);
   const { refetch: refetchParticipant } = useGetParticipant(trace_code);
+  const { data: respiet } = useGetReciept(selectedRow && selectedRow.id ? selectedRow.id : null);
+
   const handleConfirm = () => {
     if (selectedRow) {
       const updatedRow = { ...selectedRow, status: statusSwitch };
@@ -203,7 +205,6 @@ DialogPopup.propTypes = {
   setLocalData: PropTypes.func.isRequired,
   refetch: PropTypes.func.isRequired,
   refetchReciept: PropTypes.func.isRequired,
-  respiet: PropTypes.array,
   setStatus: PropTypes.func.isRequired,
   setStatusSwitch: PropTypes.func.isRequired,
 };
