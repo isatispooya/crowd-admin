@@ -45,9 +45,12 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
       headers: {
         Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
+      },
+      onSuccess: () => {
+        refetchReciept();
+        refetchParticipant();
       }
     });
-    refetchReciept();
   };
 
   return {

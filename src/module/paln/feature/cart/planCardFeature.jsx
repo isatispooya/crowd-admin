@@ -242,22 +242,30 @@ const PlanTableFeature = () => {
                         }}
                       />
 
-                      <Box
+<Box
                         sx={{
                           position: 'absolute',
                           top: '10px',
                           left: '10px',
                           backgroundColor: '#abebc6',
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: 1,
-                          boxShadow: 2,
+                          minWidth: '40px',
+                          minHeight: '40px',
+                          padding: '4px 8px',
+                          borderRadius: 2,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                           fontWeight: 'bold',
+                          fontSize: '0.9rem',
                           color: '#333',
                           display: 'flex',
-                          alignItems: 'center',
+                          alignItems: 'center', 
                           justifyContent: 'center',
                           zIndex: 10,
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          },
+                          background: 'linear-gradient(135deg, #abebc6 0%, #82e0aa 100%)',
                         }}
                       >
                         {plan.information_complete?.rate_of_return || 0}%

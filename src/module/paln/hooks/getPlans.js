@@ -18,10 +18,11 @@ export const useGetPlans = () => {
   const { data, isLoading, error, isError, refetch } = useQuery({
     queryKey: ['plans'],
     queryFn: getPlans,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 20, 
     cacheTime: 1000 * 60 * 10,
     retry: 3,
     refetchOnWindowFocus: false,
+    refetchInterval: 20000, 
   });
 
   return { data, isLoading, error, isError, refetch };
