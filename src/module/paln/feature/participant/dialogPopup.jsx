@@ -14,15 +14,10 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { OnRun } from 'src/api/OnRun';
-import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatNumber } from 'src/utils/formatNumbers';
-import { getCookie } from 'src/api/cookie';
-import usePostParticipant from '../../service/participant/usePostParticipant';
-import usePostInvestor from './hooks/usePostInvestor';
-import useGetParticipant from '../../service/participant/useGetParticipant';
 import { errorMsg } from './dargahmsg';
-import useGetReciept from '../../service/participant/useGetReciept';
+import { useDialogPopup } from './hooks/popup';
 
 const DialogPopup = ({
   openDialog,
@@ -38,53 +33,16 @@ const DialogPopup = ({
   refetchReciept,
   setStatus,
 }) => {
-  const { trace_code } = useParams();
-  const accessApi = getCookie('accessApi');
-  const { mutate: mutateInquiry } = usePostInvestor(trace_code);
-  const { mutate } = usePostParticipant(trace_code);
-  const { refetch: refetchParticipant } = useGetParticipant(trace_code);
-  const { data: respiet } = useGetReciept(selectedRow && selectedRow.id ? selectedRow.id : null);
-
-  const handleConfirm = () => {
-    if (selectedRow) {
-      const updatedRow = { ...selectedRow, status: statusSwitch };
-
-      const updatedData = localData.map((row) => (row.id === updatedRow.id ? updatedRow : row));
-
-      setLocalData(updatedData);
-
-      mutate(
-        {
-          status: statusSwitch,
-          id: updatedRow.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessApi}`,
-            'Content-Type': 'application/json',
-          },
-          onSuccess: () => refetchParticipant(),
-          onError: (error) => console.error('خطا در به‌روزرسانی وضعیت:', error),
-        }
-      );
-    }
-    setOpenDialog(false);
-  };
+  const { handleConfirm, handlePostInquiry, respiet } = useDialogPopup(
+    selectedRow,
+    localData,
+    setLocalData
+  );
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
     setStatusSwitch(newStatus);
     setStatus(newStatus);
-  };
-
-  const handlePostInquiry = (id) => {
-    mutateInquiry(id, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      }
-    });
-    refetchReciept();
   };
 
   return (
@@ -179,7 +137,7 @@ const DialogPopup = ({
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handlePostInquiry(item.id)}
+                        onClick={() => handlePostInquiry(item.id, refetchReciept)}
                       >
                         دریافت
                       </Button>
@@ -194,7 +152,7 @@ const DialogPopup = ({
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleConfirm} color="primary">
+        <Button onClick={() => handleConfirm(statusSwitch, setOpenDialog)} color="primary">
           تایید
         </Button>
         <Button onClick={() => setOpenDialog(false)} color="secondary">
