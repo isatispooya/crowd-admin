@@ -6,6 +6,7 @@ import moment from 'moment-jalaali';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { useParams } from 'react-router-dom';
+import { Close, CheckCircle, Pending, HourglassEmpty } from '@mui/icons-material';
 import { localeText } from 'src/module/tasks/consts/localText';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import { errorMsg } from './dargahmsg';
@@ -128,7 +129,7 @@ const PlanInvestors = () => {
       field: 'create_date',
       headerName: 'تاریخ ایجاد',
       width: 200,
-      renderCell: (params) => 
+      renderCell: (params) =>
         params.value ? moment(params.value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده',
     },
     {
@@ -141,7 +142,9 @@ const PlanInvestors = () => {
       field: 'document',
       headerName: 'نوع',
       width: 150,
-      valueFormatter: (params) => (params.value ? 'فیش بانکی' : 'درگاه'),
+      renderCell: (params) => (
+        <div>{params.value === true ? 'فیش بانکی' : 'درگاه'}</div>
+      ),
     },
     {
       field: 'status',
@@ -149,29 +152,44 @@ const PlanInvestors = () => {
       width: 150,
       renderCell: (params) => {
         let statusText;
+        let StatusIcon;
+        
         switch (params.value) {
           case '0':
             statusText = 'رد شده';
+            StatusIcon = Close;
             break;
           case '1':
             statusText = 'در حال بررسی';
+            StatusIcon = HourglassEmpty;
             break;
           case '2':
             statusText = 'تایید موقت';
+            StatusIcon = Pending;
             break;
           case '3':
             statusText = 'تایید نهایی';
+            StatusIcon = CheckCircle;
             break;
           default:
             statusText = 'نامشخص';
+            StatusIcon = HourglassEmpty;
         }
         return (
           <button
             type="button"
             onClick={() => handleStatusClick(params.row)}
             onKeyDown={(e) => e.key === 'Enter' && handleStatusClick(params.row)}
-            style={{ cursor: 'pointer', background: 'none', border: 'none' }}
+            style={{ 
+              cursor: 'pointer', 
+              background: 'none', 
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
           >
+            <StatusIcon sx={{ fontSize: 20 }} />
             {statusText}
           </button>
         );
@@ -255,7 +273,7 @@ const PlanInvestors = () => {
     }).format(date);
   };
 
-  console.log('54545454545454545454545454546', localData);
+ 
   return (
     <div>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isPending}>
@@ -410,5 +428,4 @@ const PlanInvestors = () => {
     </div>
   );
 };
-
 export default PlanInvestors;
