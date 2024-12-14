@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import useGetParticipationsTable from 'src/module/paln/service/participantcertifit/usePostparticipant';
-import { formatNumber } from 'src/utils/formatNumbers';
 import { motion, AnimatePresence } from 'framer-motion';
 import { localeText } from 'src/module/tasks/consts/localText';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
@@ -58,11 +57,19 @@ const ParticipentAccrdion = ({ form }) => {
       field: 'send_farabours',
       headerName: 'وضعیت ارسال به فرابورس',
       flex: 1,
-      valueFormatter: (params) => (params.value ? 'ارسال شده ' : 'ارسال نشده'),
+      renderCell: (params) => {
+        const value = params.row.send_farabours;
+        return <span>{value ? 'ارسال شده' : 'ارسال نشده'}</span>;
+      }
     },
     {
       field: 'track_id',
       headerName: 'شماره پیگیری',
+      flex: 1,
+    },
+    {
+      field: 'trace_code_payment_farabourse',
+      headerName: 'شماره پیگیری فرابورس',
       flex: 1,
     },
     {
@@ -95,8 +102,8 @@ const ParticipentAccrdion = ({ form }) => {
 
     const matchSendStatus =
       sendStatusFilter === 'all' ||
-      (sendStatusFilter === 'sent' && row.send_farabours) ||
-      (sendStatusFilter === 'notSent' && !row.send_farabours);
+      (sendStatusFilter === 'sent' && row.send_farabours === true) ||
+      (sendStatusFilter === 'notSent' && row.send_farabours === false);
 
     return matchPaymentType && matchSendStatus;
   });
