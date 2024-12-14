@@ -11,7 +11,7 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
   const { mutate: mutateInquiry } = usePostInvestor(trace_code);
   const { mutate } = usePostParticipant(trace_code);
   const { refetch: refetchParticipant } = useGetParticipant(trace_code);
-  const { data: respiet } = useGetReciept(selectedRow && selectedRow.id ? selectedRow.id : null);
+  const { data: respiet ,refetch: refetchReciept} = useGetReciept(selectedRow && selectedRow.id ? selectedRow.id : null);
 
   const handleConfirm = (statusSwitch, setOpenDialog) => {
     if (selectedRow) {
@@ -40,7 +40,7 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
     setOpenDialog(false);
   };
 
-  const handlePostInquiry = (id, refetchReciept) => {
+    const handlePostInquiry = (id) => {
     mutateInquiry(id, {
       headers: {
         Authorization: `Bearer ${accessApi}`,
@@ -56,6 +56,7 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
   return {
     handleConfirm,
     handlePostInquiry,
-    respiet
+    respiet,
+    refetchReciept
   };
 };

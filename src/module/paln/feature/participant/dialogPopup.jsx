@@ -45,6 +45,11 @@ const DialogPopup = ({
     setStatus(newStatus);
   };
 
+  const handleInquiryClick = async (id) => {
+    await handlePostInquiry(id, refetchReciept);
+    refetchReciept();
+  };
+
   return (
     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
       <DialogContent sx={{ p: 4, minWidth: '600px' }}>
@@ -137,7 +142,7 @@ const DialogPopup = ({
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handlePostInquiry(item.id, refetchReciept)}
+                        onClick={() => handleInquiryClick(item.id)}
                       >
                         دریافت
                       </Button>
