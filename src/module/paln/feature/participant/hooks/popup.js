@@ -1,4 +1,3 @@
-import { getCookie } from 'src/api/cookie';
 import { useParams } from 'react-router-dom';
 import usePostParticipant from '../../../service/participant/usePostParticipant';
 import usePostInvestor from './usePostInvestor';
@@ -7,7 +6,6 @@ import useGetReciept from '../../../service/participant/useGetReciept';
 
 export const useDialogPopup = (selectedRow, localData, setLocalData) => {
   const { trace_code } = useParams();
-  const accessApi = getCookie('accessApi');
   const { mutate: mutateInquiry } = usePostInvestor(trace_code);
   const { mutate } = usePostParticipant(trace_code);
   const { refetch: refetchParticipant } = useGetParticipant(trace_code);
@@ -28,10 +26,6 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
           id: updatedRow.id,
         },
         {
-          headers: {
-            Authorization: `Bearer ${accessApi}`,
-            'Content-Type': 'application/json',
-          },
           onSuccess: () => refetchParticipant(),
           onError: (error) => console.error('خطا در به‌روزرسانی وضعیت:', error),
         }
@@ -42,10 +36,6 @@ export const useDialogPopup = (selectedRow, localData, setLocalData) => {
 
     const handlePostInquiry = (id) => {
     mutateInquiry(id, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      },
       onSuccess: () => {
         refetchReciept();
         refetchParticipant();
