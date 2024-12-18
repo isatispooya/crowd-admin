@@ -20,10 +20,19 @@ const ParticipentAccrdion = ({ form }) => {
   const [sendStatusFilter, setSendStatusFilter] = useState('all');
   const [selectedRow, setSelectedRow] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const handleSend = () => {
-    mutate({ data: form, trace_code });
+    const selectedData = data
+      .filter((row) => selectedRows.includes(row.track_id))
+      .map((row) => row.id);
+
+    mutate({
+      data: selectedData,
+      traceCode: trace_code,
+    });
     setShowConfirm(false);
+    console.log('ارسال به فرابورس', selectedData);
   };
 
   const handleFinishSms = () => {
@@ -32,6 +41,30 @@ const ParticipentAccrdion = ({ form }) => {
   };
 
   const columns = [
+    {
+      field: 'selection',
+      headerName: '',
+      width: 50,
+      renderCell: (params) => (
+        <input
+          type="checkbox"
+          checked={selectedRows.includes(params.row.track_id)}
+          onChange={(e) => {
+            if (e.target.checked) {
+              if (selectedRows.length < 3) {
+                setSelectedRows([...selectedRows, params.row.track_id]);
+              }
+            } else {
+              setSelectedRows(selectedRows.filter((id) => id !== params.row.track_id));
+            }
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="w-4 h-4 cursor-pointer"
+          style={{ transform: 'scale(1.5)' }}
+          disabled={!selectedRows.includes(params.row.track_id) && selectedRows.length >= 3}
+        />
+      ),
+    },
     {
       field: 'amount',
       headerName: 'مقدار',
@@ -60,7 +93,7 @@ const ParticipentAccrdion = ({ form }) => {
       renderCell: (params) => {
         const value = params.row.send_farabours;
         return <span>{value ? 'ارسال شده' : 'ارسال نشده'}</span>;
-      }
+      },
     },
     {
       field: 'track_id',
@@ -164,9 +197,14 @@ const ParticipentAccrdion = ({ form }) => {
         </button>
         <button
           onClick={() => setShowConfirm(true)}
-          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg
+          disabled={selectedRows.length === 0}
+          className={`px-6 py-2 ${
+            selectedRows.length === 0
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-600 hover:bg-blue-700'
+          } text-white rounded-lg
                    shadow-md hover:shadow-lg transition-all duration-200 font-medium
-                   flex items-center gap-2"
+                   flex items-center gap-2`}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -196,6 +234,9 @@ const ParticipentAccrdion = ({ form }) => {
             setSelectedRow(params.row);
             setShowDetails(true);
           }}
+          getRowClassName={(params) =>
+            selectedRows.includes(params.row.track_id) ? 'bg-blue-50' : ''
+          }
           slots={{
             toolbar: (props) => (
               <CustomDataGridToolbar
@@ -222,7 +263,7 @@ const ParticipentAccrdion = ({ form }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 pt-40"
             onClick={() => setShowConfirm(false)}
           >
             <motion.div

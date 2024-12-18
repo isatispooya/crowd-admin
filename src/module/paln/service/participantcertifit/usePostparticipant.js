@@ -19,10 +19,10 @@ const useGetParticipationsTable = (trace_code) => {
     return response.data;
   };
 
-  const postParticipant = async (data) => {
+  const postParticipant = async ({ data, traceCode }) => {
     const response = await api.post(
-      `/api/send/participation/certificate/farabours/admin/${trace_code}/`,
-      data,
+      `/api/send/participation/certificate/farabours/admin/${traceCode}/`,
+      { data },
       {
         headers: {
           Authorization: `Bearer ${accessApi}`,
@@ -40,7 +40,7 @@ const useGetParticipationsTable = (trace_code) => {
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['postParticipant'],
-    mutationFn: ({ fdata, tracecode }) => postParticipant({ fdata, tracecode }),
+    mutationFn: (params) => postParticipant(params),
   });
 
   return {
