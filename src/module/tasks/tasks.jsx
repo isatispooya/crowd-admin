@@ -6,6 +6,7 @@ import VerificationReceipt from './components/verificationReceipt';
 import Warranty from './components/warranty';
 import AuditReport from './components/auditReport';
 import ProgressReport from './components/prgressReport';
+import Bazar from './components/bazar';
 
 const Tasks = () => {
   const [value, setValue] = useState(0);
@@ -26,6 +27,8 @@ const Tasks = () => {
         return <ProgressReport />;
       case 4:
         return <AuditReport />;
+      case 5:
+        return <Bazar />;
       default:
         return null;
     }
@@ -56,6 +59,7 @@ const Tasks = () => {
               <Tab label="تمدید ضمانت نامه ها" />
               <Tab label="گزارش پیشرفت" />
               <Tab label="گزارش حسابرسی" />
+              <Tab label="گزارش بازاریابی" />
             </Tabs>
             {renderTabsComponents()}
           </motion.div>
