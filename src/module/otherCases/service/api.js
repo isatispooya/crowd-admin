@@ -1,14 +1,8 @@
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
-const accessApi = getCookie('accessApi');
 
 export const grtOtherCases = async (cartId) => {
   const response = await api.get(`/api/addinformation/admin/${cartId}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
   return response?.data;
 };
@@ -44,10 +38,6 @@ export const postOtherCases = async ({cartId, localData}) => {
   
 
   const response = await api.post(`/api/addinformation/admin/${cartId}/`, formData, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
   });
 
   return response.data;

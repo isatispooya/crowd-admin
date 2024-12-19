@@ -1,17 +1,11 @@
 import axios from 'axios';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
 export const fetchResume = async (id) => {
   try {
-    const access = await getCookie('access');
 
     const response = await api.get(`/api/resume/admin/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${access}`,
-        'Content-Type': 'application/json',
-      },
     });
 
     return response.data;
@@ -23,7 +17,6 @@ export const fetchResume = async (id) => {
 
 export const sendResume = async (id, data) => {
   try {
-    const access = await getCookie('access');
     const url = `${OnRun}/api/resume/admin/${id}/`;
     const form = new FormData();
 
@@ -33,10 +26,6 @@ export const sendResume = async (id, data) => {
     }
 
     const response = await axios.post(url, form, {
-      headers: {
-        Authorization: `Bearer ${access}`,
-        'Content-Type': 'multipart/form-data',
-      },
     });
 
     return response.data;

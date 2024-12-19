@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 export const usePostInfo = (trace_code) => {
-  const accessApi = getCookie('accessApi');
   const queryClient = useQueryClient();
 
   const sendAddInfo = async (data) => {
@@ -22,10 +20,6 @@ export const usePostInfo = (trace_code) => {
       console.log('Sending formatted data:', formattedData);
       
       const response = await api.post(`/api/information/plan/admin/${trace_code}/`, formattedData, {
-        headers: {
-          Authorization: `Bearer ${accessApi}`,
-          'Content-Type': 'application/json',
-        },
       });
       
       console.log('Response received:', response);

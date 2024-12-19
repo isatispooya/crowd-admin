@@ -1,17 +1,11 @@
 import axios from "axios";
 import api from "src/api/apiClient";
-import { getCookie } from "src/api/cookie";
 import { OnRun } from "src/api/OnRun";
 
 export const fetchOtherCases = async (id) => {
     try {
-      const access = await getCookie('access');
   
       const response = await api.get(`/api/addinformation/admin/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          'Content-Type': 'application/json',
-        },
       });
   
       return response.data;
@@ -25,9 +19,7 @@ export const fetchOtherCases = async (id) => {
   
   export const sendOtherCases = async (id, data) => {
     try {
-      const access = await getCookie('access');
       const url = `${OnRun}/api/addinformation/admin/${id}/`;
-  
       const formData = new FormData();
       formData.append('claims_status', data.claims_status || '');
       formData.append('latest_insurance_staf', data.latest_insurance_staf || '');
@@ -38,10 +30,6 @@ export const fetchOtherCases = async (id) => {
       formData.append('announcement_of_changes_managers', data.announcement_of_changes_managers || '');
   
       const response = await axios.post(url, formData, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          'Content-Type': 'multipart/form-data',
-        },
       });
   
       return response.data;

@@ -1,16 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 export const useGetPlans = () => {
-  const accessApi = getCookie('accessApi');
 
   const getPlans = async () => {
     const response = await api.get(`/api/plans/`, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      },
     });
     return response.data;
   };
