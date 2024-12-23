@@ -30,6 +30,7 @@ export const sendDocument = async (id, data) => {
   const response = await axios.post(`${OnRun}/api/documentation/admin/${id}/`, form, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 

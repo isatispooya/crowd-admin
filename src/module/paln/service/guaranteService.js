@@ -30,6 +30,7 @@ export const sendGuarante = async (id, data) => {
   const response = await axios.post(`${OnRun}/api/appendices/admin/${id}/`, form, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 
