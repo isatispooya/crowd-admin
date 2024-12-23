@@ -28,7 +28,6 @@ export const PostDocument = async (trace_code, postData) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-
   return response.data;
 };
 
