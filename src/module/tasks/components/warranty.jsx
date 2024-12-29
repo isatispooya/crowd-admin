@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { MenuItem, Select, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import moment from 'moment-jalaali';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import useGetWarranty from '../hooks/getWarranty';
 import usePostWarranty from '../hooks/postWarranty';
@@ -8,6 +9,7 @@ import { localeText } from '../consts/localText';
 
 const Warranty = () => {
   const { data } = useGetWarranty();
+  console.log('Warranty data:', data);
   const { mutate } = usePostWarranty();
   const [comments, setComments] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
@@ -20,17 +22,32 @@ const Warranty = () => {
       یادداشت: item.comment || '',
       طرح: item.plan || '',
       'تکمیل شده': item.completed || '',
-      تاریخ: item.date || '',
+      تاریخ: item.date ? moment(item.date).format('jYYYY/jMM/jDD') : '',
     }));
 
   const columns = [
-    { field: 'exporter', headerName: 'صادرکننده', width: 130 },
-    { field: 'kind_of_warranty', headerName: 'نوع ضمانت نامه', width: 130 },
-    { field: 'date', headerName: 'تاریخ', width: 130 },
+    { field: 'exporter', headerName: 'صادرکننده', width: 250 },
+    { field: 'kind_of_warranty', headerName: 'نوع ضمانت نامه', width: 160 },
+    { 
+      field: 'date', 
+      headerName: 'تاریخ', 
+      width: 130,
+      valueFormatter: (params) => {
+        console.log('Formatting date:', params.value);
+        if (!params.value) return '';
+        const persianDate = moment(params.value, 'YYYY-MM-DD').format('jYYYY/jMM/jDD');
+        console.log('Converted to Persian:', persianDate);
+        return persianDate;
+      },
+      renderCell: (params) => {
+        if (!params.value) return '';
+        return moment(params.value, 'YYYY-MM-DD').format('jYYYY/jMM/jDD');
+      }
+    },
     {
       field: 'comment',
       headerName: 'توضیحات',
-      width: 130,
+      width: 170,
       renderCell: (params) => (
         <div
           role="button"
@@ -51,7 +68,7 @@ const Warranty = () => {
         </div>
       ),
     },
-    { field: 'plan', headerName: 'طرح', width: 130 },
+    { field: 'plan', headerName: 'طرح', width: 200 },
     {
       field: 'completed',
       headerName: 'تکمیل ',
