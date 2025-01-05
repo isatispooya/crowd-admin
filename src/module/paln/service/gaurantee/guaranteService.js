@@ -3,15 +3,12 @@ import api from 'src/api/apiClient';
 
 export const GetGuarante = async (trace_code) => {
 
-  
-
   const response = await api.get(`/api/appendices/${trace_code}/`, {
   });
   return response.data;
 };
 
-export const PostGuarante = async (trace_code,data) => {
-
+export const PostGuarante = async (trace_code, data) => {
   const formData = new FormData();
 
   if (data.file) {
@@ -20,8 +17,11 @@ export const PostGuarante = async (trace_code,data) => {
   if (data.title) {
     formData.append('title', data.title);
   }
-  const response = await api.post(`/api/appendices/${trace_code}/`, formData, {
 
+  const response = await api.post(`/api/appendices/${trace_code}/`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 
   return response.data;

@@ -6,7 +6,8 @@ const usePostProgress = (trace_code, id) => {
   const { refetch: refreshList } = useGetProgress(trace_code);
   const PostProgress = (postData) => {
     const formData = new FormData();
-    formData.append('file', postData);
+    const blob = new Blob([postData], { type: 'text/plain' });
+    formData.append('file', blob, 'filename.txt');
     const response = api.patch(`/api/progres/report/admin/${trace_code}/${id}/`, formData, {
     });
 
