@@ -4,12 +4,7 @@ import { getCookie } from 'src/api/cookie';
 const accessApi = getCookie('accessApi');
 
 export const getUserDetail = async (userId) => {
-  const response = await api.get(`/api/information/user/admin/${userId}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await api.get(`/api/information/user/admin/${userId}/`);
 
   return response.data.success;
 };
@@ -17,7 +12,7 @@ export const getUserDetail = async (userId) => {
 export const postOtpUser = async (nationalCode) => {
   const response = await api.post(
     `/api/otp/update/`,
-    {uniqueIdentifier:nationalCode},
+    { uniqueIdentifier: nationalCode },
     {
       headers: {
         Authorization: `Bearer ${accessApi}`,
@@ -25,22 +20,15 @@ export const postOtpUser = async (nationalCode) => {
       },
     }
   );
-
   return response;
 };
-
 export const updateUser = async (data) => {
-  
-  const response = await api.patch(
-    `/api/update/profile/`,
-     data ,
-    {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const response = await api.patch(`/api/update/profile/`, data, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
 
   return response;
 };

@@ -19,6 +19,7 @@ import Refresh from './refreshDetails';
 import usePostOtpUser from '../service/usePostOtpUser';
 import useGetUserDetail from '../service/useGetUserDetail';
 import UserAccounts from './userAccounts';
+import useOneTimeLogin from '../hooks/useOneTime';
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -64,6 +65,8 @@ const UserDetail = () => {
 
   const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ?? '';
 
+  const uniqueIdentifier = data?.private_person?.[0]?.uniqueIdentifier ?? '';
+
   const handleChange = (panel) => (event, newExpanded) => {
     setExpandedPanel(newExpanded ? panel : false);
   };
@@ -76,6 +79,17 @@ const UserDetail = () => {
   React.useEffect(() => {
     refetch();
   }, [refetch]);
+
+  const { mutate: oneTimeLogin } = useOneTimeLogin();
+
+  const handleOneTimeLogin = () => {
+    oneTimeLogin(
+      {
+        uniqueIdentifier,
+      },
+
+    );
+  };
 
   if (isLoading) {
     return (
@@ -106,6 +120,7 @@ const UserDetail = () => {
           <motion.button
             type="button"
             whileHover={{ scale: 1.1 }}
+            onClick={handleOneTimeLogin}
             transition={{ type: 'spring', stiffness: 150, damping: 25 }}
             className="bg-blue-500 mt-4 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
           >
