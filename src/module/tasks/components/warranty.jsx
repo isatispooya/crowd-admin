@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { MenuItem, Select, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
+import moment from 'moment-jalaali';
+
 import useGetWarranty from '../hooks/getWarranty';
 import usePostWarranty from '../hooks/postWarranty';
 import { localeText } from '../consts/localText';
+
 
 const Warranty = () => {
   const { data } = useGetWarranty();
@@ -26,7 +29,7 @@ const Warranty = () => {
   const columns = [
     { field: 'exporter', headerName: 'صادرکننده', width: 130 },
     { field: 'kind_of_warranty', headerName: 'نوع ضمانت نامه', width: 130 },
-    { field: 'date', headerName: 'تاریخ', width: 130 },
+    { field: 'date', headerName: 'تاریخ', width: 130 , renderCell: (params) => moment(params.row.date).format('jYYYY/jMM/jDD') },
     {
       field: 'comment',
       headerName: 'توضیحات',
