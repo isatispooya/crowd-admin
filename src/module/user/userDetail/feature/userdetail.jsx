@@ -20,6 +20,7 @@ import usePostOtpUser from '../service/usePostOtpUser';
 import useGetUserDetail from '../service/useGetUserDetail';
 import UserAccounts from './userAccounts';
 import useOneTimeLogin from '../hooks/useOneTime';
+import CompanyDetails from './companyDetails';
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -53,6 +54,7 @@ const sections = [
   { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
   { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
   { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
+  { id: 'companies', label: 'اطلاعات شرکت', component: <CompanyDetails /> },
 ];
 
 const UserDetail = () => {
@@ -60,13 +62,24 @@ const UserDetail = () => {
   const [showRefresh, setShowRefresh] = useState(false);
   const { mutate } = usePostOtpUser();
   const { userId } = useParams();
-
   const { data, isLoading, refetch } = useGetUserDetail(userId);
+  const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ;
+  const uniqueIdentifier = data?.uniqueIdentifier ;
 
-  const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ?? '';
 
-  const uniqueIdentifier = data?.private_person?.[0]?.uniqueIdentifier ?? '';
 
+
+
+  const { mutate: oneTimeLogin } = useOneTimeLogin();
+
+  const handleOneTimeLogin = () => {
+    oneTimeLogin(
+      {
+        uniqueIdentifier,
+      },
+
+    );
+  };
   const handleChange = (panel) => (event, newExpanded) => {
     setExpandedPanel(newExpanded ? panel : false);
   };
@@ -80,16 +93,7 @@ const UserDetail = () => {
     refetch();
   }, [refetch]);
 
-  const { mutate: oneTimeLogin } = useOneTimeLogin();
 
-  const handleOneTimeLogin = () => {
-    oneTimeLogin(
-      {
-        uniqueIdentifier,
-      },
-
-    );
-  };
 
   if (isLoading) {
     return (
@@ -148,7 +152,7 @@ const UserDetail = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>{component}</AccordionDetails>
-          </Accordion>
+          </Accordion>  
         ))}
       </Box>
       <ToastContainer />
