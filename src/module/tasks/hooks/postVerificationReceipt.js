@@ -1,18 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 import useVerificationReceipt from './VerificationReceipt';
 
 const usePostVerificationReceipt = () => {
   const queryClient = useQueryClient();
-  const accessApi = getCookie('accessApi');
   const { refetch: refreshList } = useVerificationReceipt();
 
   const patchVerificationReceipt = async (data) => {
     const response = await api.patch(`/api/check/verification/receipt/admin/`, data, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-      },
     });
     return response.data;
   };

@@ -1,16 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 export const fetchCompany = async (id) => {
   let response;
   if (id) {
-    const accessApi = getCookie('accessApi');
 
     response = await api.get(`/api/cart/detail/admin/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-      },
     });
   } else {
     response = {
@@ -194,12 +189,7 @@ export const createCart = async (data, id) => {
     formData.append('claims_status', data.claims_status);
     formData.append('logo', data.logo);
 
-  const accessApi = getCookie('accessApi');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${accessApi}`,
-    },
     maxBodyLength: Infinity,
   });
 

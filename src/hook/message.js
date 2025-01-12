@@ -1,7 +1,5 @@
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
-const accessApi = getCookie('accessApi');
 
 
 export const sendMessage = async (id, message, sms) => {
@@ -11,22 +9,13 @@ export const sendMessage = async (id, message, sms) => {
     {
       message,
     },
-    {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      },
-    }
+    
   );
   return response.data;
 };
 
 export const fetchUserMessage = async (id) => {
   const response = await api.get(`/api/message/admin/${id}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
 
   

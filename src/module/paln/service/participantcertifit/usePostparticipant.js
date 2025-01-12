@@ -1,20 +1,12 @@
-import { getCookie } from 'src/api/cookie';
 import api from 'src/api/apiClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const useGetParticipationsTable = (trace_code) => {
-  const accessApi = getCookie('accessApi');
 
   const getTable = async () => {
     const response = await api.get(
       `/api/send/participation/certificate/farabours/admin/${trace_code}/`,
 
-      {
-        headers: {
-          Authorization: `Bearer ${accessApi}`,
-          'Content-Type': 'application/json',
-        },
-      }
     );
     return response.data;
   };
@@ -23,12 +15,7 @@ const useGetParticipationsTable = (trace_code) => {
     const response = await api.post(
       `/api/send/participation/certificate/farabours/admin/${traceCode}/`,
       { data },
-      {
-        headers: {
-          Authorization: `Bearer ${accessApi}`,
-          'Content-Type': 'application/json',
-        },
-      }
+
     );
     return response.data;
   };

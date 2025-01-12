@@ -23,6 +23,3 @@ const usePostDocumentation = (trace_code) => {
 export default usePostDocumentation;
 
 
-
-
-

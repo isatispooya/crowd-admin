@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 export const usePostPic = (trace_code) => {
   const queryClient = useQueryClient();
 
   const sendPlanPic = async (data) => {
-    console.log('34223423',data);
+
     const response = await api.post(`/api/send/picture/${trace_code}/`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+
     });    
     return response.data;
   };

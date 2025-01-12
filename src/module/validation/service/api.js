@@ -1,14 +1,8 @@
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
-const accessApi = getCookie('accessApi');
 
 export const getValidation = async (id) => {
   const response = await api.get(`/api/validation/admin/${id}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
   return response.data;
 };
@@ -37,10 +31,6 @@ export const postValidation = async ({ cartId, formData }) => {
   }
 
   const response = await api.post(`/api/validation/admin/${cartId}/`, form, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
   });
 
   return response.data;
