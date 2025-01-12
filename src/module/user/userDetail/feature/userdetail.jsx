@@ -65,11 +65,6 @@ const UserDetail = () => {
   const { data, isLoading, refetch } = useGetUserDetail(userId);
   const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ;
   const uniqueIdentifier = data?.uniqueIdentifier ;
-
-
-
-
-
   const { mutate: oneTimeLogin } = useOneTimeLogin();
 
   const handleOneTimeLogin = () => {
