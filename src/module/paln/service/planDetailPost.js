@@ -1,9 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 const postPlanDetail = async (data) => {
-  const accessApi = getCookie('accessApi');
 
   const url = `/api/plan/admin/${data.id}/`;
   const formData = new FormData();
@@ -27,10 +25,6 @@ const postPlanDetail = async (data) => {
   formData.append('description', data.description || '');
 
   const response = await api.patch(url, formData, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
   });
 
   return response.data;

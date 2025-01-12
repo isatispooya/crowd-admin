@@ -1,16 +1,10 @@
 import axios from 'axios';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
-const accessApi =  getCookie('accessApi');
 
 export const fetchValidation = async (id) => {
   const response = await api.get(`/api/validation/admin/${id}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
   
   return response.data;
@@ -25,10 +19,6 @@ export const sendValidation = async (id, data) => {
   }
 
   const response = await axios.post(`${OnRun}/api/validation/admin/${id}/`, form, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
   });
 
   return response.data;

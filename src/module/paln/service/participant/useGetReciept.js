@@ -1,16 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
-const accessApi = getCookie('accessApi');
 
 const GetParticipant = async (id) => {
   if (!id) return null;
   const response = await api.get(`api/bank/reciept/payment/admin/${id}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
 
   return response.data;

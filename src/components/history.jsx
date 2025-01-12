@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Input, Button, TextField, FormControlLabel, Switch } from '@mui/material';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
 const History = ({ cardSelected }) => {
@@ -11,17 +10,12 @@ const History = ({ cardSelected }) => {
   const [name, setName] = useState('');
   const [nationalCode, setNationalCode] = useState('');
   const [lock, setLock] = useState(false);
-  const access = getCookie('access');
 
   useEffect(() => {
     const fetchData = async () => {
       if (cardSelected) {
         try {
           const response = await axios.get(`${OnRun}/api/history/admin/${cardSelected}/`, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-              'Content-Type': 'application/json',
-            },
           });
           setHistoryData(response.data);
           if (response.data.manager && response.data.manager.length > 0) {
@@ -37,7 +31,7 @@ const History = ({ cardSelected }) => {
     };
 
     fetchData();
-  }, [cardSelected, access]);
+  }, [cardSelected]);
   const handleFileUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -45,10 +39,6 @@ const History = ({ cardSelected }) => {
 
     try {
       const response = await axios.post(`${OnRun}/api/history/admin/${cardSelected}/`, formData, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          'Content-Type': 'multipart/form-data',
-        },
       });
       setHistoryData(response.data);
     } catch (error) {

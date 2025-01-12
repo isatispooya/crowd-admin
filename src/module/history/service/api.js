@@ -1,14 +1,8 @@
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
-const accessApi = getCookie('accessApi');
 
 export const getHistory = async (cartId) => {
   const response = await api.get(`/api/history/admin/${cartId}/`, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'application/json',
-    },
   });
   return response.data;
 };
@@ -30,10 +24,6 @@ export const postHistory = async ({ cartId, formData }) => {
     }
   }
   const response = await api.post(`/api/history/admin/${cartId}/`, form, {
-    headers: {
-      Authorization: `Bearer ${accessApi}`,
-      'Content-Type': 'multipart/form-data',
-    },
   });
 
   return response.data;

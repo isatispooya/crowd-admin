@@ -1,15 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
 
 const useVerificationReceipt = () => {
-  const accessApi = getCookie('accessApi');
 
   const getVerificationReceipt = async () => {
     const response = await api.get(`/api/check/verification/receipt/admin/`, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-      },
     });
     return response.data;
   };
