@@ -21,8 +21,7 @@ export const sendDocument = async (id, data) => {
     }
   });
 
-  const response = await axios.post(`${OnRun}/api/documentation/admin/${id}/`, form, {
-  });
+  const response = await axios.post(`${OnRun}/api/documentation/admin/${id}/`, form);
 
   return response.data;
 };

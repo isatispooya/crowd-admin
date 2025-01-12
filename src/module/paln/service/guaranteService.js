@@ -21,8 +21,7 @@ export const sendGuarante = async (id, data) => {
     }
   });
 
-  const response = await axios.post(`${OnRun}/api/appendices/admin/${id}/`, form, {
-  });
+  const response = await axios.post(`${OnRun}/api/appendices/admin/${id}/`, form);
 
   return response.data;
 };
