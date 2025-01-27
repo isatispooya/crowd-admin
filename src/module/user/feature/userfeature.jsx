@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo } from 'react';
-import 'react-tabulator/lib/styles.css';
-import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
+import React, { useEffect, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
 import useGetUser from '../services/useGetUser';
+import { exportToExcel } from '../../../../utils/excelExport';
 
 const formatDate = (dateString) => {
-  if (!dateString) return 'تاریخ نامعتبر';
+  if (!dateString) return '';
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('fa-IR', {
     year: 'numeric',
@@ -19,60 +19,130 @@ const formatDate = (dateString) => {
 
 const mapUserData = (users) =>
   users.map((user) => {
-    const personalInfo = user.private_person?.[0] || user.legal_person_stakeholders?.[0] || {};
+    const personalInfo = user.private_person || {};
+    const legalInfo = user.legal_person || {};
+    const accountNumber =
+      user.accounts?.length > 0
+        ? user.accounts.find((account) => account.isDefault === 'True')?.accountNumber ||
+          user.accounts[0]?.accountNumber ||
+          ''
+        : '';
+    const accountBank =
+      user.accounts?.length > 0
+        ? user.accounts.find((account) => account.isDefault === 'True')?.bank ||
+          user.accounts[0]?.bank ||
+          ''
+        : '';
 
     return {
       id: user.id,
       fullName: `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim(),
       fatherName: personalInfo.fatherName || '',
       uniqueIdentifier: user.uniqueIdentifier || '',
+      mobile: user.mobile || '',
+      companyName: legalInfo.companyName || '',
       birthDate: personalInfo.birthDate || '',
+      accountNumber: accountNumber || '',
+      accountBank: accountBank || '',
       gender: personalInfo.gender || '',
       placeOfBirth: personalInfo.placeOfBirth || '',
       placeOfIssue: personalInfo.placeOfIssue || '',
     };
   });
 
-const columns = [
-  { title: 'نام و نام خانوادگی', field: 'fullName', width: 240, headerFilter: 'input' },
-  { title: 'نام شرکت', field: 'companyName', width: 240, headerFilter: 'input' },
-  { title: 'نام پدر', field: 'fatherName', width: 200, headerFilter: 'input' },
-  { title: 'کدملی', field: 'uniqueIdentifier', width: 200, headerFilter: 'input' },
-  {
-    title: 'تاریخ تولد',
-    field: 'birthDate',
-    width: 200,
-    formatter: (cell) => formatDate(cell.getValue() ),
-    headerFilter: 'input',
-  },
-  {
-    title: 'جنسیت',
-    field: 'gender',
-    width: 150,
-    formatter: (cell) => {
-      console.log('Gender cell value:', cell.getValue());
-      return cell.getValue() === 'Female' ? 'زن' : 'مرد';
-    },
-    headerFilter: 'input',
-  },
-  { title: 'محل تولد', field: 'placeOfBirth', width: 150, headerFilter: 'input' },
-  { title: 'محل صدور', field: 'placeOfIssue', width: 150, headerFilter: 'input' },
-];
-
 const UserFeature = () => {
-
+  const navigate = useNavigate();
   const { data: rawData } = useGetUser();
+
+  const handleRowClick = (params) => {
+    navigate(`/userDetail/${params.row.id}`);
+  };
+ 
+  console.log(rawData);
+  const columns = [
+    {
+      field: 'actions',
+      headerName: 'عملیات',
+      width: 50,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRowClick(params);
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '4px',
+            color: '#2563eb',
+          }}
+          title="مشاهده"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+            <path fillRule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clipRule="evenodd" />
+          </svg>
+        </button>
+      ),
+    },
+    { field: 'fullName', headerName: 'نام و نام خانوادگی', width: 150, filterable: true },
+    { field: 'mobile', headerName: 'شماره همراه', width: 120, filterable: true },
+    // { field: 'companyName', headerName: 'نام شرکت', width: 150, filterable: true },
+    // { field: 'fatherName', headerName: 'نام پدر', width: 120, filterable: true },
+    { field: 'uniqueIdentifier', headerName: 'کدملی', width: 120, filterable: true },
+    {
+      field: 'birthDate',
+      headerName: 'تاریخ تولد',
+      width: 120,
+      
+      filterable: true,
+    },
+    {
+      field: 'gender',
+      headerName: 'جنسیت',
+      width: 100,
+      formatter: (cell) => (cell.getValue() === 'Female' ? 'زن' : 'مرد'),
+      filterable: true,
+    },
+    // { field: 'placeOfBirth', headerName: 'محل تولد', width: 120, filterable: true },
+    // { field: 'placeOfIssue', headerName: 'محل صدور', width: 120, filterable: true },
+    { field: 'accountNumber', headerName: 'شماره حساب', width: 150, filterable: true },
+    { field: 'accountBank', headerName: 'بانک', width: 120, filterable: true },
+  ];
 
   const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
 
-  const transformDataForExcel = (excelData) =>
-    excelData.map((item) => ({
-      مبلغ: item.amount_operator || '0',
-      'تاریخ سود سرمایه گذار': item.date_capitalization_operator || '',
-      طرح: item.plan || '',
-      کامنت: item.profit_payment_comment || '',
-      'سود پرداخت تکمیل شده': item.profit_payment_completed === 'true' ? 'بله' : 'خیر',
-    }));
+  const downloadExcel = useCallback(() => {
+    try {
+      if (!formattedData || formattedData.length === 0) {
+        console.error('No data available for export');
+        return;
+      }
+
+      const excelData = formattedData.map((item, index) => ({
+        ردیف: (index + 1).toString(),
+        'نام و نام خانوادگی': item.fullName || '',
+        'شماره همراه': item.mobile || '',
+        'نام شرکت': item.companyName || '',
+        'نام پدر': item.fatherName || '',
+        کدملی: item.uniqueIdentifier || '',
+        'تاریخ تولد': formatDate(item.birthDate) || '',
+        جنسیت: item.gender === 'Female' ? 'زن' : 'مرد',
+        'محل تولد': item.placeOfBirth || '',
+        'محل صدور': item.placeOfIssue || '',
+        'شماره حساب': item.accountNumber || '',
+        بانک: item.accountBank || '',
+      }));
+
+      exportToExcel(excelData);
+    } catch (error) {
+      console.error('Error in downloadExcel:', error);
+    }
+  }, [formattedData]);
 
   useEffect(() => {
     const handleWheel = (event) => {};
@@ -91,14 +161,10 @@ const UserFeature = () => {
         disableColumnMenu
         filterMode="client"
         localeText={localeText}
+        onRowClick={handleRowClick}
         slots={{
           toolbar: (props) => (
-            <CustomDataGridToolbar
-              {...props}
-              data={formattedData}
-              fileName="گزارش-پرداخت"
-              customExcelData={transformDataForExcel}
-            />
+            <CustomDataGridToolbar {...props} data={formattedData} fileName="گزارش-پرداخت" transformDataForExcel={downloadExcel} />
           ),
         }}
         slotProps={{

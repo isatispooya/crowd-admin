@@ -3,7 +3,7 @@ import UserFeature from '../feature/userfeature';
 import useGetUser from '../services/useGetUser';
 
 const UserPage = () => {
-  const { data, isPending, isError } = useGetUser();
+  const { isPending, isError } = useGetUser();
 
   return (
     <div
