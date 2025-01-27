@@ -37,14 +37,14 @@ const mapUserData = (users) =>
     return {
       id: user.id,
       fullName: `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim(),
-      fatherName: personalInfo.fatherName || '',
+      fatherName: personalInfo?.fatherName || '',
       uniqueIdentifier: user.uniqueIdentifier || '',
       mobile: user.mobile || '',
       companyName: legalInfo.companyName || '',
-      birthDate: personalInfo.birthDate || '',
+      birthDate: personalInfo?.birthDate || '',
       accountNumber: accountNumber || '',
       accountBank: accountBank || '',
-      gender: personalInfo.gender || '',
+      gender: personalInfo?.gender || '',
       placeOfBirth: personalInfo.placeOfBirth || '',
       placeOfIssue: personalInfo.placeOfIssue || '',
     };
@@ -58,7 +58,7 @@ const UserFeature = () => {
     navigate(`/userDetail/${params.row.id}`);
   };
  
-  console.log(rawData);
+  
   const columns = [
     {
       field: 'actions',
@@ -92,20 +92,20 @@ const UserFeature = () => {
     { field: 'fullName', headerName: 'نام و نام خانوادگی', width: 150, filterable: true },
     { field: 'mobile', headerName: 'شماره همراه', width: 120, filterable: true },
     { field: 'companyName', headerName: 'نام شرکت', width: 150, filterable: true },
-    { field: 'fatherName', headerName: 'نام پدر', width: 120, filterable: true },
+ 
     { field: 'uniqueIdentifier', headerName: 'کدملی', width: 120, filterable: true },
     {
       field: 'birthDate',
       headerName: 'تاریخ تولد',
       width: 120,
-      
+      valueFormatter: (params) => formatDate(params.value),
       filterable: true,
     },
     {
       field: 'gender',
       headerName: 'جنسیت',
       width: 100,
-      formatter: (cell) => (cell.getValue() === 'Female' ? 'زن' : 'مرد'),
+      valueFormatter: (params) => (params.value === 'Female' ? 'زن' : 'مرد'),
       filterable: true,
     },
     { field: 'placeOfBirth', headerName: 'محل تولد', width: 120, filterable: true },
