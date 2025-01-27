@@ -3,8 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { MenuItem, Select, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import moment from 'moment-jalaali';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
-import moment from 'moment-jalaali';
-
 import useGetWarranty from '../hooks/getWarranty';
 import usePostWarranty from '../hooks/postWarranty';
 import { localeText } from '../consts/localText';
