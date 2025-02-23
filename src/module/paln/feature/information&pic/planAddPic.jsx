@@ -7,16 +7,24 @@ import { useParams } from 'react-router-dom';
 import { OnRun } from 'src/api/OnRun';
 import { useGetPic } from '../../service/planPicture/useGetPic';
 import { usePostPic } from '../../service/planPicture/usePostPic';
+import useVideo from './hooks/useVideo';
 
 const PlanAddPic = () => {
   const [file, setFile] = useState(null);
+  const [viedo, setViedo] = useState(null);
   const { trace_code } = useParams();
   const { data } = useGetPic(trace_code);
   const { mutate, isPending, isError } = usePostPic(trace_code);
+  const { mutate: videoMutate, isPending: videoPending } = useVideo(trace_code);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+  };
+
+  const handleVideoChange = (event) => {
+    const selectedVideo = event.target.files[0];
+    setViedo(selectedVideo);
   };
 
   const handleButtonClick = () => {
@@ -27,12 +35,30 @@ const PlanAddPic = () => {
       mutate(formData, {
         onSuccess: () => {
           toast.success('عکس با موفقیت آپلود شد.');
+          setFile(null); // Clear file input after successful upload
         },
         onError: (error) => {
           toast.error(`خطا در ارسال عکس: ${error.message}`);
         },
       });
-    } else {
+    }
+
+    if (viedo) {
+      const videoFormData = new FormData();
+      videoFormData.append('viedo', viedo);
+
+      videoMutate(videoFormData, {
+        onSuccess: () => {
+          toast.success('ویدیو با موفقیت آپلود شد.');
+          setViedo(null);
+        },
+        onError: (error) => {
+          toast.error(`خطا در ارسال ویدیو: ${error.message}`);
+        },
+      });
+    }
+
+    if (!file && !viedo) {
       toast.error('لطفا قبل از ارسال یک فایلی آپلود کنید.');
     }
   };
@@ -45,7 +71,7 @@ const PlanAddPic = () => {
     <Box sx={{ padding: 3 }}>
       <Box className="bg-gray-100 text-center py-4 rounded-t-lg">
         <Typography variant="h5" component="h1" className="text-gray-700 font-bold">
-            افزودن عکس
+          افزودن عکس و ویدیو
         </Typography>
       </Box>
 
@@ -101,12 +127,43 @@ const PlanAddPic = () => {
           </Button>
         </Box>
       ) : (
+        <Box sx={{ marginBottom: '20px' }}>
+          <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
+            بارگذاری عکس
+          </Typography>
+          <Input
+            type="file"
+            onChange={handleFileChange}
+            sx={{
+              marginTop: '20px',
+              marginBottom: '20px',
+              borderRadius: '8px',
+              width: '100%',
+              color: '#424242',
+              '& input': {
+                padding: '15px',
+                borderRadius: '8px',
+                border: '1px solid #ddd',
+              },
+              '&:focus-within': {
+                outline: 'none',
+                borderColor: '#3f51b5',
+              },
+            }}
+          />
+        </Box>
+      )}
+
+      <Box sx={{ marginBottom: '20px' }}>
+        <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
+          بارگذاری ویدیو
+        </Typography>
         <Input
           type="file"
-          onChange={handleFileChange}
+          accept="video/*"
+          onChange={handleVideoChange}
           sx={{
-            marginTop: '20px',
-            marginBottom: '20px',
+            marginTop: '10px',
             borderRadius: '8px',
             width: '100%',
             color: '#424242',
@@ -121,7 +178,7 @@ const PlanAddPic = () => {
             },
           }}
         />
-      )}
+      </Box>
 
       <Box mt={2}>
         <SubmitButton mt={2} onClick={handleButtonClick} disabled={isPending} />{' '}

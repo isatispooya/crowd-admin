@@ -33,7 +33,7 @@ const InformationPage = () => {
         aria-label="information options"
         sx={{ marginBottom: 2 }}
       >
-        <ToggleButton value="pic">افزودن عکس</ToggleButton>
+        <ToggleButton value="pic">افزودن عکس و ویدیو</ToggleButton>
         <ToggleButton value="info">افزودن اطلاعات تکمیلی</ToggleButton>
       </ToggleButtonGroup>
 
