@@ -67,6 +67,14 @@ const PlanAddPic = () => {
     setFile(null);
   };
 
+  if (videoPending || isPending) {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-gray-200 border-t-blue-500 border-b-blue-500" />
+      </div>
+    );
+  }
+
   return (
     <Box sx={{ padding: 3 }}>
       <Box className="bg-gray-100 text-center py-4 rounded-t-lg">
