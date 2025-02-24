@@ -9,14 +9,10 @@ import EditModal from './editModal';
 
 const PlanProgress = () => {
   const { trace_code } = useParams();
-  const { data, isLoading , refetch : refreshList } = useGetProgress(trace_code);
+  const { data, isLoading, refetch: refreshList } = useGetProgress(trace_code);
   const [open, setOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
 
-  
-  
-  
-  
   const handleEditClick = (doc) => {
     setSelectedDoc(doc);
     setOpen(true);

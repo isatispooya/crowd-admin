@@ -14,17 +14,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import React, { useState } from 'react';
 import usePostProgress from '../services/usePostPlanProgress';
 
-const UploadBox = styled(Box)(({ theme }) => ({
-  border: `2px dashed ${theme.palette.primary.main}`,
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(3),
+const UploadBox = styled(Box)({
+  border: '1px dashed #999',
+  borderRadius: '4px',
+  padding: '16px',
   textAlign: 'center',
-  backgroundColor: theme.palette.background.default,
   cursor: 'pointer',
+  transition: 'background 0.2s',
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    background: '#f5f5f5',
   },
-}));
+});
 
 const EditModal = ({ open, onClose, title, trace_code, id, refreshList }) => {
   const { mutate } = usePostProgress(trace_code, id);
@@ -36,31 +36,25 @@ const EditModal = ({ open, onClose, title, trace_code, id, refreshList }) => {
   };
 
   const handleSubmit = () => {
-    mutate(selectedFile);
-    refreshList();
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    mutate(formData);
+    onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle
-        sx={{ m: 0, p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-      >
-        <Typography variant="h6">{title}</Typography>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
+      <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {title}
+        <IconButton onClick={onClose} size="small">
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent dividers>
+      <DialogContent>
         <UploadBox component="label">
           <input type="file" onChange={handleFileChange} accept=".pdf,.doc,.docx,.xlsx" hidden />
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="body1" gutterBottom>
             فایل را انتخاب کنید
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -69,15 +63,9 @@ const EditModal = ({ open, onClose, title, trace_code, id, refreshList }) => {
         </UploadBox>
       </DialogContent>
 
-      <DialogActions sx={{ p: 2 }}>
-        <Button onClick={onClose} variant="outlined">
-          انصراف
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          disabled={!selectedFile}
-        >
+      <DialogActions>
+        <Button onClick={onClose}>انصراف</Button>
+        <Button onClick={handleSubmit} variant="contained" disabled={!selectedFile}>
           ثبت
         </Button>
       </DialogActions>

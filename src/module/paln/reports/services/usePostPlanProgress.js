@@ -4,26 +4,29 @@ import useGetProgress from './useGetPlanProgress';
 
 const usePostProgress = (trace_code, id) => {
   const { refetch: refreshList } = useGetProgress(trace_code);
-  const PostProgress = (postData) => {
-    const formData = new FormData();
-    const blob = new Blob([postData], { type: 'text/plain' });
-    formData.append('file', blob, 'filename.txt');
-    const response = api.patch(`/api/progres/report/admin/${trace_code}/${id}/`, formData, {
-    });
 
-    return response.data;
-  };
+  const PostProgress = (file) =>
+    api
+      .patch(`/api/progres/report/admin/${trace_code}/${id}/`, file, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => response.data);
 
   const { date, mutate, isPending, isError, isSuccess } = useMutation({
     mutationKey: ['PostPlanProgress'],
     mutationFn: PostProgress,
     onSettled: () => {
       refreshList();
+      console.log('refetch');
     },
     onError: () => {
       refreshList();
+      console.log('refetch');
     },
   });
+
   return {
     date,
     mutate,
@@ -32,4 +35,5 @@ const usePostProgress = (trace_code, id) => {
     isSuccess,
   };
 };
+
 export default usePostProgress;
