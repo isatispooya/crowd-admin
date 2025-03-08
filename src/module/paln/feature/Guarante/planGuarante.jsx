@@ -98,6 +98,7 @@ const PlanGuarante = () => {
             inputProps={{ accept: 'application/pdf,image/*' }}
             sx={{ marginBottom: '10px' }}
           />
+          <Typography sx={{ marginBottom: '10px' }}>لوگو:</Typography>
           <TextField
             type="file"
             inputRef={logoInputRef}
