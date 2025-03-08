@@ -14,10 +14,11 @@ const PlanGuarante = () => {
 
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
-  const [postData, setPostData] = useState({ title: '', file: null });
+  const [postData, setPostData] = useState({ title: '', file: null, logo: null });
   const [openModal, setOpenModal] = useState(false);
   const [docToDelete, setDocToDelete] = useState(null);
   const fileInputRef = useRef(null);
+  const logoInputRef = useRef(null);
 
   const { mutate: postGuarante } = usePostGuarante();
   const { mutate: deleteGuarante } = useDeleteGuarante();
@@ -33,11 +34,18 @@ const PlanGuarante = () => {
       setError('لطفاً عنوان را وارد کنید.');
       return;
     }
+    if (!postData.file) {
+      setError('لطفاً فایل اصلی را انتخاب کنید.');
+      return;
+    }
     setError('');
     postGuarante(postData);
-    setPostData({ title: '', file: null });
+    setPostData({ title: '', file: null, logo: null });
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+    if (logoInputRef.current) {
+      logoInputRef.current.value = '';
     }
     toast.success('تضامین با موفقیت ارسال شد');
   };
@@ -90,6 +98,14 @@ const PlanGuarante = () => {
             inputProps={{ accept: 'application/pdf,image/*' }}
             sx={{ marginBottom: '10px' }}
           />
+          <TextField
+            type="file"
+            inputRef={logoInputRef}
+            onChange={(e) => setPostData((prev) => ({ ...prev, logo: e.target.files[0] || null }))}
+            fullWidth
+            inputProps={{ accept: 'image/*' }}
+            sx={{ marginBottom: '10px' }}
+          />
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
@@ -110,49 +126,76 @@ const PlanGuarante = () => {
         </Box>
       </Box>
 
-      {files && !isPending && isSuccess && files.map((doc) => (
-        <Box
-          key={doc.id}
-          sx={{
-            mt: 4,
-            boxShadow: 2,
-            p: 3,
-            borderRadius: 2,
-            bgcolor: '#f9f9f9',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ flex: 1 }}>
-            <Typography>عنوان: {doc.title}</Typography>
-            <Link
-              href={`${OnRun}/${doc.file}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                fontSize: '16px',
-                color: '#1976d2',
-                fontWeight: '500',
-                transition: 'color 0.3s',
-                '&:hover': { textDecoration: 'underline', color: '#115293' },
-              }}
-            >
-              فایل بارگزاری شده
-            </Link>
-            <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }} />
-          </Box>
-          <Button
-            variant="outlined"
-            size="small"
-            color="error"
-            onClick={() => handleDelete(doc.id)}
-            sx={{ marginLeft: '10px', borderRadius: '8px' }}
+      {files &&
+        !isPending &&
+        isSuccess &&
+        files.map((doc) => (
+          <Box
+            key={doc.id}
+            sx={{
+              mt: 4,
+              boxShadow: 2,
+              p: 3,
+              borderRadius: 2,
+              bgcolor: '#f9f9f9',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
           >
-            حذف
-          </Button>
-        </Box>
-      ))}
+            <Box sx={{ flex: 1 }}>
+              <Typography>عنوان: {doc.title}</Typography>
+              <Link
+                href={`${OnRun}/${doc.file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  fontSize: '16px',
+                  color: '#1976d2',
+                  fontWeight: '500',
+                  transition: 'color 0.3s',
+                  '&:hover': { textDecoration: 'underline', color: '#115293' },
+                }}
+              >
+                فایل بارگزاری شده
+              </Link>
+              <FileCopyOutlinedIcon
+                sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+              />
+              {doc.logo && (
+                <Box sx={{ mt: 2 }}>
+                  <Typography>لوگو:</Typography>
+                  <Link
+                    href={`${OnRun}/${doc.logo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      fontSize: '16px',
+                      color: '#1976d2',
+                      fontWeight: '500',
+                      transition: 'color 0.3s',
+                      '&:hover': { textDecoration: 'underline', color: '#115293' },
+                    }}
+                  >
+                    مشاهده لوگو
+                  </Link>
+                  <FileCopyOutlinedIcon
+                    sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+                  />
+                </Box>
+              )}
+            </Box>
+            <Button
+              variant="outlined"
+              size="small"
+              color="error"
+              onClick={() => handleDelete(doc.id)}
+              sx={{ marginLeft: '10px', borderRadius: '8px' }}
+            >
+              حذف
+            </Button>
+          </Box>
+        ))}
 
       <DeleteModal
         open={openModal}
