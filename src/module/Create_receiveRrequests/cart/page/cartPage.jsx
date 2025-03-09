@@ -11,15 +11,12 @@ import useGetCards from '../service/useGetCarts';
 
 const CardPage = () => {
   const { incrementPage } = useNavigateStep();
-  const { setCartId, cartId } = UseCartId([]); // Keeps cartId and setCartId unchanged
+  const { setCartId, cartId } = UseCartId([]);
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const { data, isError, isPending } = useGetCards(cartId);
-
-
-  
 
   const mutation = useMutation({
     mutationFn: (unique_id) => deleteCard(unique_id),
@@ -36,7 +33,7 @@ const CardPage = () => {
   }, [data, isError, isPending]);
 
   const handleCardClick = (unique_id) => {
-    setCartId(unique_id); // Set cartId to the unique_id of the clicked card
+    setCartId(unique_id);
   };
 
   const handleModalOpen = (modalSetter, unique_id) => {
@@ -79,7 +76,7 @@ const CardPage = () => {
                     stiffness: 150,
                     damping: 20,
                   }}
-                  onClick={() => handleCardClick(card.unique_id)} 
+                  onClick={() => handleCardClick(card.unique_id)}
                 >
                   <CardFeature
                     card={card}
