@@ -78,15 +78,23 @@ const Bazar = () => {
     }));
   }, [myketData]);
 
-  const transformDataForExcel = (excelData) =>
-    excelData.map((item) => ({
-      شناسه: item.id || '',
-      عنوان: item.title || '',
-      تاریخ: item.date || '',
-      دوره: item.period || '',
-      توضیحات: item.comment || '',
-      وضعیت: item.completed ? 'تکمیل شده' : 'در حال انجام',
+  const transformDataForExcel = () => {
+    if (!rows || rows.length === 0) {
+      console.error('No data available for export');
+      return [];
+    }
+    
+    return rows.map((item) => ({
+      'شناسه': item.id || '',
+      'نام طرح': item.projectName || '',
+      'نام مشتری': item.customerName || '',
+      'شناسه مشتری': item.uniqueIdentifier || '',
+      'مبلغ سرمایه گذاری (ریال)': formatNumber(item.investment) || '0',
+      'کد معرف': item.referralCode || '',
+      'معرف': item.marketer || '',
+      'شماره شبا معرف': item.referralIBAN || '',
     }));
+  };
 
   const renderContent = () => {
     if (isPending) {
@@ -95,6 +103,12 @@ const Bazar = () => {
     if (isError) {
       return <div>خطا در دریافت اطلاعات</div>;
     }
+    if (!rows || rows.length === 0) {
+      return <div>داده‌ای برای نمایش وجود ندارد</div>;
+    }
+    
+    console.log('Rows data for export:', rows);
+    
     return (
       <div>
         <DataGrid
@@ -111,7 +125,20 @@ const Bazar = () => {
               <CustomDataGridToolbar
                 {...props}
                 fileName="گزارش-بازار"
-                customExcelData={transformDataForExcel}
+                customExcelData={() => {
+                  console.log('Transforming data for Excel:', rows);
+                  return rows.map((item) => ({
+                    'شناسه': item.id || '',
+                    'نام طرح': item.projectName || '',
+                    'نام مشتری': item.customerName || '',
+                    'شناسه مشتری': item.uniqueIdentifier || '',
+                    'مبلغ سرمایه گذاری (ریال)': formatNumber(item.investment) || '0',
+                    'کد معرف': item.referralCode || '',
+                    'معرف': item.marketer || '',
+                    'شماره شبا معرف': item.referralIBAN || '',
+                  }));
+                }}
+                data={rows}
               />
             ),
           }}

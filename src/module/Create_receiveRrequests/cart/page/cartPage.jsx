@@ -79,7 +79,7 @@ const CardPage = () => {
                     stiffness: 150,
                     damping: 20,
                   }}
-                  onClick={() => handleCardClick(card.unique_id)} // Set cartId on card click
+                  onClick={() => handleCardClick(card.unique_id)} 
                 >
                   <CardFeature
                     card={card}

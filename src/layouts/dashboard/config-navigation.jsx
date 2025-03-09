@@ -6,8 +6,6 @@ import PeopleIcon from '@mui/icons-material/People';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SecurityIcon from '@mui/icons-material/Security';
 
-
-
 const navConfig = [
   {
     title: 'میزکار',
@@ -20,7 +18,7 @@ const navConfig = [
     icon: <DashboardIcon className="text-2xl" />,
   },
   {
-    title: 'ایجاد و پیگیری درخواست',
+    title: 'سرمایه پذیر',
     path: '/card',
     icon: <AssignmentIcon className="text-2xl" />,
   },

@@ -23,7 +23,8 @@ const CustomDataGridToolbar = ({
         return;
       }
 
-  
+      console.log('Exporting data:', data);
+      
       const excelData = customExcelData ? customExcelData(data) : data;
       
       exportToExcel(excelData, fileName);
