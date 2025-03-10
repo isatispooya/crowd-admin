@@ -1,61 +1,18 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import UseCartId from 'src/hooks/card_id';
-import useNavigateStep from 'src/hooks/use-navigate-step';
-import { DeleteModal } from 'src/components/modal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import MessagePage from 'src/module/Create_receiveRrequests/message/page/messagepage';
+import { useNavigate } from 'react-router-dom';
 import CardFeature from '../feature/cartfeature';
-import { deleteCard } from '../service/cartService';
-import useGetCards from '../service/useGetCarts';
+import useGetCards from '../service/cartService';
 
 const CardPage = () => {
-  const { incrementPage } = useNavigateStep();
-  const { setCartId, cartId } = UseCartId([]);
-  const [cards, setCards] = useState([]);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const { data, isError, isPending } = useGetCards(cartId);
+  const { setCartId } = UseCartId([]);
+  const { data: responseData } = useGetCards();
+  const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: (unique_id) => deleteCard(unique_id),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['card', cartId]);
-      setDeleteModalOpen(false);
-    },
-  });
-
-  useEffect(() => {
-    if (!isError && data && !isPending) {
-      setCards(data?.cart || []);
-    }
-  }, [data, isError, isPending]);
 
   const handleCardClick = (unique_id) => {
     setCartId(unique_id);
-  };
-
-  const handleModalOpen = (modalSetter, unique_id) => {
-    setCartId(unique_id);
-    modalSetter(true);
-  };
-
-  const handleClick = (unique_id) => {
-    setCartId(unique_id);
-    incrementPage();
-  };
-
-  const handleDeleteClick = () => {
-    if (cartId === null) return;
-    mutation.mutate(cartId);
-    setDeleteModalOpen(false);
-    setCartId(null);
-  };
-
-  const handleModalClose = () => {
-    setDeleteModalOpen(false);
-    setSendMessageModalOpen(false);
+    navigate('/cardDetails');
   };
 
   return (
@@ -66,8 +23,8 @@ const CardPage = () => {
         </div>
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {cards.length > 0 &&
-              cards.map((card) => (
+            {responseData?.length > 0 &&
+              responseData.map((card) => (
                 <motion.div
                   key={card.unique_id}
                   whileTap={{ scale: 0.95 }}
@@ -78,29 +35,12 @@ const CardPage = () => {
                   }}
                   onClick={() => handleCardClick(card.unique_id)}
                 >
-                  <CardFeature
-                    card={card}
-                    handleCardClick={handleCardClick}
-                    setSendMessageModalOpen={setSendMessageModalOpen}
-                    handleClick={handleClick}
-                    handleModalOpen={handleModalOpen}
-                    setCards={setCards}
-                    openDeleteModal={() => {
-                      setCartId(card.unique_id);
-                      setDeleteModalOpen(true);
-                    }}
-                  />
+                  <CardFeature cardData={card} handleCardClick={handleCardClick} />
                 </motion.div>
               ))}
           </div>
         </div>
       </div>
-      <DeleteModal
-        open={deleteModalOpen}
-        onClose={handleModalClose}
-        onConfirm={handleDeleteClick}
-      />
-      <MessagePage cardSelected={cartId} open={sendMessageModalOpen} onClose={handleModalClose} />
     </div>
   );
 };

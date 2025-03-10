@@ -1,118 +1,223 @@
 import PropTypes from 'prop-types';
-import { Box, Button, Typography } from '@mui/material';
-import { TbMessagePlus } from 'react-icons/tb';
+import { Box, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import usePostFinish from '../service/usePostFinish';
 
-const CardFeature = ({
-  card,
-  handleCardClick,
-  handleClick,
-  openDeleteModal,
-  setSendMessageModalOpen,
-  handleModalOpen,
-}) => {
-  const formatNumber = (value) => {
-    if (value == null) return '';
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
-
-  const { mutate } = usePostFinish(card.unique_id);
-  const handleFinish = () => {
-    mutate({
-      cartId: card.unique_id,
-      finish_cart: !card.finish_cart,
-    });
-  };
+const CardFeature = ({ handleCardClick, cardData }) => {
+  console.log(cardData);
 
   return (
     <motion.div
-      whileHover={{ scale: 1.01 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-      className="flex justify-center items-center"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        padding: '10px',
+      }}
+      onClick={() => handleCardClick(cardData.unique_id)}
     >
       <Box
-        className="bg-white shadow-lg rounded-3xl p-4 flex flex-col justify-between items-center cursor-pointer transition-all duration-300 hover:shadow-2xl w-full max-w-[350px]"
-        onClick={() => handleCardClick(card.unique_id)}
+        sx={{
+          backgroundColor: '#fff',
+          borderRadius: '16px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          padding: { xs: '12px', sm: '16px' },
+          width: '100%',
+          maxWidth: { xs: '100%', sm: '450px' },
+          height: { xs: 'auto', sm: '600px' },
+          minHeight: { xs: '520px', sm: '560px' },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          cursor: 'pointer',
+          position: 'relative',
+          '&:hover': {
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
+          },
+        }}
       >
-        <div className="flex justify-end w-full mb-4">
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              openDeleteModal();
-            }}
-            style={{
-              borderRadius: '50%',
-              minWidth: '45px',
-              height: '45px',
+        <Box
+          component="img"
+          src={`${cardData.company.picture}`}
+          alt="Product Image"
+          sx={{
+            width: '100%',
+            height: { xs: '160px', sm: '200px' },
+            objectFit: 'cover',
+            borderRadius: '8px',
+            mb: { xs: 2, sm: 3 },
+          }}
+        />
+        <Box sx={{ width: '100%', padding: { xs: '0 5px', sm: '0 10px' }, flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 'bold',
+              color: '#1a1a1a',
+              mb: 1.5,
+              textAlign: 'center',
+              fontSize: { xs: '1.1rem', sm: '1.2rem' },
+              letterSpacing: '0.3px',
+              lineHeight: 1.3,
             }}
           >
-            <span style={{ fontSize: '18px', color: '#ff5c5c' }}>❌</span>
-          </Button>
-        </div>
+            {cardData.suggestion_plan_name}
+          </Typography>
 
-        <div className="flex flex-col items-center text-center mb-6 space-y-2">
-          <Typography variant="h5" className="font-bold text-gray-800">
-            {card.company_name || 'بدون نام'}
-          </Typography>
-          <Typography variant="body2" className="text-gray-600">
-            شناسه: {card.nationalid}
-          </Typography>
-          <Typography variant="body2" className="text-gray-600">
-            سرمایه: {formatNumber(card.registered_capital)} ریال
-          </Typography>
-          <Typography variant="body2" className="text-gray-600">
-            شماره ثبت: {card.registration_number}
-          </Typography>
-        </div>
-
-        <div className="flex justify-center gap-4 mb-4">
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClick(card.unique_id);
+          <Typography
+            variant="body1"
+            sx={{
+              color: '#333',
+              mb: 2,
+              textAlign: 'center',
+              fontWeight: '500',
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              letterSpacing: '0.2px',
             }}
-            variant="contained"
-            color="primary"
-            className="px-4 py-2 text-sm sm:text-base"
-            sx={{ textTransform: 'none', fontWeight: 'bold' }}
           >
-            مشاهده و ویرایش
-          </Button>
+            {cardData.company.title}
+          </Typography>
 
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleFinish();
-            }}
-            variant="outlined"
-            className="px-4 py-2 text-sm sm:text-base"
-          >
-            {card.finish_cart ? 'شروع' : 'اتمام'}
-          </Button>
-        </div>
-
-        <div className="flex justify-center mt-2">
-          <TbMessagePlus
-            style={{ fontSize: '28px', cursor: 'pointer', color: '#007bff' }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleModalOpen(setSendMessageModalOpen, card.unique_id);
+          <Box
+            sx={{
+              width: '60%',
+              height: '2px',
+              backgroundColor: 'rgba(0, 32, 91, 0.15)',
+              margin: '0 auto 16px auto',
+              borderRadius: '2px',
             }}
           />
-        </div>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1.5,
+              backgroundColor: 'rgba(0, 32, 91, 0.03)',
+              padding: { xs: '10px', sm: '12px' },
+              borderRadius: '8px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: 'space-between',
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                borderBottom: '1px dashed rgba(0, 32, 91, 0.1)',
+                paddingBottom: '8px',
+                gap: { xs: 1, sm: 0 },
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.9rem', sm: '0.95rem' },
+                  fontWeight: '500',
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>شناسه ملی:</span>{' '}
+                {cardData.company.national_id}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.9rem', sm: '0.95rem' },
+                  fontWeight: '500',
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>سرمایه:</span>{' '}
+                {cardData.capital}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                gap: { xs: 1.5, sm: 2 },
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>نوع سرمایه‌گذاری:</span>
+                <br />
+                {cardData.investmentType}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>مدت زمان:</span>
+                <br />
+                {cardData.duration}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>نرخ بازگشت:</span>
+                <br />
+                {cardData.returnRate}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#444',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                }}
+              >
+                <span style={{ fontWeight: 'bold', color: '#333' }}>تاریخ شروع:</span>
+                <br />
+                {cardData.startDate}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: 'rgba(0, 32, 91, 0.85)',
+            color: '#fff',
+            padding: { xs: '5px 12px', sm: '6px 14px' },
+            borderRadius: '12px',
+            fontSize: { xs: '0.8rem', sm: '0.85rem' },
+            fontWeight: 'bold',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+            letterSpacing: '0.5px',
+            marginTop: { xs: '8px', sm: '10px' },
+            marginBottom: { xs: '5px', sm: '0' },
+          }}
+        >
+          {cardData.company.status}
+        </Box>
       </Box>
     </motion.div>
   );
 };
 
 CardFeature.propTypes = {
-  card: PropTypes.object.isRequired,
   handleCardClick: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  openDeleteModal: PropTypes.func.isRequired,
-  handleModalOpen: PropTypes.func.isRequired,
-  setSendMessageModalOpen: PropTypes.func.isRequired,
+  cardData: PropTypes.object.isRequired,
 };
 
 export default CardFeature;

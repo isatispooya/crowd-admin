@@ -1,2 +1,2 @@
-export { default as CompanyInfoPage } from './companyInfopage';
 
+export { default as CompanyInfoPage } from './companyInfopage';

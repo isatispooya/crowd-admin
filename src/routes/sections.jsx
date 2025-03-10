@@ -26,6 +26,10 @@ export const EvaluationCommittee = lazy(() =>
 );
 export const RiskCommittee = lazy(() => import('src/module/riskCommittee/page/riskCommitteePage'));
 export const RiskCommitteeDetails = lazy(() => import('src/module/riskCommittee/featuer/detail'));
+export const CardPage = lazy(() => import('src/module/Create_receiveRrequests/cart/page/cartPage'));
+export const CapitalCapable = lazy(() =>
+  import('src/module/Create_receiveRrequests/pages/CapitalCapable')
+);
 
 const motionWrapper = (Component = React.FC) => (
   <motion.div
@@ -51,7 +55,7 @@ export default function Router() {
       ),
       children: [
         { element: motionWrapper(IndexPage), index: true },
-        { path: 'card', element: motionWrapper(Sterpercrowd) },
+        { path: 'card', element: motionWrapper(CardPage) },
         { path: 'request', element: motionWrapper(UserPage) },
         { path: 'process', element: motionWrapper(ProcessProjectPage) },
         { path: 'ProfilePage', element: motionWrapper(ProfilePage) },
@@ -64,6 +68,7 @@ export default function Router() {
         { path: 'riskCommittee', element: motionWrapper(RiskCommittee) },
         { path: 'riskCommittee/:cartId', element: motionWrapper(RiskCommitteeDetails) },
         { path: 'tasks', element: motionWrapper(Tasks) },
+        { path: 'cartDetail', element: motionWrapper(CapitalCapable) },
       ],
     },
     {
