@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -13,15 +12,12 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
+import PropTypes from 'prop-types';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
-import useGetCompanyInfo from '../service/service';
 
-const BoardOfDirectorsRegistrationMain = () => {
-  const { cartId } = useParams();
-  const { data: companyInfo } = useGetCompanyInfo(cartId);
-
+const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const button = [
     {
       id: 1,
@@ -79,6 +75,10 @@ const BoardOfDirectorsRegistrationMain = () => {
       </Stack>
     </Box>
   );
+};
+
+BoardOfDirectorsRegistrationMain.propTypes = {
+  companyInfo: PropTypes.object.isRequired,
 };
 
 export default BoardOfDirectorsRegistrationMain;

@@ -1,15 +1,35 @@
-import { Typography, Paper } from '@mui/material';
+import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
+import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import BoardOfDirectors from '../feature';
 
-const CompanyInfoPage = ({ companyInfo }) => {
+const BoardofDirectorsPage = ({ data }) => {
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
-
+  const button = [
+    {
+      id: 1,
+      label: 'ثبت ',
+      icon: <CheckCircle />,
+      color: 'success',
+    },
+    {
+      id: 2,
+      label: 'رد ',
+      icon: <Cancel />,
+      color: 'error',
+    },
+    {
+      id: 3,
+      label: ' اصلاح',
+      icon: <Edit />,
+      color: 'info',
+    },
+  ];
   return (
     <Paper
       elevation={0}
@@ -53,15 +73,27 @@ const CompanyInfoPage = ({ companyInfo }) => {
           },
         }}
       >
-        اطلاعات شرکت خود را بارگزاری کنید
+        اطلاعات هیئت مدیره خود را بارگزاری کنید
       </Typography>
-      <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} />
+      <BoardOfDirectors data={data} />
+
+      <Stack  spacing={2} justifyContent="center" sx={{ mt: 8 }}>
+        <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          {button.map((item) => (
+            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
+              {item.label}
+            </Button>
+          ))}
+        </Box>
+      </Stack>
     </Paper>
   );
 };
 
-CompanyInfoPage.propTypes = {
-  companyInfo: PropTypes.object.isRequired,
+BoardofDirectorsPage.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
-export default CompanyInfoPage;
+export default BoardofDirectorsPage;
