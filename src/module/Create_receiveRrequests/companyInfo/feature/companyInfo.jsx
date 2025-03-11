@@ -3,15 +3,36 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
+import { OnRun } from 'src/api/OnRun';
 
-const fields = [
-  { id: 'company-logo', label: 'لوگو شرکت' },
-  { id: 'credit-report', label: 'گزارش اعتبارسنجی' },
-  { id: 'financial-statement', label: 'صورت مالی' },
-];
+const CompanyInfo = ({ companyInfo }) => {
 
-const CompanyInfo = () => {
+  const initialFields = [
+    {
+      id: 'picture',
+      label: 'لوگو شرکت',
+      value: companyInfo?.company?.picture,
+    },
+    {
+      id: 'validation_report',
+      label: 'گزارش اعتبارسنجی',
+      value: companyInfo?.company?.validation_report,
+    },
+    {
+      id: 'financial_statement',
+      label: 'صورت مالی',
+      value: companyInfo?.company?.financial_statement,
+    },
+  ];
+
   const [uploadedFiles, setUploadedFiles] = useState({});
+  const [fileValues, setFileValues] = useState(
+    initialFields.reduce((acc, field) => {
+      acc[field.id] = field.value ? `${OnRun}/${field.value}` : '';
+      return acc;
+    }, {})
+  );
 
   const handleFileChange = (event, fieldId) => {
     const file = event.target.files[0];
@@ -29,35 +50,24 @@ const CompanyInfo = () => {
       delete newFiles[fieldId];
       return newFiles;
     });
+
+    setFileValues((prevValues) => ({
+      ...prevValues,
+      [fieldId]: '',
+    }));
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        padding: 2,
-        borderRadius: 1,
-      }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Grid container spacing={2}>
-        {fields.map((field) => (
+        {initialFields.map((field) => (
           <Grid item xs={12} md={6} key={field.id}>
             <Typography variant="p" sx={{ fontSize: '15px' }}>
               <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
               {field.label}
             </Typography>
-            {!uploadedFiles[field.id] ? (
-              <TextField
-                fullWidth
-                type="file"
-                required
-                id={field.id}
-                variant="outlined"
-                onChange={(e) => handleFileChange(e, field.id)}
-              />
-            ) : (
+
+            {uploadedFiles[field.id] || fileValues[field.id] ? (
               <Box
                 sx={{
                   display: 'flex',
@@ -70,18 +80,42 @@ const CompanyInfo = () => {
                 }}
               >
                 <Typography variant="body2" sx={{ marginRight: 1 }}>
-                  {uploadedFiles[field.id]}
+                  {uploadedFiles[field.id] && <span>{uploadedFiles[field.id]}</span>}
+                  {fileValues[field.id] && !uploadedFiles[field.id] && (
+                    <a
+                      href={fileValues[field.id]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ marginLeft: '10px', color: 'blue', textDecoration: 'none' }}
+                    >
+                      {field.label} 📂
+                    </a>
+                  )}
                 </Typography>
+
                 <button type="button" onClick={() => handleDeleteFile(field.id)}>
                   🗑️
                 </button>
               </Box>
+            ) : (
+              <TextField
+                fullWidth
+                type="file"
+                required
+                id={field.id}
+                variant="outlined"
+                onChange={(e) => handleFileChange(e, field.id)}
+              />
             )}
           </Grid>
         ))}
       </Grid>
     </Box>
   );
+};
+
+CompanyInfo.propTypes = {
+  companyInfo: PropTypes.object.isRequired,
 };
 
 export default CompanyInfo;

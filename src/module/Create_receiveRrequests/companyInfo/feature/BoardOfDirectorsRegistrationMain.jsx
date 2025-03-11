@@ -1,106 +1,83 @@
 import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import { useParams } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
+  TextField,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Stack } from 'react-bootstrap';
+import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
+import useGetCompanyInfo from '../service/service';
 
 const BoardOfDirectorsRegistrationMain = () => {
-  const [expandedPanel, setExpandedPanel] = React.useState(null);
+  const { cartId } = useParams();
+  const { data: companyInfo } = useGetCompanyInfo(cartId);
 
-  const handleExpansion = (panel) => (event, isExpanded) => {
-    setExpandedPanel(isExpanded ? panel : null);
-  };
+  const button = [
+    {
+      id: 1,
+      label: 'ثبت ',
+      icon: <CheckCircle />,
+      color: 'success',
+    },
+    {
+      id: 2,
+      label: 'رد ',
+      icon: <Cancel />,
+      color: 'error',
+    },
+    {
+      id: 3,
+      label: ' اصلاح',
+      icon: <Edit />,
+      color: 'info',
+    },
+  ];
 
   return (
-    <div>
-      <Accordion
-        expanded={expandedPanel === 'companyInfo'}
-        onChange={handleExpansion('companyInfo')}
-        sx={{
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          marginBottom: '10px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-          '&:hover': {
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <Typography component="span">
-            <span style={{ color: 'navy', marginLeft: '5px', fontSize: '30px' }}>•</span>
+    <Box>
+      <Accordion sx={{ boxShadow: 4, borderRadius: 1, mb: 2 }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات شرکت
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CompanyInfo />
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        expanded={expandedPanel === 'companyBankInfo'}
-        onChange={handleExpansion('companyBankInfo')}
-        sx={{
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          marginBottom: '10px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-          '&:hover': {
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-        >
-          <Typography component="span">
-            <span style={{ color: 'navy', marginLeft: '5px', fontSize: '30px' }}>•</span>
+          <CompanyInfo companyInfo={companyInfo} />
+          <Divider sx={{ marginY: 2 }} />
+          <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات بانکی
           </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <CompanyBankInfo />
+          <CompanyBankInfo data={companyInfo} />
+          <Divider sx={{ marginY: 2 }} />
+          <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
+            اطلاعات ثبت
+          </Typography>
+          <CompanyRegister data={companyInfo} />
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
-        expanded={expandedPanel === 'companyRegister'}
-        onChange={handleExpansion('companyRegister')}
-        sx={{
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          marginBottom: '10px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-          '&:hover': {
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
-          <Typography component="span">
-            <span style={{ color: 'navy', marginLeft: '5px', fontSize: '30px' }}>•</span>
-            اطلاعات طرح
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <CompanyRegister />
-        </AccordionDetails>
-      </Accordion>
-    </div>
+      <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 8 }}>
+        <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          {button.map((item) => (
+            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
+              {item.label}
+            </Button>
+          ))}
+        </Box>
+      </Stack>
+    </Box>
   );
 };
 

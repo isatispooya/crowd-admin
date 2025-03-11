@@ -9,10 +9,9 @@ const CardPage = () => {
   const { data: responseData } = useGetCards();
   const navigate = useNavigate();
 
-
-  const handleCardClick = (unique_id) => {
-    setCartId(unique_id);
-    navigate('/cardDetails');
+  const handleCardClick = (id) => {
+    setCartId(id);
+    navigate(`/cartDetail/${id}`);
   };
 
   return (
@@ -26,14 +25,14 @@ const CardPage = () => {
             {responseData?.length > 0 &&
               responseData.map((card) => (
                 <motion.div
-                  key={card.unique_id}
+                  key={card.id}
                   whileTap={{ scale: 0.95 }}
                   transition={{
                     type: 'spring',
                     stiffness: 150,
                     damping: 20,
                   }}
-                  onClick={() => handleCardClick(card.unique_id)}
+                  onClick={() => handleCardClick(card.id)}
                 >
                   <CardFeature cardData={card} handleCardClick={handleCardClick} />
                 </motion.div>

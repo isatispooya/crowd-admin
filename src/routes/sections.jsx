@@ -68,7 +68,7 @@ export default function Router() {
         { path: 'riskCommittee', element: motionWrapper(RiskCommittee) },
         { path: 'riskCommittee/:cartId', element: motionWrapper(RiskCommitteeDetails) },
         { path: 'tasks', element: motionWrapper(Tasks) },
-        { path: 'cartDetail', element: motionWrapper(CapitalCapable) },
+        { path: 'cartDetail/:cartId', element: motionWrapper(CapitalCapable) },
       ],
     },
     {

@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
-const fields = [
-  { id: 'company-logo', label: 'نام بانک', type: 'select' },
-  { id: 'credit-report', label: 'شعبه', type: 'text' },
-  { id: 'financial-statement', label: 'کد شعبه', type: 'text' },
-];
+import PropTypes from 'prop-types';
 
 const banks = [
   { id: 1, name: 'بانک ملی ایران' },
@@ -43,43 +38,95 @@ const banks = [
   { id: 28, name: 'بانک مشترک ایران-ونزوئلا' },
 ];
 
-const CompanyBankInfo = () => (
-  <Box
-    component="form"
-    sx={{
-      padding: 2,
-      borderRadius: 1,
-    }}
-    noValidate
-    autoComplete="off"
-  >
-    <Grid container spacing={2}>
-      {fields.map((field) => (
-        <Grid item xs={12} md={6} key={field.id}>
+const CompanyBankInfo = ({ data }) => {
+  const [formData, setFormData] = useState({
+    bank: '',
+    bank_branch: data?.bank_branch || '',
+    bank_branch_code: data?.bank_branch_code || '',
+  });
+
+  // مقدار اولیه‌ی بانک را تنظیم می‌کنیم
+  useEffect(() => {
+    if (data?.bank) {
+      const bankObj = banks.find((b) => b.name === data.bank || b.id === data.bank);
+      if (bankObj) {
+        setFormData((prev) => ({ ...prev, bank: bankObj.id }));
+      }
+    }
+  }, [data]);
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  return (
+    <Box
+      component="form"
+      sx={{
+        padding: 2,
+        borderRadius: 1,
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
           <Typography variant="p" sx={{ fontSize: '15px' }}>
             <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
-            {field.label}
+            نام بانک
           </Typography>
-          {field.type === 'select' ? (
-            <Select
-              fullWidth
-              required
-              id={field.id}
-              variant="outlined"
-            >
-              {banks.map((bank) => (
-                <MenuItem key={bank.id} value={bank.id}>
-                  {bank.name}
-                </MenuItem>
-              ))}
-            </Select>
-          ) : (
-            <TextField fullWidth type={field.type} required id={field.id} variant="outlined" />
-          )}
+          <Select
+            name="bank"
+            value={formData.bank}
+            onChange={handleChange}
+            fullWidth
+            required
+            variant="outlined"
+          >
+            {banks.map((bank) => (
+              <MenuItem key={bank.id} value={bank.id}>
+                {bank.name}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
-      ))}
-    </Grid>
-  </Box>
-);
+
+        <Grid item xs={12} md={6}>
+          <Typography variant="p" sx={{ fontSize: '15px' }}>
+            <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
+            شعبه
+          </Typography>
+          <TextField
+            name="bank_branch"
+            value={formData.bank_branch}
+            onChange={handleChange}
+            fullWidth
+            required
+            variant="outlined"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Typography variant="p" sx={{ fontSize: '15px' }}>
+            <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
+            کد شعبه
+          </Typography>
+          <TextField
+            name="bank_branch_code"
+            value={formData.bank_branch_code}
+            onChange={handleChange}
+            fullWidth
+            required
+            variant="outlined"
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+CompanyBankInfo.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default CompanyBankInfo;

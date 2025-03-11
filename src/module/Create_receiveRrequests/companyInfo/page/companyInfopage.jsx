@@ -52,7 +52,7 @@ const CompanyInfoPage = () => {
           },
         }}
       >
-        اطلاعات هیئت مدیره خود را بارگزاری کنید
+        اطلاعات شرکت خود را بارگزاری کنید
       </Typography>
       <BoardOfDirectorsRegistrationMain />
     </Paper>
