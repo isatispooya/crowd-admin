@@ -1,7 +1,7 @@
 import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
-import BoardOfDirectors from '../feature';
+import AdditionalInformation from '../feature';
 
 const BoardofDirectorsPage = ({ data }) => {
   const pastelBlue = {
@@ -73,11 +73,11 @@ const BoardofDirectorsPage = ({ data }) => {
           },
         }}
       >
-        اطلاعات هیئت مدیره را برسی کنید
+        اطلاعات تکمیلی را برسی کنید
       </Typography>
-      <BoardOfDirectors data={data} />
+      <AdditionalInformation data={data} />
 
-      <Stack  spacing={2} justifyContent="center" sx={{ mt: 8 }}>
+      <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>

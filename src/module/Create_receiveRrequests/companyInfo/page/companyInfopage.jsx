@@ -53,7 +53,7 @@ const CompanyInfoPage = ({ companyInfo }) => {
           },
         }}
       >
-        اطلاعات شرکت خود را بارگزاری کنید
+        اطلاعات شرکت را برسی کنید
       </Typography>
       <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} />
     </Paper>

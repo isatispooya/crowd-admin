@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
 import useGetCompanyInfo from '../companyInfo/service/service';
+import ExecutiveContractPage from '../ExecutiveContract/page';
+import AdditionalInformationPage from '../AdditionalInformation/pages';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
@@ -60,13 +62,10 @@ const CapitalCapable = () => {
             aria-controls="panel2-content"
             id="panel2-header"
           >
-            <Typography component="span">قرارداد اجرایی</Typography>
+            <Typography component="span">اطلاعات تکمیلی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-              ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <AdditionalInformationPage data={companyInfo} />
           </AccordionDetails>
         </Accordion>
 
@@ -92,13 +91,10 @@ const CapitalCapable = () => {
             aria-controls="panel2-content"
             id="panel2-header"
           >
-            <Typography component="span">اطلاعات تکمیلی</Typography>
+            <Typography component="span">قرارداد اجرایی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-              ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <ExecutiveContractPage data={companyInfo} />
           </AccordionDetails>
         </Accordion>
       </Box>
