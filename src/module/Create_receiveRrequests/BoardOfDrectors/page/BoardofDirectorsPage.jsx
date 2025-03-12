@@ -1,9 +1,12 @@
 import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import { useState } from 'react';
 import BoardOfDirectors from '../feature';
 
 const BoardofDirectorsPage = ({ data }) => {
+  const [files, setFiles] = useState({});
+  
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
@@ -75,7 +78,7 @@ const BoardofDirectorsPage = ({ data }) => {
       >
         اطلاعات هیئت مدیره را برسی کنید
       </Typography>
-      <BoardOfDirectors data={data} />
+      <BoardOfDirectors files={files} setFiles={setFiles} data={data} />
 
       <Stack  spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />

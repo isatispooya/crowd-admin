@@ -14,10 +14,6 @@ const AdditionalInformation = ({ data }) => {
     { id: 'account_turnover', label: 'گردش حساب' },
     { id: 'shareholder_list', label: 'لیست سهامداران' },
     { id: 'three_recent_buying_and_selling_factors', label: 'سه فاکتور خرید و فروش اخیر' },
-    { id: 'company_articles_of_association', label: 'اساسنامه شرکت' },
-    { id: 'announcement_of_establishment', label: 'آگهی تاسیس' },
-    { id: 'announcement_of_the_latest_managers', label: 'آگهی آخرین مدیران' },
-    { id: 'announcement_of_the_latest_changes', label: 'آگهی آخرین تغییرات' },
   ];
 
   const handleFileChange = (id, event) => {
