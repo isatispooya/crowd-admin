@@ -14,15 +14,18 @@ import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
+  const { id } = useParams();
   const [files, setFiles] = useState({});
+  console.log(id);
 
-  const { mutate } = useCreateExecutiveContract();
+  const { mutate } = useCreateExecutiveContract(id);
 
   const handleButtonClick = () => {
     mutate(files);

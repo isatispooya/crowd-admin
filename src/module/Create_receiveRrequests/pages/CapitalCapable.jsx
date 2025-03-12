@@ -15,6 +15,7 @@ import { useGetCompanyInfo } from './service';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
+
   const { data: companyInfo } = useGetCompanyInfo(cartId);
   const isLoading = !companyInfo;
 
