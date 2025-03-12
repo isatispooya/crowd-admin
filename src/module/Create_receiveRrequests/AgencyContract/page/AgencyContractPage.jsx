@@ -1,14 +1,35 @@
-import { Typography, Paper, Stack, Button } from '@mui/material';
+import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { ExecutiveContract } from '../feature';
+import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import AgencyContract from '../feature';
 
-const ExecutiveContractPage = ({ data }) => {
+const AgencyContractPage = ({ data }) => {
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
+  const button = [
+    {
+      id: 1,
+      label: 'ثبت ',
+      icon: <CheckCircle />,
+      color: 'success',
+    },
+    {
+      id: 2,
+      label: 'رد ',
+      icon: <Cancel />,
+      color: 'error',
+    },
+    {
+      id: 3,
+      label: ' اصلاح',
+      icon: <Edit />,
+      color: 'info',
+    },
+  ];
   return (
     <Paper
       elevation={0}
@@ -52,22 +73,27 @@ const ExecutiveContractPage = ({ data }) => {
           },
         }}
       >
-        اطلاعات قرارداد اجرایی را برسی کنید
+        اطلاعات قرارداد عاملیت را برسی کنید
       </Typography>
 
-      <ExecutiveContract data={data} />
+      <AgencyContract />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <Button variant="contained" sx={{ backgroundColor: pastelBlue.contrastText }}>
-          ثبت
-        </Button>
+        <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          {button.map((item) => (
+            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
+              {item.label}
+            </Button>
+          ))}
+        </Box>
       </Stack>
     </Paper>
   );
 };
 
-ExecutiveContractPage.propTypes = {
+AgencyContractPage.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default ExecutiveContractPage;
+export default AgencyContractPage;

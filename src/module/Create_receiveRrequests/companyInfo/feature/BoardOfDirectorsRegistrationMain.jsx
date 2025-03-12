@@ -17,7 +17,7 @@ import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
 
-const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
+const BoardOfDirectorsRegistrationMain = ({ companyInfo, handleCreateExecutiveContract }) => {
   const button = [
     {
       id: 1,
@@ -45,7 +45,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات شرکت
-          </Typography>
+          </Typography> 
         </AccordionSummary>
         <AccordionDetails>
           <CompanyInfo companyInfo={companyInfo} />
@@ -67,7 +67,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
-            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
+            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon} onClick={handleCreateExecutiveContract}>
               {item.label}
             </Button>
           ))}
@@ -79,6 +79,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
 
 BoardOfDirectorsRegistrationMain.propTypes = {
   companyInfo: PropTypes.object.isRequired,
+  handleCreateExecutiveContract: PropTypes.func.isRequired,
 };
 
 export default BoardOfDirectorsRegistrationMain;

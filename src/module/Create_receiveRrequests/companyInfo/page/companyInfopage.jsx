@@ -2,7 +2,7 @@ import { Typography, Paper } from '@mui/material';
 import PropTypes from 'prop-types';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 
-const CompanyInfoPage = ({ companyInfo }) => {
+const CompanyInfoPage = ({ companyInfo, handleCreateExecutiveContract }) => {
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
@@ -55,13 +55,14 @@ const CompanyInfoPage = ({ companyInfo }) => {
       >
         اطلاعات شرکت را برسی کنید
       </Typography>
-      <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} />
+      <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} handleCreateExecutiveContract={handleCreateExecutiveContract} />
     </Paper>
   );
 };
 
 CompanyInfoPage.propTypes = {
   companyInfo: PropTypes.object.isRequired,
+  handleCreateExecutiveContract: PropTypes.func.isRequired,
 };
 
 export default CompanyInfoPage;

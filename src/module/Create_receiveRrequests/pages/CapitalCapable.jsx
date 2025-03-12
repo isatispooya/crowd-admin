@@ -8,13 +8,20 @@ import { Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
-import useGetCompanyInfo from '../companyInfo/service/service';
 import ExecutiveContractPage from '../ExecutiveContract/page';
 import AdditionalInformationPage from '../AdditionalInformation/pages';
+import AgencyContractPage from '../AgencyContract/page';
+import { useCreateExecutiveContract, useGetCompanyInfo } from './service';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
   const { data: companyInfo } = useGetCompanyInfo(cartId);
+  const { mutate: createExecutiveContract } = useCreateExecutiveContract(cartId);
+
+  const handleCreateExecutiveContract = () => {
+    console.log('createExecutiveContract');
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
       <Box
@@ -39,7 +46,7 @@ const CapitalCapable = () => {
             <Typography component="span">ثبت شرکت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CompanyInfoPage companyInfo={companyInfo} />
+            <CompanyInfoPage companyInfo={companyInfo} handleCreateExecutiveContract={handleCreateExecutiveContract} />
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -78,10 +85,7 @@ const CapitalCapable = () => {
             <Typography component="span">قرارداد عاملیت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-              ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <AgencyContractPage data={companyInfo} />
           </AccordionDetails>
         </Accordion>
 
