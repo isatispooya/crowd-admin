@@ -31,7 +31,7 @@ const AdditionalInformation = ({ data }) => {
   };
 
   return (
-    <Box sx={{ padding: 2, backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+    <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
         {uploadLabels.map(({ id, label }) => (
           <Grid key={id} item xs={12} sm={6} md={4}>

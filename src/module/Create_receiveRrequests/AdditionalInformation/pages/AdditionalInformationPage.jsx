@@ -1,6 +1,17 @@
-import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
+import {
+  Typography,
+  Paper,
+  TextField,
+  Box,
+  Button,
+  Stack,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AdditionalInformation from '../feature';
 
 const BoardofDirectorsPage = ({ data }) => {
@@ -75,11 +86,22 @@ const BoardofDirectorsPage = ({ data }) => {
       >
         اطلاعات تکمیلی را برسی کنید
       </Typography>
-      <AdditionalInformation data={data} />
+
+      <Accordion sx={{ boxShadow: 4, padding: 2 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="additional-info-content"
+          id="additional-info-header"
+        >
+          <Typography>اطلاعات تکمیلی</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <AdditionalInformation data={data} />
+        </AccordionDetails>
+      </Accordion>
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
-
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
             <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
