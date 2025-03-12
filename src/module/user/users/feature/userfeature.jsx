@@ -1,11 +1,14 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
+import { AnimatePresence, motion } from 'framer-motion';
 import moment from 'moment-jalaali';
 import useGetUser from '../services/useGetUser';
 import { exportToExcel } from '../../../../utils/excelExport';
+import useCreateLegal from '../hooks/useCreateLegal';
+import CreateLegalPersonForm from './createLegalPerson';
 
 const formatDate = (dateString) => {
   if (!dateString) return '';
@@ -53,7 +56,8 @@ const mapUserData = (users) =>
 const UserFeature = () => {
   const navigate = useNavigate();
   const { data: rawData } = useGetUser();
-  console.log(rawData);
+  const { mutate: createLegalPerson } = useCreateLegal();
+  const [showForm, setShowForm] = useState(false);
 
   const handleRowClick = (params) => {
     navigate(`/userDetail/${params.row.id}`);
@@ -155,6 +159,16 @@ const UserFeature = () => {
     }
   }, [formattedData]);
 
+  const handleSubmit = async (formData) => {
+    try {
+      await createLegalPerson(formData);
+      // The form will automatically reset and close from the CreateLegalPersonForm component
+    } catch (error) {
+      console.error('Error creating legal person:', error);
+      // Handle error if needed
+    }
+  };
+
   useEffect(() => {
     const handleWheel = (event) => {};
     window.addEventListener('wheel', handleWheel, { passive: true });
@@ -163,6 +177,25 @@ const UserFeature = () => {
 
   return (
     <div>
+      <div className="mb-4">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => setShowForm(true)}
+          className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+        >
+          ایجاد شخص حقوقی
+        </motion.button>
+      </div>
+
+      <AnimatePresence>
+        <CreateLegalPersonForm
+          isOpen={showForm}
+          onClose={() => setShowForm(false)}
+          onSubmit={handleSubmit}
+        />
+      </AnimatePresence>
+
       <DataGrid
         columns={columns}
         rows={formattedData || []}
