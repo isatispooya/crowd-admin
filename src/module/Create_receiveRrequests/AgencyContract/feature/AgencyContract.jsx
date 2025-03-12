@@ -14,8 +14,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-const Contract = () => {
+const Contract = ({ data }) => {
   const [files, setFiles] = useState({
     account_number_letter: null,
     financial_exel: null,
@@ -24,16 +25,16 @@ const Contract = () => {
   });
 
   const links = [
-    { id: 1, title: 'قرارداد عاملیت'},
-    { id: 2, title: 'نامه حسابرسی'},
-    { id: 3, title: 'نامه بانکی'},
+    { id: 1, title: 'قرارداد عاملیت' },
+    { id: 2, title: 'نامه حسابرسی' },
+    { id: 3, title: 'نامه بانکی' },
   ];
 
   const uploadLabels = [
-    { id: 'account_number_letter', label: 'نامه شماره حساب' },
-    { id: 'financial_exel', label: 'اکسل مالی' },
-    { id: 'auditor_response', label: 'پاسخ حسابرس' },
-    { id: 'warranty', label: 'ضمانت نامه' },
+    { id: 'account_number_letter', label: 'نامه شماره حساب', value: data?.account_number_letter },
+    { id: 'financial_exel', label: 'اکسل مالی', value: data?.financial_exel },
+    { id: 'auditor_response', label: 'پاسخ حسابرس', value: data?.auditor_response },
+    { id: 'warranty', label: 'ضمانت نامه', value: data?.warranty },
   ];
 
   return (
@@ -70,6 +71,7 @@ const Contract = () => {
                   <TextField
                     type="file"
                     fullWidth
+                    value={item.value || ''}
                     inputProps={{ accept: '*' }}
                     onChange={(e) => {
                       if (e.target.files.length > 0) {
@@ -104,6 +106,10 @@ const Contract = () => {
       </Paper>
     </Container>
   );
+};
+
+Contract.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default Contract;

@@ -11,13 +11,13 @@ const CompanyRegister = ({ data }) => {
       id: 'suggestion_plan_name',
       label: 'نام طرح',
       type: 'text',
-      value: data?.suggestion_plan_name,
+      value: data?.suggestion_plan_name || '',
     },
     {
       id: 'amount_of_investment',
       label: 'مبلغ تامین مالی',
       type: 'number',
-      value: data?.amount_of_investment,
+      value: data?.amount_of_investment || '',
     },
   ];
   return (

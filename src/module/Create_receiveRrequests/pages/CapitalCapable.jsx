@@ -4,23 +4,34 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
 import ExecutiveContractPage from '../ExecutiveContract/page';
 import AdditionalInformationPage from '../AdditionalInformation/pages';
 import AgencyContractPage from '../AgencyContract/page';
-import { useCreateExecutiveContract, useGetCompanyInfo } from './service';
+import { useGetCompanyInfo } from './service';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
   const { data: companyInfo } = useGetCompanyInfo(cartId);
-  const { mutate: createExecutiveContract } = useCreateExecutiveContract(cartId);
+  const isLoading = !companyInfo;
 
   const handleCreateExecutiveContract = () => {
     console.log('createExecutiveContract');
   };
+
+  if (isLoading) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-center">
+        <CircularProgress />
+        <Typography component="span" sx={{ ml: 2 }}>
+          در حال بارگذاری اطلاعات...
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
@@ -46,7 +57,10 @@ const CapitalCapable = () => {
             <Typography component="span">ثبت شرکت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CompanyInfoPage companyInfo={companyInfo} handleCreateExecutiveContract={handleCreateExecutiveContract} />
+            <CompanyInfoPage
+              companyInfo={companyInfo}
+              handleCreateExecutiveContract={handleCreateExecutiveContract}
+            />
           </AccordionDetails>
         </Accordion>
         <Accordion>

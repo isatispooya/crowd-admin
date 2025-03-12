@@ -45,12 +45,16 @@ const CompanyBankInfo = ({ data }) => {
     bank_branch_code: data?.bank_branch_code || '',
   });
 
-  // مقدار اولیه‌ی بانک را تنظیم می‌کنیم
   useEffect(() => {
     if (data?.bank) {
-      const bankObj = banks.find((b) => b.name === data.bank || b.id === data.bank);
+      const bankObj = banks.find((b) => b.name === data.bank);
       if (bankObj) {
-        setFormData((prev) => ({ ...prev, bank: bankObj.id }));
+        setFormData((prev) => ({
+          ...prev,
+          bank: bankObj.id,
+          bank_branch: data.bank_branch || '',
+          bank_branch_code: data.bank_branch_code || '',
+        }));
       }
     }
   }, [data]);

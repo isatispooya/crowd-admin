@@ -7,13 +7,25 @@ const AdditionalInformation = ({ data }) => {
   const [files, setFiles] = useState(data || {});
 
   const uploadLabels = [
-    { id: 'tax_return', label: 'اظهارنامه مالیاتی' },
-    { id: 'salary_list_for_the_last_3_months', label: 'لیست حقوق 3 ماه اخیر' },
-    { id: 'trial_balance_current_year', label: 'تراز آزمایشی سال جاری' },
-    { id: 'balance_sheet', label: 'ترازنامه' },
-    { id: 'account_turnover', label: 'گردش حساب' },
-    { id: 'shareholder_list', label: 'لیست سهامداران' },
-    { id: 'three_recent_buying_and_selling_factors', label: 'سه فاکتور خرید و فروش اخیر' },
+    { id: 'tax_return', label: 'اظهارنامه مالیاتی', value: data?.tax_return },
+    {
+      id: 'salary_list_for_the_last_3_months',
+      label: 'لیست حقوق 3 ماه اخیر',
+      value: data?.salary_list_for_the_last_3_months,
+    },
+    {
+      id: 'trial_balance_current_year',
+      label: 'تراز آزمایشی سال جاری',
+      value: data?.trial_balance_current_year,
+    },
+    { id: 'balance_sheet', label: 'ترازنامه', value: data?.balance_sheet },
+    { id: 'account_turnover', label: 'گردش حساب', value: data?.account_turnover },
+    { id: 'shareholder_list', label: 'لیست سهامداران', value: data?.shareholder_list },
+    {
+      id: 'three_recent_buying_and_selling_factors',
+      label: 'سه فاکتور خرید و فروش اخیر',
+      value: data?.three_recent_buying_and_selling_factors,
+    },
   ];
 
   const handleFileChange = (id, event) => {
@@ -29,7 +41,7 @@ const AdditionalInformation = ({ data }) => {
   return (
     <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
-        {uploadLabels.map(({ id, label }) => (
+        {uploadLabels.map(({ id, label, value }) => (
           <Grid key={id} item xs={12} sm={6} md={4}>
             <Box
               sx={{
@@ -60,6 +72,7 @@ const AdditionalInformation = ({ data }) => {
                   type="file"
                   id={id}
                   name={id}
+                  value={value || ''}
                   onChange={(e) => handleFileChange(id, e)}
                   sx={{
                     display: 'block',

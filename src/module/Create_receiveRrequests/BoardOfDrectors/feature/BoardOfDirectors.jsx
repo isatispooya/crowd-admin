@@ -7,13 +7,15 @@ import {
   TextField,
   Box,
   IconButton,
-  Container,
   Paper,
+  Container,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from 'react';
 
-const BoardOfDirectors = ({ files, setFiles, data }) => {
+const BoardOfDirectors = ({data}) => {
+  const [files, setFiles] = useState({});
   const members = data?.company_members || [];
 
   const uploadFields = [
@@ -94,8 +96,6 @@ const BoardOfDirectors = ({ files, setFiles, data }) => {
 
 BoardOfDirectors.propTypes = {
   data: PropTypes.object.isRequired,
-  files: PropTypes.object.isRequired,
-  setFiles: PropTypes.func.isRequired,
 };
 
 export default BoardOfDirectors;

@@ -30,11 +30,10 @@ export const useGetCompanyInfo = (cartId) => {
   return { data: responseData };
 };
 
-
 export const useCreateExecutiveContract = (cartId) => {
-  const { data: responseData } = useMutation({
+  const { mutate, data: responseData } = useMutation({
     mutationFn: (data) => createExecutiveContract(cartId, data),
   });
 
-  return { data: responseData };
+  return { mutate, data: responseData };
 };

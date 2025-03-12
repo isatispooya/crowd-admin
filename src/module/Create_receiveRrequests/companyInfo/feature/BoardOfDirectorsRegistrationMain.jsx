@@ -13,11 +13,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
+import { useCreateExecutiveContract } from '../../pages/service';
 
-const BoardOfDirectorsRegistrationMain = ({ companyInfo, handleCreateExecutiveContract }) => {
+const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
+  const [files, setFiles] = useState({});
+
+  const { mutate } = useCreateExecutiveContract();
+
+  const handleButtonClick = () => {
+    mutate(files);
+  };
+  console.log(files);
   const button = [
     {
       id: 1,
@@ -45,10 +55,10 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo, handleCreateExecutiveCo
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات شرکت
-          </Typography> 
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CompanyInfo companyInfo={companyInfo} />
+          <CompanyInfo companyInfo={companyInfo} setFiles={setFiles} files={files} />
           <Divider sx={{ marginY: 2 }} />
           <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات بانکی
@@ -67,7 +77,13 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo, handleCreateExecutiveCo
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
-            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon} onClick={handleCreateExecutiveContract}>
+            <Button
+              key={item.id}
+              variant="outlined"
+              color={item.color}
+              startIcon={item.icon}
+              onClick={() => handleButtonClick()}
+            >
               {item.label}
             </Button>
           ))}
@@ -79,7 +95,6 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo, handleCreateExecutiveCo
 
 BoardOfDirectorsRegistrationMain.propTypes = {
   companyInfo: PropTypes.object.isRequired,
-  handleCreateExecutiveContract: PropTypes.func.isRequired,
 };
 
 export default BoardOfDirectorsRegistrationMain;

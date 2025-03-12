@@ -1,60 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import { OnRun } from 'src/api/OnRun';
 
-const CompanyInfo = ({ companyInfo }) => {
-
+const CompanyInfo = ({ companyInfo, setFiles, files }) => {
   const initialFields = [
     {
       id: 'picture',
       label: 'لوگو شرکت',
-      value: companyInfo?.company?.picture,
+      value: companyInfo?.company?.picture || companyInfo?.logo,
     },
     {
       id: 'validation_report',
       label: 'گزارش اعتبارسنجی',
-      value: companyInfo?.company?.validation_report,
+      value: companyInfo?.validation_report,
     },
     {
       id: 'financial_statement',
       label: 'صورت مالی',
-      value: companyInfo?.company?.financial_statement,
+      value: companyInfo?.financial_statement,
     },
   ];
 
-  const [uploadedFiles, setUploadedFiles] = useState({});
-  const [fileValues, setFileValues] = useState(
-    initialFields.reduce((acc, field) => {
-      acc[field.id] = field.value ? `${OnRun}/${field.value}` : '';
-      return acc;
-    }, {})
-  );
+  useEffect(() => {
+    if (!files.uploadedFiles) {
+      setFiles({
+        uploadedFiles: {},
+      });
+    }
+  }, [files.uploadedFiles, setFiles]);
+
+  useEffect(() => {
+    if (companyInfo?.company) {
+      setFiles((prev) => ({
+        uploadedFiles: {
+          ...(prev?.uploadedFiles || {}),
+          picture: companyInfo.company.picture || '',
+          validation_report: companyInfo.company.validation_report || '',
+          financial_statement: companyInfo.company.financial_statement || '',
+        },
+      }));
+    }
+  }, [companyInfo, setFiles]);
 
   const handleFileChange = (event, fieldId) => {
     const file = event.target.files[0];
     if (file) {
-      setUploadedFiles((prevFiles) => ({
-        ...prevFiles,
-        [fieldId]: file.name,
+      setFiles((prev) => ({
+        uploadedFiles: {
+          ...prev.uploadedFiles,
+          [fieldId]: file,
+        },
       }));
     }
   };
 
   const handleDeleteFile = (fieldId) => {
-    setUploadedFiles((prevFiles) => {
-      const newFiles = { ...prevFiles };
-      delete newFiles[fieldId];
-      return newFiles;
+    setFiles((prev) => {
+      const newUploadedFiles = { ...prev.uploadedFiles };
+      delete newUploadedFiles[fieldId];
+      return {
+        uploadedFiles: newUploadedFiles,
+      };
     });
-
-    setFileValues((prevValues) => ({
-      ...prevValues,
-      [fieldId]: '',
-    }));
   };
 
   return (
@@ -67,7 +77,7 @@ const CompanyInfo = ({ companyInfo }) => {
               {field.label}
             </Typography>
 
-            {uploadedFiles[field.id] || fileValues[field.id] ? (
+            {files?.uploadedFiles?.[field.id] ? (
               <Box
                 sx={{
                   display: 'flex',
@@ -80,10 +90,11 @@ const CompanyInfo = ({ companyInfo }) => {
                 }}
               >
                 <Typography variant="body2" sx={{ marginRight: 1 }}>
-                  {uploadedFiles[field.id] && <span>{uploadedFiles[field.id]}</span>}
-                  {fileValues[field.id] && !uploadedFiles[field.id] && (
+                  {typeof files.uploadedFiles[field.id] === 'object' ? (
+                    <span>{files.uploadedFiles[field.id].name}</span>
+                  ) : (
                     <a
-                      href={fileValues[field.id]}
+                      href={files.uploadedFiles[field.id]}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ marginLeft: '10px', color: 'blue', textDecoration: 'none' }}
@@ -92,7 +103,6 @@ const CompanyInfo = ({ companyInfo }) => {
                     </a>
                   )}
                 </Typography>
-
                 <button type="button" onClick={() => handleDeleteFile(field.id)}>
                   🗑️
                 </button>
@@ -116,6 +126,8 @@ const CompanyInfo = ({ companyInfo }) => {
 
 CompanyInfo.propTypes = {
   companyInfo: PropTypes.object.isRequired,
+  setFiles: PropTypes.func.isRequired,
+  files: PropTypes.object.isRequired,
 };
 
 export default CompanyInfo;
