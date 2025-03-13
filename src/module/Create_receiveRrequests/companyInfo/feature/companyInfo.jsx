@@ -77,9 +77,6 @@ const CompanyInfo = ({ companyInfo }) => {
                     </a>
                   )}
                 </Typography>
-                <button type="button" onClick={() => deleteUploadedFile(field.id)}>
-                  🗑️
-                </button>
               </Box>
             ) : (
               <TextField

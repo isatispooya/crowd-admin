@@ -78,13 +78,6 @@ const AdditionalInformation = ({ data }) => {
                   >
                     {typeof additionalInfo[id] === 'object' ? additionalInfo[id].name : label} 📂
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteFile(id)}
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
-                  >
-                    🗑️
-                  </button>
                 </Box>
               ) : (
                 <TextField

@@ -150,13 +150,6 @@ const ExecutiveContract = ({ data }) => {
                       ? executiveContract.evaluation.name
                       : 'فایل ارزیابی'}
                   </Typography>
-                  <button
-                    type="button"
-                    onClick={() => updateExecutiveContractField('evaluation', null)}
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
-                  >
-                    🗑️
-                  </button>
                 </Box>
               ) : (
                 <TextField
@@ -188,13 +181,6 @@ const ExecutiveContract = ({ data }) => {
                       ? executiveContract.executive_contract.name
                       : 'فایل قرارداد اجرایی'}
                   </Typography>
-                  <button
-                    type="button"
-                    onClick={() => updateExecutiveContractField('executive_contract', null)}
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
-                  >
-                    🗑️
-                  </button>
                 </Box>
               ) : (
                 <TextField
