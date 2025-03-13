@@ -224,30 +224,88 @@ const useCompanyInfoStore = create((set, get) => ({
 
   setActionStatus: (status) => set({ actionStatus: status }),
 
-  submitForm: async (id) => {
+  submitForm: async () => {
     set({ isLoading: true, error: null });
 
     try {
       const state = get();
-      const formData = {
-        uploadedFiles: state.uploadedFiles,
-        bankInfo: state.bankInfo,
-        registerInfo: state.registerInfo,
-        boardMembers: state.boardMembers,
-        boardMembersFiles: state.boardMembersFiles,
-        agencyContract: state.agencyContract,
-        additionalInfo: state.additionalInfo,
-        contract: state.contract,
-        executiveContract: state.executiveContract,
-        description: state.description,
-        actionStatus: state.actionStatus,
-      };
+      const formData = new FormData();
+      
+      // اضافه کردن فایل‌ها
+      if (state.uploadedFiles.picture) formData.append('picture', state.uploadedFiles.picture);
+      if (state.uploadedFiles.validation_report) formData.append('validation_report', state.uploadedFiles.validation_report);
+      if (state.uploadedFiles.financial_statement) formData.append('financial_statement', state.uploadedFiles.financial_statement);
+      if (state.uploadedFiles.logo) formData.append('logo', state.uploadedFiles.logo);
+
+      // اطلاعات اصلی
+      formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
+      formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
+      formData.append('bank', state.bankInfo.bank);
+      formData.append('bank_branch', state.bankInfo.bank_branch);
+      formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
+
+      // وضعیت و توضیحات
+      formData.append('step_1', state.actionStatus);
+      formData.append('comment_step_1', state.description);
+
+      // فایل‌های اعضای هیئت مدیره
+      state.boardMembers.forEach((member, index) => {
+        if (state.boardMembersFiles[member.id]?.national_cart) {
+          formData.append(`company_members[${index}][national_cart]`, state.boardMembersFiles[member.id].national_cart);
+        }
+        if (state.boardMembersFiles[member.id]?.birth_certificate) {
+          formData.append(`company_members[${index}][birth_certificate]`, state.boardMembersFiles[member.id].birth_certificate);
+        }
+        if (state.boardMembersFiles[member.id]?.validation_report) {
+          formData.append(`company_members[${index}][validation_report]`, state.boardMembersFiles[member.id].validation_report);
+        }
+        if (state.boardMembersFiles[member.id]?.previous_article) {
+          formData.append(`company_members[${index}][previous_article]`, state.boardMembersFiles[member.id].previous_article);
+        }
+      });
+
+      // فایل‌های قرارداد نمایندگی
+      if (state.agencyContract.account_number_letter) {
+        formData.append('account_number_letter', state.agencyContract.account_number_letter);
+      }
+      if (state.agencyContract.financial_exel) {
+        formData.append('financial_exel', state.agencyContract.financial_exel);
+      }
+      if (state.agencyContract.auditor_response) {
+        formData.append('auditor_response', state.agencyContract.auditor_response);
+      }
+      if (state.agencyContract.warranty) {
+        formData.append('warranty', state.agencyContract.warranty);
+      }
+
+      // فایل‌های اطلاعات تکمیلی
+      if (state.additionalInfo.tax_return) {
+        formData.append('tax_return', state.additionalInfo.tax_return);
+      }
+      if (state.additionalInfo.salary_list_for_the_last_3_months) {
+        formData.append('salary_list_for_the_last_3_months', state.additionalInfo.salary_list_for_the_last_3_months);
+      }
+      if (state.additionalInfo.trial_balance_current_year) {
+        formData.append('trial_balance_current_year', state.additionalInfo.trial_balance_current_year);
+      }
+      if (state.additionalInfo.balance_sheet) {
+        formData.append('balance_sheet', state.additionalInfo.balance_sheet);
+      }
+      if (state.additionalInfo.account_turnover) {
+        formData.append('account_turnover', state.additionalInfo.account_turnover);
+      }
+      if (state.additionalInfo.shareholder_list) {
+        formData.append('shareholder_list', state.additionalInfo.shareholder_list);
+      }
+      if (state.additionalInfo.three_recent_buying_and_selling_factors) {
+        formData.append('three_recent_buying_and_selling_factors', state.additionalInfo.three_recent_buying_and_selling_factors);
+      }
 
       set({ isLoading: false });
-      return true;
+      return formData;
     } catch (error) {
       set({ isLoading: false, error: error.message });
-      return false;
+      return null;
     }
   },
 

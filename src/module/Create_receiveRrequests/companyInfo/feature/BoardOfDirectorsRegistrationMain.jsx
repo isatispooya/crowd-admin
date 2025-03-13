@@ -17,47 +17,44 @@ import { useParams } from 'react-router-dom';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
-import { useCreateExecutiveContract } from '../../pages/service';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+import { useCreateExecutiveContract } from '../../pages/service';
 
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
-  const { id } = useParams();
+  const { cartId } = useParams();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   
   const { 
-    uploadedFiles, 
     description, 
     setDescription, 
-    setActionStatus, 
-    submitForm,
-    isLoading
+    setActionStatus,
+    isLoading,
+    submitForm
   } = useCompanyInfoStore();
 
-  const { mutate } = useCreateExecutiveContract(id);
-
-  const handleButtonClick = (actionType) => {
+  const handleButtonClick = async (actionType) => {
     setActionStatus(actionType);
-    submitForm(id).then((success) => {
-      if (success) {
-        mutate(uploadedFiles);
-      }
-    });
+    const formData = await submitForm();
+    if (formData) {
+      submitExecutiveContract(formData);
+    }
   };
 
   const button = [
     {
-      id: 'submit',
-      label: 'ثبت ',
+      id: 'approved',
+      label: 'تایید ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 'reject',
+      id: 'rejected',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 'edit',
+      id: 'chenged',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
