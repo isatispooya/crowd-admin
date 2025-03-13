@@ -8,10 +8,8 @@ import {
   Typography,
   TextField,
   Box,
-  IconButton,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -21,7 +19,6 @@ const Contract = ({ data }) => {
   const { 
     agencyContract, 
     updateAgencyContractFile, 
-    deleteAgencyContractFile,
     initializeStore
   } = useCompanyInfoStore();
   
@@ -102,12 +99,6 @@ const Contract = ({ data }) => {
                         ? agencyContract[item.id].name 
                         : item.label}
                     </Typography>
-                    <IconButton
-                      color="error"
-                      onClick={() => deleteAgencyContractFile(item.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
                   </Box>
                 )}
               </Box>
