@@ -2,9 +2,11 @@
 import React from 'react';
 import { Grid, Switch } from '@mui/material';
 import GlobalTextField from 'src/components/fild/textfiled';
-import PropTypes from 'prop-types';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const ContentInput = ({ contractData, setContractData }) => {
+const ContentInput = () => {
+  const { contract, updateContractField } = useCompanyInfoStore();
+
   const fielsLabels = [
     {
       label: 'کارمزد فرابورس',
@@ -51,25 +53,16 @@ const ContentInput = ({ contractData, setContractData }) => {
 
   const handleTextFieldChange = (key) => (event) => {
     const rawValue = event.target.value.replace(/,/g, '');
-    setContractData({
-      ...contractData,
-      [key]: rawValue,
-    });
+    updateContractField(key, rawValue);
   };
 
   const handleBlur = (key) => (event) => {
     const numericValue = parseFloat(event.target.value.replace(/,/g, ''));
-    setContractData({
-      ...contractData,
-      [key]: isNaN(numericValue) ? '' : numericValue,
-    });
+    updateContractField(key, isNaN(numericValue) ? '' : numericValue);
   };
 
   const handleLockChange = (lockKey) => (event) => {
-    setContractData({
-      ...contractData,
-      [lockKey]: event.target.checked,
-    });
+    updateContractField(lockKey, event.target.checked);
   };
 
   return (
@@ -79,28 +72,23 @@ const ContentInput = ({ contractData, setContractData }) => {
           <div dir="ltr" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {lockKey && (
               <Switch
-                checked={contractData[lockKey] || false}
+                checked={contract[lockKey] || false}
                 onChange={handleLockChange(lockKey)}
               />
             )}
 
             <GlobalTextField
               label={label}
-              value={formatNumber(contractData[key]) || ''}
+              value={formatNumber(contract[key]) || ''}
               onChange={handleTextFieldChange(key)}
               onBlur={handleBlur(key)}
-              disabled={lockKey && contractData[lockKey]}
+              disabled={lockKey && contract[lockKey]}
             />
           </div>
         </Grid>
       ))}
     </Grid>
   );
-};
-
-ContentInput.propTypes = {
-  contractData: PropTypes.object,
-  setContractData: PropTypes.func,
 };
 
 export default ContentInput;

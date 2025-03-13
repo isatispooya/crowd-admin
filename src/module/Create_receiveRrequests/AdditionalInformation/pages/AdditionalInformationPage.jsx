@@ -12,35 +12,50 @@ import {
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from 'react';
 import AdditionalInformation from '../feature';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const BoardofDirectorsPage = ({ data }) => {
+const AdditionalInformationPage = ({ data }) => {
+  const { description, setDescription, setActionStatus, submitForm, isLoading } =
+    useCompanyInfoStore();
+
+  const [selectedButton, setSelectedButton] = React.useState(null);
+
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
+
   const button = [
     {
-      id: 1,
-      label: 'ثبت ',
+      id: 'approved',
+      label: 'تایید ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 2,
+      id: 'rejected',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 3,
+      id: 'chenged',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
     },
   ];
+
+  const handleButtonClick = (actionType) => {
+    setSelectedButton(actionType);
+    setActionStatus(actionType);
+    submitForm();
+  };
+
   return (
     <Paper
       elevation={0}
@@ -101,10 +116,31 @@ const BoardofDirectorsPage = ({ data }) => {
       </Accordion>
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
+        <TextField
+          label="توضیحات"
+          multiline
+          rows={4}
+          fullWidth
+          type="textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
-            <Button key={item.id} variant="outlined" color={item.color} startIcon={item.icon}>
+            <Button
+              key={item.id}
+              variant={selectedButton === item.id ? 'contained' : 'outlined'}
+              color={item.color}
+              startIcon={item.icon}
+              onClick={() => handleButtonClick(item.id)}
+              disabled={isLoading}
+              sx={{
+                ...(selectedButton === item.id && {
+                  boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                  transform: 'scale(1.05)',
+                }),
+              }}
+            >
               {item.label}
             </Button>
           ))}
@@ -114,8 +150,8 @@ const BoardofDirectorsPage = ({ data }) => {
   );
 };
 
-BoardofDirectorsPage.propTypes = {
+AdditionalInformationPage.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default BoardofDirectorsPage;
+export default AdditionalInformationPage;

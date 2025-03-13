@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   TextField,
   Box,
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const banks = [
   { id: 1, name: 'بانک ملی ایران' },
@@ -45,28 +46,31 @@ const banks = [
 ];
 
 const ExecutiveContract = ({ data }) => {
-  const initialFormData = {
-    bank: '',
-    bank_branch: '',
-    bank_branch_code: '',
-    evaluation: '',
-    executive_contract: '',
-  };
+  // استفاده از استور
+  const { 
+    executiveContract, 
+    updateExecutiveContractField, 
+    updateExecutiveContractFile,
+    initializeStore 
+  } = useCompanyInfoStore();
 
-  const [formData, setFormData] = useState(initialFormData);
-
+  // مقداردهی اولیه
   useEffect(() => {
     if (data) {
-      setFormData((prev) => ({
-        ...prev,
-        ...data,
-        bank: banks.find((b) => b.name === data.bank || b.id === data.bank)?.id || '',
-      }));
+      initializeStore(data);
     }
-  }, [data]);
+  }, [data, initializeStore]);
 
   const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+    const { name, value, type, files } = event.target;
+    
+    if (type === 'file' && files.length > 0) {
+      // برای فیلدهای فایل
+      updateExecutiveContractFile(name, files[0]);
+    } else {
+      // برای سایر فیلدها
+      updateExecutiveContractField(name, value);
+    }
   };
 
   return (
@@ -79,7 +83,13 @@ const ExecutiveContract = ({ data }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography sx={{ fontSize: '15px' }}>نام بانک</Typography>
-              <Select name="bank" value={formData.bank} onChange={handleChange} fullWidth required>
+              <Select 
+                name="bank" 
+                value={executiveContract.bank} 
+                onChange={handleChange} 
+                fullWidth 
+                required
+              >
                 {banks.map((bank) => (
                   <MenuItem key={bank.id} value={bank.id}>
                     {bank.name}
@@ -93,7 +103,7 @@ const ExecutiveContract = ({ data }) => {
               <TextField
                 type="text"
                 name="bank_branch"
-                value={formData.bank_branch}
+                value={executiveContract.bank_branch}
                 onChange={handleChange}
                 fullWidth
                 required
@@ -105,7 +115,7 @@ const ExecutiveContract = ({ data }) => {
               <TextField
                 type="numbet"
                 name="bank_branch_code"
-                value={formData.bank_branch_code}
+                value={executiveContract.bank_branch_code}
                 onChange={handleChange}
                 fullWidth
                 required
@@ -123,26 +133,78 @@ const ExecutiveContract = ({ data }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography sx={{ fontSize: '15px' }}>ارزیابی</Typography>
-              <TextField
-                type="file"
-                name="evaluation"
-                value={formData.evaluation}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
+              {executiveContract.evaluation ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    p: 1,
+                    border: '1px solid #ccc',
+                    borderRadius: 1,
+                    marginTop: 1,
+                  }}
+                >
+                  <Typography>
+                    {typeof executiveContract.evaluation === 'object'
+                      ? executiveContract.evaluation.name
+                      : 'فایل ارزیابی'}
+                  </Typography>
+                  <button
+                    type="button"
+                    onClick={() => updateExecutiveContractField('evaluation', null)}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
+                  >
+                    🗑️
+                  </button>
+                </Box>
+              ) : (
+                <TextField
+                  type="file"
+                  name="evaluation"
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              )}
             </Grid>
 
             <Grid item xs={12} md={6}>
               <Typography sx={{ fontSize: '15px' }}>قرارداد اجرایی</Typography>
-              <TextField
-                type="file"
-                name="executive_contract"
-                value={formData.executive_contract}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
+              {executiveContract.executive_contract ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    p: 1,
+                    border: '1px solid #ccc',
+                    borderRadius: 1,
+                    marginTop: 1,
+                  }}
+                >
+                  <Typography>
+                    {typeof executiveContract.executive_contract === 'object'
+                      ? executiveContract.executive_contract.name
+                      : 'فایل قرارداد اجرایی'}
+                  </Typography>
+                  <button
+                    type="button"
+                    onClick={() => updateExecutiveContractField('executive_contract', null)}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
+                  >
+                    🗑️
+                  </button>
+                </Box>
+              ) : (
+                <TextField
+                  type="file"
+                  name="executive_contract"
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              )}
             </Grid>
           </Grid>
         </AccordionDetails>

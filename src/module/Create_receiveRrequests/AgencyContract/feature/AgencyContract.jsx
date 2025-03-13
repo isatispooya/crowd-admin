@@ -13,16 +13,23 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
-  const [files, setFiles] = useState({
-    account_number_letter: null,
-    financial_exel: null,
-    auditor_response: null,
-    warranty: null,
-  });
+  const { 
+    agencyContract, 
+    updateAgencyContractFile, 
+    deleteAgencyContractFile,
+    initializeStore
+  } = useCompanyInfoStore();
+  
+  useEffect(() => {
+    if (data) {
+      initializeStore(data);
+    }
+  }, [data, initializeStore]);
 
   const links = [
     { id: 1, title: 'قرارداد عاملیت' },
@@ -67,7 +74,7 @@ const Contract = ({ data }) => {
             {uploadLabels.map((item) => (
               <Box key={item.id} sx={{ mb: 2 }}>
                 <Typography>{item.label}</Typography>
-                {!files[item.id] ? (
+                {!agencyContract[item.id] ? (
                   <TextField
                     type="file"
                     fullWidth
@@ -75,7 +82,7 @@ const Contract = ({ data }) => {
                     inputProps={{ accept: '*' }}
                     onChange={(e) => {
                       if (e.target.files.length > 0) {
-                        setFiles((prev) => ({ ...prev, [item.id]: e.target.files[0] }));
+                        updateAgencyContractFile(item.id, e.target.files[0]);
                       }
                     }}
                   />
@@ -90,10 +97,14 @@ const Contract = ({ data }) => {
                       borderRadius: 1,
                     }}
                   >
-                    <Typography>{files[item.id].name}</Typography>
+                    <Typography>
+                      {typeof agencyContract[item.id] === 'object' 
+                        ? agencyContract[item.id].name 
+                        : item.label}
+                    </Typography>
                     <IconButton
                       color="error"
-                      onClick={() => setFiles((prev) => ({ ...prev, [item.id]: null }))}
+                      onClick={() => deleteAgencyContractFile(item.id)}
                     >
                       <DeleteIcon />
                     </IconButton>

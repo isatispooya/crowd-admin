@@ -12,11 +12,25 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const BoardOfDirectors = ({data}) => {
-  const [files, setFiles] = useState({});
-  const members = data?.company_members || [];
+const BoardOfDirectors = ({ data }) => {
+  const { 
+    boardMembers, 
+    setBoardMembers, 
+    boardMembersFiles, 
+    updateBoardMemberFile, 
+    deleteBoardMemberFile,
+    initializeStore 
+  } = useCompanyInfoStore();
+
+  useEffect(() => {
+    if (data?.company_members) {
+      setBoardMembers(data.company_members);
+      initializeStore(data);
+    }
+  }, [data, setBoardMembers, initializeStore]);
 
   const uploadFields = [
     { id: 'validation_report', label: 'گزارش اعتبارسنجی', value: data?.validation_report },
@@ -26,20 +40,14 @@ const BoardOfDirectors = ({data}) => {
   ];
 
   const handleFileChange = (memberId, fieldId, file) => {
-    setFiles((prev) => ({
-      ...prev,
-      ...prev[memberId],
-      [fieldId]: file,
-    }));
+    updateBoardMemberFile(memberId, fieldId, file);
   };
-
-  console.log(files);
 
   return (
     <Container maxWidth="md" dir="rtl">
       <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 4 }}>
-        {members.length > 0 ? (
-          members.map((member) => (
+        {boardMembers.length > 0 ? (
+          boardMembers.map((member) => (
             <Accordion key={member.id}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>
@@ -50,7 +58,7 @@ const BoardOfDirectors = ({data}) => {
                 {uploadFields.map((field) => (
                   <Box key={field.id} sx={{ mb: 2 }}>
                     <Typography>{field.label}</Typography>
-                    {files[member.id]?.[field.id] || field.value ? (
+                    {boardMembersFiles[member.id]?.[field.id] || field.value ? (
                       <Box
                         sx={{
                           display: 'flex',
@@ -61,10 +69,12 @@ const BoardOfDirectors = ({data}) => {
                           borderRadius: 1,
                         }}
                       >
-                        <Typography>{files[member.id]?.[field.id]?.name || field.value}</Typography>
+                        <Typography>
+                          {boardMembersFiles[member.id]?.[field.id]?.name || field.value}
+                        </Typography>
                         <IconButton
                           color="error"
-                          onClick={() => handleFileChange(member.id, field.id, null)}
+                          onClick={() => deleteBoardMemberFile(member.id, field.id)}
                         >
                           <DeleteIcon />
                         </IconButton>

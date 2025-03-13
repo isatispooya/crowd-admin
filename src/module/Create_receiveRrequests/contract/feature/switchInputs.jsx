@@ -1,8 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormControl, FormControlLabel, FormGroup, Switch, Box, Grid } from '@mui/material';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const SwitchContract = ({ contractData, setContractData }) => {
+const SwitchContract = () => {
+  const { contract, updateContractField } = useCompanyInfoStore();
+
   const switchLabels = [
     { label: 'تطابق با ماده ۱۴۱ قانون تجارت', key: 'role_141' },
     { label: 'وضعیت چک‌های برگشتی', key: 'bounced_check' },
@@ -13,10 +15,7 @@ const SwitchContract = ({ contractData, setContractData }) => {
   ];
 
   const handleSwitchChange = (key) => (event) => {
-    setContractData((prevData) => ({
-      ...prevData,
-      [key]: event.target.checked,
-    }));
+    updateContractField(key, event.target.checked);
   };
 
   return (
@@ -48,7 +47,7 @@ const SwitchContract = ({ contractData, setContractData }) => {
                     control={
                       <Switch
                         size="small"
-                        checked={contractData[key] || false}
+                        checked={contract[key] || false}
                         onChange={handleSwitchChange(key)}
                       />
                     }
@@ -63,11 +62,6 @@ const SwitchContract = ({ contractData, setContractData }) => {
       </Box>
     </Box>
   );
-};
-
-SwitchContract.propTypes = {
-  contractData: PropTypes.object.isRequired,
-  setContractData: PropTypes.func.isRequired,
 };
 
 export default SwitchContract;

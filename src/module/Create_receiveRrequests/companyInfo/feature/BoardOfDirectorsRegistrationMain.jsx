@@ -13,39 +13,51 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
 import { useCreateExecutiveContract } from '../../pages/service';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { id } = useParams();
-  const [files, setFiles] = useState({});
-  console.log(id);
+  
+  const { 
+    uploadedFiles, 
+    description, 
+    setDescription, 
+    setActionStatus, 
+    submitForm,
+    isLoading
+  } = useCompanyInfoStore();
 
   const { mutate } = useCreateExecutiveContract(id);
 
-  const handleButtonClick = () => {
-    mutate(files);
+  const handleButtonClick = (actionType) => {
+    setActionStatus(actionType);
+    submitForm(id).then((success) => {
+      if (success) {
+        mutate(uploadedFiles);
+      }
+    });
   };
-  console.log(files);
+
   const button = [
     {
-      id: 1,
+      id: 'submit',
       label: 'ثبت ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 2,
+      id: 'reject',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 3,
+      id: 'edit',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
@@ -61,7 +73,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CompanyInfo companyInfo={companyInfo} setFiles={setFiles} files={files} />
+          <CompanyInfo companyInfo={companyInfo} />
           <Divider sx={{ marginY: 2 }} />
           <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
             اطلاعات بانکی
@@ -76,7 +88,15 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
       </Accordion>
 
       <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <TextField label="توضیحات" multiline rows={4} fullWidth type="textarea" />
+        <TextField 
+          label="توضیحات" 
+          multiline 
+          rows={4} 
+          fullWidth 
+          type="textarea" 
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
@@ -85,7 +105,8 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
               variant="outlined"
               color={item.color}
               startIcon={item.icon}
-              onClick={() => handleButtonClick()}
+              onClick={() => handleButtonClick(item.id)}
+              disabled={isLoading}
             >
               {item.label}
             </Button>

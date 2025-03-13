@@ -1,10 +1,18 @@
 import { Grid, TextField, Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { Stack } from 'react-bootstrap';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const [files, setFiles] = useState(data || {});
+  const { additionalInfo, updateAdditionalInfoFile, deleteAdditionalInfoFile, initializeStore } =
+    useCompanyInfoStore();
+
+  useEffect(() => {
+    if (data) {
+      initializeStore(data);
+    }
+  }, [data, initializeStore]);
 
   const uploadLabels = [
     { id: 'tax_return', label: 'اظهارنامه مالیاتی', value: data?.tax_return },
@@ -31,17 +39,18 @@ const AdditionalInformation = ({ data }) => {
   const handleFileChange = (id, event) => {
     const file = event.target.files[0];
     if (file) {
-      setFiles((prevFiles) => ({
-        ...prevFiles,
-        [id]: file.name,
-      }));
+      updateAdditionalInfoFile(id, file);
     }
+  };
+
+  const handleDeleteFile = (id) => {
+    deleteAdditionalInfoFile(id);
   };
 
   return (
     <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
-        {uploadLabels.map(({ id, label, value }) => (
+        {uploadLabels.map(({ id, label }) => (
           <Grid key={id} item xs={12} sm={6} md={4}>
             <Box
               sx={{
@@ -57,22 +66,32 @@ const AdditionalInformation = ({ data }) => {
               >
                 {label}
               </label>
-              {files[id] ? (
-                <a
-                  href={files[id]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}
+              {additionalInfo[id] ? (
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 >
-                  {files[id]} 📂
-                </a>
+                  <a
+                    href={typeof additionalInfo[id] === 'string' ? additionalInfo[id] : '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}
+                  >
+                    {typeof additionalInfo[id] === 'object' ? additionalInfo[id].name : label} 📂
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteFile(id)}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
+                  >
+                    🗑️
+                  </button>
+                </Box>
               ) : (
                 <TextField
                   fullWidth
                   type="file"
                   id={id}
                   name={id}
-                  value={value || ''}
                   onChange={(e) => handleFileChange(id, e)}
                   sx={{
                     display: 'block',

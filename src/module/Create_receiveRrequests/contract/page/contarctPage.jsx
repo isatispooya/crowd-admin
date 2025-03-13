@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import UseCartId from 'src/hooks/card_id';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 import ContractFeature from '../feature/contentfeature';
 import useGetContract from '../services/useGetContract';
 
 const ContractPage = () => {
-  const [contractData, setContractData] = useState({});
+  const { setContract } = useCompanyInfoStore();
+  
   const { cartId } = UseCartId();
   const { data: dataContract, isError } = useGetContract(cartId);
-  
-  const handelClick = () => {
-  };
 
   useEffect(() => {
     if (dataContract && !isError) {
       const contractInfo = Array.isArray(dataContract) ? dataContract[0] : dataContract;
-      setContractData(contractInfo);
+      setContract(contractInfo);
     } else if (isError) {
       toast.error(`Error fetching contract data: ${isError.message || 'Unknown error'}`);
     }
-  }, [dataContract, isError]);
+  }, [dataContract, isError, setContract]);
 
   return (
     <div
@@ -50,11 +49,7 @@ const ContractPage = () => {
           <h1 className="text-2xl font-bold text-gray-700">قرارداد عاملیت</h1>
         </div>
 
-        <ContractFeature
-          handelClick={handelClick}
-          contractData={contractData || {}}
-          setContractData={setContractData}
-        />
+        <ContractFeature contractData={dataContract || {}} />
       </Box>
     </div>
   );

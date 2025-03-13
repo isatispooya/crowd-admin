@@ -4,8 +4,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const CompanyInfo = ({ companyInfo, setFiles, files }) => {
+const CompanyInfo = ({ companyInfo }) => {
+  const { uploadedFiles, updateUploadedFile, deleteUploadedFile, initializeStore } =
+    useCompanyInfoStore();
+
   const initialFields = [
     {
       id: 'picture',
@@ -25,46 +29,16 @@ const CompanyInfo = ({ companyInfo, setFiles, files }) => {
   ];
 
   useEffect(() => {
-    if (!files.uploadedFiles) {
-      setFiles({
-        uploadedFiles: {},
-      });
+    if (companyInfo) {
+      initializeStore(companyInfo);
     }
-  }, [files.uploadedFiles, setFiles]);
-
-  useEffect(() => {
-    if (companyInfo?.company) {
-      setFiles((prev) => ({
-        uploadedFiles: {
-          ...(prev?.uploadedFiles || {}),
-          picture: companyInfo.company.picture || '',
-          validation_report: companyInfo.company.validation_report || '',
-          financial_statement: companyInfo.company.financial_statement || '',
-        },
-      }));
-    }
-  }, [companyInfo, setFiles]);
+  }, [companyInfo, initializeStore]);
 
   const handleFileChange = (event, fieldId) => {
     const file = event.target.files[0];
     if (file) {
-      setFiles((prev) => ({
-        uploadedFiles: {
-          ...prev.uploadedFiles,
-          [fieldId]: file,
-        },
-      }));
+      updateUploadedFile(fieldId, file);
     }
-  };
-
-  const handleDeleteFile = (fieldId) => {
-    setFiles((prev) => {
-      const newUploadedFiles = { ...prev.uploadedFiles };
-      delete newUploadedFiles[fieldId];
-      return {
-        uploadedFiles: newUploadedFiles,
-      };
-    });
   };
 
   return (
@@ -77,7 +51,7 @@ const CompanyInfo = ({ companyInfo, setFiles, files }) => {
               {field.label}
             </Typography>
 
-            {files?.uploadedFiles?.[field.id] ? (
+            {uploadedFiles[field.id] ? (
               <Box
                 sx={{
                   display: 'flex',
@@ -90,11 +64,11 @@ const CompanyInfo = ({ companyInfo, setFiles, files }) => {
                 }}
               >
                 <Typography variant="body2" sx={{ marginRight: 1 }}>
-                  {typeof files.uploadedFiles[field.id] === 'object' ? (
-                    <span>{files.uploadedFiles[field.id].name}</span>
+                  {typeof uploadedFiles[field.id] === 'object' ? (
+                    <span>{uploadedFiles[field.id].name}</span>
                   ) : (
                     <a
-                      href={files.uploadedFiles[field.id]}
+                      href={uploadedFiles[field.id]}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ marginLeft: '10px', color: 'blue', textDecoration: 'none' }}
@@ -103,7 +77,7 @@ const CompanyInfo = ({ companyInfo, setFiles, files }) => {
                     </a>
                   )}
                 </Typography>
-                <button type="button" onClick={() => handleDeleteFile(field.id)}>
+                <button type="button" onClick={() => deleteUploadedFile(field.id)}>
                   🗑️
                 </button>
               </Box>
@@ -126,8 +100,6 @@ const CompanyInfo = ({ companyInfo, setFiles, files }) => {
 
 CompanyInfo.propTypes = {
   companyInfo: PropTypes.object.isRequired,
-  setFiles: PropTypes.func.isRequired,
-  files: PropTypes.object.isRequired,
 };
 
 export default CompanyInfo;

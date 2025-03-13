@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import PropTypes from 'prop-types';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const banks = [
   { id: 1, name: 'بانک ملی ایران' },
@@ -39,28 +40,21 @@ const banks = [
 ];
 
 const CompanyBankInfo = ({ data }) => {
-  const [formData, setFormData] = useState({
-    bank: '',
-    bank_branch: data?.bank_branch || '',
-    bank_branch_code: data?.bank_branch_code || '',
-  });
+  const { bankInfo, updateBankInfo } = useCompanyInfoStore();
 
   useEffect(() => {
     if (data?.bank) {
       const bankObj = banks.find((b) => b.name === data.bank);
       if (bankObj) {
-        setFormData((prev) => ({
-          ...prev,
-          bank: bankObj.id,
-          bank_branch: data.bank_branch || '',
-          bank_branch_code: data.bank_branch_code || '',
-        }));
+        updateBankInfo('bank', bankObj.id);
+        updateBankInfo('bank_branch', data.bank_branch || '');
+        updateBankInfo('bank_branch_code', data.bank_branch_code || '');
       }
     }
-  }, [data]);
+  }, [data, updateBankInfo]);
 
   const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+    updateBankInfo(event.target.name, event.target.value);
   };
 
   return (
@@ -81,7 +75,7 @@ const CompanyBankInfo = ({ data }) => {
           </Typography>
           <Select
             name="bank"
-            value={formData.bank}
+            value={bankInfo.bank}
             onChange={handleChange}
             fullWidth
             required
@@ -102,7 +96,7 @@ const CompanyBankInfo = ({ data }) => {
           </Typography>
           <TextField
             name="bank_branch"
-            value={formData.bank_branch}
+            value={bankInfo.bank_branch}
             onChange={handleChange}
             fullWidth
             required
@@ -117,7 +111,7 @@ const CompanyBankInfo = ({ data }) => {
           </Typography>
           <TextField
             name="bank_branch_code"
-            value={formData.bank_branch_code}
+            value={bankInfo.bank_branch_code}
             onChange={handleChange}
             fullWidth
             required

@@ -1,20 +1,34 @@
 /* eslint-disable arrow-body-style */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { SubmitButton } from 'src/components/button';
 import PropTypes from 'prop-types';
 import UseCartId from 'src/hooks/card_id';
 import { toast } from 'react-toastify'; 
+import useCompanyInfoStore from '../../store/companyInfo.store';
 import ContentInput from './contractInput';
 import SwitchContract from './switchInputs';
 import UsePostContract from '../services/usePostContract';
 
-const ContractFeature = ({ setContractData, contractData }) => {
+const ContractFeature = ({ contractData }) => {
   const { cartId } = UseCartId();
   const { mutate } = UsePostContract(cartId);
 
+  const { 
+    contract, 
+    setContract,
+    updateContractField,
+    isLoading 
+  } = useCompanyInfoStore();
+
+  useEffect(() => {
+    if (contractData && Object.keys(contractData).length > 0) {
+      setContract(contractData);
+    }
+  }, [contractData, setContract]);
+
   const postContractData = () => {
-    mutate(contractData, {
+    mutate(contract, {
       onSuccess: () => {
         toast.success('اطلاعات قرارداد با موفقیت ارسال شد');
       },
@@ -27,16 +41,17 @@ const ContractFeature = ({ setContractData, contractData }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <ContentInput contractData={contractData} setContractData={setContractData} />
+        <ContentInput />
       </Grid>
       <Grid item xs={12}>
-        <SwitchContract contractData={contractData} setContractData={setContractData} />
+        <SwitchContract />
       </Grid>
       <Grid item xs={12}>
         <SubmitButton
-          contractData={contractData}
+          contractData={contract}
           onClick={postContractData}
           postContractData={postContractData}
+          disabled={isLoading}
         />
       </Grid>
     </Grid>
@@ -45,7 +60,6 @@ const ContractFeature = ({ setContractData, contractData }) => {
 
 ContractFeature.propTypes = {
   contractData: PropTypes.object,
-  setContractData: PropTypes.func,
 };
 
 export default ContractFeature;

@@ -1,14 +1,51 @@
-import { Typography, Paper, Stack, Button } from '@mui/material';
+import { Typography, Paper, Stack, Button, TextField, Box } from '@mui/material';
 import PropTypes from 'prop-types';
+import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { ExecutiveContract } from '../feature';
+import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const ExecutiveContractPage = ({ data }) => {
+  const { 
+    description, 
+    setDescription, 
+    setActionStatus, 
+    submitForm,
+    isLoading 
+  } = useCompanyInfoStore();
+
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
+
+  const button = [
+    {
+      id: 'submit',
+      label: 'ثبت ',
+      icon: <CheckCircle />,
+      color: 'success',
+    },
+    {
+      id: 'reject',
+      label: 'رد ',
+      icon: <Cancel />,
+      color: 'error',
+    },
+    {
+      id: 'edit',
+      label: ' اصلاح',
+      icon: <Edit />,
+      color: 'info',
+    },
+  ];
+
+  const handleButtonClick = (actionType) => {
+    setActionStatus(actionType);
+    submitForm();
+  };
+
   return (
     <Paper
       elevation={0}
@@ -58,9 +95,30 @@ const ExecutiveContractPage = ({ data }) => {
       <ExecutiveContract data={data} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <Button variant="contained" sx={{ backgroundColor: pastelBlue.contrastText }}>
-          ثبت
-        </Button>
+        <TextField 
+          label="توضیحات" 
+          multiline 
+          rows={4} 
+          fullWidth 
+          type="textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          {button.map((item) => (
+            <Button 
+              key={item.id} 
+              variant="outlined" 
+              color={item.color} 
+              startIcon={item.icon}
+              onClick={() => handleButtonClick(item.id)}
+              disabled={isLoading}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </Box>
       </Stack>
     </Paper>
   );

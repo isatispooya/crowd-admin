@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
@@ -17,6 +17,7 @@ const CapitalCapable = () => {
   const { cartId } = useParams();
 
   const { data: companyInfo } = useGetCompanyInfo(cartId);
+
   const isLoading = !companyInfo;
 
   const handleCreateExecutiveContract = () => {
@@ -49,6 +50,10 @@ const CapitalCapable = () => {
           marginTop: '40px',
         }}
       >
+        <Button variant="contained" color="primary" sx={{ width: '150px', alignSelf: 'flex-end' }}>
+          ذخیره و ارسال
+        </Button>
+
         <Accordion>
           <AccordionSummary
             expandIcon={<ArrowDownwardIcon />}
