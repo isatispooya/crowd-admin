@@ -54,7 +54,9 @@ const CompanyBankInfo = ({ data }) => {
   }, [data, updateBankInfo]);
 
   const handleChange = (event) => {
-    updateBankInfo(event.target.name, event.target.value);
+    const { name, value } = event.target;
+    console.log('Changing bank:', name, value);
+    updateBankInfo(name, value);
   };
 
   return (
@@ -75,7 +77,7 @@ const CompanyBankInfo = ({ data }) => {
           </Typography>
           <Select
             name="bank"
-            value={bankInfo.bank}
+            value={bankInfo.bank || ''}
             onChange={handleChange}
             fullWidth
             required
