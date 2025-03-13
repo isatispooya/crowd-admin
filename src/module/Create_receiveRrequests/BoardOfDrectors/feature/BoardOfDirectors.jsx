@@ -6,7 +6,6 @@ import {
   Typography,
   TextField,
   Box,
-  IconButton,
   Paper,
   Container,
 } from '@mui/material';
@@ -20,7 +19,6 @@ const BoardOfDirectors = ({ data }) => {
     setBoardMembers, 
     boardMembersFiles, 
     updateBoardMemberFile, 
-    deleteBoardMemberFile,
     initializeStore 
   } = useCompanyInfoStore();
 

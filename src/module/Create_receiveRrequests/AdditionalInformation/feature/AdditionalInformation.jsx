@@ -5,7 +5,7 @@ import { Stack } from 'react-bootstrap';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const { additionalInfo, updateAdditionalInfoFile, deleteAdditionalInfoFile, initializeStore } =
+  const { additionalInfo, updateAdditionalInfoFile, initializeStore } =
     useCompanyInfoStore();
 
   useEffect(() => {
@@ -41,10 +41,6 @@ const AdditionalInformation = ({ data }) => {
     if (file) {
       updateAdditionalInfoFile(id, file);
     }
-  };
-
-  const handleDeleteFile = (id) => {
-    deleteAdditionalInfoFile(id);
   };
 
   return (

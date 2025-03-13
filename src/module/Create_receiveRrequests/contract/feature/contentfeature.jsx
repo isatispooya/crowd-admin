@@ -17,7 +17,6 @@ const ContractFeature = ({ contractData }) => {
   const { 
     contract, 
     setContract,
-    updateContractField,
     isLoading 
   } = useCompanyInfoStore();
 
