@@ -15,12 +15,24 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
 import AdditionalInformation from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+import { useParams } from 'react-router-dom';
+import { useCreateExecutiveContract } from '../../pages/service';
 
 const AdditionalInformationPage = ({ data }) => {
   const { description, setDescription, setActionStatus, submitForm, isLoading } =
     useCompanyInfoStore();
 
   const [selectedButton, setSelectedButton] = React.useState(null);
+  const { cartId } = useParams();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+
+  const handleButtonClick = async (actionType) => {
+    setActionStatus(actionType);
+    const formData = await submitForm();
+    if (formData) {
+      submitExecutiveContract(formData);
+    }
+  };
 
   const pastelBlue = {
     light: '#E6F4FF',
@@ -50,11 +62,6 @@ const AdditionalInformationPage = ({ data }) => {
     },
   ];
 
-  const handleButtonClick = (actionType) => {
-    setSelectedButton(actionType);
-    setActionStatus(actionType);
-    submitForm();
-  };
 
   return (
     <Paper

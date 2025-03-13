@@ -12,7 +12,7 @@ export const getComanyInfo = async (cartId) => {
 };
 
 export const createExecutiveContract = async (cartId, data) => {
-  const response = await api.patch(`/api/investor/request/${cartId}/`, data, {
+  const response = await api.patch(`/api/update/investor/request/admin/${cartId}/`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

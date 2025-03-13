@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { ExecutiveContract } from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+import { useParams } from 'react-router-dom';
+import { useCreateExecutiveContract } from '../../pages/service';
 
 const ExecutiveContractPage = ({ data }) => {
   const { 
@@ -12,6 +14,9 @@ const ExecutiveContractPage = ({ data }) => {
     submitForm,
     isLoading 
   } = useCompanyInfoStore();
+
+  const { cartId } = useParams();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
 
   const pastelBlue = {
     light: '#E6F4FF',
@@ -41,9 +46,12 @@ const ExecutiveContractPage = ({ data }) => {
     },
   ];
 
-  const handleButtonClick = (actionType) => {
+  const handleButtonClick = async (actionType) => {
     setActionStatus(actionType);
-    submitForm();
+    const formData = await submitForm();
+    if (formData) {
+      submitExecutiveContract(formData);
+    }
   };
 
   return (

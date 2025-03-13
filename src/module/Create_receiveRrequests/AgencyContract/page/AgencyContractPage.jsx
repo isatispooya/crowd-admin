@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import AgencyContract from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+import { useParams } from 'react-router-dom';
+import { useCreateExecutiveContract } from '../../pages/service';
 
 const AgencyContractPage = ({ data }) => {
   const { 
@@ -12,6 +14,16 @@ const AgencyContractPage = ({ data }) => {
     submitForm,
     isLoading 
   } = useCompanyInfoStore();
+  const { cartId } = useParams();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+
+  const handleButtonClick = async (actionType) => {
+    setActionStatus(actionType);
+    const formData = await submitForm();
+    if (formData) {
+      submitExecutiveContract(formData);
+    }
+  };
 
   const pastelBlue = {
     light: '#E6F4FF',
@@ -41,11 +53,6 @@ const AgencyContractPage = ({ data }) => {
     },
   ];
 
-  const handleButtonClick = (actionType) => {
-    setActionStatus(actionType);
-    submitForm();
-  };
-  
   return (
     <Paper
       elevation={0}
