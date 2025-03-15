@@ -24,6 +24,8 @@ const useCompanyInfoStore = create((set, get) => ({
   agencyContract: {
     auditor_response: null,
     warranty: null,
+    account_number_letter: null,
+    financial_exel: null,
   },
   additionalInfo: {
     tax_return: null,
@@ -219,7 +221,6 @@ const useCompanyInfoStore = create((set, get) => ({
 
   setActionStatus: (status) => set({ actionStatus: status }),
 
-  // افزودن این تابع کمکی برای بررسی نوع فایل
   isActualFile: (value) => value instanceof File || value instanceof Blob,
 
   submitForm: async () => {
@@ -229,8 +230,12 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // افزودن وضعیت و کامنت‌ها
       formData.append('step_1', state.actionStatus);
+      formData.append('step_2', state.actionStatus);
+      formData.append('step_3', state.actionStatus);
+      formData.append('step_4', state.actionStatus);
+      formData.append('step_5', state.actionStatus);
+
       formData.append('comment_step_1', state.commentStep1);
       formData.append('comment_step_2', state.commentStep2);
       formData.append('comment_step_3', state.commentStep3);
@@ -321,7 +326,6 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // افزودن تمام فیلدهای executiveContract به FormData
       Object.entries(state.executiveContract).forEach(([key, value]) => {
         if (key === 'evaluation' || key === 'executive_contract') {
           if (value && state.isActualFile(value)) {
@@ -332,7 +336,6 @@ const useCompanyInfoStore = create((set, get) => ({
         }
       });
 
-      // افزودن وضعیت و کامنت‌ها
       formData.append('step_5', state.actionStatus);
       formData.append('comment_step_5', state.commentStep5);
 
@@ -369,6 +372,8 @@ const useCompanyInfoStore = create((set, get) => ({
       agencyContract: {
         auditor_response: null,
         warranty: null,
+        account_number_letter: null,
+        financial_exel: null,
       },
       additionalInfo: {
         tax_return: null,
@@ -463,6 +468,8 @@ const useCompanyInfoStore = create((set, get) => ({
       agencyContract: {
         auditor_response: defaultValue(data.auditor_response),
         warranty: defaultValue(data.warranty),
+        account_number_letter: defaultValue(data.account_number_letter),
+        financial_exel: defaultValue(data.financial_exel),
       },
       additionalInfo: {
         tax_return: defaultValue(data.tax_return),

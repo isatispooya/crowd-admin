@@ -17,12 +17,8 @@ import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
-  const { 
-    agencyContract, 
-    updateAgencyContractFile, 
-    initializeStore
-  } = useCompanyInfoStore();
-  
+  const { agencyContract, updateAgencyContractFile, initializeStore } = useCompanyInfoStore();
+
   useEffect(() => {
     if (data) {
       initializeStore(data);
@@ -95,24 +91,22 @@ const Contract = ({ data }) => {
                     }}
                   >
                     <Typography>
-                      {typeof agencyContract[item.id] === 'object' 
-                        ? (
-                          <span>{agencyContract[item.id].name}</span>
-                        ) : (
-                          <a
-                            href={`${OnRun}/${agencyContract[item.id]}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: 'blue', textDecoration: 'none' }}
-                          >
-                            {item.label} 📂
-                          </a>
-                        )
-                      }
+                      {typeof agencyContract[item.id] === 'object' ? (
+                        <span>{agencyContract[item.id].name}</span>
+                      ) : (
+                        <a
+                          href={`${OnRun}/${agencyContract[item.id]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'blue', textDecoration: 'none' }}
+                        >
+                          {item.label} 📂
+                        </a>
+                      )}
                     </Typography>
-                    <Button 
-                      variant="outlined" 
-                      color="primary" 
+                    <Button
+                      variant="outlined"
+                      color="primary"
                       size="small"
                       onClick={() => updateAgencyContractFile(item.id, null)}
                     >
