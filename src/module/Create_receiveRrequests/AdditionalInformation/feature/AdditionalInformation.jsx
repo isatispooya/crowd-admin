@@ -5,7 +5,7 @@ import { Stack } from 'react-bootstrap';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const { additionalInfo, updateAdditionalInfoFile, deleteAdditionalInfoFile, initializeStore } =
+  const { additionalInfo, updateAdditionalInfoFile, initializeStore } =
     useCompanyInfoStore();
 
   useEffect(() => {
@@ -43,10 +43,6 @@ const AdditionalInformation = ({ data }) => {
     }
   };
 
-  const handleDeleteFile = (id) => {
-    deleteAdditionalInfoFile(id);
-  };
-
   return (
     <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
@@ -78,13 +74,6 @@ const AdditionalInformation = ({ data }) => {
                   >
                     {typeof additionalInfo[id] === 'object' ? additionalInfo[id].name : label} 📂
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteFile(id)}
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'red' }}
-                  >
-                    🗑️
-                  </button>
                 </Box>
               ) : (
                 <TextField

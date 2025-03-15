@@ -6,12 +6,10 @@ import {
   Typography,
   TextField,
   Box,
-  IconButton,
   Paper,
   Container,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
@@ -21,7 +19,6 @@ const BoardOfDirectors = ({ data }) => {
     setBoardMembers, 
     boardMembersFiles, 
     updateBoardMemberFile, 
-    deleteBoardMemberFile,
     initializeStore 
   } = useCompanyInfoStore();
 
@@ -72,12 +69,6 @@ const BoardOfDirectors = ({ data }) => {
                         <Typography>
                           {boardMembersFiles[member.id]?.[field.id]?.name || field.value}
                         </Typography>
-                        <IconButton
-                          color="error"
-                          onClick={() => deleteBoardMemberFile(member.id, field.id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
                       </Box>
                     ) : (
                       <TextField

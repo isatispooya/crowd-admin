@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyInfo = ({ companyInfo }) => {
-  const { uploadedFiles, updateUploadedFile, deleteUploadedFile, initializeStore } =
+  const { uploadedFiles, updateUploadedFile, initializeStore } =
     useCompanyInfoStore();
 
   const initialFields = [
@@ -77,9 +77,6 @@ const CompanyInfo = ({ companyInfo }) => {
                     </a>
                   )}
                 </Typography>
-                <button type="button" onClick={() => deleteUploadedFile(field.id)}>
-                  🗑️
-                </button>
               </Box>
             ) : (
               <TextField

@@ -1,9 +1,9 @@
 import { Typography, Paper, Stack, Button, TextField, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import { ExecutiveContract } from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
-import { useParams } from 'react-router-dom';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const ExecutiveContractPage = ({ data }) => {
