@@ -21,7 +21,7 @@ const BoardOfDirectors = ({ data }) => {
   const [localBoardMembers, setLocalBoardMembers] = useState([]);
 
   const {
-    boardMembers,
+
     setBoardMembers,
     boardMembersFiles,
     updateBoardMemberFile,
@@ -43,8 +43,7 @@ const BoardOfDirectors = ({ data }) => {
       const membersWithData = members.map((member) => ({
         ...member,
         phone_number: member.phone_number || '',
-        signature: member.signature || '',
-        is_signature_owner: member.is_signature_owner || true,
+        signature: member.signature ||  true,
       }));
 
       setBoardMembers(membersWithData);
