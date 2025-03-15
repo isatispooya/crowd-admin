@@ -2,6 +2,7 @@ import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material'
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import BoardOfDirectors from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
@@ -9,6 +10,7 @@ import { useCreateExecutiveContract } from '../../pages/service';
 const BoardofDirectorsPage = ({ data }) => {
   const { commentStep2, setCommentStep2, setActionStatus, submitBoardDirectorsForm, isLoading } =
     useCompanyInfoStore();
+  const [selectedButton, setSelectedButton] = useState(null);
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
@@ -41,6 +43,7 @@ const BoardofDirectorsPage = ({ data }) => {
     },
   ];
   const handleButtonClick = async (actionType) => {
+    setSelectedButton(actionType);
     setActionStatus(actionType);
     const formData = await submitBoardDirectorsForm();
     if (formData) {
@@ -110,11 +113,17 @@ const BoardofDirectorsPage = ({ data }) => {
           {button.map((item) => (
             <Button
               key={item.id}
-              variant="outlined"
               color={item.color}
               startIcon={item.icon}
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}
+              variant={selectedButton === item.id ? 'contained' : 'outlined'}
+              sx={{
+                ...(selectedButton === item.id && {
+                  boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                  transform: 'scale(1.05)',
+                }),
+              }}
             >
               {item.label}
             </Button>

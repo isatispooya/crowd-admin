@@ -2,23 +2,18 @@ import { Typography, Paper, Stack, Button, TextField, Box } from '@mui/material'
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { ExecutiveContract } from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const ExecutiveContractPage = ({ data }) => {
-  const { 
-    description, 
-    setDescription, 
-    setActionStatus, 
-    submitForm,
-    isLoading,
-    commentStep5,
-    setCommentStep5
-  } = useCompanyInfoStore();
+  const { setActionStatus, submitForm, isLoading, commentStep5, setCommentStep5 } =
+    useCompanyInfoStore();
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+  const [selectedButton, setSelectedButton] = useState(null);
 
   const pastelBlue = {
     light: '#E6F4FF',
@@ -49,6 +44,8 @@ const ExecutiveContractPage = ({ data }) => {
   ];
 
   const handleButtonClick = async (actionType) => {
+    setSelectedButton(actionType);
+
     setActionStatus(actionType);
     const formData = await submitForm();
     if (formData) {
@@ -105,25 +102,31 @@ const ExecutiveContractPage = ({ data }) => {
       <ExecutiveContract data={data} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <TextField 
-          label="توضیحات" 
-          multiline 
-          rows={4} 
-          fullWidth 
+        <TextField
+          label="توضیحات"
+          multiline
+          rows={4}
+          fullWidth
           type="textarea"
           value={commentStep5}
           onChange={(e) => setCommentStep5(e.target.value)}
         />
-        
+
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
-            <Button 
-              key={item.id} 
-              variant="outlined" 
-              color={item.color} 
+            <Button
+              key={item.id}
+              color={item.color}
               startIcon={item.icon}
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}
+              variant={selectedButton === item.id ? 'contained' : 'outlined'}
+              sx={{
+                ...(selectedButton === item.id && {
+                  boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                  transform: 'scale(1.05)',
+                }),
+              }}
             >
               {item.label}
             </Button>
