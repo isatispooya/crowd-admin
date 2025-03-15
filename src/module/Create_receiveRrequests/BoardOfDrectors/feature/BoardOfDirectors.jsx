@@ -14,12 +14,12 @@ import { useEffect } from 'react';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const BoardOfDirectors = ({ data }) => {
-  const { 
-    boardMembers, 
-    setBoardMembers, 
-    boardMembersFiles, 
-    updateBoardMemberFile, 
-    initializeStore 
+  const {
+    boardMembers,
+    setBoardMembers,
+    boardMembersFiles,
+    updateBoardMemberFile,
+    initializeStore,
   } = useCompanyInfoStore();
 
   useEffect(() => {
@@ -66,12 +66,20 @@ const BoardOfDirectors = ({ data }) => {
                           borderRadius: 1,
                         }}
                       >
-                        <Typography>
-                          {boardMembersFiles[member.id]?.[field.id]?.name || field.value}
-                        </Typography>
+                        <a
+                          href={boardMembersFiles[member.id]?.[field.id]?.url || field.value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'none', color: '#1976d2', cursor: 'pointer' }}
+                        >
+                          <Typography>
+                            {boardMembersFiles[member.id]?.[field.id]?.name || field.value}
+                          </Typography>
+                        </a>
                       </Box>
                     ) : (
                       <TextField
+                        disabled
                         type="file"
                         fullWidth
                         inputProps={{ accept: '*' }}

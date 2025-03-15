@@ -63,6 +63,11 @@ const useCompanyInfoStore = create((set, get) => ({
     evaluation: null,
     executive_contract: null,
   },
+  commentStep1: '',
+  commentStep2: '',
+  commentStep3: '',
+  commentStep4: '',
+  commentStep5: '',
   description: '',
   actionStatus: null,
   isLoading: false,
@@ -207,6 +212,11 @@ const useCompanyInfoStore = create((set, get) => ({
       },
     })),
 
+  setCommentStep1: (text) => set({ commentStep1: text }),
+  setCommentStep2: (text) => set({ commentStep2: text }),
+  setCommentStep3: (text) => set({ commentStep3: text }),
+  setCommentStep4: (text) => set({ commentStep4: text }),
+  setCommentStep5: (text) => set({ commentStep5: text }),
   setDescription: (text) => set({ description: text }),
 
   setActionStatus: (status) => set({ actionStatus: status }),
@@ -218,48 +228,98 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // Company info files
-      Object.entries({
-        picture: state.uploadedFiles.picture,
-        validation_report: state.uploadedFiles.validation_report,
-        financial_statement: state.uploadedFiles.financial_statement,
-        logo: state.uploadedFiles.logo,
-      }).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
-      });
-
-      // Basic info
-      formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
-      formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
-      formData.append('bank', state.bankInfo.bank);
-      formData.append('bank_branch', state.bankInfo.bank_branch);
-      formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
+      // افزودن وضعیت و کامنت‌ها
       formData.append('step_1', state.actionStatus);
-      formData.append('comment_step_1', state.description);
+      formData.append('comment_step_1', state.commentStep1);
+      formData.append('comment_step_2', state.commentStep2);
+      formData.append('comment_step_3', state.commentStep3);
+      formData.append('comment_step_4', state.commentStep4);
+      formData.append('comment_step_5', state.commentStep5);
 
-      // Board members
-      state.boardMembers.forEach((member, index) => {
-        const memberFiles = state.boardMembersFiles[member.id] || {};
-
-        ['national_cart', 'birth_certificate', 'validation_report', 'previous_article'].forEach(
-          (fileType) => {
-            if (memberFiles[fileType]) {
-              formData.append(`company_members[${index}][${fileType}]`, memberFiles[fileType]);
-            }
-          }
-        );
-      });
-
-      // Agency contract files
+      // افزودن فایل‌های قرارداد عاملیت به FormData
       Object.entries(state.agencyContract).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
+        if (value) {
+          formData.append(key, value);
+        }
       });
 
-      // Additional info files
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  submitBoardDirectorsForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      formData.append('step_2', state.actionStatus);
+      formData.append('comment_step_2', state.commentStep2);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  submitAdditionalInfoForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
       Object.entries(state.additionalInfo).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
+        if (value) {
+          formData.append(key, value);
+        }
       });
 
+      formData.append('step_3', state.actionStatus);
+      formData.append('comment_step_3', state.commentStep3);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  submitExecutiveContractForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      // افزودن تمام فیلدهای executiveContract به FormData
+      Object.entries(state.executiveContract).forEach(([key, value]) => {
+        if (value) {
+          formData.append(key, value);
+        }
+      });
+      
+      // افزودن فایل‌های account_number_letter و financial_exel از agencyContract
+      if (state.agencyContract.account_number_letter) {
+        formData.append('account_number_letter', state.agencyContract.account_number_letter);
+      }
+      
+      if (state.agencyContract.financial_exel) {
+        formData.append('financial_exel', state.agencyContract.financial_exel);
+      }
+
+      // افزودن وضعیت و کامنت‌ها
+      formData.append('step_5', state.actionStatus);
+      formData.append('comment_step_5', state.commentStep5);
+      
       set({ isLoading: false });
       return formData;
     } catch (error) {
@@ -332,6 +392,11 @@ const useCompanyInfoStore = create((set, get) => ({
         evaluation: null,
         executive_contract: null,
       },
+      commentStep1: '',
+      commentStep2: '',
+      commentStep3: '',
+      commentStep4: '',
+      commentStep5: '',
       description: '',
       actionStatus: null,
       isLoading: false,
@@ -411,6 +476,13 @@ const useCompanyInfoStore = create((set, get) => ({
         evaluation: defaultValue(data.evaluation),
         executive_contract: defaultValue(data.executive_contract),
       },
+      commentStep1: defaultValue(data.comment_step_1),
+      commentStep2: defaultValue(data.comment_step_2),
+      commentStep3: defaultValue(data.comment_step_3),
+      commentStep4: defaultValue(data.comment_step_4),
+      commentStep5: defaultValue(data.comment_step_5),
+      description: defaultValue(data.description),
+      actionStatus: defaultValue(data.step_1),
     });
   },
 

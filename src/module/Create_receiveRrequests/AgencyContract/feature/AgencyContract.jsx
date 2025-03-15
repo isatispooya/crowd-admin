@@ -75,7 +75,6 @@ const Contract = ({ data }) => {
                   <TextField
                     type="file"
                     fullWidth
-                    value={item.value || ''}
                     inputProps={{ accept: '*' }}
                     onChange={(e) => {
                       if (e.target.files.length > 0) {
@@ -96,9 +95,28 @@ const Contract = ({ data }) => {
                   >
                     <Typography>
                       {typeof agencyContract[item.id] === 'object' 
-                        ? agencyContract[item.id].name 
-                        : item.label}
+                        ? (
+                          <span>{agencyContract[item.id].name}</span>
+                        ) : (
+                          <a
+                            href={agencyContract[item.id]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: 'blue', textDecoration: 'none' }}
+                          >
+                            {item.label} 📂
+                          </a>
+                        )
+                      }
                     </Typography>
+                    <Button 
+                      variant="outlined" 
+                      color="primary" 
+                      size="small"
+                      onClick={() => updateAgencyContractFile(item.id, null)}
+                    >
+                      تغییر فایل
+                    </Button>
                   </Box>
                 )}
               </Box>

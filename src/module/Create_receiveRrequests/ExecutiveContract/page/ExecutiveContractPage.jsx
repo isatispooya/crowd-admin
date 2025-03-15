@@ -12,7 +12,9 @@ const ExecutiveContractPage = ({ data }) => {
     setDescription, 
     setActionStatus, 
     submitForm,
-    isLoading 
+    isLoading,
+    commentStep5,
+    setCommentStep5
   } = useCompanyInfoStore();
 
   const { cartId } = useParams();
@@ -27,19 +29,19 @@ const ExecutiveContractPage = ({ data }) => {
 
   const button = [
     {
-      id: 'submit',
-      label: 'ثبت ',
+      id: 'approved',
+      label: 'تایید ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 'reject',
+      id: 'rejected',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 'edit',
+      id: 'changed',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
@@ -109,8 +111,8 @@ const ExecutiveContractPage = ({ data }) => {
           rows={4} 
           fullWidth 
           type="textarea"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={commentStep5}
+          onChange={(e) => setCommentStep5(e.target.value)}
         />
         
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>

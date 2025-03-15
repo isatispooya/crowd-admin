@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyInfo = ({ companyInfo }) => {
@@ -39,6 +40,10 @@ const CompanyInfo = ({ companyInfo }) => {
     if (file) {
       updateUploadedFile(fieldId, file);
     }
+  };
+
+  const handleChangeFile = (fieldId) => {
+    updateUploadedFile(fieldId, null);
   };
 
   return (
@@ -77,16 +82,46 @@ const CompanyInfo = ({ companyInfo }) => {
                     </a>
                   )}
                 </Typography>
+                <Button 
+                  variant="outlined" 
+                  color="primary" 
+                  size="small"
+                  onClick={() => handleChangeFile(field.id)}
+                >
+                  تغییر فایل
+                </Button>
               </Box>
             ) : (
-              <TextField
-                fullWidth
-                type="file"
-                required
-                id={field.id}
-                variant="outlined"
-                onChange={(e) => handleFileChange(e, field.id)}
-              />
+              <Box sx={{ position: 'relative' }}>
+                <TextField
+                  fullWidth
+                  type="file"
+                  required
+                  id={field.id}
+                  variant="outlined"
+                  onChange={(e) => handleFileChange(e, field.id)}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      padding: '10px',
+                      borderRadius: '10px',
+                    },
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          marginRight: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        📂
+                      </Typography>
+                    ),
+                  }}
+                />
+              </Box>
             )}
           </Grid>
         ))}

@@ -1,45 +1,40 @@
 import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import BoardOfDirectors from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
-import { useParams } from 'react-router-dom';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const BoardofDirectorsPage = ({ data }) => {
-  const { 
-    description, 
-    setDescription, 
-    setActionStatus, 
-    submitForm,
-    isLoading 
-  } = useCompanyInfoStore();
+  const { commentStep2, setCommentStep2, setActionStatus, submitBoardDirectorsForm, isLoading } =
+    useCompanyInfoStore();
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
-  
+
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
-  
+
   const button = [
     {
-      id: 'submit',
+      id: 'approved',
       label: 'ثبت ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 'reject',
+      id: 'rejected',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 'edit',
+      id: 'chenged',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
@@ -47,13 +42,12 @@ const BoardofDirectorsPage = ({ data }) => {
   ];
   const handleButtonClick = async (actionType) => {
     setActionStatus(actionType);
-    const formData = await submitForm();
+    const formData = await submitBoardDirectorsForm();
     if (formData) {
       submitExecutiveContract(formData);
     }
   };
 
-  
   return (
     <Paper
       elevation={0}
@@ -101,23 +95,23 @@ const BoardofDirectorsPage = ({ data }) => {
       </Typography>
       <BoardOfDirectors data={data} />
 
-      <Stack  spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <TextField 
-          label="توضیحات" 
-          multiline 
-          rows={4} 
-          fullWidth 
-          type="textarea" 
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+      <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
+        <TextField
+          label="توضیحات"
+          multiline
+          rows={4}
+          fullWidth
+          type="textarea"
+          value={commentStep2}
+          onChange={(e) => setCommentStep2(e.target.value)}
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
-            <Button 
-              key={item.id} 
-              variant="outlined" 
-              color={item.color} 
+            <Button
+              key={item.id}
+              variant="outlined"
+              color={item.color}
               startIcon={item.icon}
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}

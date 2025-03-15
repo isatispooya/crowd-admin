@@ -23,14 +23,9 @@ import { useCreateExecutiveContract } from '../../pages/service';
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
-  
-  const { 
-    description, 
-    setDescription, 
-    setActionStatus,
-    isLoading,
-    submitForm
-  } = useCompanyInfoStore();
+
+  const { commentStep1, setCommentStep1, setActionStatus, isLoading, submitForm } =
+    useCompanyInfoStore();
 
   const handleButtonClick = async (actionType) => {
     setActionStatus(actionType);
@@ -39,6 +34,8 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
       submitExecutiveContract(formData);
     }
   };
+
+  console.log(commentStep1);
 
   const button = [
     {
@@ -85,14 +82,14 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
       </Accordion>
 
       <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <TextField 
-          label="توضیحات" 
-          multiline 
-          rows={4} 
-          fullWidth 
-          type="textarea" 
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+        <TextField
+          label="توضیحات"
+          multiline
+          rows={4}
+          fullWidth
+          type="textarea"
+          value={commentStep1}
+          onChange={(e) => setCommentStep1(e.target.value)}
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>

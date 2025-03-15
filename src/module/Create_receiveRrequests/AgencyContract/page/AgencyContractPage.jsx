@@ -1,18 +1,18 @@
 import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import AgencyContract from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
-import { useParams } from 'react-router-dom';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const AgencyContractPage = ({ data }) => {
   const { 
-    description, 
-    setDescription, 
     setActionStatus, 
     submitForm,
-    isLoading 
+    isLoading,
+    commentStep4,
+    setCommentStep4
   } = useCompanyInfoStore();
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
@@ -34,19 +34,19 @@ const AgencyContractPage = ({ data }) => {
   
   const button = [
     {
-      id: 'submit',
-      label: 'ثبت ',
+      id: 'approved',
+      label: 'تایید ',
       icon: <CheckCircle />,
       color: 'success',
     },
     {
-      id: 'reject',
+      id: 'rejected',
       label: 'رد ',
       icon: <Cancel />,
       color: 'error',
     },
     {
-      id: 'edit',
+      id: 'changed',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
@@ -108,8 +108,8 @@ const AgencyContractPage = ({ data }) => {
           rows={4} 
           fullWidth 
           type="textarea" 
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={commentStep4}
+          onChange={(e) => setCommentStep4(e.target.value)}
         />
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (

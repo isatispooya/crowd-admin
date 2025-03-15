@@ -13,22 +13,28 @@ import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import AdditionalInformation from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
-import { useParams } from 'react-router-dom';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const AdditionalInformationPage = ({ data }) => {
-  const { description, setDescription, setActionStatus, submitForm, isLoading } =
-    useCompanyInfoStore();
+  const { 
+    commentStep3, 
+    setCommentStep3, 
+    setActionStatus, 
+    submitAdditionalInfoForm, 
+    isLoading 
+  } = useCompanyInfoStore();
 
   const [selectedButton, setSelectedButton] = React.useState(null);
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
 
   const handleButtonClick = async (actionType) => {
+    setSelectedButton(actionType);
     setActionStatus(actionType);
-    const formData = await submitForm();
+    const formData = await submitAdditionalInfoForm();
     if (formData) {
       submitExecutiveContract(formData);
     }
@@ -129,8 +135,8 @@ const AdditionalInformationPage = ({ data }) => {
           rows={4}
           fullWidth
           type="textarea"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={commentStep3}
+          onChange={(e) => setCommentStep3(e.target.value)}
         />
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
