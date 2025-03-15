@@ -422,6 +422,19 @@ const useCompanyInfoStore = create((set, get) => ({
 
     const defaultValue = (value, defaultVal = '') => value ?? defaultVal;
 
+    const boardMembersFiles = {};
+
+    if (data.company_members && Array.isArray(data.company_members)) {
+      data.company_members.forEach((member) => {
+        boardMembersFiles[member.id] = {
+          validation_report: member.validation_report,
+          previous_article: member.previous_article,
+          national_card: member.national_cart,
+          identity_card: member.birth_certificate,
+        };
+      });
+    }
+
     set({
       companyInfo: {
         company: {
@@ -446,6 +459,7 @@ const useCompanyInfoStore = create((set, get) => ({
         amount_of_investment: defaultValue(data.amount_of_investment),
       },
       boardMembers: data.company_members || [],
+      boardMembersFiles,
       agencyContract: {
         auditor_response: defaultValue(data.auditor_response),
         warranty: defaultValue(data.warranty),

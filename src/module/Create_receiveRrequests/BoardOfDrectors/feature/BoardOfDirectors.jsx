@@ -30,10 +30,10 @@ const BoardOfDirectors = ({ data }) => {
   }, [data, setBoardMembers, initializeStore]);
 
   const uploadFields = [
-    { id: 'validation_report', label: 'گزارش اعتبارسنجی', value: data?.validation_report },
-    { id: 'previous_article', label: 'مقاله قبلی', value: data?.previous_article },
-    { id: 'national_card', label: 'کارت ملی', value: data?.national_card },
-    { id: 'identity_card', label: 'شناسنامه', value: data?.identity_card },
+    { id: 'validation_report', label: 'گزارش اعتبارسنجی' },
+    { id: 'previous_article', label: 'مقاله قبلی' },
+    { id: 'national_card', label: 'کارت ملی' },
+    { id: 'identity_card', label: 'شناسنامه' },
   ];
 
   const handleFileChange = (memberId, fieldId, file) => {
@@ -55,7 +55,7 @@ const BoardOfDirectors = ({ data }) => {
                 {uploadFields.map((field) => (
                   <Box key={field.id} sx={{ mb: 2 }}>
                     <Typography>{field.label}</Typography>
-                    {boardMembersFiles[member.id]?.[field.id] || field.value ? (
+                    {boardMembersFiles[member.id]?.[field.id] ? (
                       <Box
                         sx={{
                           display: 'flex',
@@ -67,13 +67,17 @@ const BoardOfDirectors = ({ data }) => {
                         }}
                       >
                         <a
-                          href={boardMembersFiles[member.id]?.[field.id]?.url || field.value}
+                          href={
+                            boardMembersFiles[member.id][field.id]?.url ||
+                            boardMembersFiles[member.id][field.id]
+                          }
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{ textDecoration: 'none', color: '#1976d2', cursor: 'pointer' }}
                         >
                           <Typography>
-                            {boardMembersFiles[member.id]?.[field.id]?.name || field.value}
+                            {boardMembersFiles[member.id][field.id]?.name ||
+                              boardMembersFiles[member.id][field.id]}
                           </Typography>
                         </a>
                       </Box>
