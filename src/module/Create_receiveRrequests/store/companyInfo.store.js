@@ -22,10 +22,12 @@ const useCompanyInfoStore = create((set, get) => ({
   boardMembers: [],
   boardMembersFiles: {},
   agencyContract: {
+    agency_agreement_date: null,
     auditor_response: null,
     warranty: null,
     account_number_letter: null,
     financial_exel: null,
+    bank_letter_number: null,
   },
   additionalInfo: {
     tax_return: null,
@@ -393,6 +395,24 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
+      if (state.agencyContract.agency_agreement_date) {
+        const date = state.agencyContract.agency_agreement_date;
+        let formattedDate;
+        
+        if (typeof date === 'object' && date.toISOString) {
+          formattedDate = date.toISOString();
+        } else if (date instanceof Date) {
+          formattedDate = date.toISOString();
+        } else if (typeof date === 'object' && date.format) {
+          formattedDate = date.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        } else {
+          formattedDate = String(date);
+        }
+        
+        formData.append('agency_agreement_date', formattedDate);
+      }
+      
+
       formData.append('step_4', state.actionStatus);
       formData.append('comment_step_4', state.commentStep4);
 
@@ -427,10 +447,12 @@ const useCompanyInfoStore = create((set, get) => ({
       boardMembers: [],
       boardMembersFiles: {},
       agencyContract: {
+        agency_agreement_date: null,
         auditor_response: null,
         warranty: null,
         account_number_letter: null,
         financial_exel: null,
+        bank_letter_number: null,
       },
       additionalInfo: {
         tax_return: null,
@@ -523,10 +545,12 @@ const useCompanyInfoStore = create((set, get) => ({
       boardMembers: data.company_members || [],
       boardMembersFiles,
       agencyContract: {
+        agency_agreement_date: defaultValue(data.agency_agreement_date),
         auditor_response: defaultValue(data.auditor_response),
         warranty: defaultValue(data.warranty),
         account_number_letter: defaultValue(data.account_number_letter),
         financial_exel: defaultValue(data.financial_exel),
+        bank_letter_number: defaultValue(data.bank_letter_number),
       },
       additionalInfo: {
         tax_return: defaultValue(data.tax_return),

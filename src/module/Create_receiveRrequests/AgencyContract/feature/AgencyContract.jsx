@@ -14,6 +14,10 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import DatePicker from 'react-multi-date-picker';
+import DateObject from "react-date-object";
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
@@ -32,11 +36,109 @@ const Contract = ({ data }) => {
   ];
 
   const uploadLabels = [
-    { id: 'account_number_letter', label: 'نامه شماره حساب', value: data?.account_number_letter },
-    { id: 'financial_exel', label: 'اکسل مالی', value: data?.financial_exel },
-    { id: 'auditor_response', label: 'پاسخ حسابرس', value: data?.auditor_response },
-    { id: 'warranty', label: 'ضمانت نامه', value: data?.warranty },
+    {
+      id: 'agency_agreement_date',
+      label: 'تاریخ',
+      value: data?.agency_agreement_date,
+      type: 'date',
+    },
+    {
+      id: 'bank_letter_number',
+      label: 'شماره نامه بانکی',
+      value: data?.agency_contract,
+      type: 'text',
+    },
+    {
+      id: 'account_number_letter',
+      label: 'نامه شماره حساب',
+      value: data?.account_number_letter,
+      type: 'file',
+    },
+    { id: 'financial_exel', label: 'اکسل مالی', value: data?.financial_exel, type: 'file' },
+    { id: 'auditor_response', label: 'پاسخ حسابرس', value: data?.auditor_response, type: 'file' },
+    { id: 'warranty', label: 'ضمانت نامه', value: data?.warranty, type: 'file' },
   ];
+
+  const renderFieldByType = (item) => {
+    if (item.type === 'date') {
+      let dateValue = null;
+      if (agencyContract.agency_agreement_date) {
+        if (typeof agencyContract.agency_agreement_date === 'string') {
+          dateValue = new DateObject({
+            date: agencyContract.agency_agreement_date,
+            calendar: persian,
+            locale: persian_fa
+          });
+        } else {
+          dateValue = agencyContract.agency_agreement_date;
+        }
+      }
+      
+      return (
+        <div style={{ width: '100%' }}>
+          <DatePicker
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-right"
+            style={{ width: '100%' }}
+            value={dateValue}
+            onChange={(date) => updateAgencyContractFile('agency_agreement_date', date)}
+          />
+        </div>
+      );
+    }
+
+    if (agencyContract[item.id]) {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: 1,
+            border: '1px solid #ccc',
+            borderRadius: 1,
+          }}
+        >
+          <Typography>
+            {typeof agencyContract[item.id] === 'object' ? (
+              <span>{agencyContract[item.id].name}</span>
+            ) : (
+              <a
+                href={`${OnRun}/${agencyContract[item.id]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'blue', textDecoration: 'none' }}
+              >
+                {item.label} 📂
+              </a>
+            )}
+          </Typography>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => updateAgencyContractFile(item.id, null)}
+          >
+            تغییر فایل
+          </Button>
+        </Box>
+      );
+    }
+
+    return (
+      <TextField
+        type={item.type}
+        fullWidth
+        inputProps={{ accept: '*' }}
+        onChange={(e) => {
+          if (e.target.files.length > 0) {
+            updateAgencyContractFile(item.id, e.target.files[0]);
+          }
+        }}
+      />
+    );
+  };
 
   return (
     <Container maxWidth="md" dir="rtl">
@@ -68,52 +170,7 @@ const Contract = ({ data }) => {
             {uploadLabels.map((item) => (
               <Box key={item.id} sx={{ mb: 2 }}>
                 <Typography>{item.label}</Typography>
-                {!agencyContract[item.id] ? (
-                  <TextField
-                    type="file"
-                    fullWidth
-                    inputProps={{ accept: '*' }}
-                    onChange={(e) => {
-                      if (e.target.files.length > 0) {
-                        updateAgencyContractFile(item.id, e.target.files[0]);
-                      }
-                    }}
-                  />
-                ) : (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      p: 1,
-                      border: '1px solid #ccc',
-                      borderRadius: 1,
-                    }}
-                  >
-                    <Typography>
-                      {typeof agencyContract[item.id] === 'object' ? (
-                        <span>{agencyContract[item.id].name}</span>
-                      ) : (
-                        <a
-                          href={`${OnRun}/${agencyContract[item.id]}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: 'blue', textDecoration: 'none' }}
-                        >
-                          {item.label} 📂
-                        </a>
-                      )}
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      onClick={() => updateAgencyContractFile(item.id, null)}
-                    >
-                      تغییر فایل
-                    </Button>
-                  </Box>
-                )}
+                {renderFieldByType(item)}
               </Box>
             ))}
           </AccordionDetails>

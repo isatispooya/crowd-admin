@@ -47,15 +47,24 @@ const banks = [
 
 const ExecutiveContract = ({ data }) => {
   const {
-    executiveContract,
     updateExecutiveContractField,
     updateExecutiveContractFile,
     initializeStore,
+    executiveContract,
   } = useCompanyInfoStore();
 
   useEffect(() => {
     if (data) {
+      localStorage.removeItem('executiveContractData');
+
       initializeStore(data);
+
+      localStorage.setItem('executiveContractData', JSON.stringify(data));
+    } else {
+      const savedData = localStorage.getItem('executiveContractData');
+      if (savedData) {
+        initializeStore(JSON.parse(savedData));
+      }
     }
   }, [data, initializeStore]);
 
@@ -64,10 +73,44 @@ const ExecutiveContract = ({ data }) => {
 
     if (type === 'file' && files.length > 0) {
       updateExecutiveContractFile(name, files[0]);
+    } else if (name === 'payment_bank') {
+      const selectedBank = banks.find((bank) => bank.id === value);
+      if (selectedBank) {
+        updateExecutiveContractField(name, selectedBank.name);
+        updateLocalStorage(name, selectedBank.name);
+      }
     } else {
       updateExecutiveContractField(name, value);
+      updateLocalStorage(name, value);
     }
   };
+
+  const updateLocalStorage = (fieldName, fieldValue) => {
+    const savedData = localStorage.getItem('executiveContractData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      parsedData[fieldName] = fieldValue;
+      localStorage.setItem('executiveContractData', JSON.stringify(parsedData));
+    } else {
+      const newData = { ...executiveContract, [fieldName]: fieldValue };
+      localStorage.setItem('executiveContractData', JSON.stringify(newData));
+    }
+  };
+
+  const getBankIdByName = () => {
+    if (!executiveContract?.payment_bank) return '';
+
+    const selectedBank = banks.find((bank) => bank.name === executiveContract.payment_bank);
+    return selectedBank ? selectedBank.id : '';
+  };
+
+  const bankValue =
+    getBankIdByName() ||
+    (data?.payment_bank ? banks.find((bank) => bank.name === data.payment_bank)?.id || '' : '');
+
+  const branchValue = executiveContract?.payment_bank_branch || data?.payment_bank_branch || '';
+  const accountValue =
+    executiveContract?.payment_account_number || data?.payment_account_number || '';
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -87,8 +130,8 @@ const ExecutiveContract = ({ data }) => {
             <Grid item xs={12} md={6}>
               <Typography sx={{ fontSize: '15px' }}>نام بانک</Typography>
               <Select
-                name="bank"
-                value={executiveContract.bank}
+                name="payment_bank"
+                value={bankValue}
                 onChange={handleChange}
                 fullWidth
                 required
@@ -105,8 +148,8 @@ const ExecutiveContract = ({ data }) => {
               <Typography sx={{ fontSize: '15px' }}>شعبه</Typography>
               <TextField
                 type="text"
-                name="bank_branch"
-                value={executiveContract.bank_branch}
+                name="payment_bank_branch"
+                value={branchValue}
                 onChange={handleChange}
                 fullWidth
                 required
@@ -114,11 +157,11 @@ const ExecutiveContract = ({ data }) => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Typography sx={{ fontSize: '15px' }}>کد شعبه</Typography>
+              <Typography sx={{ fontSize: '15px' }}>شماره حساب پرداخت</Typography>
               <TextField
-                type="numbet"
-                name="bank_branch_code"
-                value={executiveContract.bank_branch_code}
+                type="number"
+                name="payment_account_number"
+                value={accountValue}
                 onChange={handleChange}
                 fullWidth
                 required
