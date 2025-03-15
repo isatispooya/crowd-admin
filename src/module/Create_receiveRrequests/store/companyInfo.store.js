@@ -219,6 +219,9 @@ const useCompanyInfoStore = create((set, get) => ({
 
   setActionStatus: (status) => set({ actionStatus: status }),
 
+  // افزودن این تابع کمکی برای بررسی نوع فایل
+  isActualFile: (value) => value instanceof File || value instanceof Blob,
+
   submitForm: async () => {
     set({ isLoading: true, error: null });
 
@@ -233,7 +236,7 @@ const useCompanyInfoStore = create((set, get) => ({
       formData.append('comment_step_3', state.commentStep3);
       formData.append('comment_step_4', state.commentStep4);
       formData.append('comment_step_5', state.commentStep5);
-      
+
       // افزودن اطلاعات بانکی
       if (state.bankInfo.bank) {
         formData.append('bank', state.bankInfo.bank);
@@ -244,19 +247,19 @@ const useCompanyInfoStore = create((set, get) => ({
       if (state.bankInfo.bank_branch_code) {
         formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
       }
-      
+
       // افزودن اطلاعات ثبت
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
       }
-      
+
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
       }
 
-      // افزودن فایل‌های قرارداد عاملیت به FormData
+      // افزودن فایل‌های قرارداد عاملیت به FormData - فقط فایل‌های واقعی
       Object.entries(state.agencyContract).forEach(([key, value]) => {
-        if (value) {
+        if (value && state.isActualFile(value)) {
           formData.append(key, value);
         }
       });
@@ -295,7 +298,7 @@ const useCompanyInfoStore = create((set, get) => ({
       const formData = new FormData();
 
       Object.entries(state.additionalInfo).forEach(([key, value]) => {
-        if (value) {
+        if (value && state.isActualFile(value)) {
           formData.append(key, value);
         }
       });
@@ -320,7 +323,11 @@ const useCompanyInfoStore = create((set, get) => ({
 
       // افزودن تمام فیلدهای executiveContract به FormData
       Object.entries(state.executiveContract).forEach(([key, value]) => {
-        if (value) {
+        if (key === 'evaluation' || key === 'executive_contract') {
+          if (value && state.isActualFile(value)) {
+            formData.append(key, value);
+          }
+        } else if (value) {
           formData.append(key, value);
         }
       });

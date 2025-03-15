@@ -19,15 +19,10 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const AdditionalInformationPage = ({ data }) => {
-  const { 
-    commentStep3, 
-    setCommentStep3, 
-    setActionStatus, 
-    submitAdditionalInfoForm, 
-    isLoading 
-  } = useCompanyInfoStore();
+  const { commentStep3, setCommentStep3, setActionStatus, submitAdditionalInfoForm, isLoading } =
+    useCompanyInfoStore();
 
-  const [selectedButton, setSelectedButton] = React.useState(null);
+  const [selectedButton, setSelectedButton] = React.useState(data?.step_3 || null);
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
 
@@ -67,7 +62,6 @@ const AdditionalInformationPage = ({ data }) => {
       color: 'info',
     },
   ];
-
 
   return (
     <Paper

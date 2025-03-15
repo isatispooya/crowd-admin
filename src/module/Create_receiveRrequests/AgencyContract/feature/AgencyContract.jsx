@@ -13,6 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
@@ -99,7 +100,7 @@ const Contract = ({ data }) => {
                           <span>{agencyContract[item.id].name}</span>
                         ) : (
                           <a
-                            href={agencyContract[item.id]}
+                            href={`${OnRun}/${agencyContract[item.id]}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{ color: 'blue', textDecoration: 'none' }}

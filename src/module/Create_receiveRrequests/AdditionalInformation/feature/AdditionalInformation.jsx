@@ -1,12 +1,12 @@
-import { Grid, TextField, Box } from '@mui/material';
+import { Grid, TextField, Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { Stack } from 'react-bootstrap';
+import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const { additionalInfo, updateAdditionalInfoFile, initializeStore } =
-    useCompanyInfoStore();
+  const { additionalInfo, updateAdditionalInfoFile, initializeStore } = useCompanyInfoStore();
 
   useEffect(() => {
     if (data) {
@@ -43,6 +43,10 @@ const AdditionalInformation = ({ data }) => {
     }
   };
 
+  const handleChangeFile = (id) => {
+    updateAdditionalInfoFile(id, null);
+  };
+
   return (
     <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
@@ -56,40 +60,76 @@ const AdditionalInformation = ({ data }) => {
                 marginBottom: 2,
               }}
             >
-              <label
-                htmlFor={id}
-                style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}
-              >
+              <Typography variant="p" sx={{ fontSize: '15px', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
                 {label}
-              </label>
+              </Typography>
+              
               {additionalInfo[id] ? (
                 <Box
-                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                >
-                  <a
-                    href={typeof additionalInfo[id] === 'string' ? additionalInfo[id] : '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}
-                  >
-                    {typeof additionalInfo[id] === 'object' ? additionalInfo[id].name : label} 📂
-                  </a>
-                </Box>
-              ) : (
-                <TextField
-                  fullWidth
-                  type="file"
-                  id={id}
-                  name={id}
-                  onChange={(e) => handleFileChange(id, e)}
                   sx={{
-                    display: 'block',
-                    marginTop: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginTop: 1,
+                    boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
                     padding: '10px',
                     borderRadius: '10px',
                     justifyContent: 'space-between',
                   }}
-                />
+                >
+                  <Typography variant="body2" sx={{ marginRight: 1 }}>
+                    {typeof additionalInfo[id] === 'object' ? (
+                      <span>{additionalInfo[id].name}</span>
+                    ) : (
+                      <a
+                        href={`${OnRun}/${additionalInfo[id]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ marginLeft: '10px', color: 'blue', textDecoration: 'none' }}
+                      >
+                        {label} 📂
+                      </a>
+                    )}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleChangeFile(id)}
+                  >
+                    تغییر فایل
+                  </Button>
+                </Box>
+              ) : (
+                <Box sx={{ position: 'relative' }}>
+                  <TextField
+                    fullWidth
+                    type="file"
+                    id={id}
+                    name={id}
+                    onChange={(e) => handleFileChange(id, e)}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        padding: '10px',
+                        borderRadius: '10px',
+                      },
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            marginRight: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          📂
+                        </Typography>
+                      ),
+                    }}
+                  />
+                </Box>
               )}
             </Box>
           </Grid>

@@ -23,11 +23,20 @@ import { useCreateExecutiveContract } from '../../pages/service';
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+  const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
   const { commentStep1, setCommentStep1, setActionStatus, isLoading, submitForm } =
     useCompanyInfoStore();
 
+  React.useEffect(() => {
+    if (companyInfo?.status) {
+      setSelectedButton(companyInfo.status);
+      setActionStatus(companyInfo.status);
+    }
+  }, [companyInfo?.status, setActionStatus]);
+
   const handleButtonClick = async (actionType) => {
+    setSelectedButton(actionType);
     setActionStatus(actionType);
     const formData = await submitForm();
     if (formData) {
@@ -96,11 +105,17 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
           {button.map((item) => (
             <Button
               key={item.id}
-              variant="outlined"
               color={item.color}
               startIcon={item.icon}
+              variant={selectedButton === item.id ? 'contained' : 'outlined'}
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}
+              sx={{
+                ...(selectedButton === item.id && {
+                  boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+                  transform: 'scale(1.05)',
+                }),
+              }}
             >
               {item.label}
             </Button>
