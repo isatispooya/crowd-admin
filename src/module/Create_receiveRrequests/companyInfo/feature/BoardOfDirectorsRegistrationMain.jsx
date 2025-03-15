@@ -44,8 +44,6 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
     }
   };
 
-  console.log(commentStep1);
-
   const button = [
     {
       id: 'approved',
