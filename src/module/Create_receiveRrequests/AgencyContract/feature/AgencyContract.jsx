@@ -27,10 +27,7 @@ const Contract = ({ data }) => {
     if (data) {
       initializeStore(data);
     }
-  }, [data, initializeStore]);
-
-  console.log(data.uuid);
-  
+  }, [data, initializeStore]);  
 
   const links = [
     { id: 1, title: 'قرارداد عاملیت', path: '/agencyAgreement' },
