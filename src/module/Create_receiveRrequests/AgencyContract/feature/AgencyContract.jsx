@@ -17,7 +17,7 @@ import { OnRun } from 'src/api/OnRun';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import DatePicker from 'react-multi-date-picker';
-import DateObject from "react-date-object";
+import DateObject from 'react-date-object';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
@@ -44,8 +44,8 @@ const Contract = ({ data }) => {
     },
     {
       id: 'bank_letter_number',
-      label: 'شماره نامه بانکی',
-      value: data?.agency_contract,
+      label: 'شماره نامه بانک',
+      value: data?.bank_letter_number,
       type: 'text',
     },
     {
@@ -67,13 +67,13 @@ const Contract = ({ data }) => {
           dateValue = new DateObject({
             date: agencyContract.agency_agreement_date,
             calendar: persian,
-            locale: persian_fa
+            locale: persian_fa,
           });
         } else {
           dateValue = agencyContract.agency_agreement_date;
         }
       }
-      
+
       return (
         <div style={{ width: '100%' }}>
           <DatePicker
@@ -88,7 +88,7 @@ const Contract = ({ data }) => {
       );
     }
 
-    if (agencyContract[item.id]) {
+    if (item.type === 'file' && agencyContract[item.id]) {
       return (
         <Box
           sx={{
@@ -126,14 +126,28 @@ const Contract = ({ data }) => {
       );
     }
 
+    if (item.type === 'text' && agencyContract[item.id]) {
+      return (
+        <TextField
+          fullWidth
+          value={agencyContract[item.id]}
+          onChange={(e) => updateAgencyContractFile(item.id, e.target.value)}
+        />
+      );
+    }
+
     return (
       <TextField
-        type={item.type}
+        type={item.type === 'file' ? 'file' : item.type}
         fullWidth
-        inputProps={{ accept: '*' }}
+        inputProps={{ accept: item.type === 'file' ? '*' : undefined }}
         onChange={(e) => {
-          if (e.target.files.length > 0) {
-            updateAgencyContractFile(item.id, e.target.files[0]);
+          if (item.type === 'file') {
+            if (e.target.files.length > 0) {
+              updateAgencyContractFile(item.id, e.target.files[0]);
+            }
+          } else {
+            updateAgencyContractFile(item.id, e.target.value);
           }
         }}
       />
