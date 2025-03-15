@@ -8,12 +8,12 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const ExecutiveContractPage = ({ data }) => {
-  const { setActionStatus, submitForm, isLoading, commentStep5, setCommentStep5 } =
+  const { setActionStatus, submitExecutiveContractForm, isLoading, commentStep5, setCommentStep5 } =
     useCompanyInfoStore();
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState(data?.step_5 || null);
 
   const pastelBlue = {
     light: '#E6F4FF',
@@ -45,9 +45,8 @@ const ExecutiveContractPage = ({ data }) => {
 
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);
-
     setActionStatus(actionType);
-    const formData = await submitForm();
+    const formData = await submitExecutiveContractForm();
     if (formData) {
       submitExecutiveContract(formData);
     }

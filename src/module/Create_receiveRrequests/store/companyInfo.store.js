@@ -277,6 +277,45 @@ const useCompanyInfoStore = create((set, get) => ({
     }
   },
 
+  submitStep1Form: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      // فقط step_1 را تغییر می‌دهیم
+      formData.append('step_1', state.actionStatus);
+      formData.append('comment_step_1', state.commentStep1);
+
+      // افزودن اطلاعات بانکی
+      if (state.bankInfo.bank) {
+        formData.append('bank', state.bankInfo.bank);
+      }
+      if (state.bankInfo.bank_branch) {
+        formData.append('bank_branch', state.bankInfo.bank_branch);
+      }
+      if (state.bankInfo.bank_branch_code) {
+        formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
+      }
+
+      // افزودن اطلاعات ثبت
+      if (state.registerInfo.suggestion_plan_name) {
+        formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
+      }
+
+      if (state.registerInfo.amount_of_investment) {
+        formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
+      }
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
   submitBoardDirectorsForm: async () => {
     set({ isLoading: true, error: null });
 
@@ -338,6 +377,24 @@ const useCompanyInfoStore = create((set, get) => ({
 
       formData.append('step_5', state.actionStatus);
       formData.append('comment_step_5', state.commentStep5);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  submitAgencyContractForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      formData.append('step_4', state.actionStatus);
+      formData.append('comment_step_4', state.commentStep4);
 
       set({ isLoading: false });
       return formData;

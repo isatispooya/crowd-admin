@@ -25,7 +25,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
-  const { commentStep1, setCommentStep1, setActionStatus, isLoading, submitForm } =
+  const { commentStep1, setCommentStep1, setActionStatus, isLoading, submitStep1Form } =
     useCompanyInfoStore();
 
   React.useEffect(() => {
@@ -38,7 +38,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);
     setActionStatus(actionType);
-    const formData = await submitForm();
+    const formData = await submitStep1Form();
     if (formData) {
       submitExecutiveContract(formData);
     }

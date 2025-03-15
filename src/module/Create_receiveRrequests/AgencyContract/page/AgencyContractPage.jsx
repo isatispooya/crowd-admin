@@ -8,7 +8,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 
 const AgencyContractPage = ({ data }) => {
-  const { setActionStatus, submitForm, isLoading, commentStep4, setCommentStep4 } =
+  const { setActionStatus, submitAgencyContractForm, isLoading, commentStep4, setCommentStep4 } =
     useCompanyInfoStore();
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
@@ -17,7 +17,7 @@ const AgencyContractPage = ({ data }) => {
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);
     setActionStatus(actionType);
-    const formData = await submitForm();
+    const formData = await submitAgencyContractForm();
     if (formData) {
       submitExecutiveContract(formData);
     }

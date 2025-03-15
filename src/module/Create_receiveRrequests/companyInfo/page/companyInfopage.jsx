@@ -55,7 +55,7 @@ const CompanyInfoPage = ({ companyInfo, handleCreateExecutiveContract }) => {
       >
         اطلاعات شرکت را برسی کنید
       </Typography>
-      <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} handleCreateExecutiveContract={handleCreateExecutiveContract} />
+      <BoardOfDirectorsRegistrationMain companyInfo={companyInfo}  />
     </Paper>
   );
 };

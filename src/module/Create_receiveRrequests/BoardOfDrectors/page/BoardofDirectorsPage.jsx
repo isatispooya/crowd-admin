@@ -36,7 +36,7 @@ const BoardofDirectorsPage = ({ data }) => {
       color: 'error',
     },
     {
-      id: 'chenged',
+      id: 'changed',
       label: ' اصلاح',
       icon: <Edit />,
       color: 'info',
