@@ -5,11 +5,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
+import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyInfo = ({ companyInfo }) => {
-  const { uploadedFiles, updateUploadedFile, initializeStore } =
-    useCompanyInfoStore();
+  const { uploadedFiles, updateUploadedFile, initializeStore } = useCompanyInfoStore();
 
   const initialFields = [
     {
@@ -73,7 +73,7 @@ const CompanyInfo = ({ companyInfo }) => {
                     <span>{uploadedFiles[field.id].name}</span>
                   ) : (
                     <a
-                      href={uploadedFiles[field.id]}
+                      href={`${OnRun}/${uploadedFiles[field.id]}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ marginLeft: '10px', color: 'blue', textDecoration: 'none' }}
@@ -82,9 +82,9 @@ const CompanyInfo = ({ companyInfo }) => {
                     </a>
                   )}
                 </Typography>
-                <Button 
-                  variant="outlined" 
-                  color="primary" 
+                <Button
+                  variant="outlined"
+                  color="primary"
                   size="small"
                   onClick={() => handleChangeFile(field.id)}
                 >

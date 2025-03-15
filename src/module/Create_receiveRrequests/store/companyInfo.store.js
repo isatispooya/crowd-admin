@@ -22,8 +22,6 @@ const useCompanyInfoStore = create((set, get) => ({
   boardMembers: [],
   boardMembersFiles: {},
   agencyContract: {
-    account_number_letter: null,
-    financial_exel: null,
     auditor_response: null,
     warranty: null,
   },
@@ -235,6 +233,15 @@ const useCompanyInfoStore = create((set, get) => ({
       formData.append('comment_step_3', state.commentStep3);
       formData.append('comment_step_4', state.commentStep4);
       formData.append('comment_step_5', state.commentStep5);
+      
+      // افزودن اطلاعات ثبت
+      if (state.registerInfo.suggestion_plan_name) {
+        formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
+      }
+      
+      if (state.registerInfo.amount_of_investment) {
+        formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
+      }
 
       // افزودن فایل‌های قرارداد عاملیت به FormData
       Object.entries(state.agencyContract).forEach(([key, value]) => {
@@ -306,20 +313,11 @@ const useCompanyInfoStore = create((set, get) => ({
           formData.append(key, value);
         }
       });
-      
-      // افزودن فایل‌های account_number_letter و financial_exel از agencyContract
-      if (state.agencyContract.account_number_letter) {
-        formData.append('account_number_letter', state.agencyContract.account_number_letter);
-      }
-      
-      if (state.agencyContract.financial_exel) {
-        formData.append('financial_exel', state.agencyContract.financial_exel);
-      }
 
       // افزودن وضعیت و کامنت‌ها
       formData.append('step_5', state.actionStatus);
       formData.append('comment_step_5', state.commentStep5);
-      
+
       set({ isLoading: false });
       return formData;
     } catch (error) {
@@ -351,8 +349,6 @@ const useCompanyInfoStore = create((set, get) => ({
       boardMembers: [],
       boardMembersFiles: {},
       agencyContract: {
-        account_number_letter: null,
-        financial_exel: null,
         auditor_response: null,
         warranty: null,
       },
@@ -433,8 +429,6 @@ const useCompanyInfoStore = create((set, get) => ({
       },
       boardMembers: data.company_members || [],
       agencyContract: {
-        account_number_letter: defaultValue(data.account_number_letter),
-        financial_exel: defaultValue(data.financial_exel),
         auditor_response: defaultValue(data.auditor_response),
         warranty: defaultValue(data.warranty),
       },

@@ -50,10 +50,6 @@ const CapitalCapable = () => {
           marginTop: '40px',
         }}
       >
-        <Button variant="contained" color="primary" sx={{ width: '150px', alignSelf: 'flex-end' }}>
-          ذخیره و ارسال
-        </Button>
-
         <Accordion>
           <AccordionSummary
             expandIcon={<ArrowDownwardIcon />}
