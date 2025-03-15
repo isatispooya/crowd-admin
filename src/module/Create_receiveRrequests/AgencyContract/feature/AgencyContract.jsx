@@ -29,10 +29,13 @@ const Contract = ({ data }) => {
     }
   }, [data, initializeStore]);
 
+  console.log(data.uuid);
+  
+
   const links = [
-    { id: 1, title: 'قرارداد عاملیت' },
-    { id: 2, title: 'نامه حسابرسی' },
-    { id: 3, title: 'نامه بانکی' },
+    { id: 1, title: 'قرارداد عاملیت', path: '/agencyAgreement' },
+    { id: 2, title: 'نامه حسابرسی', path: '/auditLetter' },
+    { id: 3, title: 'نامه بانکی', path: `/bankLetter?uuid=${data?.uuid}` },
   ];
 
   const uploadLabels = [
@@ -166,6 +169,8 @@ const Contract = ({ data }) => {
               <Button
                 key={link.id}
                 component={Link}
+                to={link.path}
+                target="_blank" 
                 fullWidth
                 variant="outlined"
                 sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}

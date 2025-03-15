@@ -30,6 +30,7 @@ export const CardPage = lazy(() => import('src/module/Create_receiveRrequests/ca
 export const CapitalCapable = lazy(() =>
   import('src/module/Create_receiveRrequests/pages/CapitalCapable')
 );
+export const BankLetter = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter'))
 
 const motionWrapper = (Component = React.FC) => (
   <motion.div
@@ -69,6 +70,8 @@ export default function Router() {
         { path: 'riskCommittee/:cartId', element: motionWrapper(RiskCommitteeDetails) },
         { path: 'tasks', element: motionWrapper(Tasks) },
         { path: 'cartDetail/:cartId', element: motionWrapper(CapitalCapable) },
+        { path: 'bankLetter', element: motionWrapper(BankLetter) },
+
       ],
     },
     {
