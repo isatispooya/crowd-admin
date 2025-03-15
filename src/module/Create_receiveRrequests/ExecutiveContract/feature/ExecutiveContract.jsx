@@ -46,15 +46,13 @@ const banks = [
 ];
 
 const ExecutiveContract = ({ data }) => {
-  // استفاده از استور
-  const { 
-    executiveContract, 
-    updateExecutiveContractField, 
+  const {
+    executiveContract,
+    updateExecutiveContractField,
     updateExecutiveContractFile,
-    initializeStore 
+    initializeStore,
   } = useCompanyInfoStore();
 
-  // مقداردهی اولیه
   useEffect(() => {
     if (data) {
       initializeStore(data);
@@ -63,19 +61,24 @@ const ExecutiveContract = ({ data }) => {
 
   const handleChange = (event) => {
     const { name, value, type, files } = event.target;
-    
+
     if (type === 'file' && files.length > 0) {
-      // برای فیلدهای فایل
       updateExecutiveContractFile(name, files[0]);
     } else {
-      // برای سایر فیلدها
       updateExecutiveContractField(name, value);
     }
   };
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
-      <Accordion sx={{borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' ,marginBottom: '10px'}}>
+      <Accordion
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          padding: '10px',
+          marginBottom: '10px',
+        }}
+      >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>اطلاعات بانکی</Typography>
         </AccordionSummary>
@@ -83,11 +86,11 @@ const ExecutiveContract = ({ data }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography sx={{ fontSize: '15px' }}>نام بانک</Typography>
-              <Select 
-                name="bank" 
-                value={executiveContract.bank} 
-                onChange={handleChange} 
-                fullWidth 
+              <Select
+                name="bank"
+                value={executiveContract.bank}
+                onChange={handleChange}
+                fullWidth
                 required
               >
                 {banks.map((bank) => (
@@ -125,7 +128,9 @@ const ExecutiveContract = ({ data }) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion sx={{borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' }}>
+      <Accordion
+        sx={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' }}
+      >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>گزارشات</Typography>
         </AccordionSummary>
