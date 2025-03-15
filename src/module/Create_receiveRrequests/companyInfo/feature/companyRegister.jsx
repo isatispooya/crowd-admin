@@ -14,6 +14,7 @@ const CompanyRegister = ({ data }) => {
   const [investmentValue, setInvestmentValue] = useState('');
   const [investmentError, setInvestmentError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [planName, setPlanName] = useState('');
 
   const MIN_INVESTMENT = 50000000000;
   const MAX_INVESTMENT = 250000000000;
@@ -21,6 +22,11 @@ const CompanyRegister = ({ data }) => {
   const { updateRegisterInfo } = useCompanyInfoStore();
 
   useEffect(() => {
+    if (data?.suggestion_plan_name) {
+      setPlanName(data.suggestion_plan_name);
+      updateRegisterInfo('suggestion_plan_name', data.suggestion_plan_name);
+    }
+    
     if (data?.amount_of_investment) {
       setInvestmentValue(formatNumber(data.amount_of_investment));
       updateRegisterInfo('amount_of_investment', data.amount_of_investment);
@@ -59,12 +65,21 @@ const CompanyRegister = ({ data }) => {
     }
   };
 
+  const handleFieldChange = (e, fieldId) => {
+    const value = e.target.value;
+    if (fieldId === 'suggestion_plan_name') {
+      setPlanName(value);
+    }
+    updateRegisterInfo(fieldId, value);
+  };
+
   const fields = [
     {
       id: 'suggestion_plan_name',
       label: 'نام طرح',
       type: 'text',
-      value: data?.suggestion_plan_name || '',
+      value: planName,
+      onChange: (e) => handleFieldChange(e, 'suggestion_plan_name'),
     },
   ];
   return (
@@ -86,6 +101,7 @@ const CompanyRegister = ({ data }) => {
             </Typography>
             <TextField
               value={field.value}
+              onChange={field.onChange}
               fullWidth
               type={field.type}
               required

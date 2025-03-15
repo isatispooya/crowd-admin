@@ -234,6 +234,17 @@ const useCompanyInfoStore = create((set, get) => ({
       formData.append('comment_step_4', state.commentStep4);
       formData.append('comment_step_5', state.commentStep5);
       
+      // افزودن اطلاعات بانکی
+      if (state.bankInfo.bank) {
+        formData.append('bank', state.bankInfo.bank);
+      }
+      if (state.bankInfo.bank_branch) {
+        formData.append('bank_branch', state.bankInfo.bank_branch);
+      }
+      if (state.bankInfo.bank_branch_code) {
+        formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
+      }
+      
       // افزودن اطلاعات ثبت
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
