@@ -46,7 +46,7 @@ const CompanyBankInfo = ({ data }) => {
     if (data?.bank) {
       const bankObj = banks.find((b) => b.name === data.bank);
       if (bankObj) {
-        updateBankInfo('bank', bankObj.id);
+        updateBankInfo('bank', bankObj.name);
         updateBankInfo('bank_branch', data.bank_branch || '');
         updateBankInfo('bank_branch_code', data.bank_branch_code || '');
       }
@@ -84,7 +84,7 @@ const CompanyBankInfo = ({ data }) => {
             variant="outlined"
           >
             {banks.map((bank) => (
-              <MenuItem key={bank.id} value={bank.id}>
+              <MenuItem key={bank.id} value={bank.name}>
                 {bank.name}
               </MenuItem>
             ))}

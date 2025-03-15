@@ -77,7 +77,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
           <CompanyInfo companyInfo={companyInfo} />
           <Divider sx={{ marginY: 2 }} />
           <Typography variant="h6" sx={{ fontSize: 16, fontWeight: 600 }}>
-            اطلاعات بانکی
+            اطلاعات بانکی ضمانت نامه
           </Typography>
           <CompanyBankInfo data={companyInfo} />
           <Divider sx={{ marginY: 2 }} />
