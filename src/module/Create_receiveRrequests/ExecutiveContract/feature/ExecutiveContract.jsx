@@ -128,7 +128,7 @@ const ExecutiveContract = ({ data }) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
+      {/* <Accordion
         sx={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -199,7 +199,7 @@ const ExecutiveContract = ({ data }) => {
             </Grid>
           </Grid>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </Box>
   );
 };
