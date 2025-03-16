@@ -28,7 +28,7 @@ const BoardOfDirectors = ({ data }) => {
     initializeStore,
   } = useCompanyInfoStore();
 
-  const { mutate } = useBoardOfDirectors(data.company_members[0].id);
+  const { mutate } = useBoardOfDirectors(data.company_members.id);
 
   const handleBoardMemberDataChange = (memberId, field, value) => {
     setLocalBoardMembers((prev) =>
@@ -74,6 +74,7 @@ const BoardOfDirectors = ({ data }) => {
 
     if (member) {
       const memberData = {
+        id: memberId,
         signature: member.signature || false,
         signature_document: member.signature_document || '',
         phone_number: member.phone_number || '',

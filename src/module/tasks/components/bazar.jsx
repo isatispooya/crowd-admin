@@ -78,23 +78,7 @@ const Bazar = () => {
     }));
   }, [myketData]);
 
-  const transformDataForExcel = () => {
-    if (!rows || rows.length === 0) {
-      console.error('No data available for export');
-      return [];
-    }
-    
-    return rows.map((item) => ({
-      'شناسه': item.id || '',
-      'نام طرح': item.projectName || '',
-      'نام مشتری': item.customerName || '',
-      'شناسه مشتری': item.uniqueIdentifier || '',
-      'مبلغ سرمایه گذاری (ریال)': formatNumber(item.investment) || '0',
-      'کد معرف': item.referralCode || '',
-      'معرف': item.marketer || '',
-      'شماره شبا معرف': item.referralIBAN || '',
-    }));
-  };
+
 
   const renderContent = () => {
     if (isPending) {

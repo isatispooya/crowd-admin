@@ -66,7 +66,7 @@ const CompanyRegister = ({ data }) => {
   };
 
   const handleFieldChange = (e, fieldId) => {
-    const value = e.target.value;
+    const { value } = e.target;
     if (fieldId === 'suggestion_plan_name') {
       setPlanName(value);
     }
