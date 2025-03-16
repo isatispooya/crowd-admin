@@ -63,7 +63,6 @@ const UserFeature = () => {
     navigate(`/userDetail/${params.row.id}`);
   };
 
-  console.log(rawData);
   const columns = [
     {
       field: 'actions',
