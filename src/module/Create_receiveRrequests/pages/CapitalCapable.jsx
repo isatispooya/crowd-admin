@@ -36,7 +36,7 @@ const CapitalCapable = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
+    <div className="p-4 sm:p-6 lg:p-8 bg-transparent flex justify-center items-start">
       <Box
         sx={{
           width: '100%',

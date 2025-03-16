@@ -10,7 +10,7 @@ import { useCreateExecutiveContract } from '../../pages/service';
 const BoardofDirectorsPage = ({ data }) => {
   const { commentStep2, setCommentStep2, setActionStatus, submitBoardDirectorsForm, isLoading } =
     useCompanyInfoStore();
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState(data?.step_1 || null);
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
@@ -109,15 +109,15 @@ const BoardofDirectorsPage = ({ data }) => {
           onChange={(e) => setCommentStep2(e.target.value)}
         />
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+<Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
             <Button
               key={item.id}
               color={item.color}
               startIcon={item.icon}
+              variant={selectedButton === item.id ? 'contained' : 'outlined'}
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}
-              variant={selectedButton === item.id ? 'contained' : 'outlined'}
               sx={{
                 ...(selectedButton === item.id && {
                   boxShadow: '0 0 8px rgba(0,0,0,0.2)',
