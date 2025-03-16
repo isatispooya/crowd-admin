@@ -19,16 +19,16 @@ import { useBoardOfDirectors } from '../service/BoardOfDirectors';
 
 const BoardOfDirectors = ({ data }) => {
   const [localBoardMembers, setLocalBoardMembers] = useState([]);
+  const [expandedMemberId, setExpandedMemberId] = useState(null);
 
-  const {
+  const { setBoardMembers, boardMembersFiles, updateBoardMemberFile, initializeStore } =
+    useCompanyInfoStore();
 
-    setBoardMembers,
-    boardMembersFiles,
-    updateBoardMemberFile,
-    initializeStore,
-  } = useCompanyInfoStore();
+  const { mutate } = useBoardOfDirectors(expandedMemberId ? [expandedMemberId] : []);
 
-  const { mutate } = useBoardOfDirectors(data.company_members.id);
+  const handleAccordionChange = (memberId) => (event, isExpanded) => {
+    setExpandedMemberId(isExpanded ? memberId : null);
+  };
 
   const handleBoardMemberDataChange = (memberId, field, value) => {
     setLocalBoardMembers((prev) =>
@@ -43,7 +43,7 @@ const BoardOfDirectors = ({ data }) => {
       const membersWithData = members.map((member) => ({
         ...member,
         phone_number: member.phone_number || '',
-        signature: member.signature ||  true,
+        signature: member.signature || false,
       }));
 
       setBoardMembers(membersWithData);
@@ -54,10 +54,9 @@ const BoardOfDirectors = ({ data }) => {
 
   const uploadFields = [
     { id: 'validation_report', label: 'گزارش اعتبارسنجی' },
-    { id: 'previous_article', label: 'مقاله قبلی' },
+    { id: 'previous_article', label: 'سوسابقه' },
     { id: 'national_card', label: 'کارت ملی' },
     { id: 'identity_card', label: 'شناسنامه' },
-    { id: 'signature_document', label: 'سند امضا' },
   ];
 
   const handleFileChange = (memberId, fieldId, file) => {
@@ -89,7 +88,11 @@ const BoardOfDirectors = ({ data }) => {
       <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 4 }}>
         {Array.isArray(localBoardMembers) && localBoardMembers.length > 0 ? (
           localBoardMembers.map((member) => (
-            <Accordion key={member.id}>
+            <Accordion 
+              key={member.id} 
+              expanded={expandedMemberId === member.id}
+              onChange={handleAccordionChange(member.id)}
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>
                   <strong>{member.person_title}</strong> - {member.position_title}
@@ -160,16 +163,12 @@ const BoardOfDirectors = ({ data }) => {
                         defaultChecked
                         checked={member.signature}
                         onChange={(e) =>
-                          handleBoardMemberDataChange(
-                            member.id,
-                            'signature',
-                            e.target.checked
-                          )
+                          handleBoardMemberDataChange(member.id, 'signature', e.target.checked)
                         }
                       />
                     }
                   />
-                  
+
                   {member.signature && (
                     <>
                       <Typography>امضا</Typography>
@@ -177,7 +176,11 @@ const BoardOfDirectors = ({ data }) => {
                         fullWidth
                         value={member.signature_document || ''}
                         onChange={(e) =>
-                          handleBoardMemberDataChange(member.id, 'signature_document', e.target.value)
+                          handleBoardMemberDataChange(
+                            member.id,
+                            'signature_document',
+                            e.target.value
+                          )
                         }
                       />
                     </>
