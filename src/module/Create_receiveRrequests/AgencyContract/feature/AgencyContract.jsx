@@ -27,11 +27,10 @@ const Contract = ({ data }) => {
     if (data) {
       initializeStore(data);
     }
-  }, [data, initializeStore]);  
+  }, [data, initializeStore]);
 
   const links = [
     { id: 1, title: 'قرارداد عاملیت', path: '/agencyAgreement' },
-    { id: 2, title: 'نامه حسابرسی', path: '/auditLetter' },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter?uuid=${data?.uuid}` },
   ];
 
@@ -167,7 +166,7 @@ const Contract = ({ data }) => {
                 key={link.id}
                 component={Link}
                 to={link.path}
-                target="_blank" 
+                target="_blank"
                 fullWidth
                 variant="outlined"
                 sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
