@@ -7,7 +7,7 @@ const useCompanyInfoStore = create((set, get) => ({
       validation_report: '',
       financial_statement: '',
     },
-    logo: '',
+    logo: null,
   },
   uploadedFiles: {},
   bankInfo: {
@@ -286,11 +286,16 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // فقط step_1 را تغییر می‌دهیم
+      // اصلاح نحوه ارسال لوگو
+      if (state.uploadedFiles.logo) {
+        if (state.isActualFile(state.uploadedFiles.logo)) {
+          formData.append('logo', state.uploadedFiles.logo);
+        }
+      }
+
       formData.append('step_1', state.actionStatus);
       formData.append('comment_step_1', state.commentStep1);
 
-      // افزودن اطلاعات بانکی
       if (state.bankInfo.bank) {
         formData.append('bank', state.bankInfo.bank);
       }
@@ -305,7 +310,6 @@ const useCompanyInfoStore = create((set, get) => ({
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
       }
-
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
       }
@@ -445,7 +449,7 @@ const useCompanyInfoStore = create((set, get) => ({
           validation_report: '',
           financial_statement: '',
         },
-        logo: '',
+        logo: null,
       },
       uploadedFiles: {},
       bankInfo: {
@@ -628,6 +632,25 @@ const useCompanyInfoStore = create((set, get) => ({
         [fieldId]: file,
       },
     })),
+
+  submitCompanyLogo: async () => {
+    set({ isLoading: true, error: null });
+    
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      if (state.companyInfo.company.picture && state.isActualFile(state.companyInfo.company.picture)) {
+        formData.append('picture', state.company.picture);
+      }
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
 }));
 
 export default useCompanyInfoStore;

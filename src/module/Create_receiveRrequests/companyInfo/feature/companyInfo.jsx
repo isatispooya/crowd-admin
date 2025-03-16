@@ -13,19 +13,19 @@ const CompanyInfo = ({ companyInfo }) => {
 
   const initialFields = [
     {
-      id: 'picture',
+      id: 'logo',
       label: 'لوگو شرکت',
-      value: companyInfo?.company?.picture || companyInfo?.logo,
+      value: companyInfo?.logo || '',
     },
     {
       id: 'validation_report',
       label: 'گزارش اعتبارسنجی',
-      value: companyInfo?.validation_report,
+      value: companyInfo?.validation_report || '',
     },
     {
       id: 'financial_statement',
       label: 'صورت مالی',
-      value: companyInfo?.financial_statement,
+      value: companyInfo?.financial_statement || '',
     },
   ];
 

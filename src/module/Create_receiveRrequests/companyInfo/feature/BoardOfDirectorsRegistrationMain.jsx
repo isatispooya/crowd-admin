@@ -25,8 +25,14 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
-  const { commentStep1, setCommentStep1, setActionStatus, isLoading, submitStep1Form } =
-    useCompanyInfoStore();
+  const { 
+    commentStep1, 
+    setCommentStep1, 
+    setActionStatus, 
+    isLoading, 
+    submitStep1Form,
+    uploadedFiles
+  } = useCompanyInfoStore();
 
   React.useEffect(() => {
     if (companyInfo?.status) {
@@ -38,6 +44,12 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);
     setActionStatus(actionType);
+    
+    if (!uploadedFiles.picture) {
+      alert('لطفا لوگوی شرکت را آپلود کنید');
+      return;
+    }
+
     const formData = await submitStep1Form();
     if (formData) {
       submitExecutiveContract(formData);
