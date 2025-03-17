@@ -12,6 +12,9 @@ import {
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
 import { useWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
@@ -76,14 +79,15 @@ const Warranty = ({ allData }) => {
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <TextField
-                type="date"
-                fullWidth
-                label="تاریخ"
-                value={formData.date}
-                onChange={handleChange('date')}
-                InputLabelProps={{ shrink: true }}
-              />
+              <div style={{ direction: 'rtl' }}>
+                <DatePicker
+                  value={formData.date}
+                  onChange={(value) => setFormData((prev) => ({ ...prev, date: value }))}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                />
+              </div>
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField

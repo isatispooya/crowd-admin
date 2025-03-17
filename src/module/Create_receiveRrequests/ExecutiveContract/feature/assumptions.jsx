@@ -117,11 +117,6 @@ const Assumptions = ({ allData }) => {
                           <strong>مقدار:</strong> {item.value?.toLocaleString()} ریال
                         </Typography>
                       </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
-                        </Typography>
-                      </Grid>
                     </Grid>
                   </Box>
                 ))

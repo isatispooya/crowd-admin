@@ -12,6 +12,9 @@ import {
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
 import { useGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
@@ -19,7 +22,6 @@ const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useGuarantor();
 
-  // استفاده از استور زوستند
   const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
     useCompanyInfoStore();
 
@@ -95,18 +97,15 @@ const Guarantor = ({ allData }) => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                type="date"
-                fullWidth
-                label="تاریخ تولد"
-                value={
-                  guarantorInfo.birth_date
-                    ? new Date(guarantorInfo.birth_date).toISOString().split('T')[0]
-                    : ''
-                }
-                onChange={handleChange('birth_date')}
-                InputLabelProps={{ shrink: true }}
-              />
+              <div style={{ direction: 'rtl' }}>
+                <DatePicker
+                  value={guarantorInfo.birth_date}
+                  onChange={(value) => updateGuarantorInfo('birth_date', value)}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                />
+              </div>
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
