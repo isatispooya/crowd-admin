@@ -17,13 +17,9 @@ const CapitalCapable = () => {
   const { cartId } = useParams();
 
   const { data: companyInfo } = useGetCompanyInfo(cartId);
-
+  const investorRequest = companyInfo?.investor_request;
   const isLoading = !companyInfo;
-
-  const handleCreateExecutiveContract = () => {
-    console.log('createExecutiveContract');
-  };
-
+    
   if (isLoading) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-center">
@@ -60,8 +56,7 @@ const CapitalCapable = () => {
           </AccordionSummary>
           <AccordionDetails>
             <CompanyInfoPage
-              companyInfo={companyInfo}
-              handleCreateExecutiveContract={handleCreateExecutiveContract}
+              companyInfo={investorRequest}
             />
           </AccordionDetails>
         </Accordion>
@@ -75,7 +70,7 @@ const CapitalCapable = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <BoardofDirectorsPage data={companyInfo} />
+              <BoardofDirectorsPage data={investorRequest} />
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -88,7 +83,7 @@ const CapitalCapable = () => {
             <Typography component="span">اطلاعات تکمیلی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AdditionalInformationPage data={companyInfo} />
+            <AdditionalInformationPage data={investorRequest} />
           </AccordionDetails>
         </Accordion>
 
@@ -101,7 +96,7 @@ const CapitalCapable = () => {
             <Typography component="span">قرارداد عاملیت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AgencyContractPage data={companyInfo} />
+            <AgencyContractPage data={investorRequest} />
           </AccordionDetails>
         </Accordion>
 
@@ -114,7 +109,7 @@ const CapitalCapable = () => {
             <Typography component="span">قرارداد اجرایی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <ExecutiveContractPage data={companyInfo} />
+            <ExecutiveContractPage data={investorRequest} />
           </AccordionDetails>
         </Accordion>
       </Box>

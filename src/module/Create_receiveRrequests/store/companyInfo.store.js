@@ -406,7 +406,7 @@ const useCompanyInfoStore = create((set, get) => ({
           if (key === 'agency_agreement_date') {
             const date = value;
             let formattedDate;
-            
+
             if (typeof date === 'object' && date.toISOString) {
               formattedDate = date.toISOString();
             } else if (date instanceof Date) {
@@ -416,13 +416,13 @@ const useCompanyInfoStore = create((set, get) => ({
             } else {
               formattedDate = String(date);
             }
-            
+
             formData.append('agency_agreement_date', formattedDate);
-          } 
+          }
           // برای فایل‌ها
           else if (state.isActualFile(value)) {
             formData.append(key, value);
-          } 
+          }
           // برای مقادیر متنی
           else if (key === 'bank_letter_number') {
             formData.append(key, value);
@@ -549,6 +549,7 @@ const useCompanyInfoStore = create((set, get) => ({
         picture: defaultValue(data.company?.picture || data.picture),
         validation_report: defaultValue(data.validation_report),
         financial_statement: defaultValue(data.financial_statement),
+        logo: defaultValue(data.logo),
       },
       bankInfo: {
         bank: defaultValue(data.bank),
@@ -635,12 +636,15 @@ const useCompanyInfoStore = create((set, get) => ({
 
   submitCompanyLogo: async () => {
     set({ isLoading: true, error: null });
-    
+
     try {
       const state = get();
       const formData = new FormData();
 
-      if (state.companyInfo.company.picture && state.isActualFile(state.companyInfo.company.picture)) {
+      if (
+        state.companyInfo.company.picture &&
+        state.isActualFile(state.companyInfo.company.picture)
+      ) {
         formData.append('picture', state.company.picture);
       }
 

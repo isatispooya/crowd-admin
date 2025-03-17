@@ -25,6 +25,8 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
+  console.log(companyInfo);
+
   const { 
     commentStep1, 
     setCommentStep1, 

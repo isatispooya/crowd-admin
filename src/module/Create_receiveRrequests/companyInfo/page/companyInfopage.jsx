@@ -2,13 +2,15 @@ import { Typography, Paper } from '@mui/material';
 import PropTypes from 'prop-types';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 
-const CompanyInfoPage = ({ companyInfo, handleCreateExecutiveContract }) => {
+const CompanyInfoPage = ({ companyInfo }) => {
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
+
+  console.log("companyInfo",companyInfo);
 
   return (
     <Paper
@@ -62,7 +64,6 @@ const CompanyInfoPage = ({ companyInfo, handleCreateExecutiveContract }) => {
 
 CompanyInfoPage.propTypes = {
   companyInfo: PropTypes.object.isRequired,
-  handleCreateExecutiveContract: PropTypes.func.isRequired,
 };
 
 export default CompanyInfoPage;

@@ -109,7 +109,7 @@ const CompanyBankInfo = ({ data }) => {
         <Grid item xs={12} md={6}>
           <Typography variant="p" sx={{ fontSize: '15px' }}>
             <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
-             شماره حساب
+            کد شعبه
           </Typography>
           <TextField
             name="bank_branch_code"
