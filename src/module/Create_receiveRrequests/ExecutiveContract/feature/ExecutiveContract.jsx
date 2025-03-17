@@ -119,7 +119,6 @@ const ExecutiveContract = ({ data }) => {
           borderRadius: '10px',
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
           padding: '10px',
-          marginBottom: '10px',
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>

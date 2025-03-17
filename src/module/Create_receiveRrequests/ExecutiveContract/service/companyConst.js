@@ -1,0 +1,20 @@
+import api from 'src/api/apiClient';
+import { useMutation } from '@tanstack/react-query';
+
+export const createCompanyConst = async ( data) => {
+  const response = await api.post(`/api/company/cost/admin/`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response.data;
+};
+
+export const useCompanyConst = () => {
+  const { mutate, data: responseData } = useMutation({
+    mutationFn: (data) => createCompanyConst( data),
+  });
+
+  return { mutate, data: responseData };
+};

@@ -1,0 +1,121 @@
+import React from 'react';
+import {
+  Box,
+  Grid,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  Button,
+} from '@mui/material';
+import PropTypes from 'prop-types';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useParams } from 'react-router-dom';
+import { useCompanyConst } from '../service/companyConst';
+
+const CompanyConst = ({ allData }) => {
+  const { cartId } = useParams();
+  const { mutate, data: responseData } = useCompanyConst();
+  const [formData, setFormData] = React.useState({
+    investor_request_id: cartId,
+    amount_of_year: allData?.company_cost?.amount_of_year || '',
+    amount_of_3_months: allData?.company_cost?.amount_of_3_months || '',
+    description: allData?.company_cost?.description || '',
+  });
+  const handleChange = (field) => (event) => {
+    const value = event.target.value.replace(/,/g, '');
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        investor_request: allData.id,
+        ...formData
+      };
+      
+      await mutate(payload);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    if (responseData) {
+      setFormData({
+        investor_request_id: cartId || '',
+        amount_of_year: responseData.amount_of_year || '',
+        amount_of_3_months: responseData.amount_of_3_months || '',
+        description: responseData.description || '',
+      });
+    }
+  }, [responseData, cartId]);
+
+  return (
+    <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
+      <Accordion
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          padding: '10px',
+        }}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>هزینه های اجرایی</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                type="number"
+                fullWidth
+                label="مبلغ سالیانه"
+                value={formData.amount_of_year}
+                onChange={handleChange('amount_of_year')}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                type="number"
+                fullWidth
+                label="مبلغ سه ماهه"
+                value={formData.amount_of_3_months}
+                onChange={handleChange('amount_of_3_months')}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="توضیحات"
+                value={formData.description}
+                onChange={handleChange('description')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                fullWidth
+              >
+                ذخیره اطلاعات
+              </Button>
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
+  );
+};
+
+CompanyConst.propTypes = {
+  allData: PropTypes.object.isRequired,
+};
+
+export default CompanyConst;

@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { ExecutiveContract } from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
+import ExecutiveContractMain from '../feature/ExecutiveContractMain';
 
-const ExecutiveContractPage = ({ data }) => {
+const ExecutiveContractPage = ({ allData, data }) => {
   const { setActionStatus, submitExecutiveContractForm, isLoading, commentStep5, setCommentStep5 } =
     useCompanyInfoStore();
+  console.log('allData4352837958739847573982', allData);
+  console.log('4543534253253', data);
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
@@ -98,7 +100,7 @@ const ExecutiveContractPage = ({ data }) => {
         اطلاعات قرارداد اجرایی را برسی کنید
       </Typography>
 
-      <ExecutiveContract data={data} />
+      <ExecutiveContractMain allData={allData} data={data} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField
@@ -138,6 +140,7 @@ const ExecutiveContractPage = ({ data }) => {
 
 ExecutiveContractPage.propTypes = {
   data: PropTypes.object.isRequired,
+  allData: PropTypes.object.isRequired,
 };
 
 export default ExecutiveContractPage;

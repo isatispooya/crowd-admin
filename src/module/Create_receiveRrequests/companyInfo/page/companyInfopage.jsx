@@ -9,9 +9,6 @@ const CompanyInfoPage = ({ companyInfo }) => {
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
-
-  console.log("companyInfo",companyInfo);
-
   return (
     <Paper
       elevation={0}

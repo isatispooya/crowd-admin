@@ -10,6 +10,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyInfo = ({ companyInfo }) => {
   const { uploadedFiles, updateUploadedFile, initializeStore } = useCompanyInfoStore();
+  console.log('000000000', companyInfo);
 
   const initialFields = [
     {

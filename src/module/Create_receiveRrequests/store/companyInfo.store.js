@@ -75,6 +75,59 @@ const useCompanyInfoStore = create((set, get) => ({
   isLoading: false,
   error: null,
 
+  companyCost: {
+    description: '',
+    amount_of_3_months: 0,
+    amount_of_year: 0,
+  },
+
+  profitAndLossForecast: {
+    description: '',
+    amount_of_3_months: 0,
+    amount_of_year: 0,
+  },
+
+  assumptions: {
+    title: '',
+    value: '',
+  },
+
+  performanceForecast: {
+    title: '',
+    value: '',
+  },
+
+  checks: {
+    date: null,
+    amount: null,
+    bank_name: '',
+    branch_name: '',
+    type: null,
+    fishing_id: '',
+    investor_request: null,
+  },
+
+  warranty: {
+    date: null,
+    description: '',
+    value: null,
+    number: '',
+    sepam_id: '',
+    type: null,
+    investor_request: null,
+  },
+
+  guarantorInfo: {
+    investor_request_id: null,
+    guarantor_name: '',
+    guarantor_national_id: '',
+    phone_number: '',
+    birth_date: null,
+    guarantor_address: '',
+    postal_code: '',
+    gender: true
+  },
+
   setCompanyInfo: (info) => set({ companyInfo: info }),
 
   setUploadedFiles: (files) =>
@@ -516,6 +569,59 @@ const useCompanyInfoStore = create((set, get) => ({
       actionStatus: null,
       isLoading: false,
       error: null,
+
+      companyCost: {
+        description: '',
+        amount_of_3_months: 0,
+        amount_of_year: 0,
+      },
+
+      profitAndLossForecast: {
+        description: '',
+        amount_of_3_months: 0,
+        amount_of_year: 0,
+      },
+
+      assumptions: {
+        title: '',
+        value: '',
+      },
+
+      performanceForecast: {
+        title: '',
+        value: '',
+      },
+
+      checks: {
+        date: null,
+        amount: null,
+        bank_name: '',
+        branch_name: '',
+        type: null,
+        fishing_id: '',
+        investor_request: null,
+      },
+
+      warranty: {
+        date: null,
+        description: '',
+        value: null,
+        number: '',
+        sepam_id: '',
+        type: null,
+        investor_request: null,
+      },
+
+      guarantorInfo: {
+        investor_request_id: null,
+        guarantor_name: '',
+        guarantor_national_id: '',
+        phone_number: '',
+        birth_date: null,
+        guarantor_address: '',
+        postal_code: '',
+        gender: true
+      },
     }),
 
   initializeStore: (data) => {
@@ -615,6 +721,59 @@ const useCompanyInfoStore = create((set, get) => ({
       commentStep5: defaultValue(data.comment_step_5),
       description: defaultValue(data.description),
       actionStatus: defaultValue(data.step_1),
+
+      companyCost: {
+        description: defaultValue(data.company_cost?.description, ''),
+        amount_of_3_months: defaultValue(data.company_cost?.amount_of_3_months, 0),
+        amount_of_year: defaultValue(data.company_cost?.amount_of_year, 0),
+      },
+
+      profitAndLossForecast: {
+        description: defaultValue(data.profit_and_loss_forecast?.description, ''),
+        amount_of_3_months: defaultValue(data.profit_and_loss_forecast?.amount_of_3_months, 0),
+        amount_of_year: defaultValue(data.profit_and_loss_forecast?.amount_of_year, 0),
+      },
+
+      assumptions: {
+        title: defaultValue(data.assumptions?.title, ''),
+        value: defaultValue(data.assumptions?.value, ''),
+      },
+
+      performanceForecast: {
+        title: defaultValue(data.performance_forecast?.title, ''),
+        value: defaultValue(data.performance_forecast?.value, ''),
+      },
+
+      checks: {
+        date: defaultValue(data.checks?.date, null),
+        amount: defaultValue(data.checks?.amount, null),
+        bank_name: defaultValue(data.checks?.bank_name, ''),
+        branch_name: defaultValue(data.checks?.branch_name, ''),
+        type: defaultValue(data.checks?.type, null),
+        fishing_id: defaultValue(data.checks?.fishing_id, ''),
+        investor_request: defaultValue(data.checks?.investor_request, null),
+      },
+
+      warranty: {
+        date: defaultValue(data.warranty?.date, null),
+        description: defaultValue(data.warranty?.description, ''),
+        value: defaultValue(data.warranty?.value, null),
+        number: defaultValue(data.warranty?.number, ''),
+        sepam_id: defaultValue(data.warranty?.sepam_id, ''),
+        type: defaultValue(data.warranty?.type, null),
+        investor_request: defaultValue(data.warranty?.investor_request, null),
+      },
+
+      guarantorInfo: {
+        investor_request_id: defaultValue(data.investor_request_id),
+        guarantor_name: defaultValue(data.guarantor_name),
+        guarantor_national_id: defaultValue(data.guarantor_national_id),
+        phone_number: defaultValue(data.phone_number),
+        birth_date: data.birth_date ? new Date(data.birth_date) : null,
+        guarantor_address: defaultValue(data.guarantor_address),
+        postal_code: defaultValue(data.postal_code),
+        gender: defaultValue(data.gender, true)
+      },
     });
   },
 
@@ -647,6 +806,89 @@ const useCompanyInfoStore = create((set, get) => ({
       ) {
         formData.append('picture', state.company.picture);
       }
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  setCompanyCost: (data) => set({ companyCost: data }),
+
+  updateCompanyCost: (field, value) =>
+    set((state) => ({
+      companyCost: {
+        ...state.companyCost,
+        [field]: value,
+      },
+    })),
+
+  submitCompanyCostForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      formData.append('description', state.companyCost.description);
+      formData.append('amount_of_3_months', state.companyCost.amount_of_3_months);
+      formData.append('amount_of_year', state.companyCost.amount_of_year);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  setProfitAndLossForecast: (data) => set({ profitAndLossForecast: data }),
+  setAssumptions: (data) => set({ assumptions: data }),
+  setPerformanceForecast: (data) => set({ performanceForecast: data }),
+  setChecks: (data) => set({ checks: data }),
+  setWarranty: (data) => set({ warranty: data }),
+
+  submitProfitAndLossForecast: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      formData.append('description', state.profitAndLossForecast.description);
+      formData.append('amount_of_3_months', state.profitAndLossForecast.amount_of_3_months);
+      formData.append('amount_of_year', state.profitAndLossForecast.amount_of_year);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  setGuarantorInfo: (info) => set({ guarantorInfo: info }),
+
+  updateGuarantorInfo: (field, value) =>
+    set((state) => ({
+      guarantorInfo: {
+        ...state.guarantorInfo,
+        [field]: value,
+      },
+    })),
+
+  submitGuarantorInfo: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      Object.entries(state.guarantorInfo).forEach(([key, value]) => {
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
 
       set({ isLoading: false });
       return formData;

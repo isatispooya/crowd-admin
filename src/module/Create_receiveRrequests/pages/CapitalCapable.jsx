@@ -107,7 +107,7 @@ const CapitalCapable = () => {
             <Typography component="span">قرارداد اجرایی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <ExecutiveContractPage data={investorRequest} />
+            <ExecutiveContractPage allData={companyInfo} data={investorRequest} />
           </AccordionDetails>
         </Accordion>
       </Box>
