@@ -42,6 +42,7 @@ const Warranty = ({ allData }) => {
       const payload = {
         investor_request: allData.id,
         ...formData,
+        date: formData.date ? formData.date.format('YYYY-MM-DD') : null,
       };
 
       await mutate(payload);
@@ -79,6 +80,7 @@ const Warranty = ({ allData }) => {
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
+              <Typography variant="body2">تاریخ ضمانت</Typography>
               <div style={{ direction: 'rtl' }}>
                 <DatePicker
                   value={formData.date}

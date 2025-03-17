@@ -43,6 +43,7 @@ const Checks = ({ allData }) => {
       const payload = {
         investor_request: allData.id,
         ...formData,
+        date: formData.date ? formData.date.format('YYYY-MM-DD') : null,
       };
 
       await mutate(payload);
@@ -80,6 +81,7 @@ const Checks = ({ allData }) => {
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
+              <Typography variant="body2">تاریخ چک</Typography>
               <div style={{ direction: 'rtl' }}>
                 <DatePicker
                   value={formData.date}
@@ -154,6 +156,11 @@ const Checks = ({ allData }) => {
                     }}
                   >
                     <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body2">
+                          <strong>تاریخ چک:</strong> {item.date}
+                        </Typography>
+                      </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
                           <strong>مبلغ چک:</strong> {item.amount?.toLocaleString()} ریال

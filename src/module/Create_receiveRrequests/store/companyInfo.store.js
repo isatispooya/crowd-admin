@@ -98,7 +98,7 @@ const useCompanyInfoStore = create((set, get) => ({
   },
 
   checks: {
-    date: null,
+    date: '',
     amount: null,
     bank_name: '',
     branch_name: '',
@@ -122,10 +122,10 @@ const useCompanyInfoStore = create((set, get) => ({
     guarantor_name: '',
     guarantor_national_id: '',
     phone_number: '',
-    birth_date: null,
+    birth_date: '',
     guarantor_address: '',
     postal_code: '',
-    gender: true,
+    gender: '',
   },
 
   setCompanyInfo: (info) => set({ companyInfo: info }),
@@ -593,7 +593,7 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       checks: {
-        date: null,
+        date: '',
         amount: null,
         bank_name: '',
         branch_name: '',
@@ -745,7 +745,7 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       checks: {
-        date: defaultValue(data.checks?.date, null),
+        date: defaultValue(data.checks?.date, ''),
         amount: defaultValue(data.checks?.amount, null),
         bank_name: defaultValue(data.checks?.bank_name, ''),
         branch_name: defaultValue(data.checks?.branch_name, ''),

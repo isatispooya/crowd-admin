@@ -33,7 +33,23 @@ const Guarantor = ({ allData }) => {
     try {
       const formData = await submitGuarantorInfo();
       if (formData) {
-        await mutate(formData);
+        const payload = new FormData();
+        // تبدیل تاریخ به رشته
+        const birthDate = guarantorInfo.birth_date ? 
+          guarantorInfo.birth_date.format('YYYY-MM-DD') : 
+          null;
+        
+        Object.entries(guarantorInfo).forEach(([key, value]) => {
+          if (value !== null) {
+            if (key === 'birth_date') {
+              payload.append(key, birthDate);
+            } else {
+              payload.append(key, value);
+            }
+          }
+        });
+        
+        await mutate(payload);
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
@@ -47,7 +63,7 @@ const Guarantor = ({ allData }) => {
         guarantor_name: allData.guarantor?.guarantor_name || '',
         guarantor_national_id: allData.guarantor?.guarantor_national_id || '',
         phone_number: allData.guarantor?.phone_number || '',
-        birth_date: allData.guarantor?.birth_date || null,
+        birth_date: allData.guarantor?.birth_date || '',
         guarantor_address: allData.guarantor?.guarantor_address || '',
         postal_code: allData.guarantor?.postal_code || '',
         gender: allData.guarantor?.gender ?? true,
@@ -97,6 +113,7 @@ const Guarantor = ({ allData }) => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
+              <Typography variant="body2">تاریخ تولد</Typography>
               <div style={{ direction: 'rtl' }}>
                 <DatePicker
                   value={guarantorInfo.birth_date}
@@ -132,9 +149,6 @@ const Guarantor = ({ allData }) => {
                 label="جنسیت"
                 value={guarantorInfo.gender}
                 onChange={handleChange('gender')}
-                SelectProps={{
-                  native: true,
-                }}
               >
                 <option>مرد</option>
                 <option>زن</option>
@@ -187,6 +201,11 @@ const Guarantor = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">
+                          <strong>تاریخ تولد:</strong> {item.birth_date}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body2">
                           <strong>آدرس ضامن:</strong> {item.guarantor_address}
                         </Typography>
                       </Grid>
@@ -198,12 +217,6 @@ const Guarantor = ({ allData }) => {
                       <Grid item xs={12}>
                         <Typography variant="body2">
                           <strong>جنسیت:</strong> {item.gender}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
                         </Typography>
                       </Grid>
                     </Grid>
