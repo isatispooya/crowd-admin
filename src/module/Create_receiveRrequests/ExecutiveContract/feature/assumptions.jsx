@@ -12,16 +12,15 @@ import {
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
-import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
+import { useAssumptions } from '../service/assumptions';
 
-const ProfitLossForecast = ({ allData }) => {
+const Assumptions = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useProfitAndLossForecast();
+  const { mutate, data: responseData } = useAssumptions();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
-    amount_of_3_months: allData?.profit_and_loss_forecast?.amount_of_3_months || '',
-    description: allData?.profit_and_loss_forecast?.description || '',
+    title: allData?.assumptions?.title || '',
+    value: allData?.assumptions?.value || '',
   });
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
@@ -48,9 +47,8 @@ const ProfitLossForecast = ({ allData }) => {
     if (responseData) {
       setFormData({
         investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
+        title: responseData.title || '',
+        value: responseData.value || '',
       });
     }
   }, [responseData, cartId]);
@@ -65,38 +63,27 @@ const ProfitLossForecast = ({ allData }) => {
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>پیش بینی سود و زیان</Typography>
+          <Typography>مفروضات</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
-                label="مبلغ سالیانه"
-                value={formData.amount_of_year}
-                onChange={handleChange('amount_of_year')}
-                InputLabelProps={{ shrink: true }}
+                label="عنوان"
+                value={formData.title}
+                onChange={handleChange('title')}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
-                label="مبلغ سه ماهه"
-                value={formData.amount_of_3_months}
-                onChange={handleChange('amount_of_3_months')}
-                InputLabelProps={{ shrink: true }}
+                label="مقدار"
+                value={formData.value}
+                onChange={handleChange('value')}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="توضیحات"
-                value={formData.description}
-                onChange={handleChange('description')}
-              />
-            </Grid>
+
             <Grid item xs={12}>
               <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
                 ذخیره اطلاعات
@@ -109,8 +96,8 @@ const ProfitLossForecast = ({ allData }) => {
   );
 };
 
-ProfitLossForecast.propTypes = {
+Assumptions.propTypes = {
   allData: PropTypes.object.isRequired,
 };
 
-export default ProfitLossForecast;
+export default Assumptions;

@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import ExecutiveContract from './ExecutiveContract';
 import CompanyConst from './companyConst';
 import Guarantor from './guarantor';
+import ProfitLossForecast from './profiLossForecast';
+import Assumptions from './assumptions';
+import PerformanceForecast from './performanceForecast';
+import Checks from './checks';
+import Warranty from './warranty';
 
-const ExecutiveContractMain = ({ data,allData }) => {
+const ExecutiveContractMain = ({ data, allData }) => {
   console.log('data', data);
   console.log('allData', allData);
   return (
@@ -12,6 +17,11 @@ const ExecutiveContractMain = ({ data,allData }) => {
       <ExecutiveContract data={data} />
       <CompanyConst allData={allData} />
       <Guarantor allData={allData} />
+      <ProfitLossForecast allData={allData} />
+      <Assumptions allData={allData} />
+      <PerformanceForecast allData={allData} />
+      <Checks allData={allData} />
+      <Warranty allData={allData} />
     </div>
   );
 };

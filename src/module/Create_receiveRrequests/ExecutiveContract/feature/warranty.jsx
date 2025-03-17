@@ -12,16 +12,19 @@ import {
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
-import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
+import { useWarranty } from '../service/warranty';
 
-const ProfitLossForecast = ({ allData }) => {
+const Warranty = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useProfitAndLossForecast();
+  const { mutate, data: responseData } = useWarranty();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
-    amount_of_3_months: allData?.profit_and_loss_forecast?.amount_of_3_months || '',
-    description: allData?.profit_and_loss_forecast?.description || '',
+    date: allData?.warranty?.date || null,
+    description: allData?.warranty?.description || '',
+    value: allData?.warranty?.value || null,
+    number: allData?.warranty?.number || '',
+    sepam_id: allData?.warranty?.sepam_id || '',
+    type: allData?.warranty?.type || '',
   });
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
@@ -47,10 +50,13 @@ const ProfitLossForecast = ({ allData }) => {
   React.useEffect(() => {
     if (responseData) {
       setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
+        date: responseData.date,
+        amount: responseData.amount,
+        bank_name: responseData.bank_name,
+        branch_name: responseData.branch_name,
+        type: responseData.type,
+        fishing_id: responseData.fishing_id,
+        investor_request: responseData.investor_request,
       });
     }
   }, [responseData, cartId]);
@@ -65,17 +71,17 @@ const ProfitLossForecast = ({ allData }) => {
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>پیش بینی سود و زیان</Typography>
+          <Typography> ضمانت ها</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
+                type="date"
                 fullWidth
-                label="مبلغ سالیانه"
-                value={formData.amount_of_year}
-                onChange={handleChange('amount_of_year')}
+                label="تاریخ"
+                value={formData.date}
+                onChange={handleChange('date')}
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
@@ -83,15 +89,41 @@ const ProfitLossForecast = ({ allData }) => {
               <TextField
                 type="number"
                 fullWidth
-                label="مبلغ سه ماهه"
-                value={formData.amount_of_3_months}
-                onChange={handleChange('amount_of_3_months')}
+                label="مبلغ"
+                value={formData.value}
+                onChange={handleChange('value')}
                 InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="شماره ضمانت‌نامه"
+                value={formData.number}
+                onChange={handleChange('number')}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="شناسه سپام"
+                value={formData.sepam_id}
+                onChange={handleChange('sepam_id')}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="نوع ضمانت‌نامه"
+                value={formData.type}
+                onChange={handleChange('type')}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                multiline
+                rows={4}
                 label="توضیحات"
                 value={formData.description}
                 onChange={handleChange('description')}
@@ -109,8 +141,8 @@ const ProfitLossForecast = ({ allData }) => {
   );
 };
 
-ProfitLossForecast.propTypes = {
+Warranty.propTypes = {
   allData: PropTypes.object.isRequired,
 };
 
-export default ProfitLossForecast;
+export default Warranty;

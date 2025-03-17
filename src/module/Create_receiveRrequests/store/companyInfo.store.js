@@ -103,7 +103,7 @@ const useCompanyInfoStore = create((set, get) => ({
     bank_name: '',
     branch_name: '',
     type: null,
-    fishing_id: '',
+    fishing: '',
     investor_request: null,
   },
 
@@ -125,7 +125,7 @@ const useCompanyInfoStore = create((set, get) => ({
     birth_date: null,
     guarantor_address: '',
     postal_code: '',
-    gender: true
+    gender: true,
   },
 
   setCompanyInfo: (info) => set({ companyInfo: info }),
@@ -620,7 +620,7 @@ const useCompanyInfoStore = create((set, get) => ({
         birth_date: null,
         guarantor_address: '',
         postal_code: '',
-        gender: true
+        gender: true,
       },
     }),
 
@@ -772,7 +772,7 @@ const useCompanyInfoStore = create((set, get) => ({
         birth_date: data.birth_date ? new Date(data.birth_date) : null,
         guarantor_address: defaultValue(data.guarantor_address),
         postal_code: defaultValue(data.postal_code),
-        gender: defaultValue(data.gender, true)
+        gender: defaultValue(data.gender, true),
       },
     });
   },
