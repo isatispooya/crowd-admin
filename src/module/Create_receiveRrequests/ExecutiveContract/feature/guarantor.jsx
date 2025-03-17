@@ -34,11 +34,10 @@ const Guarantor = ({ allData }) => {
       const formData = await submitGuarantorInfo();
       if (formData) {
         const payload = new FormData();
-        // تبدیل تاریخ به رشته
-        const birthDate = guarantorInfo.birth_date ? 
-          guarantorInfo.birth_date.format('YYYY-MM-DD') : 
-          null;
-        
+        const birthDate = guarantorInfo.birth_date
+          ? guarantorInfo.birth_date.format('YYYY-MM-DD')
+          : null;
+
         Object.entries(guarantorInfo).forEach(([key, value]) => {
           if (value !== null) {
             if (key === 'birth_date') {
@@ -48,7 +47,7 @@ const Guarantor = ({ allData }) => {
             }
           }
         });
-        
+
         await mutate(payload);
       }
     } catch (error) {
@@ -121,7 +120,8 @@ const Guarantor = ({ allData }) => {
                   calendar={persian}
                   locale={persian_fa}
                   calendarPosition="bottom-right"
-                />
+                   />
+
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
