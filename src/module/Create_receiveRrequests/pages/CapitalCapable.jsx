@@ -19,7 +19,7 @@ const CapitalCapable = () => {
   const { data: companyInfo } = useGetCompanyInfo(cartId);
   const investorRequest = companyInfo?.investor_request;
   const isLoading = !companyInfo;
-    
+
   if (isLoading) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-center">
@@ -55,9 +55,7 @@ const CapitalCapable = () => {
             <Typography component="span">ثبت شرکت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CompanyInfoPage
-              companyInfo={investorRequest}
-            />
+            <CompanyInfoPage companyInfo={investorRequest} />
           </AccordionDetails>
         </Accordion>
         <Accordion>
