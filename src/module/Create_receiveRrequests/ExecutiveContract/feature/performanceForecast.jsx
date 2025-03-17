@@ -90,6 +90,44 @@ const PerformanceForecast = ({ allData }) => {
               </Button>
             </Grid>
           </Grid>
+          <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
+            {allData?.performance_forecast && allData.performance_forecast.length > 0 ? (
+              allData.performance_forecast
+                .slice()
+                .reverse()
+                .map((item) => (
+                  <Box
+                    key={item.id}
+                    sx={{
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      padding: 2,
+                      marginBottom: 2,
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body2">
+                          <strong>عنوان:</strong> {item.title}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body2">
+                          <strong>مقدار:</strong> {item.value?.toLocaleString()} ریال
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="caption" color="textSecondary">
+                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ))
+            ) : (
+              <Typography align="center">اطلاعاتی موجود نیست</Typography>
+            )}
+          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>

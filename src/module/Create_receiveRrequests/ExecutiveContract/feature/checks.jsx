@@ -24,11 +24,8 @@ const Checks = ({ allData }) => {
     bank_name: allData?.checks?.bank_name || '',
     branch_name: allData?.checks?.branch_name || '',
     type: allData?.checks?.type || null,
-    fishing: allData?.checks?.fishing|| '',
+    fishing: allData?.checks?.fishing || '',
   });
-
-
-
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
@@ -50,7 +47,6 @@ const Checks = ({ allData }) => {
       console.error('Error submitting form:', error);
     }
   };
-
 
   React.useEffect(() => {
     if (responseData) {
@@ -129,7 +125,7 @@ const Checks = ({ allData }) => {
                 fullWidth
                 label="شماره فیش"
                 value={formData.fishing_id}
-                onChange={handleChange('fishing_id')}
+                onChange={handleChange('fishing')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -138,6 +134,59 @@ const Checks = ({ allData }) => {
               </Button>
             </Grid>
           </Grid>
+          <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
+            {allData?.checks && allData.checks.length > 0 ? (
+              allData.checks
+                .slice()
+                .reverse()
+                .map((item) => (
+                  <Box
+                    key={item.id}
+                    sx={{
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      padding: 2,
+                      marginBottom: 2,
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body2">
+                          <strong>مبلغ چک:</strong> {item.amount?.toLocaleString()} ریال
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body2">
+                          <strong>نام بانک:</strong> {item.bank_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body2">
+                          <strong>نام شعبه:</strong> {item.branch_name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body2">
+                          <strong>نوع چک:</strong> {item.type}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="body2">
+                          <strong>شماره فیش:</strong> {item.fishing}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="caption" color="textSecondary">
+                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ))
+            ) : (
+              <Typography align="center">اطلاعاتی موجود نیست</Typography>
+            )}
+          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>

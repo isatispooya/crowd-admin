@@ -12,9 +12,9 @@ export const createCompanyConst = async ( data) => {
 };
 
 export const useCompanyConst = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData , refetch} = useMutation({
     mutationFn: (data) => createCompanyConst( data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData , refetch};
 };
