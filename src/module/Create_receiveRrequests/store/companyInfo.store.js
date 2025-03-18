@@ -64,6 +64,9 @@ const useCompanyInfoStore = create((set, get) => ({
     bank_branch_code: '',
     evaluation: null,
     executive_contract: null,
+    payment_bank: '',
+    payment_bank_branch: '',
+    payment_account_number: '',
   },
   commentStep1: '',
   commentStep2: '',
@@ -559,6 +562,9 @@ const useCompanyInfoStore = create((set, get) => ({
         bank_branch_code: '',
         evaluation: null,
         executive_contract: null,
+        payment_bank: '',
+        payment_bank_branch: '',
+        payment_account_number: '',
       },
       commentStep1: '',
       commentStep2: '',
@@ -625,7 +631,21 @@ const useCompanyInfoStore = create((set, get) => ({
     }),
 
   initializeStore: (data) => {
-    if (!data) return;
+    if (!data) {
+      set({
+        executiveContract: {
+          bank: '',
+          bank_branch: '',
+          bank_branch_code: '',
+          evaluation: null,
+          executive_contract: null,
+          payment_bank: '',
+          payment_bank_branch: '',
+          payment_account_number: '',
+        },
+      });
+      return;
+    }
 
     const defaultValue = (value, defaultVal = '') => value ?? defaultVal;
 
@@ -713,6 +733,9 @@ const useCompanyInfoStore = create((set, get) => ({
         bank_branch_code: defaultValue(data.bank_branch_code),
         evaluation: defaultValue(data.evaluation),
         executive_contract: defaultValue(data.executive_contract),
+        payment_bank: defaultValue(data.payment_bank),
+        payment_bank_branch: defaultValue(data.payment_bank_branch),
+        payment_account_number: defaultValue(data.payment_account_number),
       },
       commentStep1: defaultValue(data.comment_step_1),
       commentStep2: defaultValue(data.comment_step_2),

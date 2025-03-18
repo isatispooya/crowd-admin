@@ -42,7 +42,6 @@ const banks = [
   { id: 25, name: 'بانک انصار' },
   { id: 26, name: 'بانک سرمایه' },
   { id: 27, name: 'بانک پاسارگاد' },
-  { id: 28, name: 'بانک مشترک ایران-ونزوئلا' },
 ];
 
 const ExecutiveContract = ({ data }) => {
@@ -55,10 +54,7 @@ const ExecutiveContract = ({ data }) => {
 
   useEffect(() => {
     if (data) {
-      localStorage.removeItem('executiveContractData');
-
       initializeStore(data);
-
       localStorage.setItem('executiveContractData', JSON.stringify(data));
     } else {
       const savedData = localStorage.getItem('executiveContractData');
@@ -97,6 +93,15 @@ const ExecutiveContract = ({ data }) => {
     }
   };
 
+  const handleClearData = () => {
+    localStorage.removeItem('executiveContractData');
+    initializeStore({
+      payment_bank: '',
+      payment_bank_branch: '',
+      payment_account_number: '',
+    });
+  };
+
   const getBankIdByName = () => {
     if (!executiveContract?.payment_bank) return '';
 
@@ -104,13 +109,9 @@ const ExecutiveContract = ({ data }) => {
     return selectedBank ? selectedBank.id : '';
   };
 
-  const bankValue =
-    getBankIdByName() ||
-    (data?.payment_bank ? banks.find((bank) => bank.name === data.payment_bank)?.id || '' : '');
-
-  const branchValue = executiveContract?.payment_bank_branch || data?.payment_bank_branch || '';
-  const accountValue =
-    executiveContract?.payment_account_number || data?.payment_account_number || '';
+  const bankValue = getBankIdByName();
+  const branchValue = executiveContract?.payment_bank_branch || '';
+  const accountValue = executiveContract?.payment_account_number || '';
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -169,85 +170,12 @@ const ExecutiveContract = ({ data }) => {
           </Grid>
         </AccordionDetails>
       </Accordion>
-
-      {/* <Accordion
-        sx={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' }}
-      >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>گزارشات</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Typography sx={{ fontSize: '15px' }}>ارزیابی</Typography>
-              {executiveContract.evaluation ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    p: 1,
-                    border: '1px solid #ccc',
-                    borderRadius: 1,
-                    marginTop: 1,
-                  }}
-                >
-                  <Typography>
-                    {typeof executiveContract.evaluation === 'object'
-                      ? executiveContract.evaluation.name
-                      : 'فایل ارزیابی'}
-                  </Typography>
-                </Box>
-              ) : (
-                <TextField
-                  type="file"
-                  name="evaluation"
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Typography sx={{ fontSize: '15px' }}>قرارداد اجرایی</Typography>
-              {executiveContract.executive_contract ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    p: 1,
-                    border: '1px solid #ccc',
-                    borderRadius: 1,
-                    marginTop: 1,
-                  }}
-                >
-                  <Typography>
-                    {typeof executiveContract.executive_contract === 'object'
-                      ? executiveContract.executive_contract.name
-                      : 'فایل قرارداد اجرایی'}
-                  </Typography>
-                </Box>
-              ) : (
-                <TextField
-                  type="file"
-                  name="executive_contract"
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              )}
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion> */}
     </Box>
   );
 };
 
 ExecutiveContract.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
 };
 
 export default ExecutiveContract;
