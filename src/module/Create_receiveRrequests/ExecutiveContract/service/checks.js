@@ -14,6 +14,12 @@ export const createChecks = async (data) => {
 export const useChecks = () => {
   const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createChecks(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
   return { mutate, data: responseData, refetch };

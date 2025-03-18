@@ -9,26 +9,24 @@ import PerformanceForecast from './performanceForecast';
 import Checks from './checks';
 import Warranty from './warranty';
 
-const ExecutiveContractMain = ({ data, allData }) => {
-  console.log('data', data);
-  console.log('allData', allData);
-  return (
+const ExecutiveContractMain = ({ data, allData,refetch}) =>  (
     <div>
-      <ExecutiveContract data={data} />
-      <CompanyConst allData={allData} />
-      <Guarantor allData={allData} />
-      <ProfitLossForecast allData={allData} />
-      <Assumptions allData={allData} />
-      <PerformanceForecast allData={allData} />
-      <Checks allData={allData} />
-      <Warranty allData={allData} />
+      <ExecutiveContract data={data} refetch={refetch} />
+      <CompanyConst allData={allData} refetch={refetch} />
+      <Guarantor allData={allData} refetch={refetch} />
+      <ProfitLossForecast allData={allData} refetch={refetch} />
+      <Assumptions allData={allData} refetch={refetch} />
+      <PerformanceForecast allData={allData} refetch={refetch} />
+      <Checks allData={allData} refetch={refetch} />
+      <Warranty allData={allData} refetch={refetch} />
     </div>
   );
-};
+
 
 ExecutiveContractMain.propTypes = {
   data: PropTypes.object.isRequired,
   allData: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default ExecutiveContractMain;

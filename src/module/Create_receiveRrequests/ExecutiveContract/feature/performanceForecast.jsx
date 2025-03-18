@@ -16,7 +16,7 @@ import { usePerformanceForecast } from '../service/performanceForecast';
 
 const PerformanceForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = usePerformanceForecast();
+  const { mutate, data: responseData } = usePerformanceForecast();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.performance_forecast?.title || '',
@@ -43,7 +43,6 @@ const PerformanceForecast = ({ allData }) => {
         title: '',
         value: '',
       });
-      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     }

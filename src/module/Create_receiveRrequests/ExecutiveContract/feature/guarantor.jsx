@@ -22,7 +22,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, refetch } = useGuarantor();
+  const { mutate } = useGuarantor();
 
   const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
     useCompanyInfoStore();
@@ -61,7 +61,6 @@ const Guarantor = ({ allData }) => {
           postal_code: '',
           gender: '',
         });
-        refetch();
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);

@@ -13,7 +13,13 @@ export const createProfitAndLossForecast = async ( data) => {
 
 export const useProfitAndLossForecast = () => {
   const { mutate, data: responseData, refetch } = useMutation({
-    mutationFn: (data) => createProfitAndLossForecast( data),
+    mutationFn: (data) => createProfitAndLossForecast(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
   return { mutate, data: responseData, refetch };

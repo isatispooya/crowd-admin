@@ -10,8 +10,8 @@ const CardFeature = ({ handleCardClick, cardData }) => (
       <Box
         component="img"
         src={
-          cardData?.company?.picture
-            ? `${OnRun}/${cardData.company.picture}`
+          cardData?.logo
+            ? `${OnRun}/${cardData.logo}`
             : '/public/img/nopic.jpg'
         }
         alt={cardData?.company?.title}

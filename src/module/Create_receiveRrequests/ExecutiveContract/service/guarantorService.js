@@ -14,6 +14,12 @@ export const createGuarantor = async (data) => {
 export const useGuarantor = () => {
   const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createGuarantor(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
   return { mutate, data: responseData, refetch };

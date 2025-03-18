@@ -14,9 +14,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import { useCompanyConst } from '../service/companyConst';
 
-const CompanyConst = ({ allData }) => {
+const CompanyConst = ({ allData, refetch }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = useCompanyConst();
+  const { mutate, data: responseData } = useCompanyConst();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.company_cost?.amount_of_year || '',
@@ -31,16 +31,15 @@ const CompanyConst = ({ allData }) => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     try {
       const payload = {
         investor_request: allData.id,
         ...formData,
       };
 
-      await mutate(payload);
-      await refetch();
-      
+      mutate(payload);
+
       setFormData({
         investor_request_id: cartId,
         amount_of_year: '',
@@ -62,6 +61,11 @@ const CompanyConst = ({ allData }) => {
       });
     }
   }, [responseData, cartId]);
+
+
+  React.useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -166,6 +170,7 @@ const CompanyConst = ({ allData }) => {
 
 CompanyConst.propTypes = {
   allData: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default CompanyConst;

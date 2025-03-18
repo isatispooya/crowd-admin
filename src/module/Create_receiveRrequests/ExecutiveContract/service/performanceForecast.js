@@ -14,6 +14,12 @@ export const createPerformanceForecast = async (data) => {
 export const usePerformanceForecast = () => {
   const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createPerformanceForecast(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
   return { mutate, data: responseData, refetch };

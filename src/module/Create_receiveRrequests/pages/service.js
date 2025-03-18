@@ -22,12 +22,15 @@ export const createExecutiveContract = async (cartId, data) => {
 };
 
 export const useGetCompanyInfo = (cartId) => {
-  const { data: responseData } = useQuery({
+  const { data: responseData , refetch } = useQuery({
     queryKey: ['companyInfo', cartId],
     queryFn: () => getComanyInfo(cartId),
+    onSuccess: () => {
+      refetch();
+    },
   });
 
-  return { data: responseData };
+  return { data: responseData, refetch };
 };
 
 export const useCreateExecutiveContract = (cartId) => {

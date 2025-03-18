@@ -16,7 +16,7 @@ import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
 
 const ProfitLossForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = useProfitAndLossForecast();
+  const { mutate, data: responseData } = useProfitAndLossForecast();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
@@ -44,7 +44,6 @@ const ProfitLossForecast = ({ allData }) => {
         amount_of_3_months: '',
         description: '',
       });
-      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     }

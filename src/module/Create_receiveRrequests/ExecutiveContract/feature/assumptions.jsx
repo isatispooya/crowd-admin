@@ -16,7 +16,7 @@ import { useAssumptions } from '../service/assumptions';
 
 const Assumptions = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = useAssumptions();
+  const { mutate, data: responseData } = useAssumptions();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.assumptions?.title || '',
@@ -43,7 +43,6 @@ const Assumptions = ({ allData }) => {
         title: '',
         value: '',
       });
-      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -58,6 +57,7 @@ const Assumptions = ({ allData }) => {
       });
     }
   }, [responseData, cartId]);
+
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

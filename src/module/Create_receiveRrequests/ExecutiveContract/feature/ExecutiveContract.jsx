@@ -93,15 +93,6 @@ const ExecutiveContract = ({ data }) => {
     }
   };
 
-  const handleClearData = () => {
-    localStorage.removeItem('executiveContractData');
-    initializeStore({
-      payment_bank: '',
-      payment_bank_branch: '',
-      payment_account_number: '',
-    });
-  };
-
   const getBankIdByName = () => {
     if (!executiveContract?.payment_bank) return '';
 

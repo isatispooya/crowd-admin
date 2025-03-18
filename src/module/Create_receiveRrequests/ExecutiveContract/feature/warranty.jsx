@@ -21,7 +21,7 @@ import { useWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = useWarranty();
+  const { mutate, data: responseData } = useWarranty();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.warranty?.date || null,
@@ -66,11 +66,10 @@ const Warranty = ({ allData }) => {
         sepam_id: '',
         type: '',
       });
-      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
-      setLoading(false); // Reset loading state after mutation and refetch
+      setLoading(false); 
     }
   };
 

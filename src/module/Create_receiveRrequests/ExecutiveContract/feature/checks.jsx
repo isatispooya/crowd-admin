@@ -21,7 +21,7 @@ import { useChecks } from '../service/checks';
 const Checks = ({ allData }) => {
   console.log(allData);
   const { cartId } = useParams();
-  const { mutate, data: responseData, refetch } = useChecks();
+  const { mutate, data: responseData } = useChecks();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.checks?.date
@@ -59,7 +59,6 @@ const Checks = ({ allData }) => {
         type: '',
         fishing_id: '',
       });
-      refetch();
 
     } catch (error) {
       console.error('Error submitting form:', error);

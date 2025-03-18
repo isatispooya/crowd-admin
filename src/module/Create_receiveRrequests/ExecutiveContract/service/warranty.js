@@ -14,6 +14,12 @@ export const createWarranty = async (data) => {
 export const useWarranty = () => {
   const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createWarranty(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
   return { mutate, data: responseData, refetch };

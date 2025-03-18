@@ -7,7 +7,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 import ExecutiveContractMain from '../feature/ExecutiveContractMain';
 
-const ExecutiveContractPage = ({ allData, data }) => {
+const ExecutiveContractPage = ({ allData, data, refetch }) => {
   const { setActionStatus, submitExecutiveContractForm, isLoading, commentStep5, setCommentStep5 } =
     useCompanyInfoStore();
   console.log('allData4352837958739847573982', allData);
@@ -100,7 +100,7 @@ const ExecutiveContractPage = ({ allData, data }) => {
         اطلاعات قرارداد اجرایی را برسی کنید
       </Typography>
 
-      <ExecutiveContractMain allData={allData} data={data} />
+      <ExecutiveContractMain allData={allData} data={data} refetch={refetch} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField
@@ -141,6 +141,7 @@ const ExecutiveContractPage = ({ allData, data }) => {
 ExecutiveContractPage.propTypes = {
   data: PropTypes.object.isRequired,
   allData: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default ExecutiveContractPage;

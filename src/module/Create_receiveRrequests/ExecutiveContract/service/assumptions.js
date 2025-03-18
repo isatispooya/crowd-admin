@@ -11,10 +11,16 @@ export const createAssumptions = async (data) => {
   return response.data;
 };
 
-export const useAssumptions = () => {
-  const { mutate, data: responseData, refetch } = useMutation({
+export const useAssumptions = (refetch) => {
+  const { mutate, data: responseData } = useMutation({
     mutationFn: (data) => createAssumptions(data),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
   });
 
-  return { mutate, data: responseData, refetch };
+  return { mutate, data: responseData };
 };
