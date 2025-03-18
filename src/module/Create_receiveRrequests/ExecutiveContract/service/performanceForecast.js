@@ -12,9 +12,9 @@ export const createPerformanceForecast = async (data) => {
 };
 
 export const usePerformanceForecast = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createPerformanceForecast(data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

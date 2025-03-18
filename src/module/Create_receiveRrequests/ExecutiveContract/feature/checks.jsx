@@ -19,16 +19,19 @@ import DateObject from 'react-date-object';
 import { useChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
+  console.log(allData);
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useChecks();
+  const { mutate, data: responseData, refetch } = useChecks();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    date: allData?.checks?.date ? new DateObject({ date: allData?.checks?.date, calendar: persian }) : null,
+    date: allData?.checks?.date
+      ? new DateObject({ date: allData?.checks?.date, calendar: persian })
+      : null,
     amount: allData?.checks?.amount || null,
     bank_name: allData?.checks?.bank_name || '',
     branch_name: allData?.checks?.branch_name || '',
     type: allData?.checks?.type || null,
-    fishing: allData?.checks?.fishing || '',
+    fishing: allData?.checks?.fishing_id || '',
   });
 
   const handleChange = (field) => (event) => {
@@ -46,8 +49,18 @@ const Checks = ({ allData }) => {
         ...formData,
         date: formData.date ? formData.date.convert(persian).format('YYYY-MM-DD') : null,
       };
-
       await mutate(payload);
+      setFormData({
+        investor_request_id: cartId,
+        date: '',
+        amount: '',
+        bank_name: '',
+        branch_name: '',
+        type: '',
+        fishing_id: '',
+      });
+      refetch();
+
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -56,12 +69,14 @@ const Checks = ({ allData }) => {
   React.useEffect(() => {
     if (responseData) {
       setFormData({
-        date: responseData.date ? new DateObject({ date: responseData.date, calendar: persian }) : null,
+        date: responseData.date
+          ? new DateObject({ date: responseData.date, calendar: persian })
+          : null,
         amount: responseData.amount,
         bank_name: responseData.bank_name,
         branch_name: responseData.branch_name,
         type: responseData.type,
-        fishing: responseData.fishing,
+        fishing: responseData.fishing_id,
         investor_request: responseData.investor_request,
       });
     }
@@ -131,8 +146,8 @@ const Checks = ({ allData }) => {
               <TextField
                 fullWidth
                 label="شماره فیش"
-                value={formData.fishing}
-                onChange={handleChange('fishing')}
+                value={formData.fishing_id}
+                onChange={handleChange('fishing_id')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -161,7 +176,9 @@ const Checks = ({ allData }) => {
                         <Typography variant="body2">
                           <strong>تاریخ چک:</strong>{' '}
                           {item.date
-                            ? new DateObject({ date: item.date, calendar: persian }).format('YYYY/MM/DD')
+                            ? new DateObject({ date: item.date, calendar: persian }).format(
+                                'YYYY/MM/DD'
+                              )
                             : '—'}
                         </Typography>
                       </Grid>
@@ -187,14 +204,16 @@ const Checks = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">
-                          <strong>شماره فیش:</strong> {item.fishing}
+                          <strong>شماره فیش:</strong> {item.fishing_id}
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="caption" color="textSecondary">
                           تاریخ ایجاد:{' '}
                           {item.created_at
-                            ? new DateObject({ date: item.created_at, calendar: persian }).format('YYYY/MM/DD')
+                            ? new DateObject({ date: item.created_at, calendar: persian }).format(
+                                'YYYY/MM/DD'
+                              )
                             : '—'}
                         </Typography>
                       </Grid>

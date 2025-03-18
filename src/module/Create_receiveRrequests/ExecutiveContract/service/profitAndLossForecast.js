@@ -12,9 +12,9 @@ export const createProfitAndLossForecast = async ( data) => {
 };
 
 export const useProfitAndLossForecast = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createProfitAndLossForecast( data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

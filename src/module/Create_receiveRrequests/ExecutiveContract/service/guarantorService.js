@@ -12,9 +12,9 @@ export const createGuarantor = async (data) => {
 };
 
 export const useGuarantor = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createGuarantor(data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

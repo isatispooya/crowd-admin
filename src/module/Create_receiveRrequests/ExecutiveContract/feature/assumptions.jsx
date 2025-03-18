@@ -16,7 +16,7 @@ import { useAssumptions } from '../service/assumptions';
 
 const Assumptions = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useAssumptions();
+  const { mutate, data: responseData, refetch } = useAssumptions();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.assumptions?.title || '',
@@ -38,6 +38,12 @@ const Assumptions = ({ allData }) => {
       };
 
       await mutate(payload);
+      setFormData({
+        investor_request_id: cartId || '',
+        title: '',
+        value: '',
+      });
+      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     }

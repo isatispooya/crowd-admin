@@ -12,9 +12,9 @@ export const createAssumptions = async (data) => {
 };
 
 export const useAssumptions = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createAssumptions(data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

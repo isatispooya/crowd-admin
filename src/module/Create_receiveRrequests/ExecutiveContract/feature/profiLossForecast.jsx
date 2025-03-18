@@ -16,7 +16,7 @@ import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
 
 const ProfitLossForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useProfitAndLossForecast();
+  const { mutate, data: responseData, refetch } = useProfitAndLossForecast();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
@@ -37,8 +37,14 @@ const ProfitLossForecast = ({ allData }) => {
         investor_request: allData.id,
         ...formData,
       };
-
       await mutate(payload);
+      setFormData({
+        investor_request_id: cartId || '',
+        amount_of_year: '',
+        amount_of_3_months: '',
+        description: '',
+      });
+      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -121,12 +127,14 @@ const ProfitLossForecast = ({ allData }) => {
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ سالیانه:</strong> {item.amount_of_year?.toLocaleString()} ریال
+                          <strong>مبلغ سالیانه:</strong> {item.amount_of_year?.toLocaleString()}{' '}
+                          ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ سه ماهه:</strong> {item.amount_of_3_months?.toLocaleString()} ریال
+                          <strong>مبلغ سه ماهه:</strong> {item.amount_of_3_months?.toLocaleString()}{' '}
+                          ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
@@ -134,7 +142,7 @@ const ProfitLossForecast = ({ allData }) => {
                           <strong>توضیحات:</strong> {item.description}
                         </Typography>
                       </Grid>
-                      
+
                       <Grid item xs={12}>
                         <Typography variant="caption" color="textSecondary">
                           تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}

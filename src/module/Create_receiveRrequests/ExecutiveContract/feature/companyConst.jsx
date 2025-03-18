@@ -41,7 +41,6 @@ const CompanyConst = ({ allData }) => {
       await mutate(payload);
       await refetch();
       
-      // خالی کردن فرم بعد از ذخیره موفق
       setFormData({
         investor_request_id: cartId,
         amount_of_year: '',

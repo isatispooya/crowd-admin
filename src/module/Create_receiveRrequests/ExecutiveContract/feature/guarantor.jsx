@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   TextField,
   Button,
+  MenuItem,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,14 +16,13 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import DateObject from "react-date-object";
+import DateObject from 'react-date-object';
 import { useGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
-
 const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate } = useGuarantor();
+  const { mutate, refetch } = useGuarantor();
 
   const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
     useCompanyInfoStore();
@@ -51,6 +51,17 @@ const Guarantor = ({ allData }) => {
         });
 
         await mutate(payload);
+        setGuarantorInfo({
+          investor_request_id: cartId || '',
+          guarantor_name: '',
+          guarantor_national_id: '',
+          phone_number: '',
+          birth_date: '',
+          guarantor_address: '',
+          postal_code: '',
+          gender: '',
+        });
+        refetch();
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
@@ -122,8 +133,7 @@ const Guarantor = ({ allData }) => {
                   calendar={persian}
                   locale={persian_fa}
                   calendarPosition="bottom-right"
-                   />
-
+                />
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -150,10 +160,10 @@ const Guarantor = ({ allData }) => {
                 fullWidth
                 label="جنسیت"
                 value={guarantorInfo.gender}
-                onChange={handleChange('gender')}
+                onChange={(event) => handleChange('gender')(event)}
               >
-                <option>مرد</option>
-                <option>زن</option>
+                <MenuItem value="male">مرد</MenuItem>
+                <MenuItem value="female">زن</MenuItem>
               </TextField>
             </Grid>
 
@@ -202,18 +212,18 @@ const Guarantor = ({ allData }) => {
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
-                      <Typography variant="body2">
-                        <strong>تاریخ تولد:</strong>{' '}
-                        {item.birth_date
-                          ? new DateObject({
-                              date: item.birth_date,
-                              calendar: persian, // تعیین تقویم شمسی
-                              locale: persian_fa, // تنظیم زبان فارسی
-                            })
-                              .convert(persian)
-                              .format('YYYY/MM/DD') // تبدیل به شمسی و فرمت مناسب
-                          : '—'}
-                      </Typography>
+                        <Typography variant="body2">
+                          <strong>تاریخ تولد:</strong>{' '}
+                          {item.birth_date
+                            ? new DateObject({
+                                date: item.birth_date,
+                                calendar: persian,
+                                locale: persian_fa,
+                              })
+                                .convert(persian)
+                                .format('YYYY/MM/DD')
+                            : '—'}
+                        </Typography>
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">
@@ -227,7 +237,7 @@ const Guarantor = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">
-                          <strong>جنسیت:</strong> {item.gender}
+                          <strong>جنسیت:</strong> {guarantorInfo.gender === 'male' ? 'مرد' : 'زن'}
                         </Typography>
                       </Grid>
                     </Grid>
