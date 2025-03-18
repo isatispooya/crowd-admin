@@ -31,6 +31,10 @@ export const CapitalCapable = lazy(() =>
   import('src/module/Create_receiveRrequests/pages/CapitalCapable')
 );
 export const BankLetter = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter'))
+export const AgencyContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/AgencyContract'))
+export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/index'))
+
+
 
 const motionWrapper = (Component = React.FC) => (
   <motion.div
@@ -71,6 +75,8 @@ export default function Router() {
         { path: 'tasks', element: motionWrapper(Tasks) },
         { path: 'cartDetail/:cartId', element: motionWrapper(CapitalCapable) },
         { path: 'bankLetter', element: motionWrapper(BankLetter) },
+        { path: 'agencyContract', element: motionWrapper(AgencyContract) },
+        { path: '/agency/:uuid', element: motionWrapper(Agency) },
 
       ],
     },

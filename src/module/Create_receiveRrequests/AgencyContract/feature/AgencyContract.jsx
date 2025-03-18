@@ -29,8 +29,9 @@ const Contract = ({ data }) => {
     }
   }, [data, initializeStore]);
 
+
   const links = [
-    { id: 1, title: 'قرارداد عاملیت', path: '/agencyAgreement' },
+    { id: 1, title: 'قرارداد عاملیت', path: `/agency?uuid=${data?.uuid}` },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter?uuid=${data?.uuid}` },
   ];
 
@@ -57,6 +58,9 @@ const Contract = ({ data }) => {
     { id: 'auditor_response', label: 'پاسخ حسابرس', value: data?.auditor_response, type: 'file' },
     { id: 'warranty', label: 'ضمانت نامه', value: data?.warranty, type: 'file' },
   ];
+
+
+
 
   const renderFieldByType = (item) => {
     if (item.type === 'date') {
