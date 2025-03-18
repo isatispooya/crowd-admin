@@ -68,7 +68,7 @@ const CapitalCapable = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <BoardofDirectorsPage data={investorRequest}  />
+              <BoardofDirectorsPage data={investorRequest} />
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -81,7 +81,7 @@ const CapitalCapable = () => {
             <Typography component="span">اطلاعات تکمیلی</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AdditionalInformationPage data={investorRequest}  />
+            <AdditionalInformationPage data={investorRequest} />
           </AccordionDetails>
         </Accordion>
 
@@ -94,7 +94,7 @@ const CapitalCapable = () => {
             <Typography component="span">قرارداد عاملیت</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AgencyContractPage data={investorRequest}  />
+            <AgencyContractPage data={investorRequest} />
           </AccordionDetails>
         </Accordion>
 

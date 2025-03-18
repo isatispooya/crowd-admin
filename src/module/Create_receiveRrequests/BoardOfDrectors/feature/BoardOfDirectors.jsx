@@ -88,8 +88,8 @@ const BoardOfDirectors = ({ data }) => {
       <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 4 }}>
         {Array.isArray(localBoardMembers) && localBoardMembers.length > 0 ? (
           localBoardMembers.map((member) => (
-            <Accordion 
-              key={member.id} 
+            <Accordion
+              key={member.id}
               expanded={expandedMemberId === member.id}
               onChange={handleAccordionChange(member.id)}
             >
@@ -103,43 +103,51 @@ const BoardOfDirectors = ({ data }) => {
                   <Box key={field.id} sx={{ mb: 2 }}>
                     <Typography>{field.label}</Typography>
                     {boardMembersFiles[member.id]?.[field.id] ? (
+                      <>
+                        <Typography>{field.label}</Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            p: 3,
+                            borderRadius: 1,
+                            boxShadow: 2,
+                            border: '1px solid #ccc',
+                            marginTop: 2,
+                          }}
+                        >
+                          <a
+                            href={
+                              boardMembersFiles[member.id][field.id]?.url ||
+                              boardMembersFiles[member.id][field.id]
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: 'none', color: '#1976d2', cursor: 'pointer' }}
+                          >
+                            <Typography>
+                              {boardMembersFiles[member.id][field.id]?.name ||
+                                boardMembersFiles[member.id][field.id]}
+                            </Typography>
+                          </a>
+                        </Box>
+                      </>
+                    ) : (
                       <Box
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          p: 1,
-                          border: '1px solid #ccc',
+                          p: 2,
                           borderRadius: 1,
+                          boxShadow: 2,
+                          border: '1px solid #ccc',
+                          marginTop: 2,
                         }}
                       >
-                        <a
-                          href={
-                            boardMembersFiles[member.id][field.id]?.url ||
-                            boardMembersFiles[member.id][field.id]
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: 'none', color: '#1976d2', cursor: 'pointer' }}
-                        >
-                          <Typography>
-                            {boardMembersFiles[member.id][field.id]?.name ||
-                              boardMembersFiles[member.id][field.id]}
-                          </Typography>
-                        </a>
+                        فایل اضافه نشده است
                       </Box>
-                    ) : (
-                      <TextField
-                        disabled
-                        type="file"
-                        fullWidth
-                        inputProps={{ accept: '*' }}
-                        onChange={(e) => {
-                          if (e.target.files.length > 0) {
-                            handleFileChange(member.id, field.id, e.target.files[0]);
-                          }
-                        }}
-                      />
                     )}
                   </Box>
                 ))}
