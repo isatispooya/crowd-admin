@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DateObject from 'react-date-object';
 import { useWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
@@ -42,7 +43,7 @@ const Warranty = ({ allData }) => {
       const payload = {
         investor_request: allData.id,
         ...formData,
-        date: formData.date ? formData.date.format('YYYY-MM-DD') : null,
+        date: formData.date,
       };
 
       await mutate(payload);
@@ -83,7 +84,7 @@ const Warranty = ({ allData }) => {
               <Typography variant="body2">تاریخ ضمانت</Typography>
               <div style={{ direction: 'rtl' }}>
                 <DatePicker
-                  value={formData.date}
+                  value={formData.date || null}
                   onChange={(value) => setFormData((prev) => ({ ...prev, date: value }))}
                   calendar={persian}
                   locale={persian_fa}
@@ -159,7 +160,12 @@ const Warranty = ({ allData }) => {
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>تاریخ:</strong> {item.date}
+                          <strong>تاریخ:</strong>
+                          {new DateObject({
+                            date: item.date,
+                            calendar: persian,
+                            locale: persian_fa,
+                          }).format('YYYY/MM/DD')}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>

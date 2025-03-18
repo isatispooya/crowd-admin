@@ -15,8 +15,10 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DateObject from "react-date-object";
 import { useGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+
 
 const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
@@ -200,9 +202,18 @@ const Guarantor = ({ allData }) => {
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
-                        <Typography variant="body2">
-                          <strong>تاریخ تولد:</strong> {item.birth_date}
-                        </Typography>
+                      <Typography variant="body2">
+                        <strong>تاریخ تولد:</strong>{' '}
+                        {item.birth_date
+                          ? new DateObject({
+                              date: item.birth_date,
+                              calendar: persian, // تعیین تقویم شمسی
+                              locale: persian_fa, // تنظیم زبان فارسی
+                            })
+                              .convert(persian)
+                              .format('YYYY/MM/DD') // تبدیل به شمسی و فرمت مناسب
+                          : '—'}
+                      </Typography>
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">

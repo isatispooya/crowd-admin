@@ -886,7 +886,14 @@ const useCompanyInfoStore = create((set, get) => ({
 
       Object.entries(state.guarantorInfo).forEach(([key, value]) => {
         if (value !== null) {
-          formData.append(key, value);
+          if (key === 'birth_date' && value) {
+            // تبدیل تاریخ به فرمت مورد نظر
+            const date = new Date(value);
+            const formattedDate = date.toISOString().replace('Z', '+03:25:44');
+            formData.append(key, formattedDate);
+          } else {
+            formData.append(key, value);
+          }
         }
       });
 

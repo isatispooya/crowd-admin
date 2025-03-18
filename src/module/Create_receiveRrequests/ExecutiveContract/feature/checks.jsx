@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DateObject from 'react-date-object';
 import { useChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
@@ -22,7 +23,7 @@ const Checks = ({ allData }) => {
   const { mutate, data: responseData } = useChecks();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    date: allData?.checks?.date || null,
+    date: allData?.checks?.date ? new DateObject({ date: allData?.checks?.date, calendar: persian }) : null,
     amount: allData?.checks?.amount || null,
     bank_name: allData?.checks?.bank_name || '',
     branch_name: allData?.checks?.branch_name || '',
@@ -43,7 +44,7 @@ const Checks = ({ allData }) => {
       const payload = {
         investor_request: allData.id,
         ...formData,
-        date: formData.date ? formData.date.format('YYYY-MM-DD') : null,
+        date: formData.date ? formData.date.convert(persian).format('YYYY-MM-DD') : null,
       };
 
       await mutate(payload);
@@ -55,7 +56,7 @@ const Checks = ({ allData }) => {
   React.useEffect(() => {
     if (responseData) {
       setFormData({
-        date: responseData.date,
+        date: responseData.date ? new DateObject({ date: responseData.date, calendar: persian }) : null,
         amount: responseData.amount,
         bank_name: responseData.bank_name,
         branch_name: responseData.branch_name,
@@ -130,7 +131,7 @@ const Checks = ({ allData }) => {
               <TextField
                 fullWidth
                 label="شماره فیش"
-                value={formData.fishing_id}
+                value={formData.fishing}
                 onChange={handleChange('fishing')}
               />
             </Grid>
@@ -158,7 +159,10 @@ const Checks = ({ allData }) => {
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>تاریخ چک:</strong> {item.date}
+                          <strong>تاریخ چک:</strong>{' '}
+                          {item.date
+                            ? new DateObject({ date: item.date, calendar: persian }).format('YYYY/MM/DD')
+                            : '—'}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -188,7 +192,10 @@ const Checks = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
+                          تاریخ ایجاد:{' '}
+                          {item.created_at
+                            ? new DateObject({ date: item.created_at, calendar: persian }).format('YYYY/MM/DD')
+                            : '—'}
                         </Typography>
                       </Grid>
                     </Grid>
