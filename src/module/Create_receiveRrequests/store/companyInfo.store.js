@@ -598,7 +598,7 @@ const useCompanyInfoStore = create((set, get) => ({
         bank_name: '',
         branch_name: '',
         type: null,
-        fishing_id: '',
+        fishing: '',
         investor_request: null,
       },
 
@@ -750,7 +750,7 @@ const useCompanyInfoStore = create((set, get) => ({
         bank_name: defaultValue(data.checks?.bank_name, ''),
         branch_name: defaultValue(data.checks?.branch_name, ''),
         type: defaultValue(data.checks?.type, null),
-        fishing_id: defaultValue(data.checks?.fishing_id, ''),
+        fishing: defaultValue(data.checks?.fishing, ''),
         investor_request: defaultValue(data.checks?.investor_request, null),
       },
 

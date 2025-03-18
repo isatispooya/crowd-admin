@@ -12,9 +12,9 @@ export const createWarranty = async (data) => {
 };
 
 export const useWarranty = () => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createWarranty(data),
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

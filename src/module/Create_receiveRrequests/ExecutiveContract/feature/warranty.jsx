@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   TextField,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -20,7 +21,7 @@ import { useWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useWarranty();
+  const { mutate, data: responseData, refetch } = useWarranty();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.warranty?.date || null,
@@ -30,6 +31,8 @@ const Warranty = ({ allData }) => {
     sepam_id: allData?.warranty?.sepam_id || '',
     type: allData?.warranty?.type || '',
   });
+  const [loading, setLoading] = React.useState(false);
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
     setFormData((prev) => ({
@@ -39,16 +42,35 @@ const Warranty = ({ allData }) => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true); // Set loading state to true before submitting
     try {
+      const isoDate = new DateObject({
+        date: formData.date,
+        calendar: persian,
+        locale: persian_fa,
+      }).format('YYYY-MM-DD');
+
       const payload = {
         investor_request: allData.id,
         ...formData,
-        date: formData.date,
+        date: isoDate,
       };
 
       await mutate(payload);
+      setFormData({
+        investor_request_id: cartId,
+        date: '',
+        description: '',
+        value: '',
+        number: '',
+        sepam_id: '',
+        type: '',
+      });
+      refetch();
     } catch (error) {
       console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false); // Reset loading state after mutation and refetch
     }
   };
 
@@ -65,7 +87,9 @@ const Warranty = ({ allData }) => {
       });
     }
   }, [responseData, cartId]);
+  
 
+  
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
@@ -76,7 +100,7 @@ const Warranty = ({ allData }) => {
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography> ضمانت ها</Typography>
+          <Typography>ضمانت ها</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
@@ -137,8 +161,14 @@ const Warranty = ({ allData }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
-                ذخیره اطلاعات
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                fullWidth
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} color="secondary" /> : 'ذخیره اطلاعات'}
               </Button>
             </Grid>
           </Grid>
