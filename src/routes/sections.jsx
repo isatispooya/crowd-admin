@@ -32,7 +32,7 @@ export const CapitalCapable = lazy(() =>
 );
 export const BankLetter = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter'))
 export const AgencyContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/AgencyContract'))
-export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/index'))
+export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/agency'))
 
 
 

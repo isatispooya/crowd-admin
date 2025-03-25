@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
+
 import { OnRun } from 'src/api/OnRun';
 
-import useAgencyContract from '../service/agencyContract';
 import { PAGES, TOTAL_PAGES } from '../feature/agancyContract';
 
+import useAgencyContract from '../hooks/useAgencyContract';
 
 const printStyles = `
   @media print {
@@ -28,30 +28,20 @@ const printStyles = `
 `;
 
 const Agency = () => {
-  const [searchParams] = useSearchParams();
-  const urlUuid = searchParams.get('uuid');
-  const [finalUuid, setFinalUuid] = useState(null);
-  const [qrValue, setQrValue] = useState('');
+  const { uuid } = useParams();
+  const [finalUuid, setFinalUuid] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [printMode, setPrintMode] = useState(false);
 
   useEffect(() => {
-    if (urlUuid && urlUuid !== 'undefined') {
-      setFinalUuid(urlUuid);
+    if (uuid && uuid !== 'undefined') {
+      setFinalUuid(uuid);
     }
-  }, [urlUuid]);
+  }, [uuid]);
 
-  const {
-    data: agencyContract,
-    isLoading,
-    refetch,
-  } = useAgencyContract(finalUuid !== 'undefined' ? finalUuid : null);
+  const { data: agencyContract } = useAgencyContract(finalUuid);
 
-  useEffect(() => {
-    if (finalUuid && finalUuid !== 'undefined') {
-      refetch();
-    }
-  }, [finalUuid, refetch]);
+  console.log(agencyContract);
 
   const renderHeaderContent = () => {
     if (!agencyContract) return null;
@@ -135,8 +125,9 @@ const Agency = () => {
     }
   };
 
-
   const renderCurrentPage = () => {
+    if (!agencyContract) return null;
+
     const CurrentPageComponent = PAGES[currentPage - 1];
     return <CurrentPageComponent agencyContract={agencyContract} />;
   };
@@ -185,7 +176,7 @@ const Agency = () => {
                 footerChildren={renderFooterSignatures()}
               >
                 <div className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]">
-                  <PageComponent agencyContract={agencyContract} qrValue={qrValue} />
+                  <PageComponent agencyContract={agencyContract} />
                 </div>
               </PrintableContractLayout>
             </div>

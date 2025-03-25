@@ -21,12 +21,11 @@ const BoardOfDirectors = ({ data }) => {
   const [localBoardMembers, setLocalBoardMembers] = useState([]);
   const [expandedMemberId, setExpandedMemberId] = useState(null);
 
-  const { setBoardMembers, boardMembersFiles, updateBoardMemberFile, initializeStore } =
-    useCompanyInfoStore();
+  const { setBoardMembers, boardMembersFiles, initializeStore } = useCompanyInfoStore();
 
   const { mutate } = useBoardOfDirectors(expandedMemberId ? [expandedMemberId] : []);
 
-  const handleAccordionChange = (memberId) => (event, isExpanded) => {
+  const handleAccordionChange = (memberId) => (_, isExpanded) => {
     setExpandedMemberId(isExpanded ? memberId : null);
   };
 
@@ -58,10 +57,6 @@ const BoardOfDirectors = ({ data }) => {
     { id: 'national_card', label: 'کارت ملی' },
     { id: 'identity_card', label: 'شناسنامه' },
   ];
-
-  const handleFileChange = (memberId, fieldId, file) => {
-    updateBoardMemberFile(memberId, fieldId, file);
-  };
 
   const handleConfirm = (memberId) => {
     if (!Array.isArray(localBoardMembers)) {

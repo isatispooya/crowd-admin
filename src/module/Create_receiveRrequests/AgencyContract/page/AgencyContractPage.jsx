@@ -12,7 +12,7 @@ const AgencyContractPage = ({ data }) => {
     useCompanyInfoStore();
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
-  const [selectedButton, setSelectedButton] = useState(data.step_4 || null);
+  const [selectedButton, setSelectedButton] = useState(data || null);
 
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);

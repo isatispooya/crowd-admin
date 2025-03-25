@@ -29,10 +29,13 @@ const Contract = ({ data }) => {
     }
   }, [data, initializeStore]);
 
+  useEffect(() => {
+    console.log('data:', data);
+  }, [data]);
 
   const links = [
-    { id: 1, title: 'قرارداد عاملیت', path: `/agency?uuid=${data?.uuid}` },
-    { id: 3, title: 'نامه بانکی', path: `/bankLetter?uuid=${data?.uuid}` },
+    { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
+    { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
   ];
 
   const uploadLabels = [
@@ -58,9 +61,6 @@ const Contract = ({ data }) => {
     { id: 'auditor_response', label: 'پاسخ حسابرس', value: data?.auditor_response, type: 'file' },
     { id: 'warranty', label: 'ضمانت نامه', value: data?.warranty, type: 'file' },
   ];
-
-
-
 
   const renderFieldByType = (item) => {
     if (item.type === 'date') {
@@ -170,7 +170,11 @@ const Contract = ({ data }) => {
                 key={link.id}
                 component={Link}
                 to={link.path}
-                target="_blank"
+                onClick={() => {
+                  if (!data?.id || !data?.uuid) {
+                    alert('اطلاعات مورد نیاز در دسترس نیست');
+                  }
+                }}
                 fullWidth
                 variant="outlined"
                 sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
