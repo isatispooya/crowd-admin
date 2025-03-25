@@ -22,7 +22,6 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
   const { agencyContract, updateAgencyContractFile, initializeStore } = useCompanyInfoStore();
-  console.log('data2222222222222222222222222222222222222222:', data);
 
   useEffect(() => {
     if (data) {
@@ -158,7 +157,6 @@ const Contract = ({ data }) => {
     );
   };
 
-  // اضافه کردن تابع برای بررسی وضعیت دکمه‌ها
   const isButtonsDisabled =
     !agencyContract.bank_letter_number || !agencyContract.agency_agreement_date;
 
