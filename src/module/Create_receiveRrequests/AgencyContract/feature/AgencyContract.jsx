@@ -36,6 +36,7 @@ const Contract = ({ data }) => {
   const links = [
     { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
+    { id: 4, title: 'قرارداد اجرایی', path: `/executiveContract/${data?.uuid}` },
   ];
 
   const uploadLabels = [

@@ -26,8 +26,8 @@ const AdditionalInformation = ({ data }) => {
       label: 'تراز آزمایشی سال جاری',
       value: data?.trial_balance_current_year,
     },
-    { id: 'balance_sheet', label: 'ترازنامه', value: data?.balance_sheet },
-    { id: 'account_turnover', label: 'گردش حساب', value: data?.account_turnover },
+    { id: 'balance_sheet', label: 'مجوزها', value: data?.balance_sheet },
+    { id: 'account_turnover', label: 'گردش حساب (حساب اصلی)' , value: data?.account_turnover },
     { id: 'shareholder_list', label: 'لیست سهامداران', value: data?.shareholder_list },
     {
       id: 'three_recent_buying_and_selling_factors',

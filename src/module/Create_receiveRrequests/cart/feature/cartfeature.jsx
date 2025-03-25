@@ -1,92 +1,56 @@
 import PropTypes from 'prop-types';
-import { Box, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { OnRun } from 'src/api/OnRun';
-import { cardStyles } from '../style/style';
+import Nonlogo from './Artboard 1 copy 3.png';
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+  hover: { scale: 1.05, boxShadow: '0px 10px 20px rgba(0,0,0,0.1)' },
+};
 
 const CardFeature = ({ handleCardClick, cardData }) => (
-  <motion.div style={cardStyles.container} onClick={() => handleCardClick()}>
-    <Box sx={cardStyles.box}>
-      <Box
-        component="img"
-        src={
-          cardData?.logo
-            ? `${OnRun}/${cardData.logo}`
-            : '/public/img/nopic.jpg'
-        }
-        alt={cardData?.company?.title}
-        sx={cardStyles.image}
+  <motion.div
+    className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 border border-gray-200 rounded-2xl p-6 shadow-lg cursor-pointer overflow-hidden relative"
+    variants={cardVariants}
+    initial="hidden"
+    animate="visible"
+    whileHover="hover"
+    onClick={() => handleCardClick()}
+  >
+    <div className="flex items-center gap-4 mb-5">
+      <motion.img
+        src={cardData?.logo ? `${OnRun}/${cardData.logo}` : Nonlogo}
+        alt={cardData?.company?.title || 'بدون نام'}
+        className="w-20 h-20 object-contain rounded-full border-2 border-purple-300 p-1 bg-white"
       />
-      <Box sx={{ width: '100%', padding: { xs: '0 5px', sm: '0 10px' }, flexGrow: 1 }}>
-        <Typography variant="h6" sx={cardStyles.typography.title}>
-          {cardData.suggestion_plan_name}
-        </Typography>
+      <p className="text-xl font-bold text-indigo-800 truncate">
+        {cardData.suggestion_plan_name || 'طرح نامشخص'}
+      </p>
+    </div>
 
-        <Typography variant="body1" sx={cardStyles.typography.subtitle}>
-          {cardData.company.title}
-        </Typography>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-purple-600 font-medium">شناسه ملی:</p>
+        <span className="text-sm font-semibold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full">
+          {cardData.company.national_id || 'نامشخص'}
+        </span>
+      </div>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-purple-600 font-medium">سرمایه:</p>
+        <span className="text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
+          {cardData.amount_of_investment || 'نامشخص'}
+        </span>
+      </div>
+    </div>
 
-        <Box sx={cardStyles.divider} />
-
-        <Box sx={cardStyles.infoBox}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              borderBottom: '1px dashed rgba(0, 32, 91, 0.1)',
-              paddingBottom: '8px',
-              gap: { xs: 1, sm: 0 },
-            }}
-          >
-            <Typography variant="body2" sx={cardStyles.typography.info}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>شناسه ملی:</span>{' '}
-              {cardData.company.national_id}
-            </Typography>
-
-            <Typography variant="body2" sx={cardStyles.typography.info}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>سرمایه:</span>{' '}
-              {cardData.amount_of_investment}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-              gap: { xs: 1.5, sm: 2 },
-            }}
-          >
-            <Typography variant="body2" sx={cardStyles.typography.bankInfo}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>بانک:</span>
-              <br />
-              {cardData.bank}
-            </Typography>
-
-            <Typography variant="body2" sx={cardStyles.typography.bankInfo}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>شعبه:</span>
-              <br />
-              {cardData.bank_branch}
-            </Typography>
-
-            <Typography variant="body2" sx={cardStyles.typography.bankInfo}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>کد شعبه:</span>
-              <br />
-              {cardData.bank_branch_code}
-            </Typography>
-
-            <Typography variant="body2" sx={cardStyles.typography.bankInfo}>
-              <span style={{ fontWeight: 'bold', color: '#333' }}>شماره ثبت :</span>
-              <br />
-              {cardData.company.registration_number}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      <Box sx={cardStyles.statusBox}>{cardData.company.status}</Box>
-    </Box>
+    <motion.div
+      className="mt-5 text-center"
+    >
+      <span className="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-medium py-2 px-4 rounded-full hover:from-indigo-600 hover:to-purple-600">
+        مشاهده جزئیات
+      </span>
+    </motion.div>
   </motion.div>
 );
 

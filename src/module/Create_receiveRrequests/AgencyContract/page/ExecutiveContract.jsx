@@ -5,7 +5,7 @@ import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContr
 
 import { OnRun } from 'src/api/OnRun';
 
-import { PAGES, TOTAL_PAGES } from '../feature/ExecutiveContract';
+import { PAGES, TOTAL_PAGES } from '../feature/agancyContract';
 
 import useAgencyContract from '../hooks/useAgencyContract';
 
@@ -27,7 +27,7 @@ const printStyles = `
   }
 `;
 
-const Agency = () => {
+const ExecutiveContract = () => {
   const { uuid } = useParams();
   const [finalUuid, setFinalUuid] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -183,4 +183,4 @@ const Agency = () => {
   );
 };
 
-export default Agency;
+export default ExecutiveContract;

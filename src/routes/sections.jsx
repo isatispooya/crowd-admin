@@ -33,7 +33,7 @@ export const CapitalCapable = lazy(() =>
 export const BankLetter = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter'))
 export const AgencyContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/AgencyContract'))
 export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/agency'))
-
+export const ExecutiveContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/ExecutiveContract'))
 
 
 const motionWrapper = (Component = React.FC) => (
@@ -77,6 +77,7 @@ export default function Router() {
         { path: 'bankLetter', element: motionWrapper(BankLetter) },
         { path: 'agencyContract', element: motionWrapper(AgencyContract) },
         { path: '/agency/:uuid', element: motionWrapper(Agency) },
+        { path: '/executiveContract/:uuid', element: motionWrapper(ExecutiveContract) },
 
       ],
     },

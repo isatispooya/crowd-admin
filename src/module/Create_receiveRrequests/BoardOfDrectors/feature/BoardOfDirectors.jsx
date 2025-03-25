@@ -173,7 +173,7 @@ const BoardOfDirectors = ({ data }) => {
 
                   {member.signature && (
                     <>
-                      <Typography>امضا</Typography>
+                      <Typography>توضیحات مستندات صاحب امضا</Typography>
                       <TextField
                         fullWidth
                         value={member.signature_document || ''}

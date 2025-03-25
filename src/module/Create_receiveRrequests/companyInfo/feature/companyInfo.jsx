@@ -17,6 +17,7 @@ const CompanyInfo = ({ companyInfo }) => {
       id: 'logo',
       label: 'لوگو شرکت',
       value: companyInfo?.logo || '',
+      accept: 'image/*',
     },
     {
       id: 'validation_report',
@@ -101,6 +102,9 @@ const CompanyInfo = ({ companyInfo }) => {
                   id={field.id}
                   variant="outlined"
                   onChange={(e) => handleFileChange(e, field.id)}
+                  inputProps={{
+                    accept: field.accept
+                  }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       padding: '10px',
