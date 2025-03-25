@@ -96,7 +96,6 @@ const BoardOfDirectors = ({ data }) => {
               <AccordionDetails>
                 {uploadFields.map((field) => (
                   <Box key={field.id} sx={{ mb: 2 }}>
-                    <Typography>{field.label}</Typography>
                     {boardMembersFiles[member.id]?.[field.id] ? (
                       <>
                         <Typography>{field.label}</Typography>

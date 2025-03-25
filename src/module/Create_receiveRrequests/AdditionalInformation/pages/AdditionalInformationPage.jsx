@@ -1,17 +1,6 @@
-import {
-  Typography,
-  Paper,
-  TextField,
-  Box,
-  Button,
-  Stack,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '@mui/material';
+import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import AdditionalInformation from '../feature';
@@ -109,18 +98,7 @@ const AdditionalInformationPage = ({ data }) => {
         اطلاعات تکمیلی را برسی کنید
       </Typography>
 
-      <Accordion sx={{ boxShadow: 4, padding: 2 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="additional-info-content"
-          id="additional-info-header"
-        >
-          <Typography>اطلاعات تکمیلی</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <AdditionalInformation data={data} />
-        </AccordionDetails>
-      </Accordion>
+      <AdditionalInformation data={data} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField

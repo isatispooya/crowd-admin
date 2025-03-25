@@ -52,7 +52,7 @@ const BankLetter = () => {
       label: 'تاریخ',
       value: agencyAgreementDate,
     },
-    { label: 'شماره', value: bankLetter?.contract_number },
+    { label: 'شماره', value: bankLetter?.bank_letter_number },
     { label: 'پیوست', value: 'ندارد' },
   ];
 

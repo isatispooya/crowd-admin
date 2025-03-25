@@ -22,6 +22,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Contract = ({ data }) => {
   const { agencyContract, updateAgencyContractFile, initializeStore } = useCompanyInfoStore();
+  console.log('data2222222222222222222222222222222222222222:', data);
 
   useEffect(() => {
     if (data) {
@@ -157,6 +158,10 @@ const Contract = ({ data }) => {
     );
   };
 
+  // اضافه کردن تابع برای بررسی وضعیت دکمه‌ها
+  const isButtonsDisabled =
+    !agencyContract.bank_letter_number || !agencyContract.agency_agreement_date;
+
   return (
     <Container maxWidth="md" dir="rtl">
       <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 4 }}>
@@ -170,14 +175,12 @@ const Contract = ({ data }) => {
                 key={link.id}
                 component={Link}
                 to={link.path}
-                onClick={() => {
-                  if (!data?.id || !data?.uuid) {
-                    alert('اطلاعات مورد نیاز در دسترس نیست');
-                  }
-                }}
+                target="_blank"
+                rel="noopener noreferrer"
                 fullWidth
                 variant="outlined"
                 sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
+                disabled={link.id === 3 ? isButtonsDisabled : false}
               >
                 {link.title}
               </Button>
