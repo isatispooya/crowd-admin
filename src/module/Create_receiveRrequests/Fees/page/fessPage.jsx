@@ -1,8 +1,7 @@
-import { Typography, Paper, TextField, Box, Button, Stack } from '@mui/material';
+import { Typography, Paper, Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
+import { CheckCircle } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 import Fees from '../feature';
@@ -18,8 +17,6 @@ const FeesPage = ({ data }) => {
     setInvestorRequestIdForFees,
   } = useCompanyInfoStore();
 
-  const [selectedButton, setSelectedButton] = useState(data || null);
-
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const { mutate: submitFees } = useFees(cartId);
@@ -34,25 +31,11 @@ const FeesPage = ({ data }) => {
   const button = [
     {
       id: 'approved',
-      label: 'ثبت ',
+      label: 'ارسال',
       icon: <CheckCircle />,
-      color: 'success',
-    },
-    {
-      id: 'rejected',
-      label: 'رد ',
-      icon: <Cancel />,
-      color: 'error',
-    },
-    {
-      id: 'changed',
-      label: ' اصلاح',
-      icon: <Edit />,
-      color: 'info',
     },
   ];
   const handleButtonClick = async (actionType) => {
-    setSelectedButton(actionType);
     setActionStatus(actionType);
 
     if (cartId) {
@@ -133,21 +116,15 @@ const FeesPage = ({ data }) => {
       <Fees allData={data} onFormDataChange={handleFeesFormDataChange} />
 
       <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           {button.map((item) => (
             <Button
+              sx={{ width: '100%' }}
               key={item.id}
-              color={item.color}
               startIcon={item.icon}
-              variant={selectedButton === item.id ? 'contained' : 'outlined'}
+              variant="contained"
               onClick={() => handleButtonClick(item.id)}
               disabled={isLoading}
-              sx={{
-                ...(selectedButton === item.id && {
-                  boxShadow: '0 0 8px rgba(0,0,0,0.2)',
-                  transform: 'scale(1.05)',
-                }),
-              }}
             >
               {item.label}
             </Button>

@@ -38,56 +38,62 @@ const Fees = ({ allData, onFormDataChange }) => {
     }
   };
 
+  // تابع کمکی برای فرمت کردن اعداد
+  const formatNumber = (value) => {
+    if (!value) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <AccordionDetails>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
-              type="number"
+              type="text"
               fullWidth
               label="دستمزد طراحی"
-              value={fees.design_wage}
+              value={formatNumber(allData.design_wage)}
               onChange={handleChange('design_wage')}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              type="number"
+              type="text"
               fullWidth
               label="دستمزد فرابورس"
-              value={fees.farabours_wage}
+              value={formatNumber(allData.farabours_wage)}
               onChange={handleChange('farabours_wage')}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              type="number"
+              type="text"
               fullWidth
               label="دستمزد اجرا"
-              value={fees.execution_wage}
+              value={formatNumber(allData.execution_wage)}
               onChange={handleChange('execution_wage')}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              type="number"
+              type="text"
               fullWidth
               label="دستمزد بازاریابی"
-              value={fees.marketing_wage}
+              value={formatNumber(allData.marketing_wage)}
               onChange={handleChange('marketing_wage')}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              type="number"
+              type="text"
               fullWidth
               label="دستمزد گواهی شرکت"
-              value={fees.company_certificate_wage}
+              value={formatNumber(allData.company_certificate_wage)}
               onChange={handleChange('company_certificate_wage')}
               InputLabelProps={{ shrink: true }}
             />
