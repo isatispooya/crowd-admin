@@ -18,9 +18,9 @@ const Page4 = ({ agencyContract }) => {
 
         <tbody className="border border-gray-300">
           <tr>
-            <td className="border border-gray-300">4</td>
-            <td className="border border-gray-300"> دوره بازپرداخت اقساط</td>
-            <td className="border border-gray-300">
+            <td className="border border-gray-300 text-[10px]">4</td>
+            <td className="border border-gray-300 text-[10px]"> دوره بازپرداخت اقساط</td>
+            <td className="border border-gray-300 text-[10px]">
               {Number(agencyContract.investor_request.duration_of_plan || 0).toLocaleString()}
               ماه
             </td>
@@ -30,8 +30,8 @@ const Page4 = ({ agencyContract }) => {
         <tbody className="border border-gray-300">
           <tr>
             <td className="border border-gray-300">5</td>
-            <td className="border border-gray-300">شیوه بازپرداخت اصل و متفرعات مبلغ تامین مالی</td>
-            <td className="border border-gray-300">
+            <td className="border border-gray-300 text-[10px]">شیوه بازپرداخت اصل و متفرعات مبلغ تامین مالی</td>
+            <td className="border border-gray-300 text-[10px]">
               متفرعات (سود) به صورت هر {agencyContract.investor_request.refund_of_plan} يكبار و با
               ارائه چك صيادي طرح جديد در مواعد مقرر توسط متقاضي (٤ فقره چك صيادي) حداكثر يك روز كاري
               پس از موفقيت كمپين و جمع آوري وجوه. اصل در انتهاي دوره با ارائه چك صيادي طرح كمپين و
@@ -50,8 +50,8 @@ const Page4 = ({ agencyContract }) => {
         <tbody className="border border-gray-300">
           <tr>
             <td className="border border-gray-300">6</td>
-            <td className="border border-gray-300"> نوع تامین مالی </td>
-            <td className="border border-gray-300">
+            <td className="border border-gray-300 text-[10px]"> نوع تامین مالی </td>
+            <td className="border border-gray-300 text-[10px]">
               تأمين مالي شناور: {agencyContract.investor_request.buoyancy_plan}درصد از مبلغ كل تأمين
               مالي معادل{' '}
               <strong>
