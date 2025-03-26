@@ -418,8 +418,8 @@ const useCompanyInfoStore = create((set, get) => ({
         }
       });
 
-      formData.append('step_3', state.actionStatus);
-      formData.append('comment_step_3', state.commentStep3);
+      formData.append('step_4', state.actionStatus);
+      formData.append('comment_step_4', state.commentStep4);
 
       set({ isLoading: false });
       return formData;
@@ -464,10 +464,8 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // افزودن تمام فیلدهای قرارداد عاملیت به FormData
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value !== null) {
-          // برای تاریخ
           if (key === 'agency_agreement_date') {
             const date = value;
             let formattedDate;
@@ -484,19 +482,17 @@ const useCompanyInfoStore = create((set, get) => ({
 
             formData.append('agency_agreement_date', formattedDate);
           }
-          // برای فایل‌ها
           else if (state.isActualFile(value)) {
             formData.append(key, value);
           }
-          // برای مقادیر متنی
           else if (key === 'bank_letter_number') {
             formData.append(key, value);
           }
         }
       });
 
-      formData.append('step_4', state.actionStatus);
-      formData.append('comment_step_4', state.commentStep4);
+      formData.append('step_3', state.actionStatus);
+      formData.append('comment_step_3', state.commentStep3);
 
       set({ isLoading: false });
       return formData;
