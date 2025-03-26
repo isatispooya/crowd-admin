@@ -5,9 +5,9 @@ import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContr
 
 import { OnRun } from 'src/api/OnRun';
 
-import { PAGES, TOTAL_PAGES } from '../feature/ExecutiveContract';
 
 import useAgencyContract from '../hooks/useAgencyContract';
+import { PAGES, TOTAL_PAGES } from '../feature/agancyContract';
 
 const printStyles = `
   @media print {
