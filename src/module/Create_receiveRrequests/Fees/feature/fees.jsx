@@ -38,7 +38,6 @@ const Fees = ({ allData, onFormDataChange }) => {
     }
   };
 
-  // تابع کمکی برای فرمت کردن اعداد
   const formatNumber = (value) => {
     if (!value) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -53,7 +52,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد طراحی"
-              value={formatNumber(allData.design_wage)}
+              value={formatNumber(fees.design_wage)}
               onChange={handleChange('design_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -63,7 +62,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد فرابورس"
-              value={formatNumber(allData.farabours_wage)}
+              value={formatNumber(fees.farabours_wage)}
               onChange={handleChange('farabours_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -73,7 +72,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد اجرا"
-              value={formatNumber(allData.execution_wage)}
+              value={formatNumber(fees.execution_wage)}
               onChange={handleChange('execution_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -83,7 +82,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد بازاریابی"
-              value={formatNumber(allData.marketing_wage)}
+              value={formatNumber(fees.marketing_wage)}
               onChange={handleChange('marketing_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -93,7 +92,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد گواهی شرکت"
-              value={formatNumber(allData.company_certificate_wage)}
+              value={formatNumber(fees.company_certificate_wage)}
               onChange={handleChange('company_certificate_wage')}
               InputLabelProps={{ shrink: true }}
             />
