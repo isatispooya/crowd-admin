@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box, CircularProgress, Paper, Container, alpha } from '@mui/material';
+import { CircularProgress, Paper, Container, alpha } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
@@ -12,6 +12,7 @@ import ExecutiveContractPage from '../ExecutiveContract/page';
 import AdditionalInformationPage from '../AdditionalInformation/pages';
 import AgencyContractPage from '../AgencyContract/page';
 import { useGetCompanyInfo } from './service';
+import FeesPage from '../Fees/page';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
@@ -74,13 +75,14 @@ const CapitalCapable = () => {
           </Typography>
         </div>
 
-        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5'].map((panel, index) => {
+        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6'].map((panel, index) => {
           const titles = [
             'ثبت شرکت',
             'ثبت هیئت مدیره',
             'اطلاعات تکمیلی',
             'قرارداد عاملیت',
             'قرارداد اجرایی',
+            'کارمزد ها',
           ];
           const contents = [
             <CompanyInfoPage companyInfo={investorRequest} />,
@@ -92,6 +94,7 @@ const CapitalCapable = () => {
               data={investorRequest}
               refetch={refetch}
             />,
+            <FeesPage data={investorRequest} />,
           ];
 
           return (

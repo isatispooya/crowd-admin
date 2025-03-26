@@ -131,6 +131,15 @@ const useCompanyInfoStore = create((set, get) => ({
     gender: '',
   },
 
+  fees: {
+    investor_request_id: null,
+    design_wage: '',
+    farabours_wage: '',
+    execution_wage: '',
+    marketing_wage: '',
+    company_certificate_wage: '',
+  },
+
   setCompanyInfo: (info) => set({ companyInfo: info }),
 
   setUploadedFiles: (files) =>
@@ -628,6 +637,15 @@ const useCompanyInfoStore = create((set, get) => ({
         postal_code: '',
         gender: '',
       },
+
+      fees: {
+        investor_request_id: null,
+        design_wage: '',
+        farabours_wage: '',
+        execution_wage: '',
+        marketing_wage: '',
+        company_certificate_wage: '',
+      },
     }),
 
   initializeStore: (data) => {
@@ -797,6 +815,15 @@ const useCompanyInfoStore = create((set, get) => ({
         postal_code: defaultValue(data.postal_code),
         gender: defaultValue(data.gender),
       },
+
+      fees: {
+        investor_request_id: defaultValue(data.investor_request_id),
+        design_wage: defaultValue(data.company_cost?.design_wage),
+        farabours_wage: defaultValue(data.company_cost?.farabours_wage),
+        execution_wage: defaultValue(data.company_cost?.execution_wage),
+        marketing_wage: defaultValue(data.company_cost?.marketing_wage),
+        company_certificate_wage: defaultValue(data.company_cost?.company_certificate_wage),
+      },
     });
   },
 
@@ -917,6 +944,45 @@ const useCompanyInfoStore = create((set, get) => ({
           } else {
             formData.append(key, value);
           }
+        }
+      });
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  setFees: (feesData) => set({ fees: feesData }),
+
+  updateFeeField: (field, value) =>
+    set((state) => ({
+      fees: {
+        ...state.fees,
+        [field]: value,
+      },
+    })),
+
+  setInvestorRequestIdForFees: (id) =>
+    set((state) => ({
+      fees: {
+        ...state.fees,
+        investor_request_id: id,
+      },
+    })),
+
+  submitFeesForm: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      Object.entries(state.fees).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          formData.append(key, value);
         }
       });
 
