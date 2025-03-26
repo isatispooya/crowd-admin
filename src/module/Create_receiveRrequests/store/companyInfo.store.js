@@ -309,7 +309,6 @@ const useCompanyInfoStore = create((set, get) => ({
       formData.append('comment_step_4', state.commentStep4);
       formData.append('comment_step_5', state.commentStep5);
 
-      // افزودن اطلاعات بانکی
       if (state.bankInfo.bank) {
         formData.append('bank', state.bankInfo.bank);
       }
@@ -320,7 +319,6 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
       }
 
-      // افزودن اطلاعات ثبت
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
       }
@@ -329,7 +327,6 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
       }
 
-      // افزودن فایل‌های قرارداد عاملیت به FormData - فقط فایل‌های واقعی
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value && state.isActualFile(value)) {
           formData.append(key, value);
@@ -351,7 +348,6 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      // اصلاح نحوه ارسال لوگو
       if (state.uploadedFiles.logo) {
         if (state.isActualFile(state.uploadedFiles.logo)) {
           formData.append('logo', state.uploadedFiles.logo);
@@ -371,7 +367,6 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('bank_branch_code', state.bankInfo.bank_branch_code);
       }
 
-      // افزودن اطلاعات ثبت
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
       }
@@ -481,11 +476,9 @@ const useCompanyInfoStore = create((set, get) => ({
             }
 
             formData.append('agency_agreement_date', formattedDate);
-          }
-          else if (state.isActualFile(value)) {
+          } else if (state.isActualFile(value)) {
             formData.append(key, value);
-          }
-          else if (key === 'bank_letter_number') {
+          } else if (key === 'bank_letter_number') {
             formData.append(key, value);
           }
         }
