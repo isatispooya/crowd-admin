@@ -87,8 +87,8 @@ const CapitalCapable = () => {
           const contents = [
             <CompanyInfoPage companyInfo={investorRequest} />,
             <BoardofDirectorsPage data={investorRequest} />,
-            <AdditionalInformationPage data={investorRequest} />,
             <AgencyContractPage data={investorRequest} />,
+            <AdditionalInformationPage data={investorRequest} />,
             <ExecutiveContractPage
               allData={companyInfo}
               data={investorRequest}
