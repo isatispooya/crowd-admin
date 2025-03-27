@@ -6,15 +6,15 @@ const Page9 = ({ agencyContract }) => {
 
   return (
     <div className="contract-page page-1">
-      <div className="text-justify leading-relaxed text-[10px]">
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">1)</span>
+      <div className="text-justify leading-relaxed text-[23px]">
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">1)</span>
           متقاضي متعهد است نسبت به معرفي نماينده يا نمايندگاني به عامل به منظور انجام اقدامات لازم
           از سوي متقاضي، حداكثر سه روز پس از شروع قرارداد، اقدام نمايد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">2)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">2)</span>
           از زمان اقدام عامل براي تهيه گزارش تا پيش از جمع آوري وجوه: پرداخت كارمزد بند 4-١ مادة ٤
           اين قرارداد ميباشد.{' '}
         </p>
@@ -49,15 +49,15 @@ const Page9 = ({ agencyContract }) => {
           در صورت فسخ قرارداد بر اثر تحقق فورس ماژور، بنا به نظر عامل و متناسب با پيشرفت انجام خدمات
           توسط عامل، كارمزد انجام خدمات تعيين و از متقاضي دريافت ميگردد.
         </p>
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">4)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">4)</span>
           متقاضي تا دو روز كاري پيش از اخذ مجوز از شركت فرابورس ايران جهت فروش گواهي هاي شراكت، به
           شرط پرداخت <strong>بند 4-١ ماده 4</strong> اين قرارداد با ارسال درخواست كتبي، مجاز به فسخ
           قرارداد خواهد بود.{' '}
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 22</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 22</span>
           متقاضي از زمان اخذ مجوز انتشار و فروش گواهي شراكت از شركت فرابورس ايران توسط عامل تا يك
           روز كاري پيش از شروع فراخوان جمع آوري وجوه، به شرط پرداخت <strong>
             كارمزد ماده 4
@@ -65,33 +65,33 @@ const Page9 = ({ agencyContract }) => {
           اين قرارداد حق فسخ قرارداد را خواهد داشت.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 23</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 23</span>
           متقاضي از يك روز كاري پيش از شروع فراخوان جمع آوري وجوه تا پايان دوره فراخوان حق انصراف را
           از خود سلب نموده است.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">5) خاتمه:</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">5) خاتمه:</span>
           اين قرارداد در شرايط زير خاتمه يافته تلقي ميشود:
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">1)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">1)</span>
           عدم پذيرش طرح از سوي شركت فرابورس ايران؛
         </p>
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">2)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">2)</span>
           عدم موفقيت كمپين و عدم موافقت متقاضي، عامل يا فرابورس براي تمديد دوره كمپين؛{' '}
         </p>
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">3)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">3)</span>
           تصميم عامل مبني بر تعليق كمپين به نحوي كه به تشخيص عامل در زمان جمع آوري وجوه امكان رفع آن
           فراهم نباشد؛{' '}
         </p>
 
-        <h3 className="font-bold mb-2 text-[10px]">ماده 10) حوادث ناگهانی و فورس ماژور </h3>
-        <p className="mb-2 text-[10px]">
+        <h3 className="font-bold mb-2 text-[23px]">ماده 10) حوادث ناگهانی و فورس ماژور </h3>
+        <p className="mb-2 text-[23px]">
           هرگاه به علت وقوع حوادث غيرمترقبه (به غير از تغيير نرخ ارز، تورم، كرونا و تحريم هاي بين
           المللي) مانند ســـيل، زلزله، و ... هريك از طرفين نتواند تعهدات خود را انجام دهد در صـــورت
           اطلاع حداكثر طي 7 روز تقويمي به طرف مقابل، هيچگونه مســـئوليتي براي وي متصـــور نبوده و
@@ -101,16 +101,16 @@ const Page9 = ({ agencyContract }) => {
           مينمايد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 24</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 24</span>
           چنانچه مانعي پس از انعقاد قرارداد به وجود آيد، كه در زمان عقد قرارداد قابل رفع، پيشگيري و
           پيشبيني نبوده اند و امكان ادامه قرارداد را به صورت كلي از بین مي برد، عامل مخير به فسخ
           قرارداد خواهد بود و به صلاحديد خود متناسب با پيشرفت انجام خدمات نسبت به دريافت كارمزد از
           متقاضي اقدام مينمايد.
         </p>
 
-        <h3 className="font-bold mb-2 text-[10px]">ماده 11) حل اختلاف </h3>
-        <p className="mb-2 text-[10px]">
+        <h3 className="font-bold mb-2 text-[23px]">ماده 11) حل اختلاف </h3>
+        <p className="mb-2 text-[23px]">
           در صورت بروز هرگونه اختلاف در خصوص اين قرارداد، موضوع بدواً از طريق مذاكره ميان طرفين
           قرارداد بررسي و حداكثر طي دو هفته رفع خواهد شد. در صورت عدم توافق، موضوع در هيئت داوري
           سازمان بورس و اوراق بهادار قابل رسيدگي ميباشد.

@@ -17,7 +17,8 @@
     "re:build-npm": "npm run rm:all && npm install && npm run build",
     "dev:host": "vite --host",
     "vite:start": "vite",
-    "vite:build": "vite build"
+    "vite:build": "vite build",
+    "start:pm2": "pm2 start \"serve -s dist --single -p 8110\" --name crowdadmin"
   },
   "dependencies": {
     "@date-io/dayjs": "^3.2.0",
@@ -31,6 +32,7 @@
     "@mui/lab": "^5.0.0-alpha.147",
     "@mui/material": "^5.16.7",
     "@mui/x-data-grid": "^7.22.2",
+    "@react-pdf/renderer": "^4.3.0",
     "@tanstack/react-query": "^5.56.2",
     "apexcharts": "^3.43.0",
     "axios": "^1.6.8",
@@ -64,6 +66,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.30.0",
     "react-tabulator": "^0.21.0",
+    "react-to-pdf": "^1.0.1",
+    "react-to-print": "^3.0.5",
     "react-toastify": "^10.0.5",
     "simplebar-react": "^3.2.4",
     "stylis": "^4.3.2",

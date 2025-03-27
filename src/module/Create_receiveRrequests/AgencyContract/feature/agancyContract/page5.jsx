@@ -6,15 +6,15 @@ const Page7 = ({ agencyContract }) => {
 
   return (
     <div className="contract-page page-1">
-      <div className="text-justify leading-relaxed text-[10px]">
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">12)</span>
+      <div className="text-justify leading-relaxed text-[23px]">
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">12)</span>
           متقاضي تأييد و تعهد ميكند كه اطلاعات ارائه شده از سوي متقاضي، افشاي درست و كاملي از كليه
           واقعيات مربوط به انتشار جهت تأمين مالي طرح را به دست ميدهد. هرگونه اهمال در اين خصوص كه
           باعث به خطا رفتن پروژه يا وارد آمدن خسارت به عامل به نمايندگي از دارندگان گواهي شراكت
           گردد، بر عهده متقاضي بوده و وي مسئول تمامي خسارتهاي ناشي از اين موضوع است.{' '}
         </p>
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">13)</span>
           متقاضي اقرار و تعهد مي كند كه دعاوي مؤثر با اهميت حقوقي يا كيفري عليه شركت، اعضاي هيات
           مديره يا مديرعامل وي كه موجب اخلال در اجراي موضوع قرارداد مي باشد وجود ندارد. در صورت كشف
@@ -23,20 +23,20 @@ const Page7 = ({ agencyContract }) => {
           از خود سلب و اسقاط نمود.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">14)</span>
           متقاضي تعهد مي نمايد كه كليه اسناد و مدارك قرارداد را كاملاً مطالعه و از مفاد آن اطلاع
           حاصل كرده است. متقاضي با امضاي اين قرارداد به نحو غيرقابل بازگشت حق هرگونه اعتراض و ادعايي
           راجع به هر يك از مواد و بندهاي اين قرارداد را در حال و آينده از خود سلب واسقاط ميكند.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">15)</span>
           كليه مسئوليت هاي قانوني طرح صرفاً بر عهده متقاضي است و عامل هيچگونه مسئوليتي در اين خصوص
           ندارد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">16)</span>
           متقاضــي تعهد مينمايد حداكثر طي 5 روز كاري از تاريخ تحويل قرارداد به متقاضــي، نســبت به
           امضــا و اجراي قرارداد اقدامات اجرايي اقدام نمايد. در صورت عدم امضاي متقاضي و ضامن، عامل
@@ -44,65 +44,65 @@ const Page7 = ({ agencyContract }) => {
           همچنين متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">17)</span>
           متقاضي تاييد و اقرار نمود به منظور تامين مالي به صورت مستقيم با عامل ارتباط برقرار كرده
           است و هيچگونه كارمزدي به جز آنچه در ماده شماره 4 اين قرارداد مشخص شده است بابت انتشارگواهي
           شراكت پرداخت نكرده است.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">18)</span>
           متقاضي تأييد و اقرار نمود عامل در صورت دريافت هرگونه شكايت از طرح يا دريافت هرگونه گزارش
           انحراف از برنامه كسب وكار يا اهداف تعيين شده، حسب مورد فوراً جمعآوري يا تخصيص وجوه را تا
           پس از بررسي لازم به حالت تعليق درمي آورد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">تبصره 15)</span>
           در صورت تعليق طرح از سوي عامل و عدم امكان رفع آن در دوره جمع آوري وجوه به تشخيص عامل، عامل
           مخير به فسخ قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
         </p>
 
         <h3 className="font-bold mb-2">ماده 8) تعهدات و تأییدات عامل </h3>
-        <p className="mb-3 pr-4 text-[10px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">1)</span>
           عامل متعهد است گواهي هاي شراكت موضوع اين قرارداد را بر اساس شرايط تعيين شده توسط فرابورس
           براي فروش به عموم به عموم عرضه نمايد.
         </p>
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 16</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 16</span>
           فروش گواهي هاي شراكت منوط به تأييد طرح توسط شركت فرابورس ايران است. در صورت عدم تأييد طرح،
           عامل تعهدي نسبت به فروش گواهي هاي شراكت نخواهد داشت و كارمزد بند 4-3 مادة ٤ اين قرارداد به
           متقاضي عودت داده مي شود و قرارداد خاتمه مييابد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">2)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">2)</span>
           عامل هيچگونه مسئوليت و تعهدي در خصوص موفقيت كمپين ندارد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 17</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 17</span>
           در صورت عدم موفقيت كمپين، مبلغ آورده متقاضي كه نزد عامل ميباشد (موضوع سطر ٢ جدول ماده ٥)
           به همراه كارمزد بند 4-3 ماده ٤ اين قرارداد، عودت داده ميشود و قرارداد خاتمه مييابد.
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">3)</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">3)</span>
           عامل پس از موفقيت كمپين، كليه وجوه حاصل از فروش گواهي هاي شراكت را به حسابي كه متقاضي طي
           نامه اي به عامل اعلام مي دارد، واريز مي نمايد و واريز وجه از سوي عامل، به منزله رسيد
           واريزي به حساب متقاضي ميباشد.{' '}
         </p>
 
-        <p className="mb-3 pr-4 text-[10px]">
-          <span className="font-bold text-[10px]">تبصره 18</span>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 18</span>
           پرداخت وجوه جمع آوري شــده حاصــل از موفقيت كمپين به متقاضـي، ناظر به اجراي همه تعهدات
           مندرج در مفاد اين قرارداد توسط متقاضي ميباشد.
         </p>
 
-        <h3 className="font-bold mb-2 text-[10px]">ماده 9) شرایط اتمام قرارداد </h3>
-        <p className="mb-3 pr-4 text-[10px]">
+        <h3 className="font-bold mb-2 text-[23px]">ماده 9) شرایط اتمام قرارداد </h3>
+        <p className="mb-3 pr-4 text-[23px]">
           در صورت عدم ايفاي تعهدات توسط متقاضي در مواعد مقرر شده در هر يك از بازه هاي زماني زير،
           عامل مخير به فسخ قرارداد ميباشد و متقاضي متعهد به:
         </p>

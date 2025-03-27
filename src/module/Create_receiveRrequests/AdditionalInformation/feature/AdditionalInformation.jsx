@@ -6,7 +6,14 @@ import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const { additionalInfo, updateAdditionalInfoFile, initializeStore } = useCompanyInfoStore();
+  const { 
+    additionalInfo, 
+    updateAdditionalInfoFile, 
+    interest_rate_plan,
+    buoyancy_plan,
+    updateNumberField,
+    initializeStore 
+  } = useCompanyInfoStore();
 
   useEffect(() => {
     if (data) {
@@ -27,13 +34,18 @@ const AdditionalInformation = ({ data }) => {
       value: data?.trial_balance_current_year,
     },
     { id: 'balance_sheet', label: 'مجوزها', value: data?.balance_sheet },
-    { id: 'account_turnover', label: 'گردش حساب (حساب اصلی)' , value: data?.account_turnover },
+    { id: 'account_turnover', label: 'گردش حساب (حساب اصلی)', value: data?.account_turnover },
     { id: 'shareholder_list', label: 'لیست سهامداران', value: data?.shareholder_list },
     {
       id: 'three_recent_buying_and_selling_factors',
       label: 'سه فاکتور خرید و فروش اخیر',
       value: data?.three_recent_buying_and_selling_factors,
     },
+  ];
+
+  const numberFields = [
+    { id: 'interest_rate_plan', label: 'سود طرح' },
+    { id: 'buoyancy_plan', label: 'شناوری طرح' },
   ];
 
   const handleFileChange = (id, event) => {
@@ -47,9 +59,52 @@ const AdditionalInformation = ({ data }) => {
     updateAdditionalInfoFile(id, null);
   };
 
+  const handleNumberChange = (id, event) => {
+    const value = String(event.target.value);
+    updateNumberField(id, value);
+  };
+
   return (
     <Box sx={{ padding: 2, borderRadius: '8px' }}>
       <Stack direction="row" spacing={2} wrap="wrap">
+        {numberFields.map(({ id, label }) => (
+          <Grid key={id} item xs={12} sm={6} md={4}>
+            <Box
+              sx={{
+                padding: 2,
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                borderRadius: '8px',
+                marginBottom: 2,
+              }}
+            >
+              <Typography
+                variant="p"
+                sx={{
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
+                {label}
+              </Typography>
+              <TextField
+                fullWidth
+                type="text"
+                id={id}
+                name={id}
+                variant="outlined"
+                value={id === 'interest_rate_plan' ? interest_rate_plan || '' : buoyancy_plan || ''}
+                onChange={(e) => handleNumberChange(id, e)}
+                inputProps={{
+                  pattern: '[0-9]+(\\.[0-9]+)?'
+                }}
+              />
+            </Box>
+          </Grid>
+        ))}
+
         {uploadLabels.map(({ id, label }) => (
           <Grid key={id} item xs={12} sm={6} md={4}>
             <Box
@@ -60,11 +115,19 @@ const AdditionalInformation = ({ data }) => {
                 marginBottom: 2,
               }}
             >
-              <Typography variant="p" sx={{ fontSize: '15px', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+              <Typography
+                variant="p"
+                sx={{
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                }}
+              >
                 <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
                 {label}
               </Typography>
-              
+
               {additionalInfo[id] ? (
                 <Box
                   sx={{

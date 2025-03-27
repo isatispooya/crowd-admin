@@ -116,66 +116,68 @@ const Page2 = ({ agencyContract }) => {
           و متعهد به ايفاي تمامي تعهدات مندرج در جدول ذیل ميباشد:{' '}
         </p>
         <table className="table-auto w-full text-center border-collapse border border-gray-300 text-[10px]">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 text-[10px]">ردیف</th>
-            <th className="border border-gray-300 text-[10px]">شرایط</th>
-            <th className="border border-gray-300 text-[10px]">توضیحات</th>
-          </tr>
-        </thead>
-        <tbody className="border border-gray-300">
-          <tr>
-            <td className="border border-gray-300 text-[10px]">1</td>
-            <td className="border border-gray-300 text-[10px]">مبلغ کل تامین مالی</td>
-            <td className="border border-gray-300 text-[10px]">
-              <strong>
-                {Number(agencyContract.investor_request.amount_of_investment || 0).toLocaleString()}{' '}
-                میلیون ریال
-              </strong>
-            </td>
-          </tr>
-        </tbody>
-        <tbody className="border border-gray-300">
-          <tr>
-            <td className="border border-gray-300">2</td>
-            <td className="border border-gray-300">آورده متقاضی</td>
-            <td className="border border-gray-300 text-[10px]">
-              متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های شراکت از شرکت
-              فرابورس ایران،{' '}
-              <strong>
-                {(
-                  (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
-                  0.1
-                ).toLocaleString()}{' '}
-                میلیون ریال
-              </strong>
-              معادل 10 درصد مبلغ کل تامین مالی (ردیف 1) را به شماره حساب 3002115158845881 و شماره
-              شبا 4705703002115158845881 IR نزد بانک پاسارگاد شعبه جمهوری یزد به نام شرکت سبدگردان
-              ایساتیس پویا کیش واریز نماید.
-              <br /> تبصره2: در صورت عدم واریز آورده متقاضی حداکثر طی 5 روز کاری از زمان درخواست
-              عامل، عامل مخیر به فسخ قرارداد است و متقاضی متعهد به اجرای بند 2-1 ماده 9 این قرارداد
-              2-1 ماده 9 این قرارداد می باشد.
-            </td>
-          </tr>
-        </tbody>
+          <thead>
+            <tr>
+              <th className="border border-gray-300 text-[10px]">ردیف</th>
+              <th className="border border-gray-300 text-[10px]">شرایط</th>
+              <th className="border border-gray-300 text-[10px]">توضیحات</th>
+            </tr>
+          </thead>
+          <tbody className="border border-gray-300">
+            <tr>
+              <td className="border border-gray-300 text-[10px]">1</td>
+              <td className="border border-gray-300 text-[10px]">مبلغ کل تامین مالی</td>
+              <td className="border border-gray-300 text-[10px]">
+                <strong>
+                  {Number(
+                    agencyContract.investor_request.amount_of_investment || 0
+                  ).toLocaleString()}{' '}
+                  میلیون ریال
+                </strong>
+              </td>
+            </tr>
+          </tbody>
+          <tbody className="border border-gray-300">
+            <tr>
+              <td className="border border-gray-300">2</td>
+              <td className="border border-gray-300">آورده متقاضی</td>
+              <td className="border border-gray-300 text-[10px]">
+                متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های شراکت از شرکت
+                فرابورس ایران،{' '}
+                <strong>
+                  {(
+                    (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
+                    0.1
+                  ).toLocaleString()}{' '}
+                  میلیون ریال
+                </strong>
+                معادل 10 درصد مبلغ کل تامین مالی (ردیف 1) را به شماره حساب 3002115158845881 و شماره
+                شبا 4705703002115158845881 IR نزد بانک پاسارگاد شعبه جمهوری یزد به نام شرکت سبدگردان
+                ایساتیس پویا کیش واریز نماید.
+                <br /> تبصره2: در صورت عدم واریز آورده متقاضی حداکثر طی 5 روز کاری از زمان درخواست
+                عامل، عامل مخیر به فسخ قرارداد است و متقاضی متعهد به اجرای بند 2-1 ماده 9 این
+                قرارداد 2-1 ماده 9 این قرارداد می باشد.
+              </td>
+            </tr>
+          </tbody>
 
-        <tbody className="border border-gray-300">
-          <tr>
-            <td className="border border-gray-300">3</td>
-            <td className="border border-gray-300">خالص مبلغ تامین مالی </td>
-            <td className="border border-gray-300 text-[10px]">
-              <strong>
-                {(
-                  (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
-                  0.9
-                ).toLocaleString()}{' '}
-                میلیون ریال
-              </strong>
-              ، معادل 90 درصد مبلغ کل تامین مالی
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody className="border border-gray-300">
+            <tr>
+              <td className="border border-gray-300">3</td>
+              <td className="border border-gray-300">خالص مبلغ تامین مالی </td>
+              <td className="border border-gray-300 text-[10px]">
+                <strong>
+                  {(
+                    (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
+                    0.9
+                  ).toLocaleString()}{' '}
+                  میلیون ریال
+                </strong>
+                ، معادل 90 درصد مبلغ کل تامین مالی
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -8,12 +8,13 @@ import Assumptions from './assumptions';
 import PerformanceForecast from './performanceForecast';
 import Checks from './checks';
 import Warranty from './warranty';
+import GuarantorMain from './gurantorMain';
 
 const ExecutiveContractMain = ({ data, allData,refetch}) =>  (
     <div>
       <ExecutiveContract data={data} refetch={refetch} />
       <CompanyConst allData={allData} refetch={refetch} />
-      <Guarantor allData={allData} refetch={refetch} />
+      <GuarantorMain allData={allData} refetch={refetch} />
       <ProfitLossForecast allData={allData} refetch={refetch} />
       <Assumptions allData={allData} refetch={refetch} />
       <PerformanceForecast allData={allData} refetch={refetch} />

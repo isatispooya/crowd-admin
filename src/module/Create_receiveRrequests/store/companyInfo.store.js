@@ -140,6 +140,9 @@ const useCompanyInfoStore = create((set, get) => ({
     company_certificate_wage: '',
   },
 
+  interest_rate_plan: '',
+  buoyancy_plan: '',
+
   setCompanyInfo: (info) => set({ companyInfo: info }),
 
   setUploadedFiles: (files) =>
@@ -413,6 +416,14 @@ const useCompanyInfoStore = create((set, get) => ({
         }
       });
 
+      if (state.interest_rate_plan) {
+        formData.append('interest_rate_plan', state.interest_rate_plan);
+      }
+      
+      if (state.buoyancy_plan) {
+        formData.append('buoyancy_plan', state.buoyancy_plan);
+      }
+
       formData.append('step_4', state.actionStatus);
       formData.append('comment_step_4', state.commentStep4);
 
@@ -650,6 +661,8 @@ const useCompanyInfoStore = create((set, get) => ({
           payment_bank_branch: '',
           payment_account_number: '',
         },
+        interest_rate_plan: '',
+        buoyancy_plan: '',
       });
       return;
     }
@@ -813,6 +826,9 @@ const useCompanyInfoStore = create((set, get) => ({
         marketing_wage: defaultValue(data.company_cost?.marketing_wage),
         company_certificate_wage: defaultValue(data.company_cost?.company_certificate_wage),
       },
+
+      interest_rate_plan: defaultValue(data.interest_rate_plan),
+      buoyancy_plan: defaultValue(data.buoyancy_plan),
     });
   },
 
@@ -982,6 +998,11 @@ const useCompanyInfoStore = create((set, get) => ({
       return null;
     }
   },
+
+  updateNumberField: (id, value) =>
+    set((state) => ({
+      [id]: value,
+    })),
 }));
 
 export default useCompanyInfoStore;

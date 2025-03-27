@@ -2,13 +2,11 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-
 const PrintableContractLayout = ({
   children,
   title,
   subtitle,
   headerInfo = [],
-  printButtonText = 'دانلود و پرینت',
   footerText,
   signatureImage,
   qrCodeComponent,
@@ -17,71 +15,13 @@ const PrintableContractLayout = ({
 }) => {
   const printRef = useRef();
 
-  const handlePrint = () => {
-    const content = printRef.current;
-    const originalContents = document.body.innerHTML;
-
-    const printStyles = `
-      <style>
-        @media print {
-          body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-          }
-          .print-container {
-            padding: 20px;
-            max-width: 100%;
-          }
-          .no-print {
-            display: none !important;
-          }
-          @page {
-            size: A4;
-            margin: 1.5cm;
-          }
-        }
-      </style>
-    `;
-
-    document.body.innerHTML = printStyles + content.outerHTML;
-    window.print();
-    document.body.innerHTML = originalContents;
-  };
-
+  
   return (
     <div>
-      <motion.div
-        className="flex justify-center mb-4 no-print"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <button
-          type="button"
-          onClick={handlePrint}
-          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-            />
-          </svg>
-          {printButtonText}
-        </button>
-      </motion.div>
 
       <motion.div
         ref={printRef}
-        className="print-container font-sans rtl p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-lg border border-gray-200"
+        className="print-container font-sans rtl p-6 mx-auto bg-white shadow-lg rounded-lg border border-gray-200 h-[594mm] w-[420mm]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -105,8 +45,6 @@ const PrintableContractLayout = ({
             </div>
           </div>
         </div>
-
-
 
         {(title || subtitle) && (
           <div className="mb-6">
@@ -158,7 +96,7 @@ const PrintableContractLayout = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
-              className="mt-8 text-center text-xs text-gray-500 border-t border-gray-200 pt-3"
+              className="text-center text-xs text-gray-500 border-t border-gray-200 pt-3"
             >
               {typeof footerText === 'string' ? <p>{footerText}</p> : footerText}
             </motion.div>
