@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import crowdlogo  from './crowdlogo.png';
 
 const Page1 = ({ agencyContract, qrValue }) => {
   if (!agencyContract) return null;
@@ -11,13 +12,32 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
     return (
       <div className="flex flex-col gap-1 text-left">
+        
         {agencyContract.investor_request?.logo && (
-          <div className="mb-1 flex items-center">
-            <h3 className="font-bold text-[26px] mx-auto">بسم تعالی </h3>
+          <div className="mb-1 flex items-center relative">
+            <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
+              شماره قرارداد: {agencyContract.investor_request?.contract_number || '1370245611/12/03'}
+              <br />
+              تاریخ: {agencyContract.investor_request?.contract_date || '11/12/1403'}
+            </div>
+
+            <img
+              src={crowdlogo}
+              alt="Investor Logo"
+              className="h-32 object-contain mt-4 mb-2"
+            />
+
+            <div className="flex flex-col items-center mx-auto">
+              <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
+              <h3 className=" text-[22px]">
+                قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
+              </h3>
+            </div>
+
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"
-              className="h-20 object-contain mt-4"
+              className="h-32 object-contain mt-4"
             />
           </div>
         )}
@@ -192,13 +212,6 @@ const Page1 = ({ agencyContract, qrValue }) => {
           دريافت خواهد شد.
         </p>
 
-        <p className="mb-3 pr-4">
-          <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
-          {agencyContract.investor_request.company_certificate_wage} میلیون ريال ميباشد. متقاضي
-          متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز وجوه جمع آوري شده به حساب
-          وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت نقدي/ چك به حساب معرفي شده
-          در بند 4-١- اين ماده واريز نمايد
-        </p>
       </div>
     </div>
   );

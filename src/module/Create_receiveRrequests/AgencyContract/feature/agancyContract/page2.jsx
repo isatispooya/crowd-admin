@@ -8,6 +8,13 @@ const Page2 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
         <p className="mb-3 pr-4">
+          <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
+          {agencyContract.investor_request.company_certificate_wage} میلیون ريال ميباشد. متقاضي
+          متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز وجوه جمع آوري شده به حساب
+          وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت نقدي/ چك به حساب معرفي شده
+          در بند 4-١- اين ماده واريز نمايد
+        </p>
+        <p className="mb-3 pr-4">
           <span className="font-bold">4)</span>
           كارمزد شركت فرابورس ايران،{' '}
           <strong>
@@ -29,7 +36,9 @@ const Page2 = ({ agencyContract }) => {
         <p className="mb-3 pr-4">
           <span className="font-bold">5)</span>کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی
           و برنامه‌ریزی کمپین‌های تبلیغاتی جمعا به مبلغ 1 درصد مبلغ تامین مالی(
-          {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
+          {Number(
+            agencyContract.investor_request.marketing_wage / 1000000 || 0
+          ).toLocaleString()}{' '}
           میلیون ریال) که متقاضی پس از موفقت در جمع آوری وجوه به حساب عامل به صورت نقدی پرداخت می
           نماید.
         </p>
@@ -219,10 +228,6 @@ const Page2 = ({ agencyContract }) => {
             </tr>
           </tbody>
         </table>
-
-
-
-        
       </div>
     </div>
   );
