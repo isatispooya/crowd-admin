@@ -12,11 +12,12 @@ const Page1 = ({ agencyContract, qrValue }) => {
     return (
       <div className="flex flex-col gap-1 text-left">
         {agencyContract.investor_request?.logo && (
-          <div className="mb-1">
+          <div className="mb-1 flex items-center">
+            <h3 className="font-bold text-[26px] mx-auto">بسم تعالی </h3>
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"
-              className="h-20 object-contain"
+              className="h-20 object-contain mt-4"
             />
           </div>
         )}
@@ -26,6 +27,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
   return (
     <div className="contract-page page-1">
       {renderHeaderContent()}
+
       <div className="text-justify leading-relaxed text-[23px]">
         <h3 className="font-bold mb-2 text-[23px]">ماده 1) مشخصات طرفین قرارداد</h3>
         <p className="mb-2 text-[23px]">1-1. این قرارداد میان:</p>
@@ -136,7 +138,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد))</span>
+          <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد)</span>
           ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
           فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
         </p>
@@ -163,7 +165,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           </strong>
           كه به تفكيك زير، توسط متقاضي در وجه عامل و شركت فرابورس ايران پرداخت ميگردد:
         </p>
-        
+
         <p className="mb-3 pr-4">
           <span className="font-bold">1) </span>
           كارمزد طراحي شيوه تأمين مالي و تهيه گزارش توجيهي، جهت انتشار و فروش گواهي شراكت،{' '}
@@ -183,25 +185,20 @@ const Page1 = ({ agencyContract, qrValue }) => {
         </p>
 
         <p className="mb-3 pr-4">
-          <span className="font-bold">2)</span>
-          كارمزد شركت فرابورس ايران،{' '}
-          <strong>
-            {Number(agencyContract.investor_request.farabours_wage / 1000000 || 0).toLocaleString()}{' '}
-            میلیون ریال{' '}
-          </strong>
-          ميباشد كه متقاضي متعهد است در صورت تائید فرابورس با طرح، همزمان با واریز 10 درصد
-          تعهدی(ردیف 2 جدول ماده 5)، كارمزد اين بند را به حساب شمارة ٩٨٧٨٥٧٢٧٠١٠١٣ و شمارة شبا
-          ٤٨٠١٥٠٠٠٠٠٠٣١٠١٠٧٢٧٥٨٧٨٩ IR به نام شركت فرابورس ايران نزد بانك سپه واريز نمايد و اصل فيش
-          واريزي را به عامل تحويل نمايد. 5-3. کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی و
-          برنامه‌ریزی کمپین‌های تبلیغاتی جمعا به مبلغ 1 درصد مبلغ تامین مالی{' '}
-          <strong>
-            {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
-            میلیون ریال
-          </strong>{' '}
-          که متقاضی پس از موفقت در جمع آوری وجوه به حساب عامل به صورت نقدی پرداخت می نماید.
+          <span className="font-bold">2)</span> كارمزد ارائه خدمات بازاريابي به متقاضي،{' '}
+          {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
+          ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
+          شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين ماده
+          دريافت خواهد شد.
         </p>
 
-
+        <p className="mb-3 pr-4">
+          <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
+          {agencyContract.investor_request.company_certificate_wage} میلیون ريال ميباشد. متقاضي
+          متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز وجوه جمع آوري شده به حساب
+          وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت نقدي/ چك به حساب معرفي شده
+          در بند 4-١- اين ماده واريز نمايد
+        </p>
       </div>
     </div>
   );

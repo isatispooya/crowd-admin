@@ -7,12 +7,9 @@ import generatePDF from 'react-to-pdf';
 import useAgencyContract from '../hooks/useAgencyContract';
 import { PAGES } from '../feature/agancyContract';
 
-
 const Agency = () => {
   const { uuid } = useParams();
   const [finalUuid, setFinalUuid] = useState('');
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [printMode] = useState(false);
   const targetRef = useRef();
 
   useEffect(() => {
@@ -50,17 +47,17 @@ const Agency = () => {
       });
     }
     return (
-      <div className="mt-auto">
+      <div className="absolute bottom-0 left-0 right-0">
         <div className="flex justify-between gap-1">
           {allSignatories.map((user, index) => (
             <div key={`signatory-${index}`} className="flex-1">
               <div className="border border-gray-300 rounded p-1 w-full">
-                <div className="text-center">
-                  <p className="font-bold text-[23px]">{user.person_title}</p>
-                  <p className="text-[20px] text-gray-600">{user.position_title}</p>
+                <div className="text-center flex flex-col h-[80px] justify-center">
+                  <p className="font-bold text-[18px] leading-tight">{user.person_title}</p>
+                  <p className="text-[16px] text-gray-600 leading-tight">{user.position_title}</p>
                 </div>
-                <div className="pt-5  pb-5 border-dashed border border-gray-300 rounded flex items-center justify-center mt-1">
-                  <p className="text-gray-400 text-[20px]">محل امضاء</p>
+                <div className="h-[60px] border-dashed border border-gray-300 rounded flex items-center justify-center mt-1">
+                  <p className="text-gray-400 text-[16px]">محل امضاء</p>
                 </div>
               </div>
             </div>
@@ -70,35 +67,25 @@ const Agency = () => {
     );
   };
 
-  // const handlePageChange = (pageNumber) => {
-  //   if (pageNumber >= 1 && pageNumber <= TOTAL_PAGES) {
-  //     setCurrentPage(pageNumber);
-  //   }
-  // };
-
-  // const renderCurrentPage = () => {
-  //   if (!agencyContract) return null;
-
-  //   const CurrentPageComponent = PAGES[currentPage - 1];
-  //   return <CurrentPageComponent agencyContract={agencyContract} />;
-  // };
   const options = {
     filename: 'my-file.pdf',
     page: {
-      format: 'A4', 
+      format: 'A4',
       orientation: 'portrait',
-        margin: 0,
+      margin: 0,
     },
   };
 
   return (
     <div>
-      <button type="button" onClick={() => generatePDF(targetRef, options)}>
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded-md mx-auto flex justify-center items-center w-80 mb-8 "
+        type="button"
+        onClick={() => generatePDF(targetRef, options)}
+      >
         چاپ
       </button>
       <div className="contract-container" ref={targetRef}>
-        {/* <style>{printStyles}</style> */}
-
         {PAGES.map((PageComponent, index) => (
           <div key={`page-${index}`} className="mb-8">
             <PrintableContractLayout footerChildren={renderFooterSignatures()}>

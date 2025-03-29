@@ -35,6 +35,7 @@ const PrintableContractLayout = ({
             </div>
 
             <div className="flex flex-col gap-1 text-left">
+              
               {headerChildren ||
                 headerInfo.map((item, index) => (
                   <div key={index} className="flex items-center gap-2">
@@ -111,7 +112,6 @@ PrintableContractLayout.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   headerInfo: PropTypes.array,
-  printButtonText: PropTypes.string,
   footerText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   signatureImage: PropTypes.string,
   qrCodeComponent: PropTypes.node,
