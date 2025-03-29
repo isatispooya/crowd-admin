@@ -7,25 +7,7 @@ const Page7 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">5) خاتمه:</span>
-          اين قرارداد در شرايط زير خاتمه يافته تلقي ميشود:
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">1)</span>
-          عدم پذيرش طرح از سوي شركت فرابورس ايران؛
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">2)</span>
-          عدم موفقيت كمپين و عدم موافقت متقاضي، عامل يا فرابورس براي تمديد دوره كمپين؛{' '}
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">3)</span>
-          تصميم عامل مبني بر تعليق كمپين به نحوي كه به تشخيص عامل در زمان جمع آوري وجوه امكان رفع آن
-          فراهم نباشد؛{' '}
-        </p>
-
+       
         <h3 className="font-bold mb-2 text-[23px]">ماده 10) حوادث ناگهانی و فورس ماژور </h3>
         <p className="mb-2 text-[23px]">
           هرگاه به علت وقوع حوادث غيرمترقبه (به غير از تغيير نرخ ارز، تورم، كرونا و تحريم هاي بين

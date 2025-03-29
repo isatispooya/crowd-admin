@@ -7,12 +7,21 @@ const Page2 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <p className="mb-3 pr-4">
+          <span className="font-bold">2)</span> كارمزد ارائه خدمات بازاريابي به متقاضي،{' '}
+          {Number(agencyContract.investor_request.execution_wage / 1000000 || 0).toLocaleString()}{' '}
+          ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
+          شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين ماده
+          دريافت خواهد شد.
+        </p>
         <p className="mb-3 pr-4">
           <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
-          {agencyContract.investor_request.company_certificate_wage} میلیون ريال ميباشد. متقاضي
-          متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز وجوه جمع آوري شده به حساب
-          وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت نقدي/ چك به حساب معرفي شده
-          در بند 4-١- اين ماده واريز نمايد
+          {Number(
+            agencyContract.investor_request.company_certificate_wage / 1000000 || 0
+          ).toLocaleString()}{' '}
+          میلیون ريال ميباشد. متقاضي متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز
+          وجوه جمع آوري شده به حساب وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت
+          نقدي/ چك به حساب معرفي شده در بند 4-١- اين ماده واريز نمايد
         </p>
         <p className="mb-3 pr-4">
           <span className="font-bold">4)</span>
@@ -24,13 +33,8 @@ const Page2 = ({ agencyContract }) => {
           ميباشد كه متقاضي متعهد است در صورت تائید فرابورس با طرح، همزمان با واریز 10 درصد
           تعهدی(ردیف 2 جدول ماده 5)، كارمزد اين بند را به حساب شمارة ٩٨٧٨٥٧٢٧٠١٠١٣ و شمارة شبا
           ٤٨٠١٥٠٠٠٠٠٠٣١٠١٠٧٢٧٥٨٧٨٩ IR به نام شركت فرابورس ايران نزد بانك سپه واريز نمايد و اصل فيش
-          واريزي را به عامل تحويل نمايد. 5-3. کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی و
-          برنامه‌ریزی کمپین‌های تبلیغاتی جمعا به مبلغ 1 درصد مبلغ تامین مالی{' '}
-          <strong>
-            {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
-            میلیون ریال
-          </strong>{' '}
-          که متقاضی پس از موفقت در جمع آوری وجوه به حساب عامل به صورت نقدی پرداخت می نماید.
+          واريزي را به عامل تحويل نمايد.{' '}
+
         </p>
 
         <p className="mb-3 pr-4">
@@ -154,10 +158,35 @@ const Page2 = ({ agencyContract }) => {
                 تعديل ميگردد و جزئيات آن متعاقباً در قرارداد اقدامات اجرايي اعلام ميگردد.
               </td>
             </tr>
+
+
+
+
+
             <tr>
-              <td className="border border-gray-300 text-[22px]">7</td>
+            <td className="border border-gray-300 text-[22px]">7</td>
+            <td className="border border-gray-300 text-[22px]">نرخ سود مشارکت اسمی </td>
+            <td className="border border-gray-300 text-[22px]">
+              {agencyContract.investor_request.annualized_profit_forecast * 100} درصد ساليانه.
+              <br /> تبصره 7: متقاضي متعهد است در سررسيد گواهي شراكت مطابق با شرايط مندرج در قرارداد
+              اقدامات اجرايي به محاسبة سود قطعي گواهي هاي شراكت اقدام نمايد و سود قطعي محاسبه شده را
+              به تأييد حسابرس برساند.
+            </td>
+          </tr>
+
+          <tr>
+            <td className="border border-gray-300">8</td>
+            <td className="border border-gray-300 text-[22px]">ضامن</td>
+            <td className="border border-gray-300 text-[22px]">
+              ضامن معرفی شده توسط متقاضی که در قرارداد اقدامات اجرایی تعیین می شود.{' '}
+            </td>
+          </tr>
+
+          
+        <tr>
+              <td className="border border-gray-300 text-[22px]">9</td>
               <td className="border border-gray-300 text-[22px]">تضامین مورد نیاز </td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[20px]">
                 متقاضي متعهد است یک فقره ضمانت نامه تعهد پرداخت بانکی برابر اصل مبلغ تامین مالی به
                 <strong>
                   {Number(
@@ -168,7 +197,7 @@ const Page2 = ({ agencyContract }) => {
                 میلیون ریال را با اعتبار 12 ماهه و قابلیت تمدید توسط عامل و با قابلیت دریافت وجه
                 ضمانت نامه بدون قید و شرط در هر زمان به محض تقاضای عامل (عندالمطالبه)، که مورد تائید
                 واحد حقوقی و واحد مالی عامل باشد، ارائه نماید، همچنین متقاضی متعهد است{' '}
-                {agencyContract.investor_request.guarantor_count} فقره چک ضمانت صیادی طرح جدید را
+                5 فقره چک ضمانت صیادی طرح جدید را
                 جمعاً به مبلغ{' '}
                 <strong>
                   {Number(agencyContract.warranty_check || 0).toLocaleString()} میلیون ریال
@@ -192,38 +221,6 @@ const Page2 = ({ agencyContract }) => {
                 صورت نياز هنگام تحويل چك تضمين و چك هاي پرداخت اقساط از عامل رسيد موقت دريافت اسناد
                 ياد شده را درخواست نمايد، اما رسيد موقت صرفاً به معناي تحويل اسناد يادشده توسط
                 متقاضي است و به هيچ وجه به منزله صحت اسناد ياد شده نيست.
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 text-[22px]">8</td>
-              <td className="border border-gray-300 text-[22px]">موعد چک هاي پرداخت اقساط </td>
-              <td className="border border-gray-300 text-[22px]">
-                متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
-                مبلغ{' '}
-                <strong>
-                  {Number(Number(agencyContract.warranty_check || 0) / 1000000).toLocaleString()}{' '}
-                  میلیون ریال{' '}
-                </strong>
-                ،{' '}
-                <strong>
-                  {Number(
-                    agencyContract.investor_request.amount_of_investment / 1000000
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{' '}
-                </strong>
-                بابت اصل مبلغ تأمين مالي{' '}
-                <strong>
-                  {Number(
-                    (agencyContract.warranty_check -
-                      agencyContract.investor_request.amount_of_investment) /
-                      1000000
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{' '}
-                </strong>
-                بابت متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي 5 فقره چك،
-                با تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت سود مشاركت
-                به دارندگان گواهي شراكت) كه پس از موفقيت كمپين توسط عامل به متقاضي اعلام ميگردد، به
-                عامل تحويل نمايد.
               </td>
             </tr>
           </tbody>

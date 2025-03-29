@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
-import crowdlogo  from './crowdlogo.png';
+import crowdlogo from './crowdlogo.png';
 
 const Page1 = ({ agencyContract, qrValue }) => {
   if (!agencyContract) return null;
@@ -12,20 +12,16 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
     return (
       <div className="flex flex-col gap-1 text-left">
-        
         {agencyContract.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
             <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
-              شماره قرارداد: {agencyContract.investor_request?.contract_number || '1370245611/12/03'}
+              شماره قرارداد:{' '}
+              {agencyContract.investor_request?.contract_number || '1370245611/12/03'}
               <br />
               تاریخ: {agencyContract.investor_request?.contract_date || '11/12/1403'}
             </div>
 
-            <img
-              src={crowdlogo}
-              alt="Investor Logo"
-              className="h-32 object-contain mt-4 mb-2"
-            />
+            <img src={crowdlogo} alt="Investor Logo" className="h-32 object-contain mt-4 mb-2" />
 
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
@@ -74,9 +70,9 @@ const Page1 = ({ agencyContract, qrValue }) => {
                 {index < filteredArray.length - 1 ? ' و ' : ''}
               </React.Fragment>
             ))}{' '}
-          بر اساس روزنامه رسمی شماره {agencyContract.company_members[0]?.by_news_id} مورخ{' '}
-          {new Date(agencyContract.company_members[0]?.start_date).toLocaleDateString('fa-IR')} که
-          در این قرارداد، «متقاضی» نامیده می شود، از یک طرف،
+          بر اساس
+          {agencyContract.company_members[0]?.signature_document} که در این قرارداد، «متقاضی» نامیده
+          می شود، از یک طرف،
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) طرف دوم:</span> شرکت سبدگردان ایساتیس پویا کیش
@@ -158,6 +154,13 @@ const Page1 = ({ agencyContract, qrValue }) => {
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">4) </span>
+           ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
+          فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
+        </p>
+        <br/>
+
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد)</span>
           ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
           فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
@@ -180,7 +183,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           </strong>
           مي باشد و همچنین کارمزد موضوع 4 ماده 3 این قرارداد{' '}
           <strong>
-            {Number(agencyContract.investor_request.execution_wage / 1000000 || 0).toLocaleString()}{' '}
+            {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
           كه به تفكيك زير، توسط متقاضي در وجه عامل و شركت فرابورس ايران پرداخت ميگردد:
@@ -204,14 +207,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           اجراي بند ١-١ مادة ٩ اين قرارداد ميباشد.
         </p>
 
-        <p className="mb-3 pr-4">
-          <span className="font-bold">2)</span> كارمزد ارائه خدمات بازاريابي به متقاضي،{' '}
-          {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
-          ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
-          شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين ماده
-          دريافت خواهد شد.
-        </p>
-
+       
       </div>
     </div>
   );

@@ -28,41 +28,54 @@ const Agency = () => {
     );
 
     const staticUsers = [
-      { person_title: 'سیدعلیمحمد خبیری', position_title: 'مدیر عامل' },
-      { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
+      { person_title: 'سیدعلیمحمد خبیری', position_title: 'عضو هیئت مدیره' },
+      { person_title: 'محسن زارعیان', position_title: 'مدیرعامل' },
     ];
 
-    const allSignatories = [...staticUsers];
-
-    if (signatoryMembers.length > 0) {
-      signatoryMembers.forEach((member) => {
-        const isDuplicate = staticUsers.some((user) => user.person_title === member.person_title);
-
-        if (!isDuplicate) {
-          allSignatories.push({
-            person_title: member.person_title,
-            position_title: member.position_title,
-          });
-        }
-      });
-    }
     return (
       <div className="absolute bottom-0 left-0 right-0">
-        <div className="flex justify-between gap-1">
-          {allSignatories.map((user, index) => (
-            <div key={`signatory-${index}`} className="flex-1">
-              <div className="border border-gray-300 rounded p-1 w-full">
-                <div className="text-center flex flex-col h-[80px] justify-center">
-                  <p className="font-bold text-[18px] leading-tight">{user.person_title}</p>
-                  <p className="text-[16px] text-gray-600 leading-tight">{user.position_title}</p>
-                </div>
-                <div className="h-[60px] border-dashed border border-gray-300 rounded flex items-center justify-center mt-1">
-                  <p className="text-gray-400 text-[16px]">محل امضاء</p>
-                </div>
+        <table className="w-full border-collapse text-sm">
+          <tr>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>عامل</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>متقاضی</div>
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex justify-between">
+                {staticUsers.map((user, index) => (
+                  <div key={`static-signatory-${index}`} className="text-center w-96">
+                    <p className="font-bold mb-1">{user.person_title}</p>
+                    <p className="text-sm text-gray-600 mb-2">{user.position_title}</p>
+                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                        محل امضاء
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            </td>
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-row gap-4 justify-center">
+                {signatoryMembers.map((member, index) => (
+                  <div key={`dynamic-signatory-${index}`} className="text-center w-96">
+                    <p className="font-bold mb-1">{member.person_title}</p>
+                    <p className="text-sm text-gray-600 mb-2">{member.position_title}</p>
+                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                        محل امضاء
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </td>
+          </tr>
+        </table>
       </div>
     );
   };

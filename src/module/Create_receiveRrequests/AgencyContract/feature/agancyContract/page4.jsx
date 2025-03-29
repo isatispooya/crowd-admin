@@ -8,16 +8,6 @@ const Page5 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
         <br />
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold">13)</span>
-          متقاضي اقرار و تعهد مي كند كه دعاوي مؤثر با اهميت حقوقي يا كيفري عليه شركت، اعضاي هيات
-          مديره يا مديرعامل وي كه موجب اخلال در اجراي موضوع قرارداد مي باشد وجود ندارد. در صورت كشف
-          هرگونه دعاوي مؤثر حين اجراي قرارداد، عامل مخير به فسخ قرارداد است و متقاضي متعهد به اجراي
-          بند ٣-١ مادة ٩ اين قرارداد ميباشد. متقاضي به موجب اين بند حق هرگونه ادعايي در اين خصوص را
-          از خود سلب و اسقاط نمود.
-        </p>
-
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">14)</span>
           متقاضي تعهد مي نمايد كه كليه اسناد و مدارك قرارداد را كاملاً مطالعه و از مفاد آن اطلاع
@@ -167,6 +157,24 @@ const Page5 = ({ agencyContract }) => {
         </p>
 
 
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">5) خاتمه:</span>
+          اين قرارداد در شرايط زير خاتمه يافته تلقي ميشود:
+        </p>
+
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">1)</span>
+          عدم پذيرش طرح از سوي شركت فرابورس ايران؛
+        </p>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">2)</span>
+          عدم موفقيت كمپين و عدم موافقت متقاضي، عامل يا فرابورس براي تمديد دوره كمپين؛{' '}
+        </p>
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">3)</span>
+          تصميم عامل مبني بر تعليق كمپين به نحوي كه به تشخيص عامل در زمان جمع آوري وجوه امكان رفع آن
+          فراهم نباشد؛{' '}
+        </p>
 
 
 
