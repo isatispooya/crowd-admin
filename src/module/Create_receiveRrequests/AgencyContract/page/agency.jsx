@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
 import generatePDF from 'react-to-pdf';
-
 import useAgencyContract from '../hooks/useAgencyContract';
 import { PAGES } from '../feature/agancyContract';
 
