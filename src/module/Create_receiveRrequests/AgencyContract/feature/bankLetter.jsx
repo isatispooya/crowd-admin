@@ -56,7 +56,7 @@ const BankLetter = () => {
     { label: 'پیوست', value: 'ندارد' },
   ];
 
-  const title = `ریاست محترم ${bankLetter?.bank} ایران شعبه ${bankLetter?.bank_branch} (کد شعبه ${bankLetter?.bank_branch_code})`;
+  const title = `ریاست محترم ${bankLetter?.bank}  شعبه ${bankLetter?.bank_branch} (کد شعبه ${bankLetter?.bank_branch_code})`;
   const subtitle = `موضوع: اخذ مجوز صدور ضمانت نامه تعهد پرداخت برای شرکت ${bankLetter?.company_name}`;
 
   const qrCodeComponent = (
@@ -101,14 +101,14 @@ const BankLetter = () => {
         transition={{ delay: 0.5 }}
         className="bg-gray-50 p-5 rounded-lg shadow-sm text-sm border border-gray-100"
       >
-        <p className="text-gray-800 leading-relaxed">
+        <p className="text-gray-800 leading-relaxed text-right text-justify" dir="rtl">
           با سلام و مراتب احترام، به استحضار میرساند با توجه به درخواست شرکت{' '}
-          {bankLetter?.company_name}
-          (سهامی خاص) به شناسه ملی {bankLetter?.company_national_id} مبنی بر تأمین مالی آن شرکت
-          محترم به مبلغ {formatNumber((bankLetter?.amount_of_investment ?? 0) / 1000000)} میلیون
-          ریال از طریق انتشار و فروش گواهی های شراکت تأمین مالی جمعی، مطابق قرارداد عاملیت به شماره
-          1{bankLetter?.contract_number} مورخ {agencyAgreementDate} و قرارداد اجرایی به شماره{' '}
-          2{bankLetter?.contract_number} آن شرکت متعهد به ارائه یک فقره ضمانتنامه تعهد پرداخت بانکی
+          {bankLetter?.company_name}({bankLetter?.registration_type_title}) به شناسه ملی{' '}
+          {bankLetter?.company_national_id} مبنی بر تأمین مالی آن شرکت محترم به مبلغ{' '}
+          {formatNumber((bankLetter?.amount_of_investment ?? 0) / 1000000)} میلیون ریال از طریق
+          انتشار و فروش گواهی های شراکت تأمین مالی جمعی، مطابق قرارداد عاملیت به شماره 1
+          {bankLetter?.contract_number} مورخ {agencyAgreementDate} و قرارداد اجرایی به شماره 2
+          {bankLetter?.contract_number} آن شرکت متعهد به ارائه یک فقره ضمانتنامه تعهد پرداخت بانکی
           برابر اصل مبلغ تامین مالی به مبلغ{' '}
           {formatNumber((bankLetter?.amount_of_investment ?? 0) / 1000000)}
           میلیون ریال با اعتبار 12 ماهه و با قابلیت تمدید به درخواست ذینفع و با قابلیت دریافت مبلغ

@@ -22,7 +22,7 @@ const LegalGuarantor = ({ allData }) => {
       if (formData) {
         const payload = new FormData();
         payload.append('investor_request_id', allData.id || cartId);
-        payload.append('Type', 'legal');
+        payload.append('type', 'legal');
         payload.append('company_rasmio_national_id', guarantorInfo.guarantor_name);
 
         await mutate(payload);
