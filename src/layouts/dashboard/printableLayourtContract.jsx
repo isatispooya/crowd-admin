@@ -29,10 +29,7 @@ const PrintableContractLayout = ({
         <div className="mb-6">
           <div className="h-2 bg-gradient-to-l from-purple-600 to-indigo-700 rounded-t-lg -mt-6 -mx-6 mb-4" />
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              {/* <img src={LogoSabad} alt="logo" className="w-16 h-auto" />
-              <img src={TypeLogo} alt="type logo" className="w-20 h-auto ml-2" /> */}
-            </div>
+
 
             <div className="flex flex-col gap-1 text-left">
               

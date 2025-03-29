@@ -107,11 +107,9 @@ const BankLetter = () => {
           (سهامی خاص) به شناسه ملی {bankLetter?.company_national_id} مبنی بر تأمین مالی آن شرکت
           محترم به مبلغ {formatNumber((bankLetter?.amount_of_investment ?? 0) / 1000000)} میلیون
           ریال از طریق انتشار و فروش گواهی های شراکت تأمین مالی جمعی، مطابق قرارداد عاملیت به شماره
-          137022464511/11/03 مورخ {agencyAgreementDate} و قرارداد به شماره{' '}
-          {bankLetter?.bank_letter_number}
-          {agencyAgreementDate} و قرارداد به شماره {bankLetter?.contract_number} آن شرکت متعهد به
-          ارائه و قرارداد اقدامات اجرایی به شماره {bankLetter?.contract_number} آن شرکت متعهد به
-          ارائه یک فقره ضمانتنامه تعهد پرداخت بانکی برابر اصل مبلغ تامین مالی به مبلغ{' '}
+          1{bankLetter?.contract_number} مورخ {agencyAgreementDate} و قرارداد اجرایی به شماره{' '}
+          2{bankLetter?.contract_number} آن شرکت متعهد به ارائه یک فقره ضمانتنامه تعهد پرداخت بانکی
+          برابر اصل مبلغ تامین مالی به مبلغ{' '}
           {formatNumber((bankLetter?.amount_of_investment ?? 0) / 1000000)}
           میلیون ریال با اعتبار 12 ماهه و با قابلیت تمدید به درخواست ذینفع و با قابلیت دریافت مبلغ
           ضمانت نامه به صورت عندالمطالبه (به محض تقاضای ذینفع) و به دفعات میباشد. موضوع ضمانت صورت

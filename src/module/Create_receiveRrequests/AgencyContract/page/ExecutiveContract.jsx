@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
-
 import { OnRun } from 'src/api/OnRun';
-
 import useAgencyContract from '../hooks/useAgencyContract';
-import { PAGES, TOTAL_PAGES } from '../feature/ExecutiveContract';
+import { PAGES } from '../feature/ExecutiveContract';
 
 const printStyles = `
   @media print {
@@ -29,8 +27,6 @@ const printStyles = `
 const ExecutiveContract = () => {
   const { uuid } = useParams();
   const [finalUuid, setFinalUuid] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [printMode] = useState(false);
 
   useEffect(() => {
     if (uuid && uuid !== 'undefined') {
@@ -39,8 +35,6 @@ const ExecutiveContract = () => {
   }, [uuid]);
 
   const { data: agencyContract } = useAgencyContract(finalUuid);
-
-  console.log(agencyContract);
 
   const renderHeaderContent = () => {
     if (!agencyContract) return null;
@@ -77,7 +71,6 @@ const ExecutiveContract = () => {
     if (signatoryMembers.length > 0) {
       signatoryMembers.forEach((member) => {
         const isDuplicate = staticUsers.some((user) => user.person_title === member.person_title);
-
         if (!isDuplicate) {
           allSignatories.push({
             person_title: member.person_title,
@@ -86,6 +79,7 @@ const ExecutiveContract = () => {
         }
       });
     }
+
     return (
       <div className="mt-4">
         <div className="flex justify-between gap-1">
@@ -107,77 +101,29 @@ const ExecutiveContract = () => {
     );
   };
 
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= TOTAL_PAGES) {
-      setCurrentPage(pageNumber);
-    }
-  };
-
-  const renderCurrentPage = () => {
-    if (!agencyContract) return null;
-
-    const CurrentPageComponent = PAGES[currentPage - 1];
-    return <CurrentPageComponent agencyContract={agencyContract} />;
-  };
+  if (!agencyContract) return null;
 
   return (
     <div className="contract-container">
       <style>{printStyles}</style>
 
-      <div className="print:hidden mb-4 flex justify-between items-center">
-        <div className="flex space-x-2">
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+      {PAGES.map((PageComponent, index) => (
+        <div key={`page-${index}`} className={index > 0 ? 'page-break-before' : ''}>
+          <PrintableContractLayout
+            headerChildren={renderHeaderContent()}
+            footerChildren={renderFooterSignatures()}
           >
-            صفحه قبل
-          </button>
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === TOTAL_PAGES}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-          >
-            صفحه بعد
-          </button>
-          <span className="px-4 py-2">
-            صفحه {currentPage} از {TOTAL_PAGES}
-          </span>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]"
+            >
+              <PageComponent agencyContract={agencyContract} />
+            </motion.div>
+          </PrintableContractLayout>
         </div>
-      </div>
-
-      {printMode ? (
-        <>
-          {PAGES.map((PageComponent, index) => (
-            <div key={`print-page-${index + 1}`} className={index > 0 ? 'page-break-before' : ''}>
-              <PrintableContractLayout
-                headerChildren={renderHeaderContent()}
-                footerChildren={renderFooterSignatures()}
-              >
-                <div className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]">
-                  <PageComponent agencyContract={agencyContract} />
-                </div>
-              </PrintableContractLayout>
-            </div>
-          ))}
-        </>
-      ) : (
-        <PrintableContractLayout
-          headerChildren={renderHeaderContent()}
-          footerChildren={renderFooterSignatures()}
-        >
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]"
-          >
-            {renderCurrentPage()}
-          </motion.div>
-        </PrintableContractLayout>
-      )}
+      ))}
     </div>
   );
 };
