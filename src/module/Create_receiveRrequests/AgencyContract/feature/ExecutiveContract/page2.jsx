@@ -7,14 +7,14 @@ const Page2 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-        <p className="mb-3 pr-4">
+        <p className="mb-3 pr-4 text-right">
           <span className="font-bold">2)</span> كارمزد ارائه خدمات بازاريابي به متقاضي،{' '}
           {Number(agencyContract.investor_request.execution_wage / 1000000 || 0).toLocaleString()}{' '}
           ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
           مالی شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين
           ماده دريافت خواهد شد.
         </p>
-        <p className="mb-3 pr-4">
+        <p className="mb-3 pr-4 text-right">
           <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
           {Number(
             agencyContract.investor_request.company_certificate_wage / 1000000 || 0
@@ -23,7 +23,7 @@ const Page2 = ({ agencyContract }) => {
           وجوه جمع آوري شده به حساب وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت
           نقدي/ چك به حساب معرفي شده در بند 4-١- اين ماده واريز نمايد
         </p>
-        <p className="mb-3 pr-4">
+        <p className="mb-3 pr-4 text-right">
           <span className="font-bold">4)</span>
           كارمزد شركت فرابورس ايران،{' '}
           <strong>
@@ -31,12 +31,12 @@ const Page2 = ({ agencyContract }) => {
             میلیون ریال{' '}
           </strong>
           ميباشد كه متقاضي متعهد است در صورت تائید فرابورس با طرح، همزمان با واریز 10 درصد
-          تعهدی(ردیف 2 جدول ماده 5)، كارمزد اين بند را به حساب شمارة ٩٨٧٨٥٧٢٧٠١٠١٣ و شمارة شبا
-          ٤٨٠١٥٠٠٠٠٠٠٣١٠١٠٧٢٧٥٨٧٨٩ IR به نام شركت فرابورس ايران نزد بانك سپه واريز نمايد و اصل فيش
+          تعهدی(ردیف 2 جدول ماده 5)، كارمزد اين بند را به حساب شمارة 98785727010103 و شمارة شبا
+          IR480150000000310107275878 به نام شركت فرابورس ايران نزد بانك سپه واريز نمايد و اصل فيش
           واريزي را به عامل تحويل نمايد.{' '}
         </p>
 
-        <p className="mb-3 pr-4">
+        <p className="mb-3 pr-4 text-right">
           <span className="font-bold">5)</span>کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی
           و برنامه‌ریزی کمین‌های تبلیغاتی جمعا به مبلغ 1 درصد مبلغ تامین مالی(
           {Number(
@@ -46,24 +46,26 @@ const Page2 = ({ agencyContract }) => {
           نماید.
         </p>
 
-        <h3 className="font-bold mb-2 text-[23px]">ماده5 ) شرایط انتشار گواهی شراکت</h3>
-        <p className="mb-2">
+        <h3 className="font-bold mb-2 text-[23px] text-right">ماده5 ) شرایط انتشار گواهی شراکت</h3>
+        <p className="mb-2 text-right">
           متقاضي تمامي شرايط انتشار گواهي شراكت موضوع قرارداد را به شرح جدول اين ماده تأييد مي نمايد
           و متعهد به ايفاي تمامي تعهدات مندرج در جدول ذیل ميباشد:{' '}
         </p>
-        <table className="table-auto w-full text-center border-collapse border border-gray-300 text-[22px]">
+        <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
           <thead>
             <tr>
-              <th className="border border-gray-300 text-[22px]">ردیف</th>
-              <th className="border border-gray-300 text-[22px]">شرایط</th>
-              <th className="border border-gray-300 text-[22px]">توضیحات</th>
+              <th className="border border-gray-300 text-[22px] text-right pr-2">ردیف</th>
+              <th className="border border-gray-300 text-[22px] text-right pr-2">شرایط</th>
+              <th className="border border-gray-300 text-[22px] text-right pr-2">توضیحات</th>
             </tr>
           </thead>
           <tbody className="border border-gray-300">
             <tr>
-              <td className="border border-gray-300 text-[22px]">1</td>
-              <td className="border border-gray-300 text-[22px]">مبلغ کل تامین مالی</td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">1</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                مبلغ کل تامین مالی
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 <strong>
                   {Number(
                     agencyContract.investor_request.amount_of_investment / 1000000 || 0
@@ -74,9 +76,9 @@ const Page2 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300">2</td>
-              <td className="border border-gray-300">آورده متقاضی</td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">2</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">آورده متقاضی</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های شراکت از شرکت
                 فرابورس ایران،{' '}
                 <strong>
@@ -96,9 +98,11 @@ const Page2 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300">3</td>
-              <td className="border border-gray-300">خالص مبلغ تامین مالی </td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">3</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                خالص مبلغ تامین مالی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 <strong>
                   {(
                     (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
@@ -110,24 +114,39 @@ const Page2 = ({ agencyContract }) => {
               </td>
             </tr>
             <tr>
-              <td className="border border-gray-300 text-[22px]">4</td>
-              <td className="border border-gray-300 text-[22px]"> دوره بازپرداخت اقساط</td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">4</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {' '}
+                دوره بازپرداخت اقساط
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 {Number(agencyContract.investor_request.duration_of_plan || 0).toLocaleString()}
                 ماه
               </td>
             </tr>
             <tr>
-              <td className="border border-gray-300">5</td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">5</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 شیوه بازپرداخت اصل و متفرعات مبلغ تامین مالی
               </td>
-              <td className="border border-gray-300 text-[22px]">
-                متفرعات (سود) به صورت هر {agencyContract.investor_request.refund_of_plan} يكبار و با
-                ارائه چك صيادي طرح جديد در مواعد مقرر توسط متقاضي (٤ فقره چك صيادي) حداكثر يك روز
-                كاري پس از موفقيت كمپين و جمع آوري وجوه. اصل در انتهاي دوره با ارائه چك صيادي طرح
-                كمپين و جمع آوري وجوه. اصل در انتهاي دوره با ارائه چك صيادي طرح جديد توسط متقاضي (١
-                فقره چك صيادي) حداكثر يك روز كاري پس از موفقيت كمپين و جمع آوري وجوه. تبصره 3: در
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                متفرعات (سود) به صورت{' '}
+                {(() => {
+                  switch (agencyContract.investor_request.refund_of_plan) {
+                    case '1':
+                      return 'یکجا در پایان طرح';
+                    case '2':
+                      return 'هر یکماه';
+                    case '3':
+                      return 'هر سه ماه';
+                    default:
+                      return agencyContract.investor_request.refund_of_plan;
+                  }
+                })()}{' '}
+                و با ارائه چك صيادي طرح جديد در مواعد مقرر توسط متقاضي (٤ فقره چك صيادي) حداكثر يك
+                روز كاري پس از موفقيت كمپين و جمع آوري وجوه. اصل در انتهاي دوره با ارائه چك صيادي
+                طرح كمپين و جمع آوري وجوه. اصل در انتهاي دوره با ارائه چك صيادي طرح جديد توسط متقاضي
+                (١ فقره چك صيادي) حداكثر يك روز كاري پس از موفقيت كمپين و جمع آوري وجوه. تبصره 3: در
                 صورت عدم تحويل چك هاي پرداخت اقساط (بابت اصل و متفرعات) در مواعد مقرر شده يا در صورت
                 عدم ثبت چك هاي پرداخت اقساط (بابت اصل و سود) در سامانه چك صيادي، عامل مخير به فسخ
                 قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد. تبصره 4:
@@ -137,9 +156,12 @@ const Page2 = ({ agencyContract }) => {
               </td>
             </tr>
             <tr>
-              <td className="border border-gray-300">6</td>
-              <td className="border border-gray-300 text-[22px]"> نوع تامین مالی </td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">6</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {' '}
+                نوع تامین مالی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 تأمين مالي شناور: {agencyContract.investor_request.buoyancy_plan}درصد از مبلغ كل
                 تأمين مالي معادل{' '}
                 <strong>
@@ -163,9 +185,11 @@ const Page2 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px]">7</td>
-              <td className="border border-gray-300 text-[22px]">نرخ سود مشارکت اسمی </td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">7</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                نرخ سود مشارکت اسمی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 {agencyContract.investor_request.annualized_profit_forecast * 100} درصد ساليانه.
                 <br /> تبصره 7: متقاضي متعهد است در سررسيد گواهي شراكت مطابق با شرايط مندرج در
                 قرارداد اقدامات اجرايي به محاسبة سود قطعي گواهي هاي شراكت اقدام نمايد و سود قطعي
@@ -174,17 +198,19 @@ const Page2 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300">8</td>
-              <td className="border border-gray-300 text-[22px]">ضامن</td>
-              <td className="border border-gray-300 text-[22px]">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">8</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">ضامن</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
                 ضامن معرفی شده توسط متقاضی که در قرارداد اقدامات اجرایی تعیین می شود.{' '}
               </td>
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px]">9</td>
-              <td className="border border-gray-300 text-[22px]">تضامین مورد نیاز </td>
-              <td className="border border-gray-300 text-[18px] text-right">
+              <td className="border border-gray-300 text-[22px] text-right pr-2">9</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                تضامین مورد نیاز{' '}
+              </td>
+              <td className="border border-gray-300 text-[18px] text-right pr-2">
                 متقاضي متعهد است یک فقره ضمانت نامه تعهد پرداخت بانکی برابر اصل مبلغ تامین مالی به
                 <strong>
                   {Number(
@@ -197,14 +223,8 @@ const Page2 = ({ agencyContract }) => {
                 واحد مالی عامل باشد، ارائه نماید، همچنین متقاضی متعهد است 2 فقره چک ضمانت صیادی طرح
                 جدید را جمعاً به مبلغ{' '}
                 <strong>
-                  {Number(
-                    (agencyContract.investor_request.amount_of_investment +
-                      (agencyContract.investor_request.amount_of_investment *
-                        agencyContract.investor_request.interest_rate_plan) /
-                        100) /
-                      1000000 || 0
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{'  '}
+                  {Math.floor(agencyContract.warranty_check / 1000000 || 0).toLocaleString()} میلیون
+                  ریال{'  '}
                 </strong>
                 (یک فقره چک به میزان اصل مبلغ تأمین مالی و یک فقره چک به میزان یک فرع از اقساط مبلغ
                 تأمین مالی) از ضامن دریافت و حداکثر یک روز کاری پس از موفقیت کمین و جمع آوری وجوه به
