@@ -1,6 +1,12 @@
-import { Typography, Paper, Box, Grid, Chip } from '@mui/material';
+import { Typography, Paper, Box, Grid, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import { useState } from 'react';
+import DateObject from 'react-date-object';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
+import { useCompanyInfo } from '../../ExecutiveContract/service/companyinfoService';
 
 const CompanyInfoPage = ({ companyInfo }) => {
   const pastelBlue = {
@@ -9,9 +15,55 @@ const CompanyInfoPage = ({ companyInfo }) => {
     dark: '#6B9ACD',
     contrastText: '#1A365D',
   };
+  const cartId = companyInfo?.company?.id;
 
-  // تابع برای فرمت کردن اعداد با جداکننده هزارگان
-  const formatNumber = (num) => num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '';
+  console.log(cartId);
+
+  const { mutate } = useCompanyInfo(cartId);
+
+  const [localCompanyInfo, setLocalCompanyInfo] = useState(companyInfo);
+
+  // تبدیل تاریخ ISO به تاریخ شمسی
+  const convertToJalaliDate = (isoDate) => {
+    if (!isoDate) return null;
+    return new DateObject({
+      date: new Date(isoDate),
+      calendar: persian,
+      locale: persian_fa,
+    });
+  };
+
+  const handleUpdate = (field, value) => {
+    let updatedData = {};
+
+    if (field === 'persian_registration_date') {
+      updatedData = {
+        registration_date: value.toDate().toISOString(),
+      };
+      setLocalCompanyInfo((prev) => ({
+        ...prev,
+        company: {
+          ...prev.company,
+          registration_date: value.toDate().toISOString(),
+          persian_registration_date: value,
+        },
+      }));
+      mutate(updatedData);
+    } else if (field === 'capital') {
+      updatedData = {
+        capital: Number(value.replace(/,/g, '')),
+      };
+      setLocalCompanyInfo((prev) => ({
+        ...prev,
+        company: {
+          ...prev.company,
+          capital: value,
+        },
+      }));
+    }
+
+    mutate(updatedData);
+  };
 
   return (
     <Paper
@@ -94,16 +146,32 @@ const CompanyInfoPage = ({ companyInfo }) => {
             <Typography variant="body2" color="text.secondary">
               تاریخ ثبت:
             </Typography>
-            <Typography variant="body1">{companyInfo.company.persian_registration_date}</Typography>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              label="تاریخ ثبت"
+              value={convertToJalaliDate(localCompanyInfo.company.registration_date)}
+              onChange={(date) => {
+                handleUpdate('persian_registration_date', date);
+              }}
+              format="YYYY/MM/DD"
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
             <Typography variant="body2" color="text.secondary">
               سرمایه:
             </Typography>
-            <Typography variant="body1">
-              {formatNumber(companyInfo.company.capital)} ریال
-            </Typography>
+            <TextField
+              fullWidth
+              value={companyInfo.company.capital}
+              onChange={(e) => {
+                handleUpdate('capital', e.target.value);
+              }}
+              InputProps={{
+                endAdornment: <Typography variant="caption">ریال</Typography>,
+              }}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>

@@ -145,6 +145,9 @@ const useCompanyInfoStore = create((set, get) => ({
   interest_rate_plan: '',
   buoyancy_plan: '',
 
+  isArchived: false,
+  toggleArchive: () => set((state) => ({ isArchived: !state.isArchived })),
+
   setCompanyInfo: (info) => set({ companyInfo: info }),
 
   setUploadedFiles: (files) =>
@@ -429,7 +432,7 @@ const useCompanyInfoStore = create((set, get) => ({
       if (state.interest_rate_plan) {
         formData.append('interest_rate_plan', state.interest_rate_plan);
       }
-      
+
       if (state.buoyancy_plan) {
         formData.append('buoyancy_plan', state.buoyancy_plan);
       }
@@ -736,7 +739,9 @@ const useCompanyInfoStore = create((set, get) => ({
         balance_sheet: defaultValue(data.balance_sheet),
         account_turnover: defaultValue(data.account_turnover),
         shareholder_list: defaultValue(data.shareholder_list),
-        three_recent_buying_and_selling_factors: defaultValue(data.three_recent_buying_and_selling_factors),
+        three_recent_buying_and_selling_factors: defaultValue(
+          data.three_recent_buying_and_selling_factors
+        ),
         execution_resume: defaultValue(data.execution_resume),
       },
       contract: {

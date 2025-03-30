@@ -10,8 +10,7 @@ import ExecutiveContractMain from '../feature/ExecutiveContractMain';
 const ExecutiveContractPage = ({ allData, data, refetch }) => {
   const { setActionStatus, submitExecutiveContractForm, isLoading, commentStep5, setCommentStep5 } =
     useCompanyInfoStore();
-  console.log('allData4352837958739847573982', allData);
-  console.log('4543534253253', data);
+
 
   const { cartId } = useParams();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);

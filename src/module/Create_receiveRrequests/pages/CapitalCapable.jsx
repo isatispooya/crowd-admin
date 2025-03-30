@@ -4,26 +4,39 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { CircularProgress, Paper, Container, alpha } from '@mui/material';
+import { CircularProgress, Paper, Container, alpha, Switch, FormControlLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
 import ExecutiveContractPage from '../ExecutiveContract/page';
 import AdditionalInformationPage from '../AdditionalInformation/pages';
 import AgencyContractPage from '../AgencyContract/page';
-import { useGetCompanyInfo } from './service';
+import { useCreateExecutiveContract, useGetCompanyInfo } from './service';
 import FeesPage from '../Fees/page';
+import useCompanyInfoStore from '../store/companyInfo.store';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
-
   const { data: companyInfo, refetch } = useGetCompanyInfo(cartId);
+  const { isArchived, toggleArchive } = useCompanyInfoStore();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+
   const investorRequest = companyInfo?.investor_request;
   const isLoading = !companyInfo;
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleArchiveChange = () => {
+    const newArchiveState = !isArchived;
+    toggleArchive();
+
+    submitExecutiveContract({
+      archive: newArchiveState,
+    });
+  };
+
+  const handleChange = (panel) => (_, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+    console.log(isExpanded);
   };
 
   if (isLoading) {
@@ -51,7 +64,8 @@ const CapitalCapable = () => {
           pb: 4,
         }}
       >
-        <div className="w-full flex justify-center items-center sticky top-0 z-10 py-4 mb-4 bg-white shadow-sm">
+        <div className="w-full flex justify-between items-center sticky top-0 z-10 py-4 mb-4 bg-white shadow-sm px-6">
+          <div className="flex-1" />
           <Typography
             variant="h4"
             sx={{
@@ -59,6 +73,8 @@ const CapitalCapable = () => {
               fontWeight: 700,
               zIndex: 1000,
               position: 'relative',
+              flex: 2,
+              textAlign: 'center',
               '&:after': {
                 content: '""',
                 position: 'absolute',
@@ -73,6 +89,35 @@ const CapitalCapable = () => {
           >
             {investorRequest?.suggestion_plan_name}
           </Typography>
+          <div className="flex-1 flex justify-end">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={companyInfo?.investor_request?.archive}
+                  onChange={handleArchiveChange}
+                  sx={{
+                    '& .MuiSwitch-switchBase.Mui-checked': {
+                      color: 'primary.main',
+                      '&:hover': {
+                        backgroundColor: alpha('#1976d2', 0.04),
+                      },
+                    },
+                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                      backgroundColor: 'primary.main',
+                    },
+                  }}
+                />
+              }
+              label={isArchived ? 'خارج کردن از آرشیو' : 'وارد کردن به آرشیو'}
+              sx={{
+                '& .MuiFormControlLabel-label': {
+                  fontSize: '0.9rem',
+                  color: 'text.secondary',
+                  fontWeight: 500,
+                },
+              }}
+            />
+          </div>
         </div>
 
         {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6'].map((panel, index) => {
