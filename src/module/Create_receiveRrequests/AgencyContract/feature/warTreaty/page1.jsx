@@ -29,7 +29,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
                 قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
               </h3>
             </div>
-
+  
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"
@@ -186,12 +186,16 @@ const Page1 = ({ agencyContract, qrValue }) => {
           اداره ثبت شرکت ها و مؤسسات غیرتجاری استان هرمزگان و شناسه ملی <strong>14007805556</strong>{' '}
           به نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4 واحد 44 شماره تلفن 076-44480555 و کد
           پستی
-          <strong>7941757334</strong> و با نمایندگی آقای سید علی محمد خبیری به شماره ملی
-          <strong>4431535474</strong> به سمت عضو هیئت مدیره و آقای و با نمایندگی آقای سید علی محمد
-          خبیری به شماره ملی <strong>4431535474</strong> به سمت عضو هیئت مدیره و آقای محسن زارعیان
-          به شماره ملی <strong>4431855416</strong> به سمت مدیرعامل، به استناد روزنامه رسمی شماره
-          <strong>22670</strong> مورخ <strong>24/10/1404</strong> که در این قرارداد به اختصار &quot;
-          عامل/ شرکت&quot; نامیده می شود؛
+          <strong>7941757334</strong> و با نمایندگی:
+          {agencyContract.company_members.map((member, index) => (
+            <span key={member.id}>
+              {index > 0 && ' و '}
+              {member.person_title} به سمت {member.first_role}
+              {member.second_role && ` و ${member.second_role}`}
+              {member.uniqueIdentifier && ` به شماره ملی ${member.uniqueIdentifier}`}
+            </span>
+          ))}
+          ، که در این قرارداد به اختصار &quot;عامل/ شرکت&quot; نامیده می شود؛
         </p>
       </div>
     </div>
