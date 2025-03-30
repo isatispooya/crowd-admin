@@ -52,30 +52,31 @@ const Page1 = ({ agencyContract, qrValue }) => {
         <p className="mb-2 text-[23px]">1-1. این قرارداد میان:</p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">1) طرف اول:</span> شرکت{' '}
-          {agencyContract.company?.title || 'تعیین نشده'}(
-          {agencyContract.company?.registration_type_title || 'تعیین نشده'}) به شمارۀ شناسۀ ملی{' '}
-          <strong>{agencyContract.company?.national_id || 'تعیین نشده'}</strong>، کد اقتصادی{' '}
-          <strong>{agencyContract.company?.economic_code || 'تعیین نشده'}</strong>، و شماره ثبت{' '}
-          <strong>{agencyContract.company?.registration_number || 'تعیین نشده'}</strong> نزد{' '}
-          {agencyContract.company?.registration_unit || 'تعیین نشده'}، به نشانی{' '}
-          {agencyContract.company?.address || 'تعیین نشده'}، کدپستی{' '}
+          {agencyContract.company?.title || ''} (
+          {agencyContract.company?.registration_type_title || ''}) به شمارۀ شناسۀ ملی{' '}
+          <strong>{agencyContract.company?.national_id || ''}</strong>، کد اقتصادی{' '}
+          <strong>{agencyContract.company?.economic_code || ''}</strong>، و شماره ثبت{' '}
+          <strong>{agencyContract.company?.registration_number || ''}</strong> نزد{' '}
+          {agencyContract.company?.registration_unit || ''}، به نشانی{' '}
+          {agencyContract.company?.address || ''}
           {agencyContract.company?.postal_code
-            ? `شماره تماس ${agencyContract.company.postal_code}`
+            ? `، کدپستی ${agencyContract.company.postal_code}`
             : ''}{' '}
-          {agencyContract.company?.tel || 'تعیین نشده'}، و با نمایندگی{' '}
+          {agencyContract.company?.tel ? `، شماره تماس ${agencyContract.company.tel}` : ''}، و با
+          نمایندگی{' '}
           {agencyContract.company_members
             ?.filter((member) => member.signature === true)
             .map((member, index, filteredArray) => (
               <React.Fragment key={member.id}>
                 {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
                 {member.uniqueIdentifier}
-                {member.signature_document && ` و شماره سند امضا ${member.signature_document}`} به
+                بر اساس {member.signature_document ? ` ${member.signature_document}` : '......'} به
                 سمت {member.first_role}
                 {member.second_role && ` و ${member.second_role}`}
                 {index < filteredArray.length - 1 ? ' و ' : ''}
               </React.Fragment>
             ))}{' '}
-          بر اساس
+          
           {agencyContract.company_members[0]?.signature_document} که در این قرارداد، «متقاضی» نامیده
           می شود، از یک طرف،
         </p>
@@ -137,13 +138,13 @@ const Page1 = ({ agencyContract, qrValue }) => {
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">1) </span>
           ارائه‌ خدمات مشاوره تأمین‌ مالی‌ به‌ متقاضی‌ از طریق‌ طراحی‌ شیوة تأمین‌ مالی‌ و تهیه‌
-          گزارش مورد نیاز جهت‌ انتشار گواهی‌هاي شراکت‌ تأمین‌ مالی‌ جمعی‌ توسط‌ عامل برای طرح
+          گزارش مورد نیاز جهت‌ انتشار گواهی‌هاي شراکت‌ تأمین‌ مالی‌ جمعی‌ توسط‌ عامل برای طرح{' '}
           <strong>{agencyContract?.investor_request?.suggestion_plan_name}</strong>
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) </span>
-          ارائه خدمات بازریابی به متقاضی از طریق طراحی و اجرای کمپین های بازاریابی به منظور فروش
+          ارائه خدمات بازاریابی به متقاضی از طریق طراحی و اجرای کمپین های بازاریابی به منظور فروش
           گواهی های شراکت به عموم.
         </p>
 
@@ -170,8 +171,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد)</span>
           <br />
-          ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
-          فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
+
         </p>
 
         <p className="mb-2">
@@ -207,8 +207,8 @@ const Page1 = ({ agencyContract, qrValue }) => {
           </strong>
           <span className="font-bold">
             كه متقاضي متعهد است همزمان با امضاي قرارداد، در قالب نقدي در وجه عامل به حساب شماره
-            3002.115.15884588.1 نزد بانک پاسارگاد بلوار جمهوری و شماره شبا IR4705703002115158845881 به
-            نام شركت سبدگردان ایساتیس پویا کیش واريز نمايد IR.
+            3002.115.15884588.1 نزد بانک پاسارگاد بلوار جمهوری و شماره شبا IR4705703002115158845881
+            به نام شركت سبدگردان ایساتیس پویا کیش واريز نمايد IR.
           </span>
         </p>
         <p className="mb-3 pr-4">
