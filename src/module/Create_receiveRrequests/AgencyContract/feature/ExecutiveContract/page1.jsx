@@ -70,14 +70,14 @@ const Page1 = ({ agencyContract, qrValue }) => {
               <React.Fragment key={member.id}>
                 {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
                 {member.uniqueIdentifier}
-                بر اساس {member.signature_document ? ` ${member.signature_document}` : '......'} به
                 سمت {member.first_role}
                 {member.second_role && ` و ${member.second_role}`}
                 {index < filteredArray.length - 1 ? ' و ' : ''}
               </React.Fragment>
             ))}{' '}
+            براساس{" "}
           
-          {agencyContract.company_members[0]?.signature_document} که در این قرارداد، «متقاضی» نامیده
+          {agencyContract.company_members.filter((member) => member.signature_document !== null)[0]?.signature_document} که در این قرارداد، «متقاضی» نامیده
           می شود، از یک طرف،
         </p>
         <p className="mb-3 pr-4 text-[23px]">
