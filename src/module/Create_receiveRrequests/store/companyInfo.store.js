@@ -38,6 +38,7 @@ const useCompanyInfoStore = create((set, get) => ({
     account_turnover: null,
     shareholder_list: null,
     three_recent_buying_and_selling_factors: null,
+    execution_resume: null,
   },
   contract: {
     otc_fee: '',
@@ -554,6 +555,7 @@ const useCompanyInfoStore = create((set, get) => ({
         account_turnover: null,
         shareholder_list: null,
         three_recent_buying_and_selling_factors: null,
+        execution_resume: null,
       },
       contract: {
         otc_fee: '',
@@ -734,9 +736,8 @@ const useCompanyInfoStore = create((set, get) => ({
         balance_sheet: defaultValue(data.balance_sheet),
         account_turnover: defaultValue(data.account_turnover),
         shareholder_list: defaultValue(data.shareholder_list),
-        three_recent_buying_and_selling_factors: defaultValue(
-          data.three_recent_buying_and_selling_factors
-        ),
+        three_recent_buying_and_selling_factors: defaultValue(data.three_recent_buying_and_selling_factors),
+        execution_resume: defaultValue(data.execution_resume),
       },
       contract: {
         otc_fee: defaultValue(data.otc_fee),
