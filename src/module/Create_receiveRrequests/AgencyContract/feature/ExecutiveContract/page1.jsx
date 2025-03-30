@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'moment-jalaali';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
@@ -15,13 +16,15 @@ const Page1 = ({ agencyContract, qrValue }) => {
         {agencyContract.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
             <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
-              شماره قرارداد:{' '}
-              {agencyContract.investor_request?.contract_number || '1370245611/12/03'}
+              شماره قرارداد: {agencyContract.investor_request?.contract_number || ''}
               <br />
-              تاریخ: {agencyContract.investor_request?.contract_date || '11/12/1403'}
+              تاریخ:{' '}
+              {agencyContract.investor_request?.agency_agreement_date
+                .split('T')[0]
+                .replace(/-/g, '/')}
             </div>
 
-            <img src={crowdlogo} alt="Investor Logo" className="h-32 object-contain mt-4 mb-2" />
+            <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
 
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
@@ -33,7 +36,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"
-              className="h-32 object-contain mt-4"
+              className="h-32 mt-4"
             />
           </div>
         )}
@@ -56,7 +59,9 @@ const Page1 = ({ agencyContract, qrValue }) => {
           <strong>{agencyContract.company?.registration_number || 'تعیین نشده'}</strong> نزد{' '}
           {agencyContract.company?.registration_unit || 'تعیین نشده'}، به نشانی{' '}
           {agencyContract.company?.address || 'تعیین نشده'}، کدپستی{' '}
-          {agencyContract.company?.postal_code || 'تعیین نشده'}، شماره تماس{' '}
+          {agencyContract.company?.postal_code
+            ? `شماره تماس ${agencyContract.company.postal_code}`
+            : ''}{' '}
           {agencyContract.company?.tel || 'تعیین نشده'}، و با نمایندگی{' '}
           {agencyContract.company_members
             ?.filter((member) => member.signature === true)
@@ -83,7 +88,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           4431855416 به سمت مدیرعامل، صاحبان امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ
           1401/10/24 که از این پس و در این قرارداد، «عامل» نامیده می شود. به وكالت از طرف دارندگان
           گواهي هاي شراكت جهت تأمين منابع مالي مورد نياز متقاضي، براسـاس مجوز صـادره توسـط شـركت
-          فرابورس به نامه شـمارة 03/5/1008438 مورخ 15/05/1403 از طرف ديگر،
+          فرابورس به نامه شـمارة 03/5/1008438 مورخ 1403/05/15 از طرف ديگر،
         </p>
         <p className="mb-5 text-satrt font-semibold text-[23px]">به شرح مواد زير منعقد گرديد</p>
         <h3 className="font-bold mb-2 text-[23px]">ماده 2) تعاریف</h3>
@@ -101,7 +106,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           مشخص‌ اقدام می‌نماید. مدت زمان مذکور با صلاحدید عامل‌ می‌تواند تمدید گردد.
         </p>
         <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">4) موقعیت کمپین:</span>
+          <span className="font-bold text-[23px]">4) موفقیت کمپین:</span>
           منظور تأمین‌ مالی‌ طرح به‌ میزان حداقل‌ مبلغ‌ تأمین‌ مالی‌ قابل‌ پذیرش که‌ در فراخوان
           جمع‌آوري وجوه اعلام شده است‌.
         </p>
@@ -133,13 +138,13 @@ const Page1 = ({ agencyContract, qrValue }) => {
           <span className="font-bold text-[23px]">1) </span>
           ارائه‌ خدمات مشاوره تأمین‌ مالی‌ به‌ متقاضی‌ از طریق‌ طراحی‌ شیوة تأمین‌ مالی‌ و تهیه‌
           گزارش مورد نیاز جهت‌ انتشار گواهی‌هاي شراکت‌ تأمین‌ مالی‌ جمعی‌ توسط‌ عامل برای طرح
-          {agencyContract?.investor_request?.suggestion_plan_name}
+          <strong>{agencyContract?.investor_request?.suggestion_plan_name}</strong>
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) </span>
-          در مدل تأمین‌ مالی‌ شناور، در صورت جمع‌آوري وجوه به‌ میزان درصد مشخصی‌ از مبلغ‌ کل‌ تأمین‌
-          مالی‌، کمپین‌ موفق‌ خواهد شد.{' '}
+          ارائه خدمات بازریابی به متقاضی از طریق طراحی و اجرای کمپین های بازاریابی به منظور فروش
+          گواهی های شراکت به عموم.
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
@@ -148,20 +153,23 @@ const Page1 = ({ agencyContract, qrValue }) => {
           انتشار گواهی‌هاي شراکت‌ تأمین‌ مالی‌ جمعی‌ مطابق‌ با شرایط‌ مندرج در جدول ماده ٥ این‌
           قرارداد. به میزان{' '}
           <strong>
-            {(agencyContract?.investor_request?.amount_of_investment || 0 / 1000).toLocaleString()}{' '}
+            {(
+              (agencyContract?.investor_request?.amount_of_investment || 0) / 1000
+            ).toLocaleString()}{' '}
             گواهی شراکت.
           </strong>
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">4) </span>
-           ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
+          ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
           فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
         </p>
-        <br/>
+        <br />
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد)</span>
+          <br />
           ارائۀ خدمات بازارسازی به متقاضی از طریق طراحی و برنامه‌ریزی کمپین‌های تبلیغاتی به منظور
           فروش گواهی‌های شراکت به اشخاص حقیقی و حقوقی
         </p>
@@ -191,23 +199,24 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
         <p className="mb-3 pr-4">
           <span className="font-bold">1) </span>
-          كارمزد طراحي شيوه تأمين مالي و تهيه گزارش توجيهي، جهت انتشار و فروش گواهي شراكت،{' '}
+          کارمزد طراحی شیوه تامین مالی و تهیه گزارش توجیحی به منظور فراهم نمودن مقدمات اخذ مجوز از
+          شرکت فرابورس ایران جهت انتشار و فروش گواهی شراکت به دارندگان گواهی های شراکت
           <strong>
             {Number(agencyContract.investor_request.design_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
-          كه متقاضي متعهد است همزمان با امضاي قرارداد، در قالب نقدي در وجه عامل به حساب شماره
-          3002.115.15884588.1 و شماره شبا 4705703002115158845881 به نام شركت سبدگردان ایساتیس پویا
-          کیش واريز نمايد IR.
+          <span className="font-bold">
+            كه متقاضي متعهد است همزمان با امضاي قرارداد، در قالب نقدي در وجه عامل به حساب شماره
+            3002.115.15884588.1 نزد بانک پاسارگاد بلوار جمهوری و شماره شبا IR4705703002115158845881 به
+            نام شركت سبدگردان ایساتیس پویا کیش واريز نمايد IR.
+          </span>
         </p>
         <p className="mb-3 pr-4">
-          <span className="font-bold">:تبصره1</span>
+          <span className="font-bold">تبصره 1 :</span>
           در صورت عدم واريز كارمزد بند 4-1 اين ماده حداكثر طي 10 روز كاري از تاريخ اين قرارداد، عامل
           تعهدي نسبت به انجام موضوع قرارداد نداشته و مخير به فسخ قرارداد ميباشد و متقاضي متعهد به
           اجراي بند ١-١ مادة ٩ اين قرارداد ميباشد.
         </p>
-
-       
       </div>
     </div>
   );

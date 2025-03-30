@@ -23,20 +23,43 @@ const PrintableLayout = ({
     const printStyles = `
       <style>
         @media print {
-          body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-          }
-          .print-container {
-            padding: 20px;
-            max-width: 100%;
-          }
-          .no-print {
-            display: none !important;
-          }
           @page {
             size: A4;
             margin: 1.5cm;
+            margin-header: 0;
+            margin-footer: 0;
+          }
+          
+          body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+          }
+
+          @page :first {
+            margin-top: 0;
+          }
+          
+          @page {
+            size: auto;
+            margin: 0mm;
+          }
+          
+          html {
+            -webkit-print-color-adjust: exact;
+          }
+          
+          .no-print {
+            display: none !important;
+          }
+          
+          .print-container {
+            padding: 20px;
+            max-width: 100%;
+            box-shadow: none !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
         }
       </style>
