@@ -63,19 +63,19 @@ const Page4 = ({ agencyContract }) => {
               متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
               مبلغ{' '}
               <strong>
-                {Number(Number(agencyContract.warranty_check || 0) / 1000000).toLocaleString()}{' '}
+                {Math.floor(Number(agencyContract.warranty_check || 0) / 1000000).toLocaleString()}{' '}
                 میلیون ریال{' '}
               </strong>
               ،{' '}
               <strong>
-                {Number(
+                {Math.floor(
                   agencyContract.investor_request.amount_of_investment / 1000000
                 ).toLocaleString()}{' '}
                 میلیون ریال{' '}
               </strong>
               بابت اصل مبلغ تأمين مالي{' '}
               <strong>
-                {Number(
+                {Math.floor(
                   (agencyContract.warranty_check -
                     agencyContract.investor_request.amount_of_investment) /
                     1000000
@@ -87,7 +87,7 @@ const Page4 = ({ agencyContract }) => {
               دارندگان گواهي شراكت) كه پس از موفقيت كمپين توسط عامل به متقاضي اعلام ميگردد، به عامل
               تحويل نمايد.
             </td>
-          </tr>
+            </tr>
 
           <tr>
             <td className="border border-gray-300">11</td>
