@@ -58,7 +58,7 @@ const Page4 = ({ agencyContract }) => {
 
           <tr>
             <td className="border border-gray-300 text-[22px]">10</td>
-            <td className="border border-gray-300 text-[22px]">موعد چک هاي پرداخت اقساط </td>
+            <td className="border border-gray-300 text-[22px]">مواعد چک هاي پرداخت اقساط </td>
             <td className="border border-gray-300 text-[22px]">
               متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
               مبلغ{' '}
@@ -219,7 +219,6 @@ const Page4 = ({ agencyContract }) => {
           گردد، بر عهده متقاضي بوده و وي مسئول تمامي خسارتهاي ناشي از اين موضوع است.{' '}
         </p>
 
-
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">13)</span>
           متقاضي اقرار و تعهد مي كند كه دعاوي مؤثر با اهميت حقوقي يا كيفري عليه شركت، اعضاي هيات
@@ -228,9 +227,6 @@ const Page4 = ({ agencyContract }) => {
           بند ٣-١ مادة ٩ اين قرارداد ميباشد. متقاضي به موجب اين بند حق هرگونه ادعايي در اين خصوص را
           از خود سلب و اسقاط نمود.
         </p>
-
-
-
       </div>
     </div>
   );
