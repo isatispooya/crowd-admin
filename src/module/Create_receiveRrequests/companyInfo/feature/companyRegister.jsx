@@ -98,9 +98,9 @@ const CompanyRegister = ({ data }) => {
       value: paymentPeriod,
       onChange: (e) => handleFieldChange(e, 'payment_period'),
       options: [
-        { value: '0', label: 'پرداخت آخر کار' },
-        { value: '1', label: 'پرداخت یک ماه یکبار' },
-        { value: '3', label: 'پرداخت سه ماه یکبار' },
+        { value: '0', label: 'پرداخت یکجا' },
+        { value: '1', label: 'پرداخت یک ماهه' },
+        { value: '3', label: 'پرداخت سه ماهه' },
       ],
     },
   ];
