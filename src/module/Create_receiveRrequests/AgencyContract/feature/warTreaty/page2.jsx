@@ -9,12 +9,15 @@ const Page2 = ({ agencyContract }) => {
       <div className="text-justify leading-relaxed text-[23px] ">
         <br />
         <p className="text-justify leading-relaxed text-[23px]">
-          2) شرکت گروه سیوان تجارت یزد (سهامی خاص) به شمارۀ شناسۀ ملی <strong>14014205223</strong>،
-          کد اقتصادی <strong>14014205223</strong>، و شماره ثبت <strong>24904</strong> نزد اداره ثبت
-          شركت ها و موسسات غيرتجاري يزد، استان يزد، شهرستان يزد، بخش مركزي، شهر يزد، صفاييه، خيابان
-          پژوهش، خيابان 10دانشگاه[بهار]، پلاك 0، ساختمان مجتمع مسكوني رزلند(ROSE LAND)، بلوك A، طبقه
-          4، واحد 403، کدپستی <strong>8915834258</strong>، شماره تماس 38255950-035، و با نمایندگی
-          آقای مجید حاجی زاده به شماره ملی
+          2) شرکت {agencyContract.investor_request.title} (سهامی خاص) به شمارۀ شناسۀ ملی{' '}
+          <strong>{agencyContract.investor_request.national_id}</strong>، کد اقتصادی{' '}
+          <strong>{agencyContract.investor_request.economic_code}</strong>، و شماره ثبت{' '}
+          <strong>{agencyContract.investor_request.registration_number}</strong> نزد اداره
+          ثبت شركت ها و موسسات غيرتجاري يزد، استان يزد، شهرستان يزد، بخش مركزي، شهر يزد، صفاييه،
+          خيابان شركت ها و موسسات غيرتجاري يزد، استان يزد، شهرستان يزد، بخش مركزي، شهر يزد، صفاييه،
+          خيابان پژوهش، خيابان 10دانشگاه[بهار]، پلاك 0، ساختمان مجتمع مسكوني رزلند(ROSE LAND)، بلوك
+          A، طبقه 4، واحد 403، کدپستی <strong>8915834258</strong>، شماره تماس 38255950-035، و با
+          نمایندگی آقای مجید حاجی زاده به شماره ملی
           <strong>4420356960</strong> به سمت مدیرعامل و رئیس هیئت‌مدیره به عنوان صاحب امضای مجاز بر
           اساس روزنامه رسمی شماره <strong>23274</strong> شهرستان مورخ <strong>29/11/1403</strong> که
           در این قرارداد،
