@@ -18,6 +18,7 @@ const useCompanyInfoStore = create((set, get) => ({
   registerInfo: {
     suggestion_plan_name: '',
     amount_of_investment: '',
+    refund_of_plan: '0',
   },
   boardMembers: [],
   boardMembersFiles: {},
@@ -37,6 +38,7 @@ const useCompanyInfoStore = create((set, get) => ({
     account_turnover: null,
     shareholder_list: null,
     three_recent_buying_and_selling_factors: null,
+    execution_resume: null,
   },
   contract: {
     otc_fee: '',
@@ -330,6 +332,10 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
       }
 
+      if (state.registerInfo.refund_of_plan) {
+        formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
+      }
+
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value && state.isActualFile(value)) {
           formData.append(key, value);
@@ -375,6 +381,10 @@ const useCompanyInfoStore = create((set, get) => ({
       }
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
+      }
+
+      if (state.registerInfo.refund_of_plan) {
+        formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
       }
 
       set({ isLoading: false });
@@ -525,6 +535,7 @@ const useCompanyInfoStore = create((set, get) => ({
       registerInfo: {
         suggestion_plan_name: '',
         amount_of_investment: '',
+        refund_of_plan: '0',
       },
       boardMembers: [],
       boardMembersFiles: {},
@@ -544,6 +555,7 @@ const useCompanyInfoStore = create((set, get) => ({
         account_turnover: null,
         shareholder_list: null,
         three_recent_buying_and_selling_factors: null,
+        execution_resume: null,
       },
       contract: {
         otc_fee: '',
@@ -705,6 +717,7 @@ const useCompanyInfoStore = create((set, get) => ({
       registerInfo: {
         suggestion_plan_name: defaultValue(data.suggestion_plan_name),
         amount_of_investment: defaultValue(data.amount_of_investment),
+        refund_of_plan: defaultValue(data.refund_of_plan, '0'),
       },
       boardMembers: data.company_members || [],
       boardMembersFiles,
@@ -723,9 +736,8 @@ const useCompanyInfoStore = create((set, get) => ({
         balance_sheet: defaultValue(data.balance_sheet),
         account_turnover: defaultValue(data.account_turnover),
         shareholder_list: defaultValue(data.shareholder_list),
-        three_recent_buying_and_selling_factors: defaultValue(
-          data.three_recent_buying_and_selling_factors
-        ),
+        three_recent_buying_and_selling_factors: defaultValue(data.three_recent_buying_and_selling_factors),
+        execution_resume: defaultValue(data.execution_resume),
       },
       contract: {
         otc_fee: defaultValue(data.otc_fee),

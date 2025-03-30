@@ -6,13 +6,13 @@ import { OnRun } from 'src/api/OnRun';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const AdditionalInformation = ({ data }) => {
-  const { 
-    additionalInfo, 
-    updateAdditionalInfoFile, 
+  const {
+    additionalInfo,
+    updateAdditionalInfoFile,
     interest_rate_plan,
     buoyancy_plan,
     updateNumberField,
-    initializeStore 
+    initializeStore,
   } = useCompanyInfoStore();
 
   useEffect(() => {
@@ -40,6 +40,12 @@ const AdditionalInformation = ({ data }) => {
       id: 'three_recent_buying_and_selling_factors',
       label: 'سه فاکتور خرید و فروش اخیر',
       value: data?.three_recent_buying_and_selling_factors,
+    },
+
+    {
+      id: 'execution_resume',
+      label: 'سوابق اجرایی',
+      value: data?.execution_resume,
     },
   ];
 
@@ -98,7 +104,7 @@ const AdditionalInformation = ({ data }) => {
                 value={id === 'interest_rate_plan' ? interest_rate_plan || '' : buoyancy_plan || ''}
                 onChange={(e) => handleNumberChange(id, e)}
                 inputProps={{
-                  pattern: '[0-9]+(\\.[0-9]+)?'
+                  pattern: '[0-9]+(\\.[0-9]+)?',
                 }}
               />
             </Box>
