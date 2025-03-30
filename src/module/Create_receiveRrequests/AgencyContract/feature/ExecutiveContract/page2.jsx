@@ -197,7 +197,14 @@ const Page2 = ({ agencyContract }) => {
                 واحد مالی عامل باشد، ارائه نماید، همچنین متقاضی متعهد است 2 فقره چک ضمانت صیادی طرح
                 جدید را جمعاً به مبلغ{' '}
                 <strong>
-                  {Number(agencyContract.warranty_check || 0).toLocaleString()} میلیون ریال
+                  {Number(
+                    (agencyContract.investor_request.amount_of_investment +
+                      (agencyContract.investor_request.amount_of_investment *
+                        agencyContract.investor_request.interest_rate_plan) /
+                        100) /
+                      1000000 || 0
+                  ).toLocaleString()}{' '}
+                  میلیون ریال{'  '}
                 </strong>
                 (یک فقره چک به میزان اصل مبلغ تأمین مالی و یک فقره چک به میزان یک فرع از اقساط مبلغ
                 تأمین مالی) از ضامن دریافت و حداکثر یک روز کاری پس از موفقیت کمین و جمع آوری وجوه به
