@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import MenuItem from '@mui/material/MenuItem';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyRegister = ({ data }) => {
@@ -15,6 +16,7 @@ const CompanyRegister = ({ data }) => {
   const [investmentError, setInvestmentError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [planName, setPlanName] = useState('');
+  const [paymentPeriod, setPaymentPeriod] = useState('0');
 
   const MIN_INVESTMENT = 50000000000;
   const MAX_INVESTMENT = 250000000000;
@@ -26,11 +28,16 @@ const CompanyRegister = ({ data }) => {
       setPlanName(data.suggestion_plan_name);
       updateRegisterInfo('suggestion_plan_name', data.suggestion_plan_name);
     }
-    
+
     if (data?.amount_of_investment) {
       setInvestmentValue(formatNumber(data.amount_of_investment));
       updateRegisterInfo('amount_of_investment', data.amount_of_investment);
       validateInvestment(data.amount_of_investment);
+    }
+
+    if (data?.refund_of_plan) {
+      setPaymentPeriod(data.refund_of_plan);
+      updateRegisterInfo('refund_of_plan', data.refund_of_plan);
     }
   }, [data, updateRegisterInfo]);
 
@@ -69,6 +76,9 @@ const CompanyRegister = ({ data }) => {
     const { value } = e.target;
     if (fieldId === 'suggestion_plan_name') {
       setPlanName(value);
+    } else if (fieldId === 'payment_period') {
+      setPaymentPeriod(value);
+      updateRegisterInfo('refund_of_plan', value);
     }
     updateRegisterInfo(fieldId, value);
   };
@@ -80,6 +90,18 @@ const CompanyRegister = ({ data }) => {
       type: 'text',
       value: planName,
       onChange: (e) => handleFieldChange(e, 'suggestion_plan_name'),
+    },
+    {
+      id: 'payment_period',
+      label: 'دوره بازپرداخت',
+      type: 'select',
+      value: paymentPeriod,
+      onChange: (e) => handleFieldChange(e, 'payment_period'),
+      options: [
+        { value: '0', label: 'پرداخت آخر کار' },
+        { value: '1', label: 'پرداخت یک ماه یکبار' },
+        { value: '3', label: 'پرداخت سه ماه یکبار' },
+      ],
     },
   ];
   return (
@@ -99,23 +121,40 @@ const CompanyRegister = ({ data }) => {
               <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
               {field.label}
             </Typography>
-            <TextField
-              value={field.value}
-              onChange={field.onChange}
-              fullWidth
-              type={field.type}
-              required
-              id={field.id}
-              variant="outlined"
-            />
+            {field.type === 'select' ? (
+              <TextField
+                select
+                value={field.value}
+                onChange={field.onChange}
+                fullWidth
+                required
+                id={field.id}
+                variant="outlined"
+              >
+                {field.options.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            ) : (
+              <TextField
+                value={field.value}
+                onChange={field.onChange}
+                fullWidth
+                type={field.type}
+                required
+                id={field.id}
+                variant="outlined"
+              />
+            )}
           </Grid>
         ))}
 
         <Grid item xs={12} md={6}>
           <Typography variant="p" sx={{ fontSize: '15px' }}>
             <span style={{ color: 'navy', marginLeft: '5px', fontSize: '20px' }}>•</span>
-           مبلغ تامین مالی
-           (ریال)
+            مبلغ تامین مالی (ریال)
           </Typography>
           <TextField
             value={investmentValue}

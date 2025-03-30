@@ -18,6 +18,7 @@ const useCompanyInfoStore = create((set, get) => ({
   registerInfo: {
     suggestion_plan_name: '',
     amount_of_investment: '',
+    refund_of_plan: '0',
   },
   boardMembers: [],
   boardMembersFiles: {},
@@ -330,6 +331,10 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
       }
 
+      if (state.registerInfo.refund_of_plan) {
+        formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
+      }
+
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value && state.isActualFile(value)) {
           formData.append(key, value);
@@ -375,6 +380,10 @@ const useCompanyInfoStore = create((set, get) => ({
       }
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
+      }
+
+      if (state.registerInfo.refund_of_plan) {
+        formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
       }
 
       set({ isLoading: false });
@@ -525,6 +534,7 @@ const useCompanyInfoStore = create((set, get) => ({
       registerInfo: {
         suggestion_plan_name: '',
         amount_of_investment: '',
+        refund_of_plan: '0',
       },
       boardMembers: [],
       boardMembersFiles: {},
@@ -705,6 +715,7 @@ const useCompanyInfoStore = create((set, get) => ({
       registerInfo: {
         suggestion_plan_name: defaultValue(data.suggestion_plan_name),
         amount_of_investment: defaultValue(data.amount_of_investment),
+        refund_of_plan: defaultValue(data.refund_of_plan, '0'),
       },
       boardMembers: data.company_members || [],
       boardMembersFiles,
