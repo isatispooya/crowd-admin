@@ -146,6 +146,7 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
         </p>
+         
         <br />
       </div>
     </div>
