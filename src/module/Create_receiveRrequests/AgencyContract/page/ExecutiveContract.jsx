@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
-import { OnRun } from 'src/api/OnRun';
+import generatePDF from 'react-to-pdf';
 import useAgencyContract from '../hooks/useAgencyContract';
 import { PAGES } from '../feature/ExecutiveContract';
 
@@ -27,6 +27,7 @@ const printStyles = `
 const ExecutiveContract = () => {
   const { uuid } = useParams();
   const [finalUuid, setFinalUuid] = useState('');
+  const targetRef = useRef();
 
   useEffect(() => {
     if (uuid && uuid !== 'undefined') {
@@ -47,20 +48,6 @@ const ExecutiveContract = () => {
       { person_title: 'سیدعلیمحمد خبیری', position_title: 'مدیر عامل' },
       { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
     ];
-
-    const allSignatories = [...staticUsers];
-
-    if (signatoryMembers.length > 0) {
-      signatoryMembers.forEach((member) => {
-        const isDuplicate = staticUsers.some((user) => user.person_title === member.person_title);
-        if (!isDuplicate) {
-          allSignatories.push({
-            person_title: member.person_title,
-            position_title: member.position_title,
-          });
-        }
-      });
-    }
 
     return (
       <div className="absolute bottom-0 left-0 right-0">
@@ -110,26 +97,43 @@ const ExecutiveContract = () => {
     );
   };
 
-  if (!agencyContract) return null;
+  const options = {
+    filename: 'my-file.pdf',
+    page: {
+      format: 'A4',
+      orientation: 'portrait',
+      margin: 0,
+    },
+  };
 
   return (
-    <div className="contract-container">
+    <div>
       <style>{printStyles}</style>
 
-      {PAGES.map((PageComponent, index) => (
-        <div key={`page-${index}`} className={index > 0 ? 'page-break-before' : ''}>
-          <PrintableContractLayout footerChildren={renderFooterSignatures()}>
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]"
-            >
-              <PageComponent data={agencyContract} />
-            </motion.div>
-          </PrintableContractLayout>
-        </div>
-      ))}
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded-md mx-auto flex justify-center items-center w-80 mb-8 "
+        type="button"
+        onClick={() => generatePDF(targetRef, options)}
+      >
+        چاپ
+      </button>
+
+      <div className="contract-container" ref={targetRef}>
+        {PAGES.map((PageComponent, index) => (
+          <div key={`page-${index}`} className="mb-8">
+            <PrintableContractLayout footerChildren={renderFooterSignatures()}>
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 * index }}
+                className="bg-white rounded-lg shadow-sm text-sm border border-gray-100"
+              >
+                <PageComponent data={agencyContract} />
+              </motion.div>
+            </PrintableContractLayout>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

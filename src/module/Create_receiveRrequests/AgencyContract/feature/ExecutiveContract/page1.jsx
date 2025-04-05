@@ -139,9 +139,9 @@ const Page1 = ({ data }) => {
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">شرح</th>
-              <th className="border border-gray-300 p-2 text-left">مبلغ (دوره سه ماهه)</th>
-              <th className="border border-gray-300 p-2 text-left">مبلغ (سالیانه)</th>
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">مبلغ (دوره سه ماهه)</th>
+              <th className="border border-gray-300 p-2 text-right">مبلغ (سالیانه)</th>
             </tr>
           </thead>
           <tbody>
@@ -176,9 +176,9 @@ const Page1 = ({ data }) => {
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">شرح</th>
-              <th className="border border-gray-300 p-2 text-left">سالیانه</th>
-              <th className="border border-gray-300 p-2 text-left">دوره سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سالیانه</th>
+              <th className="border border-gray-300 p-2 text-right">دوره سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
             </tr>
           </thead>
           <tbody>

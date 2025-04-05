@@ -71,8 +71,8 @@ const Page2 = ({ data, qrValue }) => {
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">شرح</th>
-              <th className="border border-gray-300 p-2 text-left">سال 1404</th>
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">سال 1404</th>
             </tr>
           </thead>
           <tbody>
@@ -123,10 +123,10 @@ const Page2 = ({ data, qrValue }) => {
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">نسبت تسهیم سود</th>
-              <th className="border border-gray-300 p-2 text-left">رنج بازدهی</th>
+              <th className="border border-gray-300 p-2 text-right">نسبت تسهیم سود</th>
+              <th className="border border-gray-300 p-2 text-right">رنج بازدهی</th>
               {one_year_return_on_investment?.map((item, index) => (
-                <th key={index} className="border border-gray-300 p-2 text-left">
+                <th key={index} className="border border-gray-300 p-2 text-right">
                   {item?.rate_from || '0'} تا {item?.rate_to || '0'}
                 </th>
               ))}
