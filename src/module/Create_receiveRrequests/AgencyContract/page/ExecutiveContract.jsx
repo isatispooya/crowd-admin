@@ -36,23 +36,7 @@ const ExecutiveContract = () => {
 
   const { data: agencyContract } = useAgencyContract(finalUuid);
 
-  const renderHeaderContent = () => {
-    if (!agencyContract) return null;
 
-    return (
-      <div className="flex flex-col gap-1 text-left">
-        {agencyContract.investor_request?.logo && (
-          <div className="mb-1">
-            <img
-              src={OnRun + agencyContract.investor_request.logo}
-              alt="Investor Logo"
-              className="h-20 object-contain"
-            />
-          </div>
-        )}
-      </div>
-    );
-  };
 
   const renderFooterSignatures = () => {
     if (!agencyContract || !agencyContract.company_members) return null;
@@ -110,7 +94,7 @@ const ExecutiveContract = () => {
       {PAGES.map((PageComponent, index) => (
         <div key={`page-${index}`} className={index > 0 ? 'page-break-before' : ''}>
           <PrintableContractLayout
-            headerChildren={renderHeaderContent()}
+    
             footerChildren={renderFooterSignatures()}
           >
             <motion.div

@@ -13,46 +13,37 @@ const Page1 = ({ data }) => {
   if (!data) return null;
 
   const renderHeaderContent = () => {
-    const { investor_request, company } = data;
-    const logoSrc = investor_request?.logo ? `${OnRun}${investor_request.logo}` : '';
-    const contractNumber = investor_request?.contract_number || 'N/A';
-    const agreementDate =
-      investor_request?.agency_agreement_date?.split('T')[0].replace(/-/g, '/') || 'N/A';
+    if (!data) return null;
 
     return (
-      <div className="flex flex-col gap-4 text-left p-4">
-        <div className="flex items-center justify-between relative">
-          <img
-            src={crowdlogo}
-            alt="Company Logo"
-            className="h-32 object-contain"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
+      <div className="flex flex-col gap-1 text-left">
+        {data.investor_request?.logo && (
+          <div className="mb-1 flex items-center relative">
+            <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
+              شماره قرارداد: {data.investor_request?.contract_number || ''}
+              <br />
+              تاریخ:{' '}
+              {data.investor_request?.agency_agreement_date
+                .split('T')[0]
+                .replace(/-/g, '/')}
+            </div>
 
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-center">
-            <h3 className="font-bold text-[23px] mb-2">بسمه تعالی</h3>
-            <h3 className="text-[23px]">قرارداد عاملیت {company?.title || ''} (سهامی خاص)</h3>
-          </div>
+            <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
 
-          {logoSrc && (
+            <div className="flex flex-col items-center mx-auto">
+              <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
+              <h3 className=" text-[22px]">
+                قرارداد اجرایی {data.company?.title} (سهامی خاص)
+              </h3>
+            </div>
+
             <img
-              src={logoSrc}
+              src={OnRun + data.investor_request.logo}
               alt="Investor Logo"
-              className="h-32 object-contain"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
+              className="h-32 mt-4"
             />
-          )}
-
-          <div className="text-[23px] font-bold text-left mt-4">
-            شماره قرارداد: {contractNumber}
-            <br />
-            تاریخ: {agreementDate}
           </div>
-        </div>
+        )}
       </div>
     );
   };
@@ -62,6 +53,7 @@ const Page1 = ({ data }) => {
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
+        {renderHeaderContent()}
         <h2 className="text-[23px] font-bold mb-2">ماده 1) طرفین قرارداد</h2>
         <p className="text-[23px]  mt-4 mb-2">
           1-1. این قرارداد میان:
@@ -137,12 +129,7 @@ const Page1 = ({ data }) => {
     );
   };
 
-  return (
-    <div className="contract-page page-1">
-      {renderHeaderContent()}
-      {renderContractClauses()}
-    </div>
-  );
+  return <div className="contract-page page-1">{renderContractClauses()}</div>;
 };
 
 Page1.propTypes = {
