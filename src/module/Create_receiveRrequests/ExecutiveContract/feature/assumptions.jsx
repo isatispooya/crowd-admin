@@ -58,7 +58,6 @@ const Assumptions = ({ allData }) => {
     }
   }, [responseData, cartId]);
 
-
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
