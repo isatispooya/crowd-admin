@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OnRun } from 'src/api/OnRun';
-import crowdlogo from './crowdlogo.png';
 
 const Page3 = ({ data }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const { investor_request, one_year_return_on_investment, checks } = data;
+    const { investor_request, checks } = data;
 
-    const formatPercentage = (value) => (value ? `${value}%` : '0%');
+   
 
     const formatNumber = (amount) => {
       if (!amount) return '0';
@@ -218,6 +216,16 @@ Page3.propTypes = {
       uniqueIdentifier: PropTypes.string,
       signture_document: PropTypes.string,
     }),
+    checks: PropTypes.arrayOf(
+      PropTypes.shape({
+        fishing_id: PropTypes.string,
+        date: PropTypes.string,
+        amount: PropTypes.number,
+        bank_name: PropTypes.string,
+        branch_name: PropTypes.string,
+        type: PropTypes.string,
+      })
+    ),
   }).isRequired,
 };
 

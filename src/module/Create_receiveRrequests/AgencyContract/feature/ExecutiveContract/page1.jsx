@@ -228,6 +228,16 @@ Page1.propTypes = {
       uniqueIdentifier: PropTypes.string,
       signture_document: PropTypes.string,
     }),
+    company_cost: PropTypes.shape({
+      description: PropTypes.string,
+      amount_of_months: PropTypes.number,
+      amount_of_year: PropTypes.number,
+    }),
+    profit_and_loss_forecast: PropTypes.shape({
+      description: PropTypes.string,
+      amount_of_months: PropTypes.number,
+      amount_of_year: PropTypes.number,
+    }),
   }).isRequired,
 };
 

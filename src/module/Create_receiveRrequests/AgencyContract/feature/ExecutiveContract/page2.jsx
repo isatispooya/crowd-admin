@@ -5,12 +5,8 @@ const Page2 = ({ data, qrValue }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const formatMillionRials = (value) =>
-      value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
-
     const { investor_request, one_year_return_on_investment } = data;
 
-    
     const formatPercentage = (value) => (value ? `${value}%` : '0%');
 
     const formatNumber = (amount) => {
@@ -161,8 +157,6 @@ const Page2 = ({ data, qrValue }) => {
         <p className="mt-4 text-[23px]">
           نرخ بازده سرمایه‌گذار: {formatPercentage(45)}-{formatPercentage(47)}
         </p>
-
-
       </div>
     );
   };
@@ -209,6 +203,14 @@ Page2.propTypes = {
       uniqueIdentifier: PropTypes.string,
       signture_document: PropTypes.string,
     }),
+    one_year_return_on_investment: PropTypes.arrayOf(
+      PropTypes.shape({
+        rate_from: PropTypes.number,
+        rate_to: PropTypes.number,
+        share_company: PropTypes.number,
+        share_investor: PropTypes.number,
+      })
+    ),
   }).isRequired,
   qrValue: PropTypes.string,
 };
