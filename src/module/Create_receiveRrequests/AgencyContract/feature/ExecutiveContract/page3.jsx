@@ -26,8 +26,9 @@ const Page4 = ({ agencyContract }) => {
               <strong>
                 {Math.floor(
                   Number(
-                    agencyContract.investor_request.amount_of_investment *
-                      (1 + agencyContract.investor_request.interest_rate_plan / 100) || 0
+                    (agencyContract.investor_request.amount_of_investment * 0.9) *
+                      (agencyContract.investor_request.interest_rate_plan / 100) +
+                      agencyContract.investor_request.amount_of_investment  || 0
                   ) / 1000000
                 ).toLocaleString()}{' '}
                 میلیون ریال{' '}
@@ -42,10 +43,10 @@ const Page4 = ({ agencyContract }) => {
               بابت اصل مبلغ تأمين مالي{' '}
               <strong>
                 {Math.floor(
-                  (
-                    (agencyContract.investor_request.amount_of_investment * 0.9) *
-                    ( agencyContract.investor_request.interest_rate_plan / 100)
-                  ) / 1000000
+                  (agencyContract.investor_request.amount_of_investment *
+                    0.9 *
+                    (agencyContract.investor_request.interest_rate_plan / 100)) /
+                    1000000
                 ).toLocaleString()}{' '}
                 میلیون ریال{' '}
               </strong>
