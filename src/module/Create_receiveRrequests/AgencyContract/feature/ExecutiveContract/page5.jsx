@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 
 const Page13 = ({ data }) => {
   if (!data) return null;
-  console.log(data);
 
   return (
     <div className="contract-page page-1">
@@ -120,7 +119,6 @@ const Page13 = ({ data }) => {
           قرارداد از تاریخ موفقیت کمپین با مهلت ارائه صورت‌های مالی حداکثر 20 روز پس از تاریخ‌های
           اعلام شده توسط عامل اقدام نماید.
         </p>
-
       </div>
     </div>
   );

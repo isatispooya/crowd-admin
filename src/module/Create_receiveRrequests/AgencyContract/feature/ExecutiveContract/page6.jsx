@@ -3,7 +3,10 @@ import { PropTypes } from 'prop-types';
 
 const Page13 = ({ data }) => {
   if (!data) return null;
-  console.log(data);
+  const formatNumber = (num) => {
+    if (!num) return '0';
+    return (num / 1000000).toLocaleString('en-US');
+  };
 
   return (
     <div className="contract-page page-1">
@@ -19,13 +22,13 @@ const Page13 = ({ data }) => {
           مواعد ارائه گزارش‌های دوره‌ای و صورت‌های مالی طرح موضوع قرارداد، پس از موفقیت کمپین توسط
           عامل طی نامه کتبی به متقاضی اعلام می‌گردد و متقاضی متعهد به ارائه آنها است. در صورت عدم
           ارائه موارد مطروحه در بندهای 20، 21 و22 این ماده در مواعد مقرر، متقاضی ملزم به پرداخت وجه
-          التزام روزانه به مبلغ 20,000,000 (بیست میلیون ریال) به ازای هر روز تأخیر خواهد بود.
+          التزام روزانه به مبلغ {formatNumber(20000000)} (بیست میلیون ریال) به ازای هر روز تأخیر خواهد بود.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
           <span className="font-bold text-[23px]">تبصره 19:</span>
           در صورت ارائه گزارش‌ها و صورت‌های مالی صوری و خلاف واقع توسط متقاضی، متقاضی ملزم به پرداخت
-          وجه التزام به مبلغ 500,000,000 ریال معادل (پانصد میلیون ریال) خواهد بود و متعهد است سریعاً
+          وجه التزام به مبلغ {formatNumber(500000000)} ریال معادل (پانصد میلیون ریال) خواهد بود و متعهد است سریعاً
           ظرف مدت حداکثر 5 روز کاری نسبت به اصلاح گزارش/صورت مالی اقدام نماید. در صورت عدم ارائه
           گزارش/صورت مالی اصلاح شده در موعد مقرر که به تأیید عامل نیز رسیده باشد، عامل می‌تواند
           رأساً نسبت به فسخ قرارداد اقدام نماید و حق شکایت کیفری و حقوقی در خصوص ارائه گزارش و صورت
@@ -119,7 +122,7 @@ const Page13 = ({ data }) => {
                   {data?.investor_request?.type}
                 </td>
                 <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.amount_of_investment}
+                  {formatNumber(data?.investor_request?.amount_of_investment)}
                 </td>
                 <td className="border border-black p-2 text-center">
                   {data?.investor_request?.date}
@@ -156,35 +159,35 @@ const Page13 = ({ data }) => {
                 <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
                 <td className="border border-black p-2 text-center">تضمین اصل مبلغ تامین مالی</td>
                 <td className="border border-black p-2 text-center">7181970240935493</td>
-                <td className="border border-black p-2 text-center">250,000</td>
+                <td className="border border-black p-2 text-center">{formatNumber(250000000000)}</td>
               </tr>
               <tr>
                 <td className="border border-black p-2 text-center">1 فقره چک</td>
                 <td className="border border-black p-2 text-center">جهت تضمین فرع</td>
                 <td className="border border-black p-2 text-center">تضمین یک فرع از فرعیات</td>
                 <td className="border border-black p-2 text-center">8207970240935494</td>
-                <td className="border border-black p-2 text-center">25,727</td>
+                <td className="border border-black p-2 text-center">{formatNumber(25727000000)}</td>
               </tr>
               <tr>
                 <td className="border border-black p-2 text-center">1 فقره چک</td>
                 <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
                 <td className="border border-black p-2 text-center">تضمین اصل مبلغ تامین مالی</td>
                 <td className="border border-black p-2 text-center">3253000111022294</td>
-                <td className="border border-black p-2 text-center">250,000</td>
+                <td className="border border-black p-2 text-center">{formatNumber(250000000000)}</td>
               </tr>
               <tr>
                 <td className="border border-black p-2 text-center">1 فقره چک</td>
                 <td className="border border-black p-2 text-center">جهت تضمین فرع</td>
                 <td className="border border-black p-2 text-center">تضمین یک فرع از فرعیات</td>
                 <td className="border border-black p-2 text-center">4514000111022293</td>
-                <td className="border border-black p-2 text-center">25,727</td>
+                <td className="border border-black p-2 text-center">{formatNumber(25727000000)}</td>
               </tr>
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
                 <td className="border border-black p-2 text-center" colSpan="3">
                   555
                 </td>
-                <td className="border border-black p-2 text-center">551,454</td>
+                <td className="border border-black p-2 text-center">{formatNumber(551454000000)}</td>
               </tr>
             </tbody>
           </table>
