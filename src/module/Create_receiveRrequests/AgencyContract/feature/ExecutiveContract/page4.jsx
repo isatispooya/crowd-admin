@@ -7,7 +7,15 @@ const Page4 = ({ data }) => {
   const renderContractClauses = () => {
     const { investor_request, checks } = data;
 
-    const formatRials = (value) => (value ? `${value.toLocaleString('fa')} ریال` : '0 ریال');
+    const formatRials = (value) => {
+      if (!value) return '0 ریال';
+      return `${(value).toLocaleString('en-US')} ریال`;
+    };
+
+    const formatNumber = (num) => {
+      if (!num) return '0';
+      return num.toLocaleString('en-US');
+    };
 
     const totalAmount = checks?.reduce((sum, check) => sum + (check?.amount || 0), 0) || 0;
 
@@ -90,9 +98,9 @@ const Page4 = ({ data }) => {
           خصوص را از خود سلب و اسقاط نمودند.
           <br />
           تبصره 15: با توجه به خرید 10 درصد از گواهی‌های شراکت توسط متقاضی به مبلغ{' '}
-          {investor_request?.amount_of_investment} میلیون ریال، آن گواهی‌های شراکت ابطال و از مجموع
+          {formatNumber(investor_request?.amount_of_investment)} میلیون ریال، آن گواهی‌های شراکت ابطال و از مجموع
           کسر شده و پرداخت اقساط لازم‌الاداء به همان میزان تعدیل می‌شود. بنابراین مبنای پرداخت اقساط
-          بر اساس میزان مشارکت دارندگان گواهی‌های شراکت به مبلغ 225,000 میلیون ریال محاسبه گردیده
+          بر اساس میزان مشارکت دارندگان گواهی‌های شراکت به مبلغ {formatNumber(225000)} میلیون ریال محاسبه گردیده
           است.
         </p>
 

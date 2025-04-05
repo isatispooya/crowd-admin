@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
+const formatAmount = (amount) => {
+  if (!amount) return '0';
+  const millionAmount = amount / 1000000;
+  return millionAmount.toLocaleString('en-US');
+};
+
 const Page1 = ({ data }) => {
   if (!data) return null;
 
@@ -123,12 +129,9 @@ const Page1 = ({ data }) => {
           2. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
           تمام شده خدمات منتهی به 29/12/1402 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
           اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
-          طرح، به‌شرح جدول زیر برآورد می‌گردد. از {investor_request?.amount_of_investment} میلیون
-          ریال بهای تمام شده فروش محصولات در هر چرخۀ عملیاتی{' '}
-          {(investor_request?.amount_of_investment ?? 0) * 0.9} میلیون ریال آن از محل وجوه جمع‌آوری
-          شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از دستمزد و سایر
-          هزینه‌ها و {(investor_request?.amount_of_investment ?? 0) * 0.1} میلیون ریال آن توسط
-          متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
+          طرح، به‌شرح جدول زیر برآورد می‌گردد. از {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش محصولات در هر چرخۀ عملیاتی{' '}
+          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.9)} میلیون ریال آن از محل وجوه جمع‌آوری شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از دستمزد و سایر هزینه‌ها و{' '}
+          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.1)} میلیون ریال آن توسط متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
         </p>
       </div>
     );

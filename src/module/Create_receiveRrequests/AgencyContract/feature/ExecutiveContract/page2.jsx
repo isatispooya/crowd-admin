@@ -8,7 +8,7 @@ const Page2 = ({ data, qrValue }) => {
     const { company, investor_request, company_cost, profit_and_loss_forecast } = data;
 
     const formatMillionRials = (value) =>
-      value ? `${value.toLocaleString('fa')} میلیون ریال` : '0 میلیون ریال';
+      value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
 
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">

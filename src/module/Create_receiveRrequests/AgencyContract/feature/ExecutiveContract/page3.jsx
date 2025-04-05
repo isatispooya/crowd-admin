@@ -11,14 +11,21 @@ const Page3 = ({ data }) => {
 
     const formatPercentage = (value) => (value ? `${value}%` : '0%');
 
+    const formatNumber = (amount) => {
+      if (!amount) return '0';
+      const millionAmount = amount / 1000000;
+      return millionAmount.toLocaleString('en-US');
+    };
+
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
         <p className="text-[23px]">
           تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی حاصل از خرید
-          دو دستگاه تراک 10 چرخ جهت حمل، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری 250,000 میلیون
-          ریال سرمایه در گردش مورد نیاز دستگاه بنز کمپرسی 10 چرخ ایران خودرو، کمتر از 181,588 میلیون
-          ریال سالیانه نخواهد شد. بنابراین هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و
-          متقاضی حق هیچگونه ادعا و مطالبه‌ای در این خصوص نخواهد داشت.
+          دو دستگاه تراک 10 چرخ جهت حمل، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری{' '}
+          {formatNumber(250000000000)} میلیون ریال سرمایه در گردش مورد نیاز دستگاه بنز کمپرسی 10 چرخ
+          ایران خودرو، کمتر از {formatNumber(181588000000)} میلیون ریال سالیانه نخواهد شد. بنابراین
+          هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و متقاضی حق هیچگونه ادعا و
+          مطالبه‌ای در این خصوص نخواهد داشت.
           <br />
           تبصره 2: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
           درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
@@ -74,9 +81,10 @@ const Page3 = ({ data }) => {
 
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 4) مبلغ تأمین مالی</h2>
         <p className="text-[23px]">
-          1. مبلغ تأمین مالی انجام شده برای متقاضی {investor_request?.amount_of_investment} میلیون
-          ریال گواهی شراکت 1,000 ریالی با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ
-          سود علی‌الحساب {investor_request?.interest_rate_plan} درصد سالیانه (
+          1. مبلغ تأمین مالی انجام شده برای متقاضی{' '}
+          {formatNumber(investor_request?.amount_of_investment)} میلیون ریال گواهی شراکت 1,000 ریالی
+          با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ سود علی‌الحساب{' '}
+          {investor_request?.interest_rate_plan} درصد سالیانه (
           {investor_request?.interest_rate_plan && investor_request?.refund_of_plan
             ? (investor_request.interest_rate_plan / investor_request.refund_of_plan || 0).toFixed(
                 2
@@ -86,9 +94,9 @@ const Page3 = ({ data }) => {
           ماه به صورت ماهیانه و پرداخت اصل مبلغ گواهی شراکت در انتهای دوره سرمایه‌گذاری توسط متقاضی
           خواهد بود.
           <br />
-          تبصره: لازم به ذکر است مبلغ {investor_request?.amount_of_investment} میلیون ریال، گواهی
-          شراکت خریداری شده توسط متقاضی از مجموع گواهی‌های شراکت ابطال شده، و بنابراین هیچگونه سود و
-          امتیازی به آن تعلق نمی‌گیرد.
+          تبصره: لازم به ذکر است مبلغ {formatNumber(investor_request?.amount_of_investment)} میلیون
+          ریال، گواهی شراکت خریداری شده توسط متقاضی از مجموع گواهی‌های شراکت ابطال شده، و بنابراین
+          هیچگونه سود و امتیازی به آن تعلق نمی‌گیرد.
         </p>
       </div>
     );
