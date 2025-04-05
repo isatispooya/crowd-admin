@@ -1,16 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { OnRun } from 'src/api/OnRun';
+import crowdlogo from './crowdlogo.png';
 
-const Page1 = ({ data, qrValue }) => {
+const Page1 = ({ data }) => {
   if (!data) return null;
+
+  const renderHeaderContent = () => {
+    const { investor_request, company } = data;
+    const logoSrc = investor_request?.logo ? `${OnRun}${investor_request.logo}` : '';
+    const contractNumber = investor_request?.contract_number || 'N/A';
+    const agreementDate =
+      investor_request?.agency_agreement_date?.split('T')[0].replace(/-/g, '/') || 'N/A';
+
+    return (
+      <div className="flex flex-col gap-4 text-left p-4">
+        <div className="flex items-center justify-between relative">
+          <img
+            src={crowdlogo}
+            alt="Company Logo"
+            className="h-32 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-center">
+            <h3 className="font-bold text-[23px] mb-2">بسمه تعالی</h3>
+            <h3 className="text-[23px]">قرارداد عاملیت {company?.title || ''} (سهامی خاص)</h3>
+          </div>
+
+          {logoSrc && (
+            <img
+              src={logoSrc}
+              alt="Investor Logo"
+              className="h-32 object-contain"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+          )}
+
+          <div className="text-[23px] font-bold text-left mt-4">
+            شماره قرارداد: {contractNumber}
+            <br />
+            تاریخ: {agreementDate}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const renderContractClauses = () => {
     const { company, investor_request, guarantor, company_members } = data;
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
-        <h2 className="text-lg font-bold mb-2">ماده 1) طرفین قرارداد</h2>
-        <p>
+        <h2 className="text-[23px] font-bold mb-2">ماده 1) طرفین قرارداد</h2>
+        <p className="text-[23px]  mt-4 mb-2">
           1-1. این قرارداد میان:
           <br />
           1) {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
@@ -21,22 +68,22 @@ const Page1 = ({ data, qrValue }) => {
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود، از یک طرف،
           <br />
           2) سرکار آقای/خانم {guarantor?.guarantor_name} به کد ملی {guarantor?.national_id} و شماره
-          تماس 09132425229 متولد 10/03/1332 به آدرس تهران تهرانپارس فلکه چهارم شهرک پارس بلوک 15
+          تماس 09132425229 متولد 10/03/1332 به آدرس تهران، تهرانپارس، فلکه چهارم، شهرک پارس، بلوک 15
           واحد 5 به کد پستی 8915693719 که از این پس در این قرارداد به عنوان «ضامن» معرفی می‌گردد.
           <br />
           3) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
-          نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4 واحد 44 شماره تلفن 076-44480555 و کد پستی
-          7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو هیئت
-          مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز بر
-          اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
+          نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4، واحد 44، شماره تلفن 076-44480555 و کد
+          پستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو
+          هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز
+          بر اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
           نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
           متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 1008438/5/03 مورخ 15/05/1403 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
         </p>
 
-        <h2 className="text-lg font-bold mt-4 mb-2">ماده 2) تعاریف</h2>
-        <p>
+        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) تعاریف</h2>
+        <p className="text-[23px]  mt-4 mb-2">
           1-2. طرح: فعالیتی که متقاضی برای انجام آن در خواست تأمین مالی نموده است. مشخصات طرح در
           موضوع قرارداد ارائه گردیده است.
           <br />
@@ -52,8 +99,8 @@ const Page1 = ({ data, qrValue }) => {
           دلیلی بانک‌ها تعطیل می‌باشند، روز کاری محسوب می‌گردد.
         </p>
 
-        <h2 className="text-lg font-bold mt-4 mb-2">ماده 3) موضوع فعالیت</h2>
-        <p>
+        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 3) موضوع فعالیت</h2>
+        <p className="text-[23px]  mt-4 mb-2">
           موضوع قرارداد عبارت است از تامین سرمایه مورد نیاز اجرای طرح «
           {investor_request?.suggestion_plan_name}» این شرکت بر اساس اساسنامه فعالیت آن، به شرح زیر
           توسط متقاضی:
@@ -78,16 +125,21 @@ const Page1 = ({ data, qrValue }) => {
           اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
           طرح، به‌شرح جدول زیر برآورد می‌گردد. از {investor_request?.amount_of_investment} میلیون
           ریال بهای تمام شده فروش محصولات در هر چرخۀ عملیاتی{' '}
-          {investor_request?.amount_of_investment * 0.9} میلیون ریال آن از محل وجوه جمع‌آوری شده از
-          طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از دستمزد و سایر
-          هزینه‌ها و {investor_request?.amount_of_investment * 0.1} میلیون ریال آن توسط متقاضی برای
-          هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
+          {(investor_request?.amount_of_investment ?? 0) * 0.9} میلیون ریال آن از محل وجوه جمع‌آوری
+          شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از دستمزد و سایر
+          هزینه‌ها و {(investor_request?.amount_of_investment ?? 0) * 0.1} میلیون ریال آن توسط
+          متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
         </p>
       </div>
     );
   };
 
-  return <div className="contract-page page-1">{renderContractClauses()}</div>;
+  return (
+    <div className="contract-page page-1">
+      {renderHeaderContent()}
+      {renderContractClauses()}
+    </div>
+  );
 };
 
 Page1.propTypes = {
@@ -117,7 +169,6 @@ Page1.propTypes = {
       signture_document: PropTypes.string,
     }),
   }).isRequired,
-  qrValue: PropTypes.string,
 };
 
 export default Page1;
