@@ -42,7 +42,7 @@ const Contract = ({ data }) => {
 
   const uploadLabels = [
     {
-      id: 'agency_agreement_date',
+      id: 'agency_agreement_date',   
       label: 'تاریخ',
       value: data?.agency_agreement_date,
       type: 'date',
