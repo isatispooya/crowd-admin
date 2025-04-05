@@ -12,6 +12,9 @@ const formatAmount = (amount) => {
 const Page1 = ({ data }) => {
   if (!data) return null;
 
+  const formatMillionRials = (value) =>
+    value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
+
   const renderHeaderContent = () => {
     if (!data) return null;
 
@@ -22,19 +25,14 @@ const Page1 = ({ data }) => {
             <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
               شماره قرارداد: {data.investor_request?.contract_number || ''}
               <br />
-              تاریخ:{' '}
-              {data.investor_request?.agency_agreement_date
-                .split('T')[0]
-                .replace(/-/g, '/')}
+              تاریخ: {data.investor_request?.agency_agreement_date.split('T')[0].replace(/-/g, '/')}
             </div>
 
             <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
 
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
-              <h3 className=" text-[22px]">
-                قرارداد اجرایی {data.company?.title} (سهامی خاص)
-              </h3>
+              <h3 className=" text-[22px]">قرارداد اجرایی {data.company?.title} (سهامی خاص)</h3>
             </div>
 
             <img
@@ -49,7 +47,14 @@ const Page1 = ({ data }) => {
   };
 
   const renderContractClauses = () => {
-    const { company, investor_request, guarantor, company_members } = data;
+    const {
+      company,
+      investor_request,
+      company_cost,
+      guarantor,
+      company_members,
+      profit_and_loss_forecast,
+    } = data;
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
@@ -121,10 +126,75 @@ const Page1 = ({ data }) => {
           2. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
           تمام شده خدمات منتهی به 29/12/1402 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
           اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
-          طرح، به‌شرح جدول زیر برآورد می‌گردد. از {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش محصولات در هر چرخۀ عملیاتی{' '}
-          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.9)} میلیون ریال آن از محل وجوه جمع‌آوری شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از دستمزد و سایر هزینه‌ها و{' '}
-          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.1)} میلیون ریال آن توسط متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
+          طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
+          {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش
+          محصولات در هر چرخۀ عملیاتی{' '}
+          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.9)} میلیون ریال آن از محل
+          وجوه جمع‌آوری شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از
+          دستمزد و سایر هزینه‌ها و{' '}
+          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.1)} میلیون ریال آن توسط
+          متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
         </p>
+        <h2 className="text-[23px] font-bold mb-2">شرح (مبالغ به میلیون ریال)</h2>
+        <table className="w-full border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-left">شرح</th>
+              <th className="border border-gray-300 p-2 text-left">مبلغ (دوره سه ماهه)</th>
+              <th className="border border-gray-300 p-2 text-left">مبلغ (سالیانه)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-2">
+                {company_cost?.description || 'توضیحات'}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(company_cost?.amount_of_months)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(company_cost?.amount_of_year)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          تبصره 1: متقاضی تأیید و اقرار می‌نماید در صورت افزایش بهای تمام‌شدۀ خرید مواد اولیه و سایر
+          موارد موجود در این قرارداد، مابه‌التفاوت بهای تمام‌شدۀ انجام طرح مذکور «
+          {investor_request?.suggestion_plan_name}» را از دارایی‌های خود مجاناً و بلاعوض تأمین
+          نماید. متقاضی بر اساس این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
+        </p>
+
+        <h2 className="text-[23px] font-bold mt-4 mb-2">4- تعهد متقاضی به ایجاد درآمد عملیاتی</h2>
+        <p>
+          متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400 (61,600)
+          میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
+        </p>
+        <h3 className="text-[23px] font-bold mt-2 mb-2">
+          پیش‌بینی سود و زیان (ارقام به میلیون ریال)
+        </h3>
+        <table className="w-full border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-left">شرح</th>
+              <th className="border border-gray-300 p-2 text-left">سالیانه</th>
+              <th className="border border-gray-300 p-2 text-left">دوره سه ماهه</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-2">
+                {profit_and_loss_forecast?.description || 'توضیحات'}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(profit_and_loss_forecast?.amount_of_year)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(profit_and_loss_forecast?.amount_of_months)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   };

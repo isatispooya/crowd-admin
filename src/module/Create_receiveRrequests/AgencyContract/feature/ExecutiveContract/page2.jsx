@@ -5,76 +5,22 @@ const Page2 = ({ data, qrValue }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const { company, investor_request, company_cost, profit_and_loss_forecast } = data;
-
     const formatMillionRials = (value) =>
       value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
 
+    const { investor_request, one_year_return_on_investment } = data;
+
+    
+    const formatPercentage = (value) => (value ? `${value}%` : '0%');
+
+    const formatNumber = (amount) => {
+      if (!amount) return '0';
+      const millionAmount = amount / 1000000;
+      return millionAmount.toLocaleString('en-US');
+    };
+
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-        <h2 className="text-[23px] font-bold mb-2">شرح (مبالغ به میلیون ریال)</h2>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">شرح</th>
-              <th className="border border-gray-300 p-2 text-left">مبلغ (دوره سه ماهه)</th>
-              <th className="border border-gray-300 p-2 text-left">مبلغ (سالیانه)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">
-                {company_cost?.description || 'توضیحات'}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(company_cost?.amount_of_months)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(company_cost?.amount_of_year)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <p>
-          تبصره 1: متقاضی تأیید و اقرار می‌نماید در صورت افزایش بهای تمام‌شدۀ خرید مواد اولیه و سایر
-          موارد موجود در این قرارداد، مابه‌التفاوت بهای تمام‌شدۀ انجام طرح مذکور «
-          {investor_request?.suggestion_plan_name}» را از دارایی‌های خود مجاناً و بلاعوض تأمین
-          نماید. متقاضی بر اساس این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
-        </p>
-
-        <h2 className="text-[23px] font-bold mt-4 mb-2">4- تعهد متقاضی به ایجاد درآمد عملیاتی</h2>
-        <p>
-          متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400 (61,600)
-          میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
-        </p>
-
-        <h3 className="text-[23px] font-bold mt-2 mb-2">
-          پیش‌بینی سود و زیان (ارقام به میلیون ریال)
-        </h3>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">شرح</th>
-              <th className="border border-gray-300 p-2 text-left">سالیانه</th>
-              <th className="border border-gray-300 p-2 text-left">دوره سه ماهه</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">
-                {profit_and_loss_forecast?.description || 'توضیحات'}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(profit_and_loss_forecast?.amount_of_year)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(profit_and_loss_forecast?.amount_of_months)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
         <p>
           تبصره 1: ترکیب فروش محصول شماره یک با تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع
           درآمد حاصل از فروش مندرج در جدول فوق به مبلغ حداقل 246,400 (61,600) میلیون ریال سالیانه
@@ -156,6 +102,67 @@ const Page2 = ({ data, qrValue }) => {
             </tr>
           </tbody>
         </table>
+        <p className="text-[23px]">
+          تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی حاصل از خرید
+          دو دستگاه تراک 10 چرخ جهت حمل، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری{' '}
+          {formatNumber(250000000000)} میلیون ریال سرمایه در گردش مورد نیاز دستگاه بنز کمپرسی 10 چرخ
+          ایران خودرو، کمتر از {formatNumber(181588000000)} میلیون ریال سالیانه نخواهد شد. بنابراین
+          هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و متقاضی حق هیچگونه ادعا و
+          مطالبه‌ای در این خصوص نخواهد داشت.
+          <br />
+          تبصره 2: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
+          درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
+          <br />
+          تبصره 3: مبنای تقسیم سود ناخالص در هر بازه از جدول این بند میان متقاضی و عامل حاصل از
+          اجرای طرح موضوع قرارداد، حداقل سود ناخالص در هر بازه خواهد بود. فقط در صورت افزایش سود
+          ناخالص برآورد شده بیش از 181,588 ریال سالیانه، مابه‌تفاوت آن از سود برآورد شده به نسبت
+          99.9 درصد سهم متقاضی و 0.1 درصد سهم عامل تقسیم خواهد شد.
+          <br />
+          تبصره 4: در صورتی که سود ناخالص طرح کمتر از سود علی‌حساب پرداختی باشد، متقاضی،
+          مابه‌التفاوت آن را تا میزان سودهای علی‌الحساب پرداخت شده از محل سهم خود یا سایر دارایی‌های
+          خود مجاناً و بلاعوض تأمین و به دارندگان گواهی‌های شراکت صلح می‌نماید. به استناد این تبصره
+          متقاضی حق هرگونه ادعایی در این خصوص را از خود سلب و اسقاط نمود.
+        </p>
+        <h2 className="text-[23px] font-bold mb-2">بازدهی یک ساله طرح*</h2>
+        <table className="w-full border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-left">نسبت تسهیم سود</th>
+              <th className="border border-gray-300 p-2 text-left">رنج بازدهی</th>
+              {one_year_return_on_investment?.map((item, index) => (
+                <th key={index} className="border border-gray-300 p-2 text-left">
+                  {item?.rate_from || '0'} تا {item?.rate_to || '0'}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-2">سرمایه‌گذار</td>
+              <td className="border border-gray-300 p-2" />
+              {one_year_return_on_investment?.map((item, index) => (
+                <td key={index} className="border border-gray-300 p-2">
+                  {formatPercentage(item?.share_company)}
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">متقاضی</td>
+              <td className="border border-gray-300 p-2" />
+              {one_year_return_on_investment?.map((item, index) => (
+                <td key={index} className="border border-gray-300 p-2">
+                  {formatPercentage(item?.share_investor)}
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+
+        <p className="mt-4 text-[23px]">
+          نرخ بازده سرمایه‌گذار: {formatPercentage(45)}-{formatPercentage(47)}
+        </p>
+
+
       </div>
     );
   };
