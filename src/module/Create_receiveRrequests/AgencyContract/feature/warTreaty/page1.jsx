@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
-const Page1 = ({ agencyContract, qrValue }) => {
+const Page1 = ({ agencyContract }) => {
   if (!agencyContract) return null;
   console.log(agencyContract);
 
@@ -29,7 +29,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
                 قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
               </h3>
             </div>
-  
+
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"
@@ -40,6 +40,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
       </div>
     );
   };
+
   return (
     <div className="contract-page page-1">
       {renderHeaderContent()}
@@ -204,7 +205,6 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
 Page1.propTypes = {
   agencyContract: PropTypes.object.isRequired,
-  qrValue: PropTypes.string.isRequired,
   company: PropTypes.object.isRequired,
 };
 
