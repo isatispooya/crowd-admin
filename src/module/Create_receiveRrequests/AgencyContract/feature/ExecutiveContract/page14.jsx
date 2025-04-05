@@ -181,7 +181,9 @@ const Page13 = ({ data }) => {
               </tr>
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
-                <td className="border border-black p-2 text-center" colSpan="3">555</td>
+                <td className="border border-black p-2 text-center" colSpan="3">
+                  555
+                </td>
                 <td className="border border-black p-2 text-center">551,454</td>
               </tr>
             </tbody>
