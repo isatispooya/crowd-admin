@@ -119,7 +119,7 @@ const ExecutiveContract = () => {
               transition={{ delay: 0.2 }}
               className="bg-white p-5 rounded-lg shadow-sm text-sm border border-gray-100 min-h-[60vh]"
             >
-              <PageComponent agencyContract={agencyContract} />
+              <PageComponent data={agencyContract} />
             </motion.div>
           </PrintableContractLayout>
         </div>
