@@ -3,8 +3,6 @@ import { PropTypes } from 'prop-types';
 
 const Page18 = ({ data }) => {
   if (!data) return null;
-  console.log(data);
-
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">

@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 
 const Page13 = ({ data }) => {
   if (!data) return null;
-  console.log(data);
 
   return (
     <div className="contract-page page-1">
