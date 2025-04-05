@@ -5,7 +5,7 @@ import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContr
 import generatePDF from 'react-to-pdf';
 
 import useAgencyContract from '../hooks/useAgencyContract';
-import { PAGES } from '../feature/warTreaty';
+import { PAGES } from '../feature/agancyContract';
 
 
 const WarTreaty = () => {
@@ -41,7 +41,7 @@ const WarTreaty = () => {
               <div>عامل</div>
             </td>
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-              <div>متقاضی/سرمایه پذیر</div>
+              <div>متقاضی</div>
             </td>
           </tr>
           <tr>
