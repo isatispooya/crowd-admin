@@ -88,8 +88,12 @@ const Page3 = ({ data }) => {
                 <td className="border border-gray-300 p-2">{check?.bank_name || '_'}</td>
                 <td className="border border-gray-300 p-2">{check?.branch_name || '_'}</td>
                 <td className="border border-gray-300 p-2">
-                  {check?.type ? check?.type : '_'}
-                  </td>
+                  {{
+                    loss: 'خسارت',
+                    deposit: 'اصل',
+                    profit: 'سود',
+                  }[check?.type] || '_'}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -98,8 +102,7 @@ const Page3 = ({ data }) => {
               <td colSpan="3" className="border border-gray-300 p-2 font-bold">
                 مجموع مبلغ چک‌ها (ریال)
               </td>
-              <td className="border border-gray-300 p-2 font-bold">{formatRials(totalAmount)}</td>
-              <td colSpan="3" className="border border-gray-300 p-2" />
+              <td colSpan="4" className="border border-gray-300 p-2 font-bold">{formatRials(totalAmount)}</td>
             </tr>
           </tfoot>
         </table>
@@ -120,7 +123,7 @@ const Page3 = ({ data }) => {
           {formatNumber(investor_request?.amount_of_investment)} میلیون ریال، آن گواهی‌های شراکت
           ابطال و از مجموع کسر شده و پرداخت اقساط لازم‌الاداء به همان میزان تعدیل می‌شود. بنابراین
           مبنای پرداخت اقساط بر اساس میزان مشارکت دارندگان گواهی‌های شراکت به مبلغ{' '}
-          {formatNumber(225000)} میلیون ریال محاسبه گردیده است.
+          ؟؟؟؟؟؟؟؟؟؟؟؟؟؟ میلیون ریال محاسبه گردیده است.
         </p>
 
         <h3 className="text-[23px] font-bold mt-4 mb-2">2. افزایش نرخ سود</h3>
@@ -151,11 +154,7 @@ const Page3 = ({ data }) => {
           قرارداد خواهد بود و متقاضی روال اتمام قرارداد را طی خواهد کرد.
         </p>
 
-        <h3 className="text-[23px] font-bold mt-4 mb-2">5. پرداخت هزینه‌ها</h3>
-        <p className="text-[23px]">
-          متقاضی متعهد می‌گردد کلیه هزینه‌های لازم جهت انجام موضوع این قرارداد و اخذ مجوزهای لازم و
-          سایر مقدمات لازم را به موجب این قرارداد بپردازد.
-        </p>
+       
       </div>
     );
   };
