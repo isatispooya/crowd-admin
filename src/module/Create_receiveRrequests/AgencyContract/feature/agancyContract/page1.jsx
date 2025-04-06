@@ -1,10 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import moment from 'moment-jalaali';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
-const Page1 = ({ agencyContract, qrValue }) => {
+const Page1 = ({ agencyContract }) => {
   if (!agencyContract) return null;
   console.log(agencyContract);
 
@@ -225,7 +224,6 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
 Page1.propTypes = {
   agencyContract: PropTypes.object.isRequired,
-  qrValue: PropTypes.string.isRequired,
   company: PropTypes.object.isRequired,
   registration_type_title: PropTypes.string.isRequired,
   national_id: PropTypes.string.isRequired,
