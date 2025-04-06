@@ -14,7 +14,7 @@ const Page1 = ({ agencyContract }) => {
       <div className="flex flex-col gap-1 text-left">
         {agencyContract.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
-            <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
+            <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
               شماره قرارداد:{' '}
               {`3${agencyContract.investor_request?.contract_number || '370245611/12/03'}`}
               <br />
