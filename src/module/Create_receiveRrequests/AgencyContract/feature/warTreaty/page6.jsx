@@ -20,6 +20,7 @@ const Page6 = ({ agencyContract }) => {
           10) متقاضی متعهد است امکان نظارت مستمر عامل و حضور در محل انجام فعالیتهای موضوع قرارداد در
           هر زمان به تشخیص عامل و دسترسی کامل به اطلاعات لازم را فراهم می کند.
         </p>
+        
         <p className="text-[23px]">
           1) با عنایت به آنکه عامل صرفاً از طریق خدمات ارائه شده در بستر پلتفرم مقدمات تأمین مالی
           جمعی متقاضی و سرمایه گذاری را برای تأمین کنندگان فراهم می آورد، لذا هیچگونه مسئولیتی در
@@ -93,10 +94,7 @@ const Page6 = ({ agencyContract }) => {
         </p>
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
-          <strong>
-            {' '}
-            {`3${agencyContract.investor_request?.contract_number || ''}`}
-          </strong>
+          <strong> {`3${agencyContract.investor_request?.contract_number || ''}`}</strong>
           مورخ 14/12/1403 را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
           بابت حسن انجام کار و امثال هم خودداری نماید.
         </p>
@@ -105,22 +103,22 @@ const Page6 = ({ agencyContract }) => {
 
         <p className="text-[23px]">
           به منظور تضمین ایفای هر یک از تعهدات ناشی از این قرارداد متقاضی موظف است همزمان با امضای
-          قرارداد نسبت به معرفی {`${agencyContract?.guarantor ? agencyContract?.guarantor?.length : 0}`} ضامن به شرح ذیل به شرکت اقدام نماید.
+          قرارداد نسبت به معرفی{' '}
+          {`${agencyContract?.guarantor ? agencyContract?.guarantor?.length : 0}`} ضامن به شرح ذیل
+          به شرکت اقدام نماید.
         </p>
 
         <p className="text-[23px]">
           {agencyContract.guarantor.map((item) => (
             <p className="text-[23px]">
-              
-              جناب آقای {item.guarantor_name} به شماره ملی <strong>{item.guarantor_national_id}</strong> متولد
-              <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address} که از این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی می
-              گردد
+              جناب آقای {item.guarantor_name} به شماره ملی{' '}
+              <strong>{item.guarantor_national_id}</strong> متولد
+              <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address} که از
+              این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی می گردد
             </p>
           ))}
           <br />
         </p>
-    
-
       </div>
     </div>
   );
