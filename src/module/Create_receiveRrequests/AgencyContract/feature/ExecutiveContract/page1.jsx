@@ -70,11 +70,7 @@ const Page1 = ({ data }) => {
           {company_members?.uniqueIdentifier} به سمت رئیس هیئت مدیره و مدیر عامل صاحبان امضای مجاز
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود، از یک طرف،
           <br />
-          2) سرکار آقای/خانم {guarantor?.guarantor_name} به کد ملی {guarantor?.national_id} و شماره
-          تماس 09132425229 متولد 10/03/1332 به آدرس تهران، تهرانپارس، فلکه چهارم، شهرک پارس، بلوک 15
-          واحد 5 به کد پستی 8915693719 که از این پس در این قرارداد به عنوان «ضامن» معرفی می‌گردد.
-          <br />
-          3) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
+          2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
           نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4، واحد 44، شماره تلفن 076-44480555 و کد
           پستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو
@@ -83,6 +79,19 @@ const Page1 = ({ data }) => {
           نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
           متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 1008438/5/03 مورخ 15/05/1403 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
+          <br />
+          {guarantor.map((item, index) => (
+            <p>
+              {index + 3}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.national_id} و
+              شماره تماس {item?.phone_number} متولد{' '}
+              {item?.birth_date
+                ? new Date(item?.birth_date).toLocaleDateString('fa-IR')
+                : 'تاریخ نامعتبر'}{' '}
+              به آدرس
+              {item?.address} واحد {item?.unit} به کد پستی {item?.postal_code} که از این پس در این
+              قرارداد به عنوان «ضامن» معرفی می‌گردد.
+            </p>
+          ))}
         </p>
 
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) تعاریف</h2>
@@ -102,7 +111,7 @@ const Page1 = ({ data }) => {
           دلیلی بانک‌ها تعطیل می‌باشند، روز کاری محسوب می‌گردد.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 3) موضوع فعالیت</h2>
+        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) موضوع فعالیت</h2>
         <p className="text-[23px]  mt-4 mb-2">
           موضوع قرارداد عبارت است از تامین سرمایه مورد نیاز اجرای طرح «
           {investor_request?.suggestion_plan_name}» این شرکت بر اساس اساسنامه فعالیت آن، به شرح زیر
@@ -118,13 +127,13 @@ const Page1 = ({ data }) => {
           </span>
           <br />
           <span className="ml-4">
-            تبصره 2: به استناد صورت مالی منتهی به 29/12/1402، در صورت وجود هرگونه مشکل در اجرای طرح
+            تبصره 2: به استناد صورت مالی منتهی به 1402/12/29 ، در صورت وجود هرگونه مشکل در اجرای طرح
             و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی‌ها و دستگاه‌های تحت تملک خود
             نسبت به اجرای طرح اقدام نماید.
           </span>
           <br />
           2. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
-          تمام شده خدمات منتهی به 29/12/1402 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
+          تمام شده خدمات منتهی به 1402/12/29 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
           اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
           طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
           {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش
@@ -135,7 +144,6 @@ const Page1 = ({ data }) => {
           {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.1)} میلیون ریال آن توسط
           متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
         </p>
-        <h2 className="text-[23px] font-bold mb-2">شرح (مبالغ به میلیون ریال)</h2>
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
@@ -219,10 +227,17 @@ Page1.propTypes = {
       suggestion_plan_name: PropTypes.string,
       amount_of_investment: PropTypes.number,
     }),
-    guarantor: PropTypes.shape({
-      guarantor_name: PropTypes.string,
-      national_id: PropTypes.string,
-    }),
+    guarantor: PropTypes.arrayOf(
+      PropTypes.shape({
+        guarantor_name: PropTypes.string,
+        national_id: PropTypes.string,
+        phone_number: PropTypes.string,
+        birth_date: PropTypes.string,
+        address: PropTypes.string,
+        unit: PropTypes.string,
+        postal_code: PropTypes.string,
+      })
+    ),
     company_members: PropTypes.shape({
       person_title: PropTypes.string,
       uniqueIdentifier: PropTypes.string,
