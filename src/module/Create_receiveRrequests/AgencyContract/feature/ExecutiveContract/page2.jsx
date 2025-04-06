@@ -120,34 +120,35 @@ const Page2 = ({ data, qrValue }) => {
           متقاضی حق هرگونه ادعایی در این خصوص را از خود سلب و اسقاط نمود.
         </p>
         <h2 className="text-[23px] font-bold mb-2">بازدهی یک ساله طرح*</h2>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
+        <table className="w-full border-collapse border border-gray-300 mb-4 text-lg p-6">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-right">نسبت تسهیم سود</th>
-              <th className="border border-gray-300 p-2 text-right">رنج بازدهی</th>
+              <th className="border border-gray-300 p-1 text-right">نسبت تسهیم سود</th>
               {one_year_return_on_investment?.map((item, index) => (
-                <th key={index} className="border border-gray-300 p-2 text-right">
-                  {item?.rate_from || '0'} تا {item?.rate_to || '0'}
+                <th key={index} className="border border-gray-300 p-1 text-right">
+                  {Math.round(item?.rate_from || 0)} تا {Math.round(item?.rate_to || 0)}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border border-gray-300 p-2">سرمایه‌گذار</td>
-              <td className="border border-gray-300 p-2" />
+              <td className="border border-gray-300 p-1">سرمایه‌گذار</td>
               {one_year_return_on_investment?.map((item, index) => (
-                <td key={index} className="border border-gray-300 p-2">
-                  {formatPercentage(item?.share_company)}
+                <td key={index} className="border border-gray-300 p-1">
+                  {formatPercentage(
+                    item?.share_company ? Math.round(item.share_company * 10000) / 100 : 0
+                  )}
                 </td>
               ))}
             </tr>
             <tr>
-              <td className="border border-gray-300 p-2">متقاضی</td>
-              <td className="border border-gray-300 p-2" />
+              <td className="border border-gray-300 p-1">متقاضی</td>
               {one_year_return_on_investment?.map((item, index) => (
-                <td key={index} className="border border-gray-300 p-2">
-                  {formatPercentage(item?.share_investor)}
+                <td key={index} className="border border-gray-300 p-1">
+                  {formatPercentage(
+                    item?.share_investor ? Math.round(item.share_investor * 10000) / 100 : 0
+                  )}
                 </td>
               ))}
             </tr>

@@ -7,8 +7,6 @@ const Page3 = ({ data }) => {
   const renderContractClauses = () => {
     const { investor_request, checks } = data;
 
-   
-
     const formatNumber = (amount) => {
       if (!amount) return '0';
       const millionAmount = amount / 1000000;
@@ -29,12 +27,7 @@ const Page3 = ({ data }) => {
           1. مبلغ تأمین مالی انجام شده برای متقاضی{' '}
           {formatNumber(investor_request?.amount_of_investment)} میلیون ریال گواهی شراکت 1,000 ریالی
           با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ سود علی‌الحساب{' '}
-          {investor_request?.interest_rate_plan} درصد سالیانه (
-          {investor_request?.interest_rate_plan && investor_request?.refund_of_plan
-            ? (investor_request.interest_rate_plan / investor_request.refund_of_plan || 0).toFixed(
-                2
-              )
-            : '0.00'}{' '}
+          {investor_request?.interest_rate_plan} درصد سالیانه ({investor_request.interest_rate_plan}{' '}
           درصد دوره 3 ماهه) است. بازپرداخت سود علی الحساب طی {investor_request?.duration_of_plan}{' '}
           ماه به صورت ماهیانه و پرداخت اصل مبلغ گواهی شراکت در انتهای دوره سرمایه‌گذاری توسط متقاضی
           خواهد بود.
@@ -71,16 +64,16 @@ const Page3 = ({ data }) => {
           جدول زیر، در مواعد مقرر اقدام نماید.
         </p>
 
-        <table className="w-full border-collapse border border-gray-300 mb-4">
+        <table className="w-full border-collapse border border-gray-300 mb-4 text-center">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">ردیف</th>
-              <th className="border border-gray-300 p-2 text-left">شناسه صیادی</th>
-              <th className="border border-gray-300 p-2 text-left">تاریخ</th>
-              <th className="border border-gray-300 p-2 text-left">مبلغ (ریال)</th>
-              <th className="border border-gray-300 p-2 text-left">بانک</th>
-              <th className="border border-gray-300 p-2 text-left">شعبه</th>
-              <th className="border border-gray-300 p-2 text-left">نوع</th>
+              <th className="border border-gray-300 p-2  text-center">ردیف</th>
+              <th className="border border-gray-300 p-2  text-center">شناسه صیادی</th>
+              <th className="border border-gray-300 p-2  text-center">تاریخ</th>
+              <th className="border border-gray-300 p-2  text-center">مبلغ (ریال)</th>
+              <th className="border border-gray-300 p-2  text-center">بانک</th>
+              <th className="border border-gray-300 p-2  text-center">شعبه</th>
+              <th className="border border-gray-300 p-2  text-center">نوع</th>
             </tr>
           </thead>
           <tbody>
@@ -88,11 +81,15 @@ const Page3 = ({ data }) => {
               <tr key={index}>
                 <td className="border border-gray-300 p-2">{index + 1}</td>
                 <td className="border border-gray-300 p-2">{check?.fishing_id || 'N/A'}</td>
-                <td className="border border-gray-300 p-2">{check?.date || 'N/A'}</td>
+                <td className="border border-gray-300 p-2">
+                  {check?.date ? new Date(check.date).toLocaleDateString('fa-IR') : 'N/A'}
+                </td>
                 <td className="border border-gray-300 p-2">{formatRials(check?.amount)}</td>
-                <td className="border border-gray-300 p-2">{check?.bank_name || 'N/A'}</td>
-                <td className="border border-gray-300 p-2">{check?.branch_name || 'N/A'}</td>
-                <td className="border border-gray-300 p-2">{check?.type || 'N/A'}</td>
+                <td className="border border-gray-300 p-2">{check?.bank_name || '_'}</td>
+                <td className="border border-gray-300 p-2">{check?.branch_name || '_'}</td>
+                <td className="border border-gray-300 p-2">
+                  {check?.type ? check?.type : '_'}
+                  </td>
               </tr>
             ))}
           </tbody>
