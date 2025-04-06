@@ -30,46 +30,16 @@ const Page7 = ({ agencyContract }) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border border-gray-400 p-2 text-center">1</td>
-                <td className="border border-gray-400 p-2 text-center">متعاقباً اعلام میگردد</td>
-                <td className="border border-gray-400 p-2 text-center">688803022199823</td>
-                <td className="border border-gray-400 p-2 text-center">ملی ایران</td>
-                <td className="border border-gray-400 p-2 text-center">3501</td>
-                <td className="border border-gray-400 p-2 text-center">20,360,655,738</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-400 p-2 text-center">2</td>
-                <td className="border border-gray-400 p-2 text-center">متعاقباً اعلام میگردد</td>
-                <td className="border border-gray-400 p-2 text-center">8911030221991822</td>
-                <td className="border border-gray-400 p-2 text-center">ملی ایران</td>
-                <td className="border border-gray-400 p-2 text-center">3501</td>
-                <td className="border border-gray-400 p-2 text-center">20,581,967,213</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-400 p-2 text-center">3</td>
-                <td className="border border-gray-400 p-2 text-center">متعاقباً اعلام میگردد</td>
-                <td className="border border-gray-400 p-2 text-center">688803022199823</td>
-                <td className="border border-gray-400 p-2 text-center">ملی ایران</td>
-                <td className="border border-gray-400 p-2 text-center">3501</td>
-                <td className="border border-gray-400 p-2 text-center">20,139,344,262</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-400 p-2 text-center">4</td>
-                <td className="border border-gray-400 p-2 text-center">متعاقباً اعلام میگردد</td>
-                <td className="border border-gray-400 p-2 text-center">7081030221991820</td>
-                <td className="border border-gray-400 p-2 text-center">ملی ایران</td>
-                <td className="border border-gray-400 p-2 text-center">3501</td>
-                <td className="border border-gray-400 p-2 text-center">19,918,032,787</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-400 p-2 text-center">5</td>
-                <td className="border border-gray-400 p-2 text-center">متعاقباً اعلام میگردد</td>
-                <td className="border border-gray-400 p-2 text-center">8288030221991819</td>
-                <td className="border border-gray-400 p-2 text-center">ملی ایران</td>
-                <td className="border border-gray-400 p-2 text-center">3501</td>
-                <td className="border border-gray-400 p-2 text-center">200,000,000,000</td>
-              </tr>
+              {agencyContract.checks.map((check, index) => (
+                <tr key={check.id}>
+                  <td className="border border-gray-400 p-2 text-center">{index + 1}</td>
+                  <td className="border border-gray-400 p-2 text-center">{check.date}</td>
+                  <td className="border border-gray-400 p-2 text-center">{check.fishing_id}</td>
+                  <td className="border border-gray-400 p-2 text-center">{check.type}</td>
+                  <td className="border border-gray-400 p-2 text-center">{check.amount}</td>
+                </tr>
+              ))}
+
             </tbody>
           </table>
           <p className="mt-4">
@@ -107,8 +77,8 @@ const Page7 = ({ agencyContract }) => {
           </p>
           <p className="text-[23px]">
             7) متقاضی متعهد است در راستای رعایت مقررات مبارزه با پولشویی، مذکور در قانون مبارزه با
-            پولشویی (مصوب 1386/11/02 همراه با آخرین اصالحات 15/10/1397 ) و هم چنین آییننامه اجرایی
-            آن مصوب ،21/07/1398 تمامی اطالعات مورد نیاز را در اختیار عامل قرار داده و نمی تواند به
+            پولشویی (مصوب 1386/11/02 همراه با آخرین اصالحات 1397/10/15 ) و هم چنین آییننامه اجرایی
+            آن مصوب ،1398/07/21 تمامی اطالعات مورد نیاز را در اختیار عامل قرار داده و نمی تواند به
             عذری از قبیل محرمانه بودن اطالعات درخواستی، از ارائه اطالعات مورد نیاز خودداری نماید.
             بدیهی است اطالعات مذکور محصور نبوده و در هر زمان و با توجه به درخواست نهادهای نظارتی،
             تعهد متقاضی نسبت به ارائه اطالعات متفاوت میباشد. الزم به ذکر است مسئولیت هرگونه اخلال در

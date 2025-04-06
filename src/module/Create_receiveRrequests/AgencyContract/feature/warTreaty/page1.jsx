@@ -16,7 +16,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
           <div className="mb-1 flex items-center relative">
             <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
               شماره قرارداد:{' '}
-              {agencyContract.investor_request?.contract_number || '1370245611/12/03'}
+              {`1${agencyContract.investor_request?.contract_number || '370245611/12/03'}`}
               <br />
               تاریخ: {agencyContract.investor_request?.contract_date || '11/12/1403'}
             </div>
@@ -29,7 +29,7 @@ const Page1 = ({ agencyContract, qrValue }) => {
                 قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
               </h3>
             </div>
-  
+
             <img
               src={OnRun + agencyContract.investor_request.logo}
               alt="Investor Logo"

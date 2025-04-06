@@ -126,8 +126,11 @@ const Page2 = ({ agencyContract }) => {
           (سرمایه پذیر) به مبلغ <strong>&#128512;&#128512;</strong> میلیون ریال، اقدام می نماید.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          16) »حداقل مبلغ قابل پذیرش»: منظور، مبلغ &#128512;&#128512; ریال است که در صورت جذب آن تا
-          پایان دوره جمع آوری، کمپین موفق فرض می گردد.
+          16) »حداقل مبلغ قابل پذیرش»: منظور، مبلغ{' '}
+          <strong>
+            {(agencyContract.investor_request.amount_of_investment * 0.8).toLocaleString()}
+          </strong>{' '}
+          ریال است که در صورت جذب آن تا پایان دوره جمع آوری، کمپین موفق فرض می گردد.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           17) موفقیت کمپین»: منظور، اعم از موفقیت کمپین در جذب سرمایه به میزان حداقل مبلغ قابل پذیرش

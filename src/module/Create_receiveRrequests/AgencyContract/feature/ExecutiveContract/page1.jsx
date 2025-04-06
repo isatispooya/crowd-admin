@@ -23,7 +23,7 @@ const Page1 = ({ data }) => {
         {data.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
             <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
-              شماره قرارداد: {data.investor_request?.contract_number || ''}
+              شماره قرارداد: {`2${data.investor_request?.contract_number || ''}`}
               <br />
               تاریخ: {data.investor_request?.agency_agreement_date.split('T')[0].replace(/-/g, '/')}
             </div>
