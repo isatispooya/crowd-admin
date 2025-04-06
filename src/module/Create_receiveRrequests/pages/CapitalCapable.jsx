@@ -24,9 +24,17 @@ const CapitalCapable = () => {
   const investorRequest = companyInfo?.investor_request;
   const isLoading = !companyInfo;
   const [expanded, setExpanded] = React.useState(false);
+  const [localIsArchived, setLocalIsArchived] = React.useState(false);
+
+  React.useEffect(() => {
+    if (companyInfo?.investor_request?.archive !== undefined) {
+      setLocalIsArchived(companyInfo.investor_request.archive);
+    }
+  }, [companyInfo]);
 
   const handleArchiveChange = () => {
-    const newArchiveState = !isArchived;
+    const newArchiveState = !localIsArchived;
+    setLocalIsArchived(newArchiveState);
     toggleArchive();
 
     submitExecutiveContract({
@@ -93,7 +101,7 @@ const CapitalCapable = () => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={companyInfo?.investor_request?.archive}
+                  checked={localIsArchived}
                   onChange={handleArchiveChange}
                   sx={{
                     '& .MuiSwitch-switchBase.Mui-checked': {
@@ -108,7 +116,7 @@ const CapitalCapable = () => {
                   }}
                 />
               }
-              label={isArchived ? 'خارج کردن از آرشیو' : 'وارد کردن به آرشیو'}
+              label={localIsArchived ? 'خارج کردن از آرشیو' : 'وارد کردن به آرشیو'}
               sx={{
                 '& .MuiFormControlLabel-label': {
                   fontSize: '0.9rem',
