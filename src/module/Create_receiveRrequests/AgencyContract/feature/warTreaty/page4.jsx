@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { formatNumber } from 'src/utils/formatNumbers';
 
 const Page5 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -71,8 +72,10 @@ const Page5 = ({ agencyContract }) => {
         <h3 className="text-[23px] font-bold"> ج) پرداخت وجوه جمع‌آوری شده به متقاضی:</h3>
         <p className="text-justify leading-relaxed text-[22px]">
           7) از وجوه جمع آوری شده، حق الزحمه عامل به میزان مقرر در ماده 5 و نیز کارمزد شرکت فرابورس
-          ایران به میزان <strong>{' ???????'}</strong> ریال، معادل بیست میلیون تومان کسر و مابقی ظرف
-          مدت 2 روز کاری، به شماره حساب متقاضی واریز خواهدشد.
+          ایران به میزان{' '}
+          <strong>{formatNumber(agencyContract.investor_request.farabours_wage)}</strong> ریال،
+          معادل بیست میلیون تومان کسر و مابقی ظرف مدت 2 روز کاری، به شماره حساب متقاضی واریز
+          خواهدشد.
         </p>
         <p className="text-justify leading-relaxed text-[22px]">
           8) در هر حال، پرداخت وجوه جمع آوری شده به متقاضی، منوط به سپردن وثایق و تضامین مذکور در
@@ -80,12 +83,21 @@ const Page5 = ({ agencyContract }) => {
         </p>
         <p className="text-justify leading-relaxed text-[22px]">
           9) متقاضی مکلف است چک های پرداخت اقساط خرید دارایی و بازپرداخت اصل سرمایه را مطابق طرح
-          جمعاً به مبلغ<strong>{' ???????'}</strong> ریال، حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری،
-          طی یک فقره چک بابت اصل مبلغ سرمایه به تاریخ اعالمی توسط عامل و چهار فقره چک بابت اقساط
-          خرید دارایی، با تاریخهای پرداخت 4 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در
-          غیر این صورت، عامل تعهدی نسبت به پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده
-          شخصی، پس از کسر مبلغ  <strong>{' ???????'}</strong> ریال  به عنوان خسارت عدم انجام تعهد،
-          به متقاضی عودت داده خواهدشد و قرارداد از سوی عامل فسخ میگردد.
+          جمعاً به مبلغ
+          <strong>
+            {formatNumber(
+              (agencyContract.investor_request.amount_of_investment *
+                (agencyContract.investor_request.interest_rate_plan / 100) +
+                agencyContract.investor_request.amount_of_investment) /
+                1000000
+            )} میلیون
+          </strong>{' '}
+          ریال، حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت اصل مبلغ
+          سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با تاریخهای پرداخت
+          4 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل تعهدی نسبت به
+          پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده شخصی، پس از کسر مبلغ{' '}
+          <strong>{' ???????'}</strong> ریال به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده
+          خواهدشد و قرارداد از سوی عامل فسخ میگردد.
         </p>
         <h3 className="text-[23px] font-bold"> د) شرایط و ضوابط مصرف سرمایه:</h3>
         <p className="text-justify leading-relaxed text-[22px]">
@@ -138,7 +150,7 @@ const Page5 = ({ agencyContract }) => {
           متقاضی متعهد است در تاریخ اتمام طرح و نهایتاً ظرف مدت حداکثر 1 روز تقویمی از آن تاریخ،
           نسبت به بازپرداخت سرمایه و واریز رقم مربوطه (مبلغ{' '}
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000000).toLocaleString()}
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
           </strong>{' '}
           میلیون ریال) به شماره حساب عامل اقدام نماید. عامل ، به وکالت از سرمایه گذار نسبت به اخذ
           مبلغ یادشده از متقاضی اقدام نموده و مطابق با رقم مندرج در گواهی سرمایه گذاری، مبلغ

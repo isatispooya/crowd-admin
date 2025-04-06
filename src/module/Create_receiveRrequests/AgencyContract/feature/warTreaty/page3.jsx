@@ -58,7 +58,7 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           29) »شماره حساب متقاضی»: منظور، حساب به شماره{' '}
           <strong>{agencyContract.company.national_id}</strong> با شماره شبای{' '}
-          <strong> &#128512;&#128512;</strong> نزد بانک {agencyContract.bank_name} به نام شرکت{' '}
+          <strong>{agencyContract.investor_request.sheba_number}</strong> نزد بانک {agencyContract.bank_name} به نام شرکت{' '}
           {agencyContract.investor_request.company.title} (سهامی خاص) میباشد که صرفاً مربوط به انجام
           تراکنش های مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور
           را برای مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر
@@ -112,9 +112,16 @@ const Page4 = ({ agencyContract }) => {
           باشند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          37) ضامنین: منظور، آقای سید مهدی وکیل الساداتی با شماره ملی 4432787090 و شرکت مجموعه
-          رستوران‌های عمارت وکیل به شناسه ملی 14006131824 که متضامناً با متقاضی، مسئول ایفای تعهدات
-          مذکور در این قرارداد می باشند.
+        37){agencyContract.guarantor.map((item) => (
+            <p className="text-justify leading-relaxed text-[23px]">
+              {item.guarantor_name}
+            </p>
+          ))}
+          37) ضامنین: منظور، {agencyContract.guarantor.map((item) => (
+            <p className="text-justify leading-relaxed text-[23px]">
+              {item.guarantor_name} که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد می باشند.
+            </p>
+          ))}
         </p>
         <br />
         <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
