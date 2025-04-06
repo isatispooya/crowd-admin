@@ -47,6 +47,8 @@ const Guarantor = ({ allData }) => {
           }
         });
 
+        payload.append('type', 'individual');
+        
         await mutate(payload);
         setGuarantorInfo({
           investor_request_id: cartId || '',
@@ -57,6 +59,7 @@ const Guarantor = ({ allData }) => {
           guarantor_address: '',
           postal_code: '',
           gender: '',
+          type: 'individual',
         });
       }
     } catch (error) {
@@ -75,9 +78,12 @@ const Guarantor = ({ allData }) => {
         guarantor_address: allData.guarantor?.guarantor_address || '',
         postal_code: allData.guarantor?.postal_code || '',
         gender: allData.guarantor?.gender ?? true,
+        type: 'individual',
       });
     }
   }, [allData, cartId, setGuarantorInfo]);
+
+  const nonLegalGuarantors = allData?.guarantor ? allData.guarantor.filter(g => g.type !== 'legal') : [];
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -166,8 +172,8 @@ const Guarantor = ({ allData }) => {
       </Grid>
 
       <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
-        {allData?.guarantor && allData.guarantor.length > 0 ? (
-          allData.guarantor
+        {nonLegalGuarantors.length > 0 ? (
+          nonLegalGuarantors
             .slice()
             .reverse()
             .map((item) => (
@@ -222,14 +228,14 @@ const Guarantor = ({ allData }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="body2">
-                      <strong>جنسیت:</strong> {guarantorInfo.gender === 'male' ? 'مرد' : 'زن'}
+                      <strong>جنسیت:</strong> {item.gender === 'male' ? 'مرد' : 'زن'}
                     </Typography>
                   </Grid>
                 </Grid>
               </Box>
             ))
         ) : (
-          <Typography align="center">اطلاعاتی موجود نیست</Typography>
+          <Typography align="center">ضامن حقیقی ثبت نشده است</Typography>
         )}
       </Box>
     </Box>

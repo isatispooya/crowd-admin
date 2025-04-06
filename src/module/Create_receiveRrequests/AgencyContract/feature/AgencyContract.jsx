@@ -37,12 +37,12 @@ const Contract = ({ data }) => {
     { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
     { id: 4, title: 'قرارداد اجرایی', path: `/executiveContract/${data?.uuid}` },
-    { id: 5, title: 'قرارداد محاربه', path: `/WarTreaty/${data?.uuid}` },
+    { id: 5, title: 'قرارداد محاربت', path: `/WarTreaty/${data?.uuid}` },
   ];
 
   const uploadLabels = [
     {
-      id: 'agency_agreement_date',
+      id: 'agency_agreement_date',   
       label: 'تاریخ',
       value: data?.agency_agreement_date,
       type: 'date',

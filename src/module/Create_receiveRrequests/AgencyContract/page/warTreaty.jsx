@@ -3,10 +3,26 @@ import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
 import generatePDF from 'react-to-pdf';
-
 import useAgencyContract from '../hooks/useAgencyContract';
 import { PAGES } from '../feature/warTreaty';
 
+const printStyles = `
+  @media print {
+    .page-break-before {
+      page-break-before: always;
+    }
+    
+    @page {
+      size: A4;
+      margin: 0.5cm;
+    }
+    
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+`;
 
 const WarTreaty = () => {
   const { uuid } = useParams();
@@ -29,8 +45,8 @@ const WarTreaty = () => {
     );
 
     const staticUsers = [
-      { person_title: 'سیدعلیمحمد خبیری', position_title: 'عضو هیئت مدیره' },
-      { person_title: 'محسن زارعیان', position_title: 'مدیرعامل' },
+      { person_title: 'سیدعلیمحمد خبیری', position_title: 'مدیر عامل' },
+      { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
     ];
 
     return (
@@ -41,7 +57,7 @@ const WarTreaty = () => {
               <div>عامل</div>
             </td>
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-              <div>متقاضی/سرمایه پذیر</div>
+              <div>متقاضی</div>
             </td>
           </tr>
           <tr>
@@ -92,6 +108,8 @@ const WarTreaty = () => {
 
   return (
     <div>
+      <style>{printStyles}</style>
+
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded-md mx-auto flex justify-center items-center w-80 mb-8 "
         type="button"
@@ -99,6 +117,7 @@ const WarTreaty = () => {
       >
         چاپ
       </button>
+
       <div className="contract-container" ref={targetRef}>
         {PAGES.map((PageComponent, index) => (
           <div key={`page-${index}`} className="mb-8">

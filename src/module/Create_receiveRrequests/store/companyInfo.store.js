@@ -131,6 +131,8 @@ const useCompanyInfoStore = create((set, get) => ({
     guarantor_address: '',
     postal_code: '',
     gender: '',
+    type: '',
+    company_rasmio_national_id: '',
   },
 
   fees: {

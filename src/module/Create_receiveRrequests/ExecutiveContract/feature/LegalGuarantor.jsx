@@ -23,7 +23,7 @@ const LegalGuarantor = ({ allData }) => {
         const payload = new FormData();
         payload.append('investor_request_id', allData.id || cartId);
         payload.append('type', 'legal');
-        payload.append('company_rasmio_national_id', guarantorInfo.guarantor_name);
+        payload.append('company_rasmio_national_id', guarantorInfo.company_rasmio_national_id);
 
         await mutate(payload);
 
@@ -41,10 +41,12 @@ const LegalGuarantor = ({ allData }) => {
     if (allData) {
       setGuarantorInfo({
         Type: allData.id || cartId,
-        company_rasmio_national_id: allData.guarantor?.guarantor_name || '',
+        company_rasmio_national_id: allData.guarantor?.company_rasmio_national_id || '',
       });
     }
   }, [allData, cartId, setGuarantorInfo]);
+
+  const legalGuarantors = allData?.guarantor ? allData.guarantor : [];
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -53,8 +55,8 @@ const LegalGuarantor = ({ allData }) => {
           <TextField
             fullWidth
             label="ضامن حقوقی"
-            value={guarantorInfo.guarantor_name}
-            onChange={handleChange('guarantor_name')}
+            value={guarantorInfo.company_rasmio_national_id}
+            onChange={handleChange('company_rasmio_national_id')}
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
@@ -72,10 +74,11 @@ const LegalGuarantor = ({ allData }) => {
       </Grid>
 
       <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
-        {allData?.guarantor && allData.guarantor.length > 0 ? (
-          allData.guarantor
+        {legalGuarantors.length > 0 ? (
+          legalGuarantors
             .slice()
             .reverse()
+            .filter((item) => item.type === 'legal')
             .map((item) => (
               <Box
                 key={item.id}
@@ -89,19 +92,21 @@ const LegalGuarantor = ({ allData }) => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <Typography variant="body2">
-                      <strong>حقوقی ضامن:</strong> {item.guarantor_name}
+                      <strong> نوع ضامن:</strong>{' '}
+                      {item.type === 'legal' ? 'حقوقی' : item.type || 'تعیین نشده'}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Typography variant="body2">
-                      <strong> نوع ضامن:</strong> {item.guarantor_national_id}
+                      <strong> شناسه ملی ضامن:</strong>{' '}
+                      {item.company_rasmio?.national_id || 'تعیین نشده'}
                     </Typography>
                   </Grid>
                 </Grid>
               </Box>
             ))
         ) : (
-          <Typography align="center">اطلاعاتی موجود نیست</Typography>
+          <Typography align="center">ضامن حقوقی ثبت نشده است</Typography>
         )}
       </Box>
     </Box>
