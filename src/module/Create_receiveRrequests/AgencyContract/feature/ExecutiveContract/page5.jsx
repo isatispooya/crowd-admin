@@ -7,14 +7,13 @@ const Page13 = ({ data }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">
-
-      <p className="text-justify leading-relaxed text-[23px]">
-        <span className="font-bold text-[23px]">تبصره 18:</span>
-        مواعد ارائه گزارش‌های دوره‌ای و صورت‌های مالی طرح موضوع قرارداد، پس از موفقیت کمپین توسط
-        عامل طی نامه کتبی به متقاضی اعلام می‌گردد و متقاضی متعهد به ارائه آنها است. در صورت عدم
-        ارائه موارد مطروحه در بندهای 20، 21 و22 این ماده در مواعد مقرر، متقاضی ملزم به پرداخت وجه
-        التزام روزانه به مبلغ 20,000,000 (بیست میلیون ریال) به ازای هر روز تأخیر خواهد بود.
-      </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          <span className="font-bold text-[23px]">تبصره 18:</span>
+          مواعد ارائه گزارش‌های دوره‌ای و صورت‌های مالی طرح موضوع قرارداد، پس از موفقیت کمپین توسط
+          عامل طی نامه کتبی به متقاضی اعلام می‌گردد و متقاضی متعهد به ارائه آنها است. در صورت عدم
+          ارائه موارد مطروحه در بندهای 20، 21 و22 این ماده در مواعد مقرر، متقاضی ملزم به پرداخت وجه
+          التزام روزانه به مبلغ 20,000,000 (بیست میلیون ریال) به ازای هر روز تأخیر خواهد بود.
+        </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
           <span className="font-bold text-[23px]">تبصره 19:</span>
@@ -90,34 +89,26 @@ const Page13 = ({ data }) => {
                 <th className="border border-black p-2 text-center">نوع ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">مبلغ ضمانت‌نامه (ریال)</th>
                 <th className="border border-black p-2 text-center">تاریخ اعتبار ضمانت‌نامه</th>
-                <th className="border border-black p-2 text-center">صادرکننده ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">شماره سپام</th>
                 <th className="border border-black p-2 text-center">شماره ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">موضوع</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.type}
-                </td>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.amount_of_investment}
-                </td>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.date}
-                </td>
-                <td className="border border-black p-2 text-center">بانک سپه</td>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.sepam_id}
-                </td>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.number}
-                </td>
-                <td className="border border-black p-2 text-center">
-                  {data?.investor_request?.description}
-                </td>
-              </tr>
+              {data?.warranty
+                ?.filter((item) => item.type === 'warranty')
+                .map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
+                    <td className="border border-black p-2 text-center">{item.value}</td>
+                    <td className="border border-black p-2 text-center">
+                      {new Date(item.date).toLocaleDateString('fa-IR')}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.sepam_id}</td>
+                    <td className="border border-black p-2 text-center">{item.number}</td>
+                    <td className="border border-black p-2 text-center">{item.description}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -133,40 +124,29 @@ const Page13 = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border border-black p-2 text-center">1 فقره چک</td>
-                <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
-                <td className="border border-black p-2 text-center">تضمین اصل مبلغ تامین مالی</td>
-                <td className="border border-black p-2 text-center">7181970240935493</td>
-                <td className="border border-black p-2 text-center">250,000</td>
-              </tr>
-              <tr>
-                <td className="border border-black p-2 text-center">1 فقره چک</td>
-                <td className="border border-black p-2 text-center">جهت تضمین فرع</td>
-                <td className="border border-black p-2 text-center">تضمین یک فرع از فرعیات</td>
-                <td className="border border-black p-2 text-center">8207970240935494</td>
-                <td className="border border-black p-2 text-center">25,727</td>
-              </tr>
-              <tr>
-                <td className="border border-black p-2 text-center">1 فقره چک</td>
-                <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
-                <td className="border border-black p-2 text-center">تضمین اصل مبلغ تامین مالی</td>
-                <td className="border border-black p-2 text-center">3253000111022294</td>
-                <td className="border border-black p-2 text-center">250,000</td>
-              </tr>
-              <tr>
-                <td className="border border-black p-2 text-center">1 فقره چک</td>
-                <td className="border border-black p-2 text-center">جهت تضمین فرع</td>
-                <td className="border border-black p-2 text-center">تضمین یک فرع از فرعیات</td>
-                <td className="border border-black p-2 text-center">4514000111022293</td>
-                <td className="border border-black p-2 text-center">25,727</td>
-              </tr>
+              {data?.warranty
+                ?.filter((item) => item.type === 'check')
+                .map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-black p-2 text-center">1 فقره چک</td>
+                    <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
+                    <td className="border border-black p-2 text-center">
+                      تضمین اصل مبلغ تامین مالی
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.sepam_id}</td>
+                    <td className="border border-black p-2 text-center">{item.value}</td>
+                  </tr>
+                ))}
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
                 <td className="border border-black p-2 text-center" colSpan="3">
-                  555
+                  {data?.warranty?.filter((item) => item.type === 'check').length}
                 </td>
-                <td className="border border-black p-2 text-center">551,454</td>
+                <td className="border border-black p-2 text-center">
+                  {data?.warranty
+                    ?.filter((item) => item.type === 'check')
+                    .reduce((sum, item) => sum + item.value, 0)}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -176,7 +156,6 @@ const Page13 = ({ data }) => {
           صادرکننده ضمانت‌نامه جهت تمدید ضمانت‌نامه تعهد پرداخت صادر شده به‌عمل آورد، در غیر اینصورت
           عامل مخیر به فسخ قرارداد می‌باشد و متقاضی موظف است روال اتمام قرارداد را طی کند.
         </p>
-       
       </div>
     </div>
   );
