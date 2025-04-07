@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 import { useCompanyInfo } from '../../ExecutiveContract/service/companyinfoService';
 
-const CompanyInfoPage = ({ companyInfo , refetch }) => {
+const CompanyInfoPage = ({ companyInfo, refetch }) => {
   const theme = {
     primary: {
       light: '#EDF2FF',
@@ -34,9 +34,7 @@ const CompanyInfoPage = ({ companyInfo , refetch }) => {
     },
   };
 
-  const formatNumber = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  const formatNumber = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const cartId = companyInfo?.company?.id;
   const { mutate } = useCompanyInfo(cartId);
@@ -97,7 +95,7 @@ const CompanyInfoPage = ({ companyInfo , refetch }) => {
 
     setIsSaving(true);
     try {
-      await mutate(dataToSubmit , {
+      await mutate(dataToSubmit, {
         onSuccess: () => {
           refetch();
         },
