@@ -9,8 +9,6 @@ import {
   TextField,
   Box,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
@@ -33,16 +31,9 @@ const Contract = ({ data }) => {
     console.log('data:', data);
   }, [data]);
 
-  const links = [
-    { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
-    { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
-    { id: 4, title: 'قرارداد اجرایی', path: `/executiveContract/${data?.uuid}` },
-    { id: 5, title: 'قرارداد محاربت', path: `/WarTreaty/${data?.uuid}` },
-  ];
-
   const uploadLabels = [
     {
-      id: 'agency_agreement_date',   
+      id: 'agency_agreement_date',
       label: 'تاریخ',
       value: data?.agency_agreement_date,
       type: 'date',
@@ -159,48 +150,15 @@ const Contract = ({ data }) => {
     );
   };
 
-  const isButtonsDisabled =
-    !agencyContract.bank_letter_number || !agencyContract.agency_agreement_date;
-
   return (
     <Container maxWidth="md" dir="rtl">
       <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 4 }}>
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="body1">قرارداد </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {links.map((link) => (
-              <Button
-                key={link.id}
-                component={Link}
-                to={link.path}
-                target="_blank"
-                rel="noopener noreferrer"
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
-                disabled={link.id === 3 ? isButtonsDisabled : false}
-              >
-                {link.title}
-              </Button>
-            ))}
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="body1">اسناد</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {uploadLabels.map((item) => (
-              <Box key={item.id} sx={{ mb: 2 }}>
-                <Typography>{item.label}</Typography>
-                {renderFieldByType(item)}
-              </Box>
-            ))}
-          </AccordionDetails>
-        </Accordion>
+        {uploadLabels.map((item) => (
+          <Box key={item.id} sx={{ mb: 2 }}>
+            <Typography>{item.label}</Typography>
+            {renderFieldByType(item)}
+          </Box>
+        ))}
       </Paper>
     </Container>
   );

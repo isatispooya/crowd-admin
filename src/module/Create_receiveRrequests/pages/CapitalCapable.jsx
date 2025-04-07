@@ -14,11 +14,12 @@ import AgencyContractPage from '../AgencyContract/page';
 import { useCreateExecutiveContract, useGetCompanyInfo } from './service';
 import FeesPage from '../Fees/page';
 import useCompanyInfoStore from '../store/companyInfo.store';
+import Contracts from '../AgencyContract/feature/Contracts';
 
 const CapitalCapable = () => {
   const { cartId } = useParams();
   const { data: companyInfo, refetch } = useGetCompanyInfo(cartId);
-  const { isArchived, toggleArchive } = useCompanyInfoStore();
+  const { toggleArchive } = useCompanyInfoStore();
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
 
   const investorRequest = companyInfo?.investor_request;
@@ -134,6 +135,7 @@ const CapitalCapable = () => {
             'ثبت هیئت مدیره',
             'قرارداد عاملیت',
             'اطلاعات تکمیلی',
+            'قرارداد ها',
             'قرارداد اجرایی',
             'کارمزد ها',
           ];
@@ -142,6 +144,7 @@ const CapitalCapable = () => {
             <BoardofDirectorsPage data={investorRequest} />,
             <AgencyContractPage data={investorRequest} />,
             <AdditionalInformationPage data={investorRequest} />,
+            <Contracts data={investorRequest} />,
             <ExecutiveContractPage
               allData={companyInfo}
               data={investorRequest}
