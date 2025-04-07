@@ -77,6 +77,7 @@ const useCompanyInfoStore = create((set, get) => ({
   commentStep5: '',
   description: '',
   actionStatus: null,
+  selectedButton: null,
   isLoading: false,
   error: null,
 
@@ -297,6 +298,7 @@ const useCompanyInfoStore = create((set, get) => ({
   setDescription: (text) => set({ description: text }),
 
   setActionStatus: (status) => set({ actionStatus: status }),
+  setSelectedButton: (buttonId) => set({ selectedButton: buttonId }),
 
   isActualFile: (value) => value instanceof File || value instanceof Blob,
 
@@ -609,6 +611,7 @@ const useCompanyInfoStore = create((set, get) => ({
       commentStep5: '',
       description: '',
       actionStatus: null,
+      selectedButton: null,
       isLoading: false,
       error: null,
 
@@ -673,6 +676,9 @@ const useCompanyInfoStore = create((set, get) => ({
         marketing_wage: '',
         company_certificate_wage: '',
       },
+
+      interest_rate_plan: '',
+      buoyancy_plan: '',
     }),
 
   initializeStore: (data) => {

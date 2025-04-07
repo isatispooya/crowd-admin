@@ -19,11 +19,9 @@ const usePostProgress = (trace_code, id) => {
     mutationFn: PostProgress,
     onSettled: () => {
       refreshList();
-      console.log('refetch');
     },
     onError: () => {
       refreshList();
-      console.log('refetch');
     },
   });
 

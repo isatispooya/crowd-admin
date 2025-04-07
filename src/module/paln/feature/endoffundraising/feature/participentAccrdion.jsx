@@ -32,7 +32,6 @@ const ParticipentAccrdion = ({ form }) => {
       traceCode: trace_code,
     });
     setShowConfirm(false);
-    console.log('ارسال به فرابورس', selectedData);
   };
 
   const handleFinishSms = () => {

@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-  Container,
-  Paper,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Button, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -22,10 +13,6 @@ const Contracts = ({ data }) => {
     }
   }, [data, initializeStore]);
 
-  useEffect(() => {
-    console.log('data:', data);
-  }, [data]);
-
   const links = [
     { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
@@ -38,21 +25,21 @@ const Contracts = ({ data }) => {
 
   return (
     <Container maxWidth="md" dir="rtl">
-        {links.map((link) => (
-          <Button
-            key={link.id}
-            component={Link}
-            to={link.path}
-            target="_blank"
-            rel="noopener noreferrer"
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
-            disabled={link.id === 3 ? isButtonsDisabled : false}
-          >
-            {link.title}
-          </Button>
-        ))}
+      {links.map((link) => (
+        <Button
+          key={link.id}
+          component={Link}
+          to={link.path}
+          target="_blank"
+          rel="noopener noreferrer"
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
+          disabled={link.id === 3 ? isButtonsDisabled : false}
+        >
+          {link.title}
+        </Button>
+      ))}
     </Container>
   );
 };

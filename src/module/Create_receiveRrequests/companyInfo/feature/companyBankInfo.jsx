@@ -55,7 +55,6 @@ const CompanyBankInfo = ({ data }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log('Changing bank:', name, value);
     updateBankInfo(name, value);
   };
 

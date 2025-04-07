@@ -1,14 +1,4 @@
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Box,
-} from '@mui/material';
+import { Button, Container, Paper, Typography, TextField, Box } from '@mui/material';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
@@ -26,11 +16,6 @@ const Contract = ({ data }) => {
       initializeStore(data);
     }
   }, [data, initializeStore]);
-
-  useEffect(() => {
-    console.log('data:', data);
-  }, [data]);
-
   const uploadLabels = [
     {
       id: 'agency_agreement_date',

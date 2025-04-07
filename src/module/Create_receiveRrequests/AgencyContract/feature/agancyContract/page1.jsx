@@ -5,8 +5,6 @@ import crowdlogo from './crowdlogo.png';
 
 const Page1 = ({ agencyContract }) => {
   if (!agencyContract) return null;
-  console.log(agencyContract);
-
   const renderHeaderContent = () => {
     if (!agencyContract) return null;
 

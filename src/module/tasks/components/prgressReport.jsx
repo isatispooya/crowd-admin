@@ -24,7 +24,6 @@ const ProgressReport = () => {
     }));
    
 
-  console.log(data);
   const columns = [
     {
       field: 'id',
