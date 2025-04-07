@@ -12,7 +12,7 @@ export const createAssumptions = async (data) => {
 };
 
 export const useAssumptions = (refetch) => {
-  const { mutate, data: responseData } = useMutation({
+  const { mutate, data: responseData , } = useMutation({
     mutationFn: (data) => createAssumptions(data),
     onSuccess: () => {
       refetch();

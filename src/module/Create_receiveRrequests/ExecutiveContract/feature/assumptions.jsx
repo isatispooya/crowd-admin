@@ -14,6 +14,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import { useAssumptions } from '../service/assumptions';
 
+const formatNumber = (number) => {
+  if (!number) return '';
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 const Assumptions = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate, data: responseData } = useAssumptions();
@@ -29,6 +34,8 @@ const Assumptions = ({ allData }) => {
       [field]: value,
     }));
   };
+
+  const displayValue = formatNumber(formData.value);
 
   const handleSubmit = async () => {
     try {
@@ -84,7 +91,7 @@ const Assumptions = ({ allData }) => {
               <TextField
                 fullWidth
                 label="مقدار"
-                value={formData.value}
+                value={displayValue}
                 onChange={handleChange('value')}
               />
             </Grid>
@@ -119,7 +126,7 @@ const Assumptions = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مقدار:</strong> {item.value?.toLocaleString()} ریال
+                          <strong>مقدار:</strong> {formatNumber(item.value)} ریال
                         </Typography>
                       </Grid>
                     </Grid>
