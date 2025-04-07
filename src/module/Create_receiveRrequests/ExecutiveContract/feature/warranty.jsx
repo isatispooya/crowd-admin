@@ -33,6 +33,11 @@ const Warranty = ({ allData }) => {
   });
   const [loading, setLoading] = React.useState(false);
 
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
     setFormData((prev) => ({
@@ -101,10 +106,10 @@ const Warranty = ({ allData }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
+                type="text"
                 fullWidth
                 label="مبلغ"
-                value={formData.value}
+                value={formatNumber(formData.value)}
                 onChange={handleChange('value')}
                 InputLabelProps={{ shrink: true }}
               />
@@ -183,7 +188,7 @@ const Warranty = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ:</strong> {item.value?.toLocaleString()} ریال
+                          <strong>مبلغ:</strong> {formatNumber(item.value)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>

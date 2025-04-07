@@ -21,6 +21,12 @@ import { useChecks } from '../service/checks';
 const Checks = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useChecks(cartId);
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.checks?.date
@@ -91,10 +97,10 @@ const Checks = ({ allData }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
+                type="text"
                 fullWidth
                 label="مبلغ چک"
-                value={formData.amount}
+                value={formatNumber(formData.amount)}
                 onChange={handleChange('amount')}
                 InputLabelProps={{ shrink: true }}
               />
@@ -165,7 +171,7 @@ const Checks = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ چک:</strong> {item.amount?.toLocaleString()} ریال
+                          <strong>مبلغ چک:</strong> {formatNumber(item.amount)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>

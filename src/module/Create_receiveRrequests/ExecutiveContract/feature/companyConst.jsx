@@ -23,12 +23,20 @@ const CompanyConst = ({ allData }) => {
     amount_of_3_months: allData?.company_cost?.amount_of_3_months || '',
     description: allData?.company_cost?.description || '',
   });
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (!Number.isNaN(Number(value)) || value === '') {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleSubmit = () => {
@@ -70,22 +78,26 @@ const CompanyConst = ({ allData }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سالیانه"
-                value={formData.amount_of_year}
+                value={formatNumber(formData.amount_of_year)}
                 onChange={handleChange('amount_of_year')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سه ماهه"
-                value={formData.amount_of_3_months}
+                value={formatNumber(formData.amount_of_3_months)}
                 onChange={handleChange('amount_of_3_months')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12}>

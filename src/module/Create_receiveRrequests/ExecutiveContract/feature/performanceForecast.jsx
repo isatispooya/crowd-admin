@@ -22,12 +22,20 @@ const PerformanceForecast = ({ allData }) => {
     title: allData?.performance_forecast?.title || '',
     value: allData?.performance_forecast?.value || '',
   });
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (!Number.isNaN(Number(value)) || value === '') {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -74,8 +82,11 @@ const PerformanceForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="مقدار"
-                value={formData.value}
+                value={formatNumber(formData.value)}
                 onChange={handleChange('value')}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
 
@@ -108,7 +119,7 @@ const PerformanceForecast = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مقدار:</strong> {item.value?.toLocaleString()} ریال
+                          <strong>مقدار:</strong> {formatNumber(item.value)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
