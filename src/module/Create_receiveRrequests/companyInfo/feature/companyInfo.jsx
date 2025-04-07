@@ -10,8 +10,6 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const CompanyInfo = ({ companyInfo }) => {
   const { uploadedFiles, updateUploadedFile, initializeStore } = useCompanyInfoStore();
-  console.log('000000000', companyInfo);
-
   const initialFields = [
     {
       id: 'logo',
@@ -103,7 +101,7 @@ const CompanyInfo = ({ companyInfo }) => {
                   variant="outlined"
                   onChange={(e) => handleFileChange(e, field.id)}
                   inputProps={{
-                    accept: field.accept
+                    accept: field.accept,
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {

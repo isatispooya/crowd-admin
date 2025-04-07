@@ -5,6 +5,8 @@ import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import { useState } from 'react';
 import DateObject from 'react-date-object';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 import { useCompanyInfo } from '../../ExecutiveContract/service/companyinfoService';
 
@@ -31,18 +33,12 @@ const CompanyInfoPage = ({ companyInfo }) => {
       hint: '#7D95B6',
     },
   };
-
   const cartId = companyInfo?.company?.id;
-
-  console.log(cartId);
-
   const { mutate } = useCompanyInfo(cartId);
-
   const [localCompanyInfo, setLocalCompanyInfo] = useState(companyInfo);
   const [pendingChanges, setPendingChanges] = useState({});
   const [isSaving, setIsSaving] = useState(false);
 
-  // تبدیل تاریخ ISO به تاریخ شمسی
   const convertToJalaliDate = (isoDate) => {
     if (!isoDate) return null;
     return new DateObject({
@@ -98,8 +94,20 @@ const CompanyInfoPage = ({ companyInfo }) => {
     try {
       await mutate(dataToSubmit);
       setPendingChanges({});
+      toast.success('ویرایش اطلاعات با موفقیت انجام شد', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (error) {
       console.error('خطا در ذخیره تغییرات:', error);
+      toast.error('خطا در ذخیره تغییرات، لطفا دوباره تلاش کنید', {
+        position: 'top-center',
+        autoClose: 3000,
+      });
     } finally {
       setIsSaving(false);
     }
@@ -476,6 +484,7 @@ const CompanyInfoPage = ({ companyInfo }) => {
           )}
         </Box>
         <BoardOfDirectorsRegistrationMain companyInfo={companyInfo} />
+        <ToastContainer rtl />
       </Paper>
     </Fade>
   );
