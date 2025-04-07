@@ -17,7 +17,7 @@ const GuarantorMain = ({ allData, refetch }) => {
   const [activeForm, setActiveForm] = useState('haghighi');
 
   return (
-    <Box>
+    <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
         sx={{
           borderRadius: '10px',
@@ -54,6 +54,7 @@ const GuarantorMain = ({ allData, refetch }) => {
               </Button>
             </ButtonGroup>
           </Box>
+          <Guarantor allData={allData} refetch={refetch} />
 
           {activeForm === 'haghighi' ? (
             <Guarantor allData={allData} refetch={refetch} />
