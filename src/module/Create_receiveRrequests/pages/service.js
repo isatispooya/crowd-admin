@@ -45,6 +45,9 @@ export const useCreateExecutiveContract = (cartId) => {
       refetch();
       toast.success('اطلاعات با موفقیت ثبت شد');
     },
+    onError: () => {
+      toast.error('ارسال اطلاعات با خطا مواجه شد');
+    },
   });
 
   return { mutate, data: responseData, refetch };
