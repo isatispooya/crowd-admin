@@ -139,17 +139,17 @@ const CapitalCapable = () => {
             'کارمزد ها',
           ];
           const contents = [
-            <CompanyInfoPage companyInfo={investorRequest} />,
-            <BoardofDirectorsPage data={investorRequest} />,
-            <AgencyContractPage data={investorRequest} />,
-            <AdditionalInformationPage data={investorRequest} />,
-            <Contracts data={investorRequest} />,
+            <CompanyInfoPage companyInfo={investorRequest} refetch={refetch} />,
+            <BoardofDirectorsPage data={investorRequest} refetch={refetch} />,
+            <AgencyContractPage data={investorRequest} refetch={refetch} />,
+            <AdditionalInformationPage data={investorRequest} refetch={refetch} />,
+            <Contracts data={investorRequest} refetch={refetch} />,
             <ExecutiveContractPage
               allData={companyInfo}
               data={investorRequest}
               refetch={refetch}
             />,
-            <FeesPage data={investorRequest} />,
+            <FeesPage data={investorRequest} refetch={refetch} />,
           ];
 
           return (

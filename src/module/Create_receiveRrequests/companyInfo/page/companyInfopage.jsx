@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 import { useCompanyInfo } from '../../ExecutiveContract/service/companyinfoService';
 
-const CompanyInfoPage = ({ companyInfo }) => {
+const CompanyInfoPage = ({ companyInfo , refetch }) => {
   const theme = {
     primary: {
       light: '#EDF2FF',
@@ -92,7 +92,11 @@ const CompanyInfoPage = ({ companyInfo }) => {
 
     setIsSaving(true);
     try {
-      await mutate(dataToSubmit);
+      await mutate(dataToSubmit , {
+        onSuccess: () => {
+          refetch();
+        },
+      });
       setPendingChanges({});
       toast.success('ویرایش اطلاعات با موفقیت انجام شد', {
         position: 'top-center',
@@ -491,6 +495,7 @@ const CompanyInfoPage = ({ companyInfo }) => {
 
 CompanyInfoPage.propTypes = {
   companyInfo: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default CompanyInfoPage;

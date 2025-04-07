@@ -8,7 +8,7 @@ import BoardOfDirectors from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
 
-const BoardofDirectorsPage = ({ data }) => {
+const BoardofDirectorsPage = ({ data, refetch }) => {
   const { commentStep2, setCommentStep2, setActionStatus, submitBoardDirectorsForm, isLoading } =
     useCompanyInfoStore();
   const [selectedButton, setSelectedButton] = useState(data?.step_1 || null);
@@ -138,6 +138,7 @@ const BoardofDirectorsPage = ({ data }) => {
 
 BoardofDirectorsPage.propTypes = {
   data: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default BoardofDirectorsPage;

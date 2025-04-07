@@ -32,27 +32,36 @@ const PlanDetail = () => {
 
   const handleUpdate = async () => {
     try {
-      await updateDetails(data?.plan);
-      // Refetch both the plan details and picture data
-      await Promise.all([refetchPlanDetail(), refetchPic()]);
-      toast.success('طرح با موفقیت بروزرسانی شد', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+      await updateDetails(data?.plan, {
+        onSuccess: () => {
+          toast.success('طرح با موفقیت بروزرسانی شد', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        },
+        onError: (error) => {
+          console.error('Error updating plan:', error);
+          toast.error('خطا در بروزرسانی طرح', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        },
+        onSettled: () => {
+          // Refetch both queries after the mutation is settled (success or error)
+          refetchPlanDetail();
+          refetchPic();
+        },
       });
     } catch (error) {
       console.error('Error updating plan:', error);
-      toast.error('خطا در بروزرسانی طرح', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
   };
 

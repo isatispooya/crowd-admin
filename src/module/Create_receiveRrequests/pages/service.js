@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import api from 'src/api/apiClient';
 
@@ -23,15 +23,14 @@ export const createExecutiveContract = async (cartId, data) => {
 };
 
 export const useGetCompanyInfo = (cartId) => {
-  const { data: responseData, refetch } = useQuery({
+  const queryClient = useQueryClient();
+  return useQuery({
     queryKey: ['companyInfo', cartId],
     queryFn: () => getComanyInfo(cartId),
     onSuccess: () => {
-      refetch();
+      queryClient.invalidateQueries(['companyInfo', cartId]);
     },
   });
-
-  return { data: responseData, refetch };
 };
 
 export const useCreateExecutiveContract = (cartId) => {
