@@ -53,8 +53,10 @@ const Page1 = ({ data }) => {
       company_cost,
       guarantor,
       company_members,
-      profit_and_loss_forecast,
+
     } = data;
+
+    console.log(company_cost);
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
@@ -66,8 +68,15 @@ const Page1 = ({ data }) => {
           1) {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
           {company?.economic_code} و شماره ثبت {company?.registration_number} در اداره ثبت شرکت‌ها و
           موسسات غیر تجاری شورای عالی مناطق آزاد به نشانی {company?.address}، پلاک 0، 7، به کد پستی{' '}
-          {company?.postal_code}، با نمایندگی آقای {company_members?.person_title} به شماره ملی{' '}
-          {company_members?.uniqueIdentifier} به سمت رئیس هیئت مدیره و مدیر عامل صاحبان امضای مجاز
+          {company?.postal_code}، با نمایندگی 
+          {company_members && company_members.length > 0 && company_members.map((member, index) => (
+            <span key={member.id || index}>
+              {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
+              {member.uniqueIdentifier} به سمت {member.position_title}
+              {" "}
+              {member.signature && ` صاحب امضای مجاز بر اساس ${member.signature_document}`}
+            </span>
+          ))}
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود، از یک طرف،
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
@@ -77,7 +86,7 @@ const Page1 = ({ data }) => {
           هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز
           بر اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
           نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
-          متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 1008438/5/03 مورخ 15/05/1403 از
+          متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 03/5/1008438 مورخ 1403/05/15 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
           <br />
           {guarantor.map((item, index) => (
@@ -153,17 +162,33 @@ const Page1 = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">
-                {company_cost?.description || 'توضیحات'}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(company_cost?.amount_of_months)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(company_cost?.amount_of_year)}
-              </td>
-            </tr>
+            {company_cost && company_cost.length > 0 ? (
+              company_cost.map((item, index) => (
+                <tr key={item.id || index}>
+                  <td className="border border-gray-300 p-2">
+                    {item.description || ''}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {formatMillionRials(item.amount_of_3_months)}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {formatMillionRials(item.amount_of_year)}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td className="border border-gray-300 p-2">
+                  {company_cost?.description || 'توضیحات'}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {formatMillionRials(company_cost?.amount_of_months)}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {formatMillionRials(company_cost?.amount_of_year)}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <p>
@@ -173,36 +198,7 @@ const Page1 = ({ data }) => {
           نماید. متقاضی بر اساس این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">4- تعهد متقاضی به ایجاد درآمد عملیاتی</h2>
-        <p>
-          متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400 (61,600)
-          میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
-        </p>
-        <h3 className="text-[23px] font-bold mt-2 mb-2">
-          پیش‌بینی سود و زیان (ارقام به میلیون ریال)
-        </h3>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-right">سالیانه</th>
-              <th className="border border-gray-300 p-2 text-right">دوره سه ماهه</th>
-              <th className="border border-gray-300 p-2 text-right">شرح</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">
-                {profit_and_loss_forecast?.description || 'توضیحات'}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(profit_and_loss_forecast?.amount_of_year)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(profit_and_loss_forecast?.amount_of_months)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        
       </div>
     );
   };
@@ -238,16 +234,29 @@ Page1.propTypes = {
         postal_code: PropTypes.string,
       })
     ),
-    company_members: PropTypes.shape({
-      person_title: PropTypes.string,
-      uniqueIdentifier: PropTypes.string,
-      signture_document: PropTypes.string,
-    }),
-    company_cost: PropTypes.shape({
-      description: PropTypes.string,
-      amount_of_months: PropTypes.number,
-      amount_of_year: PropTypes.number,
-    }),
+    company_members: PropTypes.arrayOf(
+      PropTypes.shape({
+        person_title: PropTypes.string,
+        uniqueIdentifier: PropTypes.string,
+        position_title: PropTypes.string,
+        signature: PropTypes.string,
+        signature_document: PropTypes.string,
+      })
+    ),
+    company_cost: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string,
+        amount_of_3_months: PropTypes.number,
+        amount_of_year: PropTypes.number,
+      })
+    ),
+    performance_forecast: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        value: PropTypes.string,
+      })
+    ),
     profit_and_loss_forecast: PropTypes.shape({
       description: PropTypes.string,
       amount_of_months: PropTypes.number,
