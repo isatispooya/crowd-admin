@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Cancel, CheckCircle, Edit } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import BoardOfDirectors from '../feature';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useCreateExecutiveContract } from '../../pages/service';
@@ -73,6 +74,7 @@ const BoardofDirectorsPage = ({ data }) => {
         },
       }}
     >
+      <ToastContainer />
       <Typography
         variant="h5"
         component="h1"
@@ -109,7 +111,7 @@ const BoardofDirectorsPage = ({ data }) => {
           onChange={(e) => setCommentStep2(e.target.value)}
         />
 
-<Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
             <Button
               key={item.id}

@@ -1,5 +1,5 @@
 import api from 'src/api/apiClient';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const createCompanyInfo = async (data, cartId) => {
   const response = await api.patch(`/api/update/company/admin/${cartId}/`, data, {
@@ -12,19 +12,23 @@ export const createCompanyInfo = async (data, cartId) => {
 };
 
 export const useCompanyInfo = (cartId) => {
+  const queryClient = useQueryClient();
+  
   const {
     mutate,
     data: responseData,
-    refetch,
+    isLoading,
+    isError,
+    error
   } = useMutation({
     mutationFn: (data) => createCompanyInfo(data, cartId),
     onSuccess: () => {
-      refetch();
+      queryClient.invalidateQueries(['companyInfo', cartId]);
     },
-    onError: (error) => {
-      console.error('Error submitting form:', error);
+    onError: (err) => {
+      console.error('Error submitting form:', err);
     },
   });
 
-  return { mutate, data: responseData, refetch };
+  return { mutate, data: responseData, isLoading, isError, error };
 };

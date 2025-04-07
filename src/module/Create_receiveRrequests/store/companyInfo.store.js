@@ -367,6 +367,16 @@ const useCompanyInfoStore = create((set, get) => ({
           formData.append('logo', state.uploadedFiles.logo);
         }
       }
+      if (state.uploadedFiles.validation_report) {
+        if (state.isActualFile(state.uploadedFiles.validation_report)) {
+          formData.append('validation_report', state.uploadedFiles.validation_report);
+        }
+      }
+      if (state.uploadedFiles.financial_statement) {
+        if (state.isActualFile(state.uploadedFiles.financial_statement)) {
+          formData.append('financial_statement', state.uploadedFiles.financial_statement);
+        }
+      }
 
       formData.append('step_1', state.actionStatus);
       formData.append('comment_step_1', state.commentStep1);

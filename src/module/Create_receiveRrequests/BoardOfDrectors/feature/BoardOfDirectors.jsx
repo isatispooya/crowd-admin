@@ -17,12 +17,106 @@ import Button from '@mui/material/Button';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 import { useBoardOfDirectors } from '../service/BoardOfDirectors';
 
+const UPLOAD_FIELDS = [
+  { id: 'validation_report', label: 'گزارش اعتبارسنجی' },
+  { id: 'previous_article', label: 'سوسابقه' },
+  { id: 'national_card', label: 'کارت ملی' },
+  { id: 'identity_card', label: 'شناسنامه' },
+];
+
+const PASTEL_BLUE = {
+  light: '#E6F4FF',
+  main: '#B3E0FF',
+  dark: '#6B9ACD',
+  contrastText: '#1A365D',
+};
+
+const styles = {
+  fieldTitle: {
+    fontSize: '1rem',
+    fontWeight: 600,
+    color: '#2c3e50',
+    mb: 1,
+  },
+  fileBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    p: 3,
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+    border: '1px solid #e1e8ed',
+    marginTop: 2,
+    background: 'linear-gradient(145deg, #ffffff, #f8fafc)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
+    },
+  },
+  emptyFileBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    p: 3,
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+    border: '1px dashed #cbd5e1',
+    marginTop: 2,
+    background: '#f8fafc',
+    color: '#64748b',
+    fontSize: '0.95rem',
+    fontWeight: 500,
+  },
+  fileLink: {
+    textDecoration: 'none',
+    color: PASTEL_BLUE.contrastText,
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  fileLinkText: {
+    fontWeight: 500,
+    '&:hover': {
+      color: PASTEL_BLUE.dark,
+    },
+  },
+  phoneInput: {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '10px',
+      '&:hover fieldset': {
+        borderColor: '#3498db',
+      },
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '12px 16px',
+    },
+  },
+};
+
+const FileDisplay = ({ fileUrl, label }) => {
+  const fullUrl = fileUrl ? `https://apicrowd.isatispooya.com/${fileUrl}` : '#';
+  
+  return (
+    <Box sx={styles.fileBox}>
+      <a href={fullUrl} target="_blank" rel="noopener noreferrer" style={styles.fileLink}>
+        <Typography sx={styles.fileLinkText}>{label}</Typography>
+      </a>
+    </Box>
+  );
+};
+
+FileDisplay.propTypes = {
+  fileUrl: PropTypes.string,
+  label: PropTypes.string.isRequired,
+};
+
 const BoardOfDirectors = ({ data }) => {
   const [localBoardMembers, setLocalBoardMembers] = useState([]);
   const [expandedMemberId, setExpandedMemberId] = useState(null);
 
   const { setBoardMembers, boardMembersFiles, initializeStore } = useCompanyInfoStore();
-
   const { mutate } = useBoardOfDirectors(expandedMemberId ? [expandedMemberId] : []);
 
   const handleAccordionChange = (memberId) => (_, isExpanded) => {
@@ -51,32 +145,84 @@ const BoardOfDirectors = ({ data }) => {
     }
   }, [data, setBoardMembers, initializeStore]);
 
-  const uploadFields = [
-    { id: 'validation_report', label: 'گزارش اعتبارسنجی' },
-    { id: 'previous_article', label: 'سوسابقه' },
-    { id: 'national_card', label: 'کارت ملی' },
-    { id: 'identity_card', label: 'شناسنامه' },
-  ];
-
   const handleConfirm = (memberId) => {
-    if (!Array.isArray(localBoardMembers)) {
-      console.error('localBoardMembers is not an array');
-      return;
-    }
+    if (!Array.isArray(localBoardMembers)) return;
 
     const member = localBoardMembers.find((m) => m.id === memberId);
+    if (!member) return;
 
-    if (member) {
-      const memberData = {
-        id: memberId,
-        signature: member.signature || false,
-        signature_document: member.signature_document || '',
-        phone_number: member.phone_number || '',
-      };
+    const memberData = {
+      id: memberId,
+      signature: member.signature || false,
+      signature_document: member.signature_document || '',
+      phone_number: member.phone_number || '',
+    };
 
-      mutate(memberData);
-    }
+    mutate(memberData);
   };
+
+  const renderMemberFields = (member) => (
+    <>
+      {UPLOAD_FIELDS.map((field) => (
+        <Box key={field.id} sx={{ mb: 3 }}>
+          <Typography sx={styles.fieldTitle}>{field.label}</Typography>
+          
+          {boardMembersFiles[member.id]?.[field.id] ? (
+            <FileDisplay 
+              fileUrl={boardMembersFiles[member.id][field.id]?.url || boardMembersFiles[member.id][field.id]}
+              label={field.label}
+            />
+          ) : (
+            <Box sx={styles.emptyFileBox}>فایل اضافه نشده است</Box>
+          )}
+        </Box>
+      ))}
+
+      <Box sx={{ mb: 3 }}>
+        <Typography sx={styles.fieldTitle}>شماره تلفن</Typography>
+        <TextField
+          fullWidth
+          value={member.phone_number || ''}
+          onChange={(e) => handleBoardMemberDataChange(member.id, 'phone_number', e.target.value)}
+          sx={styles.phoneInput}
+        />
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <FormControlLabel
+          label="صاحب امضا"
+          control={
+            <Switch
+              checked={member.signature}
+              onChange={(e) => handleBoardMemberDataChange(member.id, 'signature', e.target.checked)}
+            />
+          }
+        />
+
+        {member.signature && (
+          <>
+            <Typography>توضیحات مستندات صاحب امضا</Typography>
+            <TextField
+              fullWidth
+              value={member.signature_document || ''}
+              onChange={(e) =>
+                handleBoardMemberDataChange(member.id, 'signature_document', e.target.value)
+              }
+            />
+          </>
+        )}
+      </Box>
+
+      <Button
+        onClick={() => handleConfirm(member.id)}
+        fullWidth
+        variant="outlined"
+        color="primary"
+      >
+        تایید
+      </Button>
+    </>
+  );
 
   return (
     <Container maxWidth="md" dir="rtl">
@@ -94,109 +240,7 @@ const BoardOfDirectors = ({ data }) => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                {uploadFields.map((field) => (
-                  <Box key={field.id} sx={{ mb: 2 }}>
-                    {boardMembersFiles[member.id]?.[field.id] ? (
-                      <>
-                        <Typography>{field.label}</Typography>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            p: 3,
-                            borderRadius: 1,
-                            boxShadow: 2,
-                            border: '1px solid #ccc',
-                            marginTop: 2,
-                          }}
-                        >
-                          <a
-                            href={
-                              boardMembersFiles[member.id][field.id]?.url ||
-                              boardMembersFiles[member.id][field.id]
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ textDecoration: 'none', color: '#1976d2', cursor: 'pointer' }}
-                          >
-                            <Typography>
-                              {boardMembersFiles[member.id][field.id]?.name ||
-                                boardMembersFiles[member.id][field.id]}
-                            </Typography>
-                          </a>
-                        </Box>
-                      </>
-                    ) : (
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          p: 2,
-                          borderRadius: 1,
-                          boxShadow: 2,
-                          border: '1px solid #ccc',
-                          marginTop: 2,
-                        }}
-                      >
-                        فایل اضافه نشده است
-                      </Box>
-                    )}
-                  </Box>
-                ))}
-
-                <Box sx={{ mb: 2 }}>
-                  <Typography>شماره تلفن</Typography>
-                  <TextField
-                    fullWidth
-                    value={member.phone_number || ''}
-                    onChange={(e) =>
-                      handleBoardMemberDataChange(member.id, 'phone_number', e.target.value)
-                    }
-                  />
-                </Box>
-
-                <Box sx={{ mb: 2 }}>
-                  <FormControlLabel
-                    label="صاحب امضا"
-                    control={
-                      <Switch
-                        defaultChecked
-                        checked={member.signature}
-                        onChange={(e) =>
-                          handleBoardMemberDataChange(member.id, 'signature', e.target.checked)
-                        }
-                      />
-                    }
-                  />
-
-                  {member.signature && (
-                    <>
-                      <Typography>توضیحات مستندات صاحب امضا</Typography>
-                      <TextField
-                        fullWidth
-                        value={member.signature_document || ''}
-                        onChange={(e) =>
-                          handleBoardMemberDataChange(
-                            member.id,
-                            'signature_document',
-                            e.target.value
-                          )
-                        }
-                      />
-                    </>
-                  )}
-                </Box>
-
-                <Button
-                  onClick={() => handleConfirm(member.id)}
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                >
-                  تایید
-                </Button>
+                {renderMemberFields(member)}
               </AccordionDetails>
             </Accordion>
           ))

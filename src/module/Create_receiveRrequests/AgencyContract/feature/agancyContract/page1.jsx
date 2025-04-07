@@ -1,10 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import moment from 'moment-jalaali';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
-const Page1 = ({ agencyContract, qrValue }) => {
+const Page1 = ({ agencyContract }) => {
   if (!agencyContract) return null;
   console.log(agencyContract);
 
@@ -15,10 +14,11 @@ const Page1 = ({ agencyContract, qrValue }) => {
       <div className="flex flex-col gap-1 text-left">
         {agencyContract.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
-            <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
-              شماره قرارداد: {agencyContract.investor_request?.contract_number || ''}
+            <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
+              شماره قرارداد: {'  '}
+              {agencyContract.investor_request?.contract_number || ''}
               <br />
-              تاریخ:{' '}
+              تاریخ: {'  '}
               {agencyContract.investor_request?.agency_agreement_date
                 .split('T')[0]
                 .replace(/-/g, '/')}
@@ -224,7 +224,6 @@ const Page1 = ({ agencyContract, qrValue }) => {
 
 Page1.propTypes = {
   agencyContract: PropTypes.object.isRequired,
-  qrValue: PropTypes.string.isRequired,
   company: PropTypes.object.isRequired,
   registration_type_title: PropTypes.string.isRequired,
   national_id: PropTypes.string.isRequired,

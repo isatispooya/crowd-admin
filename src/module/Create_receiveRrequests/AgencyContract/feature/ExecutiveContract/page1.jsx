@@ -22,7 +22,7 @@ const Page1 = ({ data }) => {
       <div className="flex flex-col gap-1 text-left">
         {data.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
-            <div className="absolute top-0 left-[150px] text-[14px] font-bold text-left mt-4">
+            <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
               شماره قرارداد: {`2${data.investor_request?.contract_number || ''}`}
               <br />
               تاریخ: {data.investor_request?.agency_agreement_date.split('T')[0].replace(/-/g, '/')}

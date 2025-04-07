@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import api from 'src/api/apiClient';
 
 export const getComanyInfo = async (cartId) => {
@@ -22,7 +23,7 @@ export const createExecutiveContract = async (cartId, data) => {
 };
 
 export const useGetCompanyInfo = (cartId) => {
-  const { data: responseData , refetch } = useQuery({
+  const { data: responseData, refetch } = useQuery({
     queryKey: ['companyInfo', cartId],
     queryFn: () => getComanyInfo(cartId),
     onSuccess: () => {
@@ -34,9 +35,20 @@ export const useGetCompanyInfo = (cartId) => {
 };
 
 export const useCreateExecutiveContract = (cartId) => {
-  const { mutate, data: responseData } = useMutation({
+  const {
+    mutate,
+    data: responseData,
+    refetch,
+  } = useMutation({
     mutationFn: (data) => createExecutiveContract(cartId, data),
+    onSuccess: () => {
+      refetch();
+      toast.success('اطلاعات با موفقیت ثبت شد');
+    },
+    onError: () => {
+      toast.error('ارسال اطلاعات با خطا مواجه شد');
+    },
   });
 
-  return { mutate, data: responseData };
+  return { mutate, data: responseData, refetch };
 };

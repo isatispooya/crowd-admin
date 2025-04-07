@@ -14,6 +14,7 @@ import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
@@ -22,17 +23,16 @@ import { useCreateExecutiveContract } from '../../pages/service';
 
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { cartId } = useParams();
-  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+  const { mutate: submitExecutiveContract, refetch } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
-
-  const { 
-    commentStep1, 
-    setCommentStep1, 
-    setActionStatus, 
-    isLoading, 
+  const {
+    commentStep1,
+    setCommentStep1,
+    setActionStatus,
+    isLoading,
     submitStep1Form,
-    uploadedFiles
+    uploadedFiles,
   } = useCompanyInfoStore();
 
   React.useEffect(() => {
@@ -45,8 +45,8 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const handleButtonClick = async (actionType) => {
     setSelectedButton(actionType);
     setActionStatus(actionType);
-    
-    if (!uploadedFiles.picture) {
+
+    if (!uploadedFiles.logo) {
       alert('لطفا لوگوی شرکت را آپلود کنید');
       return;
     }
@@ -54,6 +54,15 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
     const formData = await submitStep1Form();
     if (formData) {
       submitExecutiveContract(formData);
+    }
+    refetch();
+
+    if (actionType === 'approved') {
+      toast.success('اطلاعات با موفقیت ثبت شد');
+    } else if (actionType === 'rejected') {
+      toast.error('اطلاعات رد شد');
+    } else if (actionType === 'changed') {
+      toast.warning('اطلاعات اصلاح شد');
     }
   };
 
@@ -132,6 +141,7 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
             </Button>
           ))}
         </Box>
+        <ToastContainer rtl />
       </Stack>
     </Box>
   );
