@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Page2 = ({ data, qrValue }) => {
+const Page2 = ({ data }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const { investor_request, one_year_return_on_investment } = data;
+    const { one_year_return_on_investment } = data;
 
     const formatPercentage = (value) => (value ? `${value}%` : '0%');
 
@@ -213,7 +213,6 @@ Page2.propTypes = {
       })
     ),
   }).isRequired,
-  qrValue: PropTypes.string,
 };
 
 export default Page2;
