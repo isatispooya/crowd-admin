@@ -23,7 +23,7 @@ import { useCreateExecutiveContract } from '../../pages/service';
 
 const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { cartId } = useParams();
-  const { mutate: submitExecutiveContract, refetch } = useCreateExecutiveContract(cartId);
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
   const {
@@ -54,15 +54,6 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
     const formData = await submitStep1Form();
     if (formData) {
       submitExecutiveContract(formData);
-    }
-    refetch();
-
-    if (actionType === 'approved') {
-      toast.success('اطلاعات با موفقیت ثبت شد');
-    } else if (actionType === 'rejected') {
-      toast.error('اطلاعات رد شد');
-    } else if (actionType === 'changed') {
-      toast.warning('اطلاعات اصلاح شد');
     }
   };
 

@@ -20,7 +20,7 @@ import { useChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useChecks();
+  const { mutate } = useChecks(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.checks?.date
@@ -58,27 +58,10 @@ const Checks = ({ allData }) => {
         type: '',
         fishing_id: '',
       });
-
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        date: responseData.date
-          ? new DateObject({ date: responseData.date, calendar: persian })
-          : null,
-        amount: responseData.amount,
-        bank_name: responseData.bank_name,
-        branch_name: responseData.branch_name,
-        type: responseData.type,
-        fishing: responseData.fishing_id,
-        investor_request: responseData.investor_request,
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

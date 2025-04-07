@@ -16,7 +16,7 @@ import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
 
 const ProfitLossForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useProfitAndLossForecast();
+  const { mutate } = useProfitAndLossForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
@@ -48,17 +48,6 @@ const ProfitLossForecast = ({ allData }) => {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

@@ -16,7 +16,7 @@ import { usePerformanceForecast } from '../service/performanceForecast';
 
 const PerformanceForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = usePerformanceForecast();
+  const { mutate } = usePerformanceForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.performance_forecast?.title || '',
@@ -47,16 +47,6 @@ const PerformanceForecast = ({ allData }) => {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        title: responseData.title || '',
-        value: responseData.value || '',
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

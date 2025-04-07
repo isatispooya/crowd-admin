@@ -1,6 +1,7 @@
 import api from 'src/api/apiClient';
 import { useMutation } from '@tanstack/react-query';
 import { getCookie } from 'src/api/cookie'; 
+import { useGetCompanyInfo } from '../../pages/service';
 
 export const createGuarantor = async (data) => {
   const accessApi = getCookie('accessApi');
@@ -14,11 +15,12 @@ export const createGuarantor = async (data) => {
   return response.data;
 };
 
-export const useGuarantor = () => {
+export const useGuarantor = (cartId) => {
+  const { refetch: refetchGet } = useGetCompanyInfo(cartId);
   const { mutate, data: responseData, refetch } = useMutation({
     mutationFn: (data) => createGuarantor(data),
     onSuccess: () => {
-      refetch();
+      refetchGet();
     },
     onError: (error) => {
       console.error('Error submitting form:', error);

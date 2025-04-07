@@ -14,9 +14,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import { useCompanyConst } from '../service/companyConst';
 
-const CompanyConst = ({ allData, refetch }) => {
+const CompanyConst = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useCompanyConst();
+  const { mutate } = useCompanyConst(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.company_cost?.amount_of_year || '',
@@ -38,34 +38,20 @@ const CompanyConst = ({ allData, refetch }) => {
         ...formData,
       };
 
-      mutate(payload);
-
-      setFormData({
-        investor_request_id: cartId,
-        amount_of_year: '',
-        amount_of_3_months: '',
-        description: '',
+      mutate(payload, {
+        onSuccess: () => {
+          setFormData({
+            investor_request_id: cartId,
+            amount_of_year: '',
+            amount_of_3_months: '',
+            description: '',
+          });
+        },
       });
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
-      });
-    }
-  }, [responseData, cartId]);
-
-
-  React.useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -170,7 +156,6 @@ const CompanyConst = ({ allData, refetch }) => {
 
 CompanyConst.propTypes = {
   allData: PropTypes.object.isRequired,
-  refetch: PropTypes.func.isRequired,
 };
 
 export default CompanyConst;
