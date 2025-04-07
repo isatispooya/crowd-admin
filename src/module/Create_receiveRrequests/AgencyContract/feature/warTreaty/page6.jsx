@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { NavItem } from 'react-bootstrap';
 import { formatNumber } from 'src/utils/formatNumbers';
 
 const Page6 = ({ agencyContract }) => {

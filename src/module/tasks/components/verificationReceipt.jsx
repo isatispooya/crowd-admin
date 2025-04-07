@@ -67,12 +67,6 @@ const VerificationReceipt = () => {
             onChange={(e) => {
               const newValue = e.target.value === 'true';
               params.row.profit_receipt_completed = newValue;
-              console.log('Sending to server:', {
-                id: params.row.id,
-                profit_receipt_comment:
-                  comments[params.row.id] ?? params.row.profit_receipt_comment,
-                profit_receipt_completed: newValue,
-              });
               mutate({
                 id: params.row.id,
                 profit_receipt_comment:

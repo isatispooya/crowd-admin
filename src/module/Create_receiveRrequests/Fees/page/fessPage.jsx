@@ -45,16 +45,10 @@ const FeesPage = ({ data }) => {
     const feesFormData = await submitFeesForm();
 
     if (feesFormData) {
-      console.log('Fees form data to be submitted:', feesFormData);
 
       if (!feesFormData.get('investor_request_id') && cartId) {
         feesFormData.append('investor_request_id', cartId);
       }
-
-      Array.from(feesFormData.entries()).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
-      });
-
       submitFees({ ...Object.fromEntries(feesFormData), investor_request_id: cartId });
     }
 

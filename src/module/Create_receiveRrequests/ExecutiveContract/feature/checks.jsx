@@ -19,7 +19,6 @@ import DateObject from 'react-date-object';
 import { useChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
-  console.log(allData);
   const { cartId } = useParams();
   const { mutate, data: responseData } = useChecks();
   const [formData, setFormData] = React.useState({

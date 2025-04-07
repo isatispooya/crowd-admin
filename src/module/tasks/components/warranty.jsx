@@ -10,7 +10,6 @@ import { localeText } from '../consts/localText';
 
 const Warranty = () => {
   const { data } = useGetWarranty();
-  console.log('Warranty data:', data);
   const { mutate } = usePostWarranty();
   const [comments, setComments] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
@@ -34,10 +33,8 @@ const Warranty = () => {
       headerName: 'تاریخ', 
       width: 130,
       valueFormatter: (params) => {
-        console.log('Formatting date:', params.value);
         if (!params.value) return '';
         const persianDate = moment(params.value, 'YYYY-MM-DD').format('jYYYY/jMM/jDD');
-        console.log('Converted to Persian:', persianDate);
         return persianDate;
       },
       renderCell: (params) => {

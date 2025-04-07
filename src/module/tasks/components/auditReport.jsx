@@ -13,7 +13,6 @@ const AuditReport = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  console.log(data);
   const transformDataForExcel = (excelData) =>
     excelData.map((item) => ({
       شناسه: item.id || '',

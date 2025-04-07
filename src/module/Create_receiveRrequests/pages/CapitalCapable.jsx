@@ -45,7 +45,6 @@ const CapitalCapable = () => {
 
   const handleChange = (panel) => (_, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
-    console.log(isExpanded);
   };
 
   if (isLoading) {

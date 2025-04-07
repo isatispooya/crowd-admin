@@ -6,8 +6,6 @@ const UserAccounts = () => {
   const { userId } = useParams();
   const { data } = useGetUserDetail(userId);
 
-  console.log(data);
-
   const fields = [
     { label: 'شماره حساب', value: (item) => item.accountNumber },
     { label: 'بانک', value: (item) => item.bank || 'ندارد' },

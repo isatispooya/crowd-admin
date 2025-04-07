@@ -87,7 +87,7 @@ const BankLetter = () => {
         transition={{ delay: 0.5 }}
         className="bg-gray-50 p-5 rounded-lg shadow-sm text-sm border border-gray-100"
       >
-        <p className="text-gray-800 leading-relaxed text-right text-justify" dir="rtl">
+        <p className="text-gray-800 leading-relaxed text-right" dir="rtl">
           با سلام و مراتب احترام
           <br /> به استحضار میرساند با توجه به درخواست شرکت {bankLetter?.company_name}(
           {bankLetter?.registration_type_title}) به شناسه ملی {bankLetter?.company_national_id} مبنی

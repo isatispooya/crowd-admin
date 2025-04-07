@@ -15,14 +15,10 @@ export const usePostInfo = (trace_code) => {
         payback_period: String(data.payback_period),
         period_length: Number(data.period_length),
        
-      };
-
-      console.log('Sending formatted data:', formattedData);
-      
+      };      
       const response = await api.post(`/api/information/plan/admin/${trace_code}/`, formattedData, {
       });
       
-      console.log('Response received:', response);
       return response.data;
     } catch (error) {
       console.error('API Error:', error.response?.data || error.message);
@@ -33,7 +29,6 @@ export const usePostInfo = (trace_code) => {
   const mutation = useMutation({
     mutationFn: (data) => sendAddInfo(data),
     onSuccess: (newData) => {
-      console.log('Mutation successful:', newData);
       queryClient.invalidateQueries(['addInfo', trace_code]);
       queryClient.setQueryData(['addInfo', trace_code], newData);
     },

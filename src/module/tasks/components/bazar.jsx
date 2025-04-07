@@ -90,9 +90,7 @@ const Bazar = () => {
     if (!rows || rows.length === 0) {
       return <div>داده‌ای برای نمایش وجود ندارد</div>;
     }
-    
-    console.log('Rows data for export:', rows);
-    
+      
     return (
       <div>
         <DataGrid
@@ -109,9 +107,8 @@ const Bazar = () => {
               <CustomDataGridToolbar
                 {...props}
                 fileName="گزارش-بازار"
-                customExcelData={() => {
-                  console.log('Transforming data for Excel:', rows);
-                  return rows.map((item) => ({
+                customExcelData={() => 
+                  rows.map((item) => ({
                     'شناسه': item.id || '',
                     'نام طرح': item.projectName || '',
                     'نام مشتری': item.customerName || '',
@@ -120,8 +117,8 @@ const Bazar = () => {
                     'کد معرف': item.referralCode || '',
                     'معرف': item.marketer || '',
                     'شماره شبا معرف': item.referralIBAN || '',
-                  }));
-                }}
+                  }))
+                }
                 data={rows}
               />
             ),
