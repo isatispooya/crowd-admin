@@ -136,21 +136,20 @@ const CompanyInfoPage = ({ companyInfo }) => {
             variant="h4"
             component="h1"
             sx={{
+              mb: 4,
+              textAlign: 'center',
               color: theme.primary.dark,
               fontWeight: 700,
               position: 'relative',
-              display: 'inline-block',
-              pb: 1,
               '&:after': {
                 content: '""',
                 position: 'absolute',
-                bottom: '0',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
+                bottom: '-12px',
+                left: '10%',
+                width: '80%',
                 height: '3px',
                 background: `linear-gradient(90deg, ${theme.primary.main}, ${theme.secondary.main})`,
-                borderRadius: '3px',
+                borderRadius: '2px',
               },
             }}
           >

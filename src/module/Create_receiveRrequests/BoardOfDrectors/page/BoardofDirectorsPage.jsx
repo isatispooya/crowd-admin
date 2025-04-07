@@ -109,7 +109,7 @@ const BoardofDirectorsPage = ({ data }) => {
           onChange={(e) => setCommentStep2(e.target.value)}
         />
 
-<Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           {button.map((item) => (
             <Button
               key={item.id}
