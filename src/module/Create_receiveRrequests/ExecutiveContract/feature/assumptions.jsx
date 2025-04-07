@@ -21,7 +21,7 @@ const formatNumber = (number) => {
 
 const Assumptions = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useAssumptions();
+  const { mutate } = useAssumptions(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.assumptions?.title || '',
@@ -54,16 +54,6 @@ const Assumptions = ({ allData }) => {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        title: responseData.title || '',
-        value: responseData.value || '',
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

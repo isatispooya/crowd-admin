@@ -20,7 +20,13 @@ import { useChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useChecks();
+  const { mutate } = useChecks(cartId);
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.checks?.date
@@ -58,27 +64,10 @@ const Checks = ({ allData }) => {
         type: '',
         fishing_id: '',
       });
-
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        date: responseData.date
-          ? new DateObject({ date: responseData.date, calendar: persian })
-          : null,
-        amount: responseData.amount,
-        bank_name: responseData.bank_name,
-        branch_name: responseData.branch_name,
-        type: responseData.type,
-        fishing: responseData.fishing_id,
-        investor_request: responseData.investor_request,
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -108,10 +97,10 @@ const Checks = ({ allData }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
+                type="text"
                 fullWidth
                 label="مبلغ چک"
-                value={formData.amount}
+                value={formatNumber(formData.amount)}
                 onChange={handleChange('amount')}
                 InputLabelProps={{ shrink: true }}
               />
@@ -182,7 +171,7 @@ const Checks = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ چک:</strong> {item.amount?.toLocaleString()} ریال
+                          <strong>مبلغ چک:</strong> {formatNumber(item.amount)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>

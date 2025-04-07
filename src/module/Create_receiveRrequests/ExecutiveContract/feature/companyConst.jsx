@@ -14,21 +14,29 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import { useCompanyConst } from '../service/companyConst';
 
-const CompanyConst = ({ allData, refetch }) => {
+const CompanyConst = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useCompanyConst();
+  const { mutate } = useCompanyConst(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.company_cost?.amount_of_year || '',
     amount_of_3_months: allData?.company_cost?.amount_of_3_months || '',
     description: allData?.company_cost?.description || '',
   });
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (!Number.isNaN(Number(value)) || value === '') {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleSubmit = () => {
@@ -38,34 +46,20 @@ const CompanyConst = ({ allData, refetch }) => {
         ...formData,
       };
 
-      mutate(payload);
-
-      setFormData({
-        investor_request_id: cartId,
-        amount_of_year: '',
-        amount_of_3_months: '',
-        description: '',
+      mutate(payload, {
+        onSuccess: () => {
+          setFormData({
+            investor_request_id: cartId,
+            amount_of_year: '',
+            amount_of_3_months: '',
+            description: '',
+          });
+        },
       });
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
-      });
-    }
-  }, [responseData, cartId]);
-
-
-  React.useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -84,22 +78,26 @@ const CompanyConst = ({ allData, refetch }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سالیانه"
-                value={formData.amount_of_year}
+                value={formatNumber(formData.amount_of_year)}
                 onChange={handleChange('amount_of_year')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سه ماهه"
-                value={formData.amount_of_3_months}
+                value={formatNumber(formData.amount_of_3_months)}
                 onChange={handleChange('amount_of_3_months')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -170,7 +168,6 @@ const CompanyConst = ({ allData, refetch }) => {
 
 CompanyConst.propTypes = {
   allData: PropTypes.object.isRequired,
-  refetch: PropTypes.func.isRequired,
 };
 
 export default CompanyConst;

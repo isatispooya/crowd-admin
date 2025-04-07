@@ -1,5 +1,6 @@
 import api from 'src/api/apiClient';
 import { useMutation } from '@tanstack/react-query';
+import { useGetCompanyInfo } from '../../pages/service';
 
 export const createChecks = async (data) => {
   const response = await api.post(`/api/checks/admin/`, data, {
@@ -11,11 +12,16 @@ export const createChecks = async (data) => {
   return response.data;
 };
 
-export const useChecks = () => {
-  const { mutate, data: responseData, refetch } = useMutation({
+export const useChecks = (cartId) => {
+  const { refetch: refetchGet } = useGetCompanyInfo(cartId);
+  const {
+    mutate,
+    data: responseData,
+    refetch,
+  } = useMutation({
     mutationFn: (data) => createChecks(data),
     onSuccess: () => {
-      refetch();
+      refetchGet();
     },
     onError: (error) => {
       console.error('Error submitting form:', error);

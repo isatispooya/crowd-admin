@@ -16,19 +16,27 @@ import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
 
 const ProfitLossForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useProfitAndLossForecast();
+  const { mutate } = useProfitAndLossForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
     amount_of_3_months: allData?.profit_and_loss_forecast?.amount_of_3_months || '',
     description: allData?.profit_and_loss_forecast?.description || '',
   });
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (!Number.isNaN(Number(value)) || value === '') {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -49,17 +57,6 @@ const ProfitLossForecast = ({ allData }) => {
     }
   };
 
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: responseData.amount_of_year || '',
-        amount_of_3_months: responseData.amount_of_3_months || '',
-        description: responseData.description || '',
-      });
-    }
-  }, [responseData, cartId]);
-
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
@@ -76,22 +73,26 @@ const ProfitLossForecast = ({ allData }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سالیانه"
-                value={formData.amount_of_year}
+                value={formatNumber(formData.amount_of_year)}
                 onChange={handleChange('amount_of_year')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
                 fullWidth
                 label="مبلغ سه ماهه"
-                value={formData.amount_of_3_months}
+                value={formatNumber(formData.amount_of_3_months)}
                 onChange={handleChange('amount_of_3_months')}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12}>

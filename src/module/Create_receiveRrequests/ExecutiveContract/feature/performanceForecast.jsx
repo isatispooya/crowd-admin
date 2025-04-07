@@ -16,18 +16,26 @@ import { usePerformanceForecast } from '../service/performanceForecast';
 
 const PerformanceForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = usePerformanceForecast();
+  const { mutate } = usePerformanceForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     title: allData?.performance_forecast?.title || '',
     value: allData?.performance_forecast?.value || '',
   });
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (!Number.isNaN(Number(value)) || value === '') {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -47,16 +55,6 @@ const PerformanceForecast = ({ allData }) => {
       console.error('Error submitting form:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        investor_request_id: cartId || '',
-        title: responseData.title || '',
-        value: responseData.value || '',
-      });
-    }
-  }, [responseData, cartId]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -84,8 +82,11 @@ const PerformanceForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="مقدار"
-                value={formData.value}
+                value={formatNumber(formData.value)}
                 onChange={handleChange('value')}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
 
@@ -118,7 +119,7 @@ const PerformanceForecast = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مقدار:</strong> {item.value?.toLocaleString()} ریال
+                          <strong>مقدار:</strong> {formatNumber(item.value)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>

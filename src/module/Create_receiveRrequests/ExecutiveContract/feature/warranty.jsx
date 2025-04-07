@@ -21,7 +21,7 @@ import { useWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate, data: responseData } = useWarranty();
+  const { mutate } = useWarranty(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.warranty?.date || null,
@@ -32,6 +32,11 @@ const Warranty = ({ allData }) => {
     type: allData?.warranty?.type || '',
   });
   const [loading, setLoading] = React.useState(false);
+
+  const formatNumber = (number) => {
+    if (!number) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
@@ -69,25 +74,9 @@ const Warranty = ({ allData }) => {
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-
-  React.useEffect(() => {
-    if (responseData) {
-      setFormData({
-        date: responseData.date,
-        amount: responseData.amount,
-        bank_name: responseData.bank_name,
-        branch_name: responseData.branch_name,
-        type: responseData.type,
-        fishing_id: responseData.fishing_id,
-        investor_request: responseData.investor_request,
-      });
-    }
-  }, [responseData, cartId]);
-  
-
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -117,10 +106,10 @@ const Warranty = ({ allData }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="number"
+                type="text"
                 fullWidth
                 label="مبلغ"
-                value={formData.value}
+                value={formatNumber(formData.value)}
                 onChange={handleChange('value')}
                 InputLabelProps={{ shrink: true }}
               />
@@ -199,7 +188,7 @@ const Warranty = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>مبلغ:</strong> {item.value?.toLocaleString()} ریال
+                          <strong>مبلغ:</strong> {formatNumber(item.value)} ریال
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>

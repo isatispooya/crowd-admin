@@ -5,9 +5,16 @@ const Page2 = ({ data }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const { one_year_return_on_investment } = data;
+    const {
+      one_year_return_on_investment,
+      profit_and_loss_forecast,
+      performance_forecast,
+      investor_request,
+    } = data;
 
     const formatPercentage = (value) => (value ? `${value}%` : '0%');
+    const formatMillionRials = (value) =>
+      value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
 
     const formatNumber = (amount) => {
       if (!amount) return '0';
@@ -17,33 +24,78 @@ const Page2 = ({ data }) => {
 
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
+        <h2 className="text-[23px] font-bold mt-4 mb-2">4- تعهد متقاضی به ایجاد درآمد عملیاتی</h2>
         <p>
-          تبصره 1: ترکیب فروش محصول شماره یک با تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع
-          درآمد حاصل از فروش مندرج در جدول فوق به مبلغ حداقل 246,400 (61,600) میلیون ریال سالیانه
-          (دوره سه ماهه) توسط متقاضی تضمین شده است.
+          متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400 (61,600)
+          میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
+        </p>
+        <h3 className="text-[23px] font-bold mt-2 mb-2">
+          پیش‌بینی سود و زیان (ارقام به میلیون ریال)
+        </h3>
+        <table className="w-full border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">دوره سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سالیانه</th>
+            </tr>
+          </thead>
+          <tbody>
+            {performance_forecast && performance_forecast.length > 0 ? (
+              performance_forecast.map((item, index) => (
+                <tr key={item.id || index}>
+                  <td className="border border-gray-300 p-2">{item.title || ''}</td>
+                  <td className="border border-gray-300 p-2">
+                    {formatMillionRials(Number(item.value) / 4)}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {formatMillionRials(Number(item.value))}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td className="border border-gray-300 p-2">
+                  {profit_and_loss_forecast?.description || 'توضیحات'}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {formatMillionRials(profit_and_loss_forecast?.amount_of_months)}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {formatMillionRials(profit_and_loss_forecast?.amount_of_year)}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        <p>
+          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name} با تأیید عامل، به
+          صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق توسط متقاضی تضمین
+          شده است.
           <br />
           تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
           حداقل 246,400 (61,600) میلیون ریال سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق
           درآمد مذکور به هر علت و جهتی، متقاضی درآمد برآورد شده را از محل سایر دارایی‌های خود در
           شرکت تضمین می‌نماید.
           <br />
-          تبصره 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر اساس
-          اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه گردیده
-          است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش مبلغ
-          بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
+          تبصر ه 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر
+          اساس اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه
+          گردیده است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش
+          مبلغ بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
           مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
           از خود سلب و اسقاط نمود.
           <br />
           تبصره 4: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
           وصول نشده، حال شده فرض خواهد شد.
           <br />
-          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن فروش محصول شماره یک، آن را به
-          صورت سایر انواع محصولات و خدمات مندرج در صورت‌های مالی تولید ارائه نماید و به فروش رساند و
-          حداقل مبلغ سود ناخالص برآورد شده در قرارداد حاضر را ایجاد کند.
+          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن فروش موضوع{' '}
+          {investor_request?.suggestion_plan_name}، آن را به صورت سایر انواع محصولات و خدمات مندرج
+          در صورت‌های مالی تولید ارائه نماید و به فروش رساند و حداقل مبلغ سود ناخالص برآورد شده در
+          قرارداد حاضر را ایجاد کند.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">1. سود ناخالص</h2>
         <p>
+          <span className="text-[23px] font-bold">1.</span>
           سود ناخالص سالیانه (دوره سه ماهه) حاصل از اجرای موضوع قرارداد 181,588 (45,397) میلیون ریال
           برآورد گردیده است.
           <br />
@@ -52,22 +104,15 @@ const Page2 = ({ data }) => {
           عملیاتی بوده است.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">2. تقسیم سود ناخالص</h2>
         <p>
+          <span className="text-[23px] font-bold">2.</span>
           تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
           گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان 181,588 میلیون ریال،
           به نسبت 53.28 درصد سهم عامل و 46.72 درصد سهم متقاضی خواهد بود.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">
-          مفروضات محاسبات درآمدهای عملیاتی حاصل از دو دستگاه تراک ده چرخ
-        </h2>
-        <p>
-          ظرفیت هر دستگاه: 25 تن تعداد جابجایی در هر روز: 4 بار تعداد روزهای کاری: 220 روز درآمد
-          حاصل از حمل هر تن بار: 2,000,000 ریال
-        </p>
-
         <h2 className="text-[23px] font-bold mt-4 mb-2">پیش‌بینی عملکرد طرح</h2>
+
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
@@ -75,27 +120,23 @@ const Page2 = ({ data }) => {
               <th className="border border-gray-300 p-2 text-right">سال 1404</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">درآمد کل (میلیون ریال)</td>
-              <td className="border border-gray-300 p-2">246,400</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">بهای تمام شده کل (میلیون ریال)</td>
-              <td className="border border-gray-300 p-2">(64,812)</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">سود ناخالص طرح</td>
-              <td className="border border-gray-300 p-2">181,588</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">حاشیه سود</td>
-              <td className="border border-gray-300 p-2">73.69%</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">نسبت سود سهامداران</td>
-              <td className="border border-gray-300 p-2">53.28%</td>
-            </tr>
+
+          <tbody className="text-[23px]">
+            {performance_forecast && performance_forecast.length > 0 ? (
+              performance_forecast.map((item, index) => (
+                <tr key={item.id || index}>
+                  <td className="border border-gray-300 p-2">{item.title || ''}</td>
+                  <td className="border border-gray-300 p-2">
+                    {formatMillionRials(Number(item.value))}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td className="border border-gray-300 p-2">درآمد کل (میلیون ریال)</td>
+                <td className="border border-gray-300 p-2">246,400</td>
+              </tr>
+            )}
           </tbody>
         </table>
         <p className="text-[23px]">
@@ -210,6 +251,13 @@ Page2.propTypes = {
         rate_to: PropTypes.number,
         share_company: PropTypes.number,
         share_investor: PropTypes.number,
+      })
+    ),
+    performance_forecast: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        value: PropTypes.string,
       })
     ),
   }).isRequired,

@@ -34,6 +34,8 @@ export const useGetCompanyInfo = (cartId) => {
 };
 
 export const useCreateExecutiveContract = (cartId) => {
+  const { refetch: refetchGet } = useGetCompanyInfo(cartId);
+
   const {
     mutate,
     data: responseData,
@@ -41,7 +43,7 @@ export const useCreateExecutiveContract = (cartId) => {
   } = useMutation({
     mutationFn: (data) => createExecutiveContract(cartId, data),
     onSuccess: () => {
-      refetch();
+      refetchGet();
       toast.success('اطلاعات با موفقیت ثبت شد');
     },
     onError: () => {

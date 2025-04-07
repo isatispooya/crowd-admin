@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-
-  TextField,
-  Button,
-  MenuItem,
-} from '@mui/material';
+import { Box, Grid, Typography, TextField, Button, MenuItem } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
@@ -19,7 +11,7 @@ import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate } = useGuarantor();
+  const { mutate } = useGuarantor(cartId);
 
   const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
     useCompanyInfoStore();
@@ -48,7 +40,7 @@ const Guarantor = ({ allData }) => {
         });
 
         payload.append('type', 'individual');
-        
+
         await mutate(payload);
         setGuarantorInfo({
           investor_request_id: cartId || '',
@@ -83,7 +75,9 @@ const Guarantor = ({ allData }) => {
     }
   }, [allData, cartId, setGuarantorInfo]);
 
-  const nonLegalGuarantors = allData?.guarantor ? allData.guarantor.filter(g => g.type !== 'legal') : [];
+  const nonLegalGuarantors = allData?.guarantor
+    ? allData.guarantor.filter((g) => g.type !== 'legal')
+    : [];
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">

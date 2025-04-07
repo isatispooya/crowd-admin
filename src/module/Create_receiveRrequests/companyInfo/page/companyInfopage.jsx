@@ -33,6 +33,11 @@ const CompanyInfoPage = ({ companyInfo , refetch }) => {
       hint: '#7D95B6',
     },
   };
+
+  const formatNumber = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const cartId = companyInfo?.company?.id;
   const { mutate } = useCompanyInfo(cartId);
   const [localCompanyInfo, setLocalCompanyInfo] = useState(companyInfo);
@@ -301,9 +306,12 @@ const CompanyInfoPage = ({ companyInfo , refetch }) => {
               </Typography>
               <TextField
                 fullWidth
-                value={localCompanyInfo.company.capital}
+                value={formatNumber(localCompanyInfo.company.capital)}
                 onChange={(e) => {
-                  handleUpdate('capital', e.target.value);
+                  const value = e.target.value.replace(/,/g, '');
+                  if (!Number.isNaN(Number(value))) {
+                    handleUpdate('capital', value);
+                  }
                 }}
                 InputProps={{
                   endAdornment: (
