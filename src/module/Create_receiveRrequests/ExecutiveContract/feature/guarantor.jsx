@@ -13,8 +13,7 @@ const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useGuarantor(cartId);
 
-  const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
-    useCompanyInfoStore();
+  const { guarantorInfo, updateGuarantorInfo, submitGuarantorInfo } = useCompanyInfoStore();
 
   const handleChange = (field) => (event) => {
     updateGuarantorInfo(field, event.target.value);
@@ -25,9 +24,15 @@ const Guarantor = ({ allData }) => {
       const formData = await submitGuarantorInfo();
       if (formData) {
         const payload = new FormData();
-        const birthDate = guarantorInfo.birth_date
-          ? guarantorInfo.birth_date.format('YYYY-MM-DD')
-          : null;
+
+        let birthDate = null;
+        if (guarantorInfo.birth_date) {
+          if (typeof guarantorInfo.birth_date.toDate === 'function') {
+            birthDate = guarantorInfo.birth_date.toDate().toISOString();
+          } else {
+            birthDate = new Date(guarantorInfo.birth_date).toISOString();
+          }
+        }
 
         Object.entries(guarantorInfo).forEach(([key, value]) => {
           if (value !== null) {
@@ -42,7 +47,7 @@ const Guarantor = ({ allData }) => {
         payload.append('type', 'individual');
 
         await mutate(payload);
-        setGuarantorInfo({
+        updateGuarantorInfo({
           investor_request_id: cartId || '',
           guarantor_name: '',
           guarantor_national_id: '',
@@ -58,22 +63,6 @@ const Guarantor = ({ allData }) => {
       console.error('خطا در ارسال فرم:', error);
     }
   };
-
-  React.useEffect(() => {
-    if (allData) {
-      setGuarantorInfo({
-        investor_request_id: allData.id || cartId,
-        guarantor_name: allData.guarantor?.guarantor_name || '',
-        guarantor_national_id: allData.guarantor?.guarantor_national_id || '',
-        phone_number: allData.guarantor?.phone_number || '',
-        birth_date: allData.guarantor?.birth_date || '',
-        guarantor_address: allData.guarantor?.guarantor_address || '',
-        postal_code: allData.guarantor?.postal_code || '',
-        gender: allData.guarantor?.gender ?? true,
-        type: 'individual',
-      });
-    }
-  }, [allData, cartId, setGuarantorInfo]);
 
   const nonLegalGuarantors = allData?.guarantor
     ? allData.guarantor.filter((g) => g.type !== 'legal')
@@ -201,12 +190,10 @@ const Guarantor = ({ allData }) => {
                       <strong>تاریخ تولد:</strong>{' '}
                       {item.birth_date
                         ? new DateObject({
-                            date: item.birth_date,
+                            date: new Date(item.birth_date),
                             calendar: persian,
                             locale: persian_fa,
-                          })
-                            .convert(persian)
-                            .format('YYYY/MM/DD')
+                          }).format('YYYY/MM/DD')
                         : '—'}
                     </Typography>
                   </Grid>

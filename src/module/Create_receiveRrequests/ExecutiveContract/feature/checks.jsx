@@ -49,11 +49,21 @@ const Checks = ({ allData }) => {
 
   const handleSubmit = async () => {
     try {
+      let formattedDate = null;
+      if (formData.date) {
+        if (typeof formData.date.toDate === 'function') {
+          formattedDate = formData.date.toDate().toISOString();
+        } else {
+          formattedDate = new Date(formData.date).toISOString();
+        }
+      }
+
       const payload = {
         investor_request: allData.id,
         ...formData,
-        date: formData.date ? formData.date.convert(persian).format('YYYY-MM-DD') : null,
+        date: formattedDate,
       };
+      
       await mutate(payload);
       setFormData({
         investor_request_id: cartId,
@@ -163,9 +173,11 @@ const Checks = ({ allData }) => {
                         <Typography variant="body2">
                           <strong>تاریخ چک:</strong>{' '}
                           {item.date
-                            ? new DateObject({ date: item.date, calendar: persian }).format(
-                                'YYYY/MM/DD'
-                              )
+                            ? new DateObject({
+                                date: new Date(item.date),
+                                calendar: persian,
+                                locale: persian_fa,
+                              }).format('YYYY/MM/DD')
                             : '—'}
                         </Typography>
                       </Grid>
@@ -198,9 +210,11 @@ const Checks = ({ allData }) => {
                         <Typography variant="caption" color="textSecondary">
                           تاریخ ایجاد:{' '}
                           {item.created_at
-                            ? new DateObject({ date: item.created_at, calendar: persian }).format(
-                                'YYYY/MM/DD'
-                              )
+                            ? new DateObject({
+                                date: new Date(item.created_at),
+                                calendar: persian,
+                                locale: persian_fa,
+                              }).format('YYYY/MM/DD')
                             : '—'}
                         </Typography>
                       </Grid>

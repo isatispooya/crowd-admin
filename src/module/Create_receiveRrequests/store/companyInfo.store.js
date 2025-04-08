@@ -500,17 +500,15 @@ const useCompanyInfoStore = create((set, get) => ({
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value !== null) {
           if (key === 'agency_agreement_date') {
-            const date = value;
-            let formattedDate;
-
-            if (typeof date === 'object' && date.toISOString) {
-              formattedDate = date.toISOString();
-            } else if (date instanceof Date) {
-              formattedDate = date.toISOString();
-            } else if (typeof date === 'object' && date.format) {
-              formattedDate = date.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+            let formattedDate = null;
+            if (typeof value.toDate === 'function') {
+              formattedDate = value.toDate().toISOString();
+            } else if (value instanceof Date) {
+              formattedDate = value.toISOString();
+            } else if (typeof value === 'object' && value.format) {
+              formattedDate = value.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
             } else {
-              formattedDate = String(date);
+              formattedDate = String(value);
             }
 
             formData.append('agency_agreement_date', formattedDate);
@@ -977,9 +975,14 @@ const useCompanyInfoStore = create((set, get) => ({
       Object.entries(state.guarantorInfo).forEach(([key, value]) => {
         if (value !== null) {
           if (key === 'birth_date' && value) {
-            // تبدیل تاریخ به فرمت مورد نظر
-            const date = new Date(value);
-            const formattedDate = date.toISOString().replace('Z', '+03:25:44');
+            let formattedDate = null;
+            if (typeof value.toDate === 'function') {
+              formattedDate = value.toDate().toISOString();
+            } else if (value instanceof Date) {
+              formattedDate = value.toISOString();
+            } else {
+              formattedDate = new Date(value).toISOString();
+            }
             formData.append(key, formattedDate);
           } else {
             formData.append(key, value);

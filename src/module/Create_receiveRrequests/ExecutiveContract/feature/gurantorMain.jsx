@@ -54,8 +54,6 @@ const GuarantorMain = ({ allData, refetch }) => {
               </Button>
             </ButtonGroup>
           </Box>
-          <Guarantor allData={allData} refetch={refetch} />
-
           {activeForm === 'haghighi' ? (
             <Guarantor allData={allData} refetch={refetch} />
           ) : (

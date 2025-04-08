@@ -35,7 +35,7 @@ const Warranty = ({ allData }) => {
 
   const formatNumber = (number) => {
     if (!number) return '';
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   const handleChange = (field) => (event) => {
@@ -49,11 +49,18 @@ const Warranty = ({ allData }) => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const isoDate = new DateObject({
-        date: formData.date,
-        calendar: persian,
-        locale: persian_fa,
-      }).format('YYYY-MM-DD');
+      let isoDate;
+      if (formData.date instanceof Date) {
+        isoDate = formData.date.toISOString();
+      } else {
+        isoDate = new DateObject({
+          date: formData.date,
+          calendar: persian,
+          locale: persian_fa,
+        })
+          .toDate()
+          .toISOString();
+      }
 
       const payload = {
         investor_request: allData.id,
@@ -178,12 +185,14 @@ const Warranty = ({ allData }) => {
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
-                          <strong>تاریخ:</strong>
-                          {new DateObject({
-                            date: item.date,
-                            calendar: persian,
-                            locale: persian_fa,
-                          }).format('YYYY/MM/DD')}
+                          <strong>تاریخ:</strong>{' '}
+                          {item.date
+                            ? new DateObject({
+                                date: new Date(item.date),
+                                calendar: persian,
+                                locale: persian_fa,
+                              }).format('YYYY/MM/DD')
+                            : '---'}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -211,10 +220,17 @@ const Warranty = ({ allData }) => {
                           <strong>توضیحات:</strong> {item.description}
                         </Typography>
                       </Grid>
-
+               
                       <Grid item xs={12}>
-                        <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
+                        <Typography variant="body2">
+                          <strong>تاریخ ضمانت:</strong>{' '}
+                          {item.date
+                            ? new DateObject({
+                                date: new Date(item.date),
+                                calendar: persian,
+                                locale: persian_fa,
+                              }).format('YYYY/MM/DD')
+                            : '—'}
                         </Typography>
                       </Grid>
                     </Grid>

@@ -14,7 +14,7 @@ import { Stack } from 'react-bootstrap';
 import { CheckCircle, Cancel, Edit } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import CompanyBankInfo from './companyBankInfo';
 import CompanyInfo from './companyInfo';
 import CompanyRegister from './companyRegister';
