@@ -96,8 +96,9 @@ const Page2 = ({ data }) => {
 
         <p>
           <span className="text-[23px] font-bold">1.</span>
-          سود ناخالص سالیانه (دوره سه ماهه) حاصل از اجرای موضوع قرارداد 181,588 (45,397) میلیون ریال
-          برآورد گردیده است.
+          سود ناخالص سالیانه (دوره سه ماهه){' '}
+          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} میلیون
+          ریال برآورد گردیده است.
           <br />
           تبصره: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
           عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای
@@ -107,8 +108,15 @@ const Page2 = ({ data }) => {
         <p>
           <span className="text-[23px] font-bold">2.</span>
           تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
-          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان 181,588 میلیون ریال،
-          به نسبت 53.28 درصد سهم عامل و 46.72 درصد سهم متقاضی خواهد بود.
+          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
+          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} میلیون
+          ریال، به نسبت{' '}
+          {formatMillionRials(investor_request?.annual_shareholders_equity_ratio_forecast)} درصد سهم
+          عامل و{' '}
+          {investor_request?.annual_shareholders_equity_ratio_forecast
+            ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
+            : 0}{' '}
+          درصد سهم متقاضی خواهد بود.
         </p>
 
         <h2 className="text-[23px] font-bold mt-4 mb-2">پیش‌بینی عملکرد طرح</h2>
@@ -117,43 +125,83 @@ const Page2 = ({ data }) => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 p-2 text-right">شرح</th>
-              <th className="border border-gray-300 p-2 text-right">سال 1404</th>
+              <th className="border border-gray-300 p-2 text-right">سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سال</th>
             </tr>
           </thead>
 
           <tbody className="text-[23px]">
-            {performance_forecast && performance_forecast.length > 0 ? (
-              performance_forecast.map((item, index) => (
-                <tr key={item.id || index}>
-                  <td className="border border-gray-300 p-2">{item.title || ''}</td>
-                  <td className="border border-gray-300 p-2">
-                    {formatMillionRials(Number(item.value))}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="border border-gray-300 p-2">درآمد کل (میلیون ریال)</td>
-                <td className="border border-gray-300 p-2">246,400</td>
-              </tr>
-            )}
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی درآمد کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_income_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی هزینه کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی سود ناخالص طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.three_months_gross_profit_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی حاشیه سود طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_profit_margin_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_profit_margin_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی نسبت حقوق صاحبان سهام</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_shareholders_equity_ratio_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_shareholders_equity_ratio_forecast)}
+              </td>
+            </tr>
           </tbody>
         </table>
         <p className="text-[23px]">
-          تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی حاصل از خرید
-          دو دستگاه تراک 10 چرخ جهت حمل، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری{' '}
+          تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی موضوع طرح{' '}
+          {investor_request?.suggestion_plan_name} از خرید دو دستگاه تراک 10 چرخ جهت حمل، به هیچ
+          عنوان سود ناخالص موضوع طرح {investor_request?.suggestion_plan_name} از به‌کارگیری{' '}
           {formatNumber(250000000000)} میلیون ریال سرمایه در گردش مورد نیاز دستگاه بنز کمپرسی 10 چرخ
-          ایران خودرو، کمتر از {formatNumber(181588000000)} میلیون ریال سالیانه نخواهد شد. بنابراین
-          هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و متقاضی حق هیچگونه ادعا و
-          مطالبه‌ای در این خصوص نخواهد داشت.
+          ایران خودرو، کمتر از {formatNumber(investor_request?.annual_total_income_forecast)} میلیون
+          ریال سالیانه نخواهد شد. بنابراین هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و
+          متقاضی حق هیچگونه ادعا و مطالبه‌ای در این خصوص نخواهد داشت.
           <br />
           تبصره 2: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
           درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
           <br />
           تبصره 3: مبنای تقسیم سود ناخالص در هر بازه از جدول این بند میان متقاضی و عامل حاصل از
           اجرای طرح موضوع قرارداد، حداقل سود ناخالص در هر بازه خواهد بود. فقط در صورت افزایش سود
-          ناخالص برآورد شده بیش از 181,588 ریال سالیانه، مابه‌تفاوت آن از سود برآورد شده به نسبت
-          99.9 درصد سهم متقاضی و 0.1 درصد سهم عامل تقسیم خواهد شد.
+          ناخالص برآورد شده بیش از{' '}
+          {formatMillionRials(investor_request?.annual_total_income_forecast)} ریال سالیانه،
+          مابه‌تفاوت آن از سود برآورد شده به نسبت 99.9 درصد سهم متقاضی و 0.1 درصد سهم عامل تقسیم
+          خواهد شد.
           <br />
           تبصره 4: در صورتی که سود ناخالص طرح کمتر از سود علی‌حساب پرداختی باشد، متقاضی،
           مابه‌التفاوت آن را تا میزان سودهای علی‌الحساب پرداخت شده از محل سهم خود یا سایر دارایی‌های
@@ -222,6 +270,17 @@ Page2.propTypes = {
       agency_agreement_date: PropTypes.string,
       suggestion_plan_name: PropTypes.string,
       amount_of_investment: PropTypes.number,
+      suggestion_plan_amount_of_investment: PropTypes.number,
+      three_months_total_income_forecast: PropTypes.number,
+      annual_total_income_forecast: PropTypes.number,
+      three_months_total_cost_forecast: PropTypes.number,
+      annual_total_cost_forecast: PropTypes.number,
+      three_months_gross_profit_of_the_plan_forecast: PropTypes.number,
+      annual_gross_profit_of_the_plan_forecast: PropTypes.number,
+      three_months_profit_margin_of_the_plan_forecast: PropTypes.number,
+      annual_profit_margin_of_the_plan_forecast: PropTypes.number,
+      three_months_shareholders_equity_ratio_forecast: PropTypes.number,
+      annual_shareholders_equity_ratio_forecast: PropTypes.number,
     }),
     company_cost: PropTypes.shape({
       description: PropTypes.string,

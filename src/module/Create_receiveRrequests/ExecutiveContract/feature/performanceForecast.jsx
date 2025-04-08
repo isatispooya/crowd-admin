@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Grid,
@@ -8,25 +8,69 @@ import {
   AccordionDetails,
   TextField,
   Button,
+  Paper,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import { usePerformanceForecast } from '../service/performanceForecast';
+import useCompanyInfoStore from '../../store/companyInfo.store';
+
+// فیلدهای سالانه
+const ANNUAL_FIELDS = [
+  { id: 'annual_total_income_forecast', label: 'پیش بینی درآمد کل سالانه' },
+  { id: 'annual_total_cost_forecast', label: 'پیش بینی هزینه کل سالانه' },
+  { id: 'annual_gross_profit_of_the_plan_forecast', label: 'پیش بینی سود ناخالص طرح سالانه' },
+  { id: 'annual_profit_margin_of_the_plan_forecast', label: 'پیش بینی حاشیه سود طرح سالانه' },
+  {
+    id: 'annual_shareholders_equity_ratio_forecast',
+    label: 'پیش بینی نسبت حقوق صاحبان سهام سالانه',
+  },
+];
+
+// فیلدهای سه ماهه
+const QUARTERLY_FIELDS = [
+  { id: 'three_months_total_income_forecast', label: 'پیش بینی درآمد کل سه ماهه' },
+  { id: 'three_months_total_cost_forecast', label: 'پیش بینی هزینه کل سه ماهه' },
+  {
+    id: 'three_months_gross_profit_of_the_plan_forecast',
+    label: 'پیش بینی سود ناخالص طرح سه ماهه',
+  },
+  {
+    id: 'three_months_profit_margin_of_the_plan_forecast',
+    label: 'پیش بینی حاشیه سود طرح سه ماهه',
+  },
+  {
+    id: 'three_months_shareholders_equity_ratio_forecast',
+    label: 'پیش بینی نسبت حقوق صاحبان سهام سه ماهه',
+  },
+];
 
 const PerformanceForecast = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = usePerformanceForecast(cartId);
-  const [formData, setFormData] = React.useState({
-    investor_request_id: cartId,
-    title: allData?.performance_forecast?.title || '',
-    value: allData?.performance_forecast?.value || '',
-  });
+  const { updatePerformanceForecast, submitPerformanceForecast } = useCompanyInfoStore();
 
-  const formatNumber = (number) => {
-    if (!number) return '';
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  console.log('allData:', allData);
+
+  const getFormState = useCallback(() => {
+    const formState = {
+      investor_request_id: cartId,
+    };
+
+    [...ANNUAL_FIELDS, ...QUARTERLY_FIELDS].forEach((field) => {
+      const value = allData?.investor_request?.[field.id];
+      formState[field.id] = value !== undefined && value !== null ? value.toString() : '';
+    });
+
+    return formState;
+  }, [allData, cartId]);
+
+  const [formData, setFormData] = useState(getFormState());
+
+  useEffect(() => {
+    setFormData(getFormState());
+  }, [allData, getFormState]);
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
@@ -35,6 +79,7 @@ const PerformanceForecast = ({ allData }) => {
         ...prev,
         [field]: value,
       }));
+      updatePerformanceForecast(field, value);
     }
   };
 
@@ -45,16 +90,25 @@ const PerformanceForecast = ({ allData }) => {
         ...formData,
       };
 
+      console.log('Submitting payload:', payload);
+      await submitPerformanceForecast();
       await mutate(payload);
-      setFormData({
-        investor_request_id: cartId || '',
-        title: '',
-        value: '',
-      });
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
+
+  const renderFields = (fields) =>
+    fields.map((field) => (
+      <Grid item xs={12} md={6} key={field.id}>
+        <TextField
+          fullWidth
+          label={field.label}
+          value={formData[field.id] || ''}
+          onChange={handleChange(field.id)}
+        />
+      </Grid>
+    ));
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -70,70 +124,43 @@ const PerformanceForecast = ({ allData }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="عنوان"
-                value={formData.title}
-                onChange={handleChange('title')}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="مقدار"
-                value={formatNumber(formData.value)}
-                onChange={handleChange('value')}
-                InputProps={{
-                  endAdornment: <Typography variant="caption">ریال</Typography>,
-                }}
-              />
+            <Grid item xs={12}>
+              <Paper
+                elevation={0}
+                sx={{ p: 2, backgroundColor: '#f8f9fa', borderRadius: '8px', mb: 2 }}
+              >
+                <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
+                  پیش‌بینی‌های سالانه
+                </Typography>
+                <Grid container spacing={2}>
+                  {renderFields(ANNUAL_FIELDS)}
+                </Grid>
+              </Paper>
             </Grid>
 
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
+              <Paper elevation={0} sx={{ p: 2, backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+                <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
+                  پیش‌بینی‌های سه ماهه
+                </Typography>
+                <Grid container spacing={2}>
+                  {renderFields(QUARTERLY_FIELDS)}
+                </Grid>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                fullWidth
+                sx={{ mt: 2 }}
+              >
                 ذخیره اطلاعات
               </Button>
             </Grid>
           </Grid>
-          <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
-            {allData?.performance_forecast && allData.performance_forecast.length > 0 ? (
-              allData.performance_forecast
-                .slice()
-                .reverse()
-                .map((item) => (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '8px',
-                      padding: 2,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="body2">
-                          <strong>عنوان:</strong> {item.title}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="body2">
-                          <strong>مقدار:</strong> {formatNumber(item.value)} ریال
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))
-            ) : (
-              <Typography align="center">اطلاعاتی موجود نیست</Typography>
-            )}
-          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>

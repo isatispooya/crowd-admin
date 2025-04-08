@@ -93,14 +93,19 @@ const useCompanyInfoStore = create((set, get) => ({
     amount_of_year: 0,
   },
 
-  assumptions: {
-    title: '',
-    value: '',
-  },
+
 
   performanceForecast: {
-    title: '',
-    value: '',
+    annual_total_income_forecast: '',
+    annual_total_cost_forecast: '',
+    annual_gross_profit_of_the_plan_forecast: '',
+    annual_profit_margin_of_the_plan_forecast: '',
+    annual_shareholders_equity_ratio_forecast: '',
+    three_months_total_income_forecast: '',
+    three_months_total_cost_forecast: '',
+    three_months_gross_profit_of_the_plan_forecast: '',
+    three_months_profit_margin_of_the_plan_forecast: '',
+    three_months_shareholders_equity_ratio_forecast: '',
   },
 
   checks: {
@@ -625,14 +630,19 @@ const useCompanyInfoStore = create((set, get) => ({
         amount_of_year: 0,
       },
 
-      assumptions: {
-        title: '',
-        value: '',
-      },
+
 
       performanceForecast: {
-        title: '',
-        value: '',
+        annual_total_income_forecast: '',
+        annual_total_cost_forecast: '',
+        annual_gross_profit_of_the_plan_forecast: '',
+        annual_profit_margin_of_the_plan_forecast: '',
+        annual_shareholders_equity_ratio_forecast: '',
+        three_months_total_income_forecast: '',
+        three_months_total_cost_forecast: '',
+        three_months_gross_profit_of_the_plan_forecast: '',
+        three_months_profit_margin_of_the_plan_forecast: '',
+        three_months_shareholders_equity_ratio_forecast: '',
       },
 
       checks: {
@@ -810,14 +820,48 @@ const useCompanyInfoStore = create((set, get) => ({
         amount_of_year: defaultValue(data.profit_and_loss_forecast?.amount_of_year, 0),
       },
 
-      assumptions: {
-        title: defaultValue(data.assumptions?.title, ''),
-        value: defaultValue(data.assumptions?.value, ''),
-      },
 
       performanceForecast: {
-        title: defaultValue(data.performance_forecast?.title, ''),
-        value: defaultValue(data.performance_forecast?.value, ''),
+        annual_total_income_forecast: defaultValue(
+          data.performance_forecast?.annual_total_income_forecast,
+          ''
+        ),
+        annual_total_cost_forecast: defaultValue(
+          data.performance_forecast?.annual_total_cost_forecast,
+          ''
+        ),
+        annual_gross_profit_of_the_plan_forecast: defaultValue(
+          data.performance_forecast?.annual_gross_profit_of_the_plan_forecast,
+          ''
+        ),
+        annual_profit_margin_of_the_plan_forecast: defaultValue(
+          data.performance_forecast?.annual_profit_margin_of_the_plan_forecast,
+          ''
+        ),
+        annual_shareholders_equity_ratio_forecast: defaultValue(
+          data.performance_forecast?.annual_shareholders_equity_ratio_forecast,
+          ''
+        ),
+        three_months_total_income_forecast: defaultValue(
+          data.performance_forecast?.three_months_total_income_forecast,
+          ''
+        ),
+        three_months_total_cost_forecast: defaultValue(
+          data.performance_forecast?.three_months_total_cost_forecast,
+          ''
+        ),
+        three_months_gross_profit_of_the_plan_forecast: defaultValue(
+          data.performance_forecast?.three_months_gross_profit_of_the_plan_forecast,
+          ''
+        ),
+        three_months_profit_margin_of_the_plan_forecast: defaultValue(
+          data.performance_forecast?.three_months_profit_margin_of_the_plan_forecast,
+          ''
+        ),
+        three_months_shareholders_equity_ratio_forecast: defaultValue(
+          data.performance_forecast?.three_months_shareholders_equity_ratio_forecast,
+          ''
+        ),
       },
 
       checks: {
@@ -947,6 +991,34 @@ const useCompanyInfoStore = create((set, get) => ({
       formData.append('description', state.profitAndLossForecast.description);
       formData.append('amount_of_3_months', state.profitAndLossForecast.amount_of_3_months);
       formData.append('amount_of_year', state.profitAndLossForecast.amount_of_year);
+
+      set({ isLoading: false });
+      return formData;
+    } catch (error) {
+      set({ isLoading: false, error: error.message });
+      return null;
+    }
+  },
+
+  updatePerformanceForecast: (field, value) =>
+    set((state) => ({
+      performanceForecast: {
+        ...state.performanceForecast,
+        [field]: value,
+      },
+    })),
+
+  submitPerformanceForecast: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const state = get();
+      const formData = new FormData();
+
+      Object.entries(state.performanceForecast).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          formData.append(key, value);
+        }
+      });
 
       set({ isLoading: false });
       return formData;
