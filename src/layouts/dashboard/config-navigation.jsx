@@ -42,6 +42,11 @@ const navConfig = [
     path: '/riskCommittee',
     icon: <SecurityIcon className="text-2xl" />,
   },
+  {
+    title: 'گزارش‌های تحلیلی',
+    path: '/analyzes',
+    icon: <AssessmentIcon className="text-2xl" />,
+  },
 ];
 
 export default navConfig;

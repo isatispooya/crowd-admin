@@ -35,6 +35,7 @@ export const AgencyContract = lazy(() =>import('src/module/Create_receiveRreques
 export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/agency'))
 export const ExecutiveContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/ExecutiveContract'))
 export const WarTreaty = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/warTreaty'))
+export const AnalyzesPage = lazy(() =>import('src/module/Analyzes/page/Analyzes.page'))
 
 
 const motionWrapper = (Component = React.FC) => (
@@ -80,6 +81,7 @@ export default function Router() {
         { path: '/agency/:uuid', element: motionWrapper(Agency) },
         { path: '/executiveContract/:uuid', element: motionWrapper(ExecutiveContract) },
         { path: '/WarTreaty/:uuid', element: motionWrapper(WarTreaty) },
+        { path: 'analyzes', element: motionWrapper(AnalyzesPage) },
 
 
         
