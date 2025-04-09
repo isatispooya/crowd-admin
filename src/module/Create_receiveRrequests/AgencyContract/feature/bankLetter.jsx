@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code';
 import { useSearchParams } from 'react-router-dom';
 import { formatNumber } from 'src/utils/formatNumbers';
 import PrintableLayout from 'src/layouts/dashboard/printableLayout';
-import moment from 'moment';
+import moment from 'moment-jalaali';
 import { CircularProgress } from '@mui/material';
 import useBankLetter from '../hooks/useBankLetter';
 import Sign from '../../../../../public/img/signContract.png';
@@ -40,7 +40,7 @@ const BankLetter = () => {
   }, [finalUuid, refetch]);
 
   const agencyAgreementDate = bankLetter?.agency_agreement_date
-    ? ` ${moment(bankLetter.agency_agreement_date).format('YYYY/MM/DD')} `
+    ? ` ${moment(bankLetter.agency_agreement_date).format('jYYYY/jMM/jDD')} `
     : ' ';
 
   if (isLoading) {
