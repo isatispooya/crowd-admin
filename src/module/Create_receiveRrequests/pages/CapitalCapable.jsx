@@ -128,7 +128,7 @@ const CapitalCapable = () => {
           </div>
         </div>
 
-        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6'].map((panel, index) => {
+        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6', 'panel7'].map((panel, index) => {
           const titles = [
             'ثبت شرکت',
             'ثبت هیئت مدیره',
