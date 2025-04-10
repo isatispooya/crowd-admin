@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import AgeAnalyzes from './ageAnalyzes';
 import GenderAnalyzes from './genderAnalyzes';
 import CityAnalyzes from './cityAnalyzes';
@@ -9,9 +10,11 @@ const AnalyzesMain = () => (
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
         <AgeAnalyzes />
       </div>
+      <Divider />
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
         <GenderAnalyzes />
       </div>
+      <Divider />
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
         <CityAnalyzes />
       </div>
