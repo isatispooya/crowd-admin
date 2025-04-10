@@ -1,65 +1,13 @@
-import { Typography, Paper, Box, Button, Stack } from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 import PropTypes from 'prop-types';
-import { CheckCircle } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
-import useCompanyInfoStore from '../../store/companyInfo.store';
-import { useCreateExecutiveContract } from '../../pages/service';
 import Fees from '../feature';
-import { useFees } from '../service/BoardOfDirectors';
 
 const FeesPage = ({ data }) => {
-  const {
-    setActionStatus,
-    submitBoardDirectorsForm,
-    isLoading,
-    updateFeesData,
-    submitFeesForm,
-    setInvestorRequestIdForFees,
-  } = useCompanyInfoStore();
-
-  const { cartId } = useParams();
-  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
-  const { mutate: submitFees } = useFees(cartId);
-
   const pastelBlue = {
     light: '#E6F4FF',
     main: '#B3E0FF',
     dark: '#6B9ACD',
     contrastText: '#1A365D',
-  };
-
-  const button = [
-    {
-      id: 'approved',
-      label: 'ارسال',
-      icon: <CheckCircle />,
-    },
-  ];
-  const handleButtonClick = async (actionType) => {
-    setActionStatus(actionType);
-
-    if (cartId) {
-      setInvestorRequestIdForFees(cartId);
-    }
-
-    const feesFormData = await submitFeesForm();
-
-    if (feesFormData) {
-
-      if (!feesFormData.get('investor_request_id') && cartId) {
-        feesFormData.append('investor_request_id', cartId);
-      }
-      submitFees({ ...Object.fromEntries(feesFormData), investor_request_id: cartId });
-    }
-
-    const formData = await submitBoardDirectorsForm();
-    if (formData) {
-      submitExecutiveContract(formData);
-    }
-  };
-
-  const handleFeesFormDataChange = (formData) => {
-    updateFeesData(formData);
   };
 
   return (
@@ -107,24 +55,7 @@ const FeesPage = ({ data }) => {
       >
         اطلاعات کارمزد ها را وارد کنید
       </Typography>
-      <Fees allData={data} onFormDataChange={handleFeesFormDataChange} />
-
-      <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          {button.map((item) => (
-            <Button
-              sx={{ width: '100%' }}
-              key={item.id}
-              startIcon={item.icon}
-              variant="contained"
-              onClick={() => handleButtonClick(item.id)}
-              disabled={isLoading}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </Box>
-      </Stack>
+      <Fees allData={data} />
     </Paper>
   );
 };

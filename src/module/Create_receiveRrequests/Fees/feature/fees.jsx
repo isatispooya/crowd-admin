@@ -1,46 +1,57 @@
-import React, { useEffect } from 'react';
-import { Box, Grid, AccordionDetails, TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, AccordionDetails, TextField, Stack, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import useCompanyInfoStore from '../../store/companyInfo.store';
+import { useCreateExecutiveContract } from '../../pages/service';
 
-const Fees = ({ allData, onFormDataChange }) => {
+const Fees = ({ allData }) => {
   const { cartId } = useParams();
+  const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { fees, updateFeeField, setInvestorRequestIdForFees } = useCompanyInfoStore();
+  const [formData, setFormData] = useState({
+    design_wage: '',
+    farabours_wage: '',
+    execution_wage: '',
+    marketing_wage: '',
+    company_certificate_wage: '',
+  });
 
   useEffect(() => {
-    if (allData?.company_cost) {
-      setInvestorRequestIdForFees(cartId);
-
-      if (allData.company_cost.design_wage)
-        updateFeeField('design_wage', allData.company_cost.design_wage);
-      if (allData.company_cost.farabours_wage)
-        updateFeeField('farabours_wage', allData.company_cost.farabours_wage);
-      if (allData.company_cost.execution_wage)
-        updateFeeField('execution_wage', allData.company_cost.execution_wage);
-      if (allData.company_cost.marketing_wage)
-        updateFeeField('marketing_wage', allData.company_cost.marketing_wage);
-      if (allData.company_cost.company_certificate_wage)
-        updateFeeField('company_certificate_wage', allData.company_cost.company_certificate_wage);
+    if (allData) {
+      setFormData({
+        design_wage: allData.design_wage || '',
+        farabours_wage: allData.farabours_wage || '',
+        execution_wage: allData.execution_wage || '',
+        marketing_wage: allData.marketing_wage || '',
+        company_certificate_wage: allData.company_certificate_wage || '',
+      });
     }
-  }, [allData, cartId, setInvestorRequestIdForFees, updateFeeField]);
+  }, [allData]);
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    updateFeeField(field, value);
-
-    if (onFormDataChange) {
-      onFormDataChange({
-        ...fees,
-        [field]: value,
-      });
-    }
+    const updatedData = {
+      ...formData,
+      [field]: value,
+    };
+    setFormData(updatedData);
   };
 
   const formatNumber = (value) => {
     if (!value) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+      await submitExecutiveContract(formData);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -52,7 +63,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد طراحی"
-              value={formatNumber(fees.design_wage)}
+              value={formatNumber(formData.design_wage)}
               onChange={handleChange('design_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -62,7 +73,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد فرابورس"
-              value={formatNumber(fees.farabours_wage)}
+              value={formatNumber(formData.farabours_wage)}
               onChange={handleChange('farabours_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -72,7 +83,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد اجرا"
-              value={formatNumber(fees.execution_wage)}
+              value={formatNumber(formData.execution_wage)}
               onChange={handleChange('execution_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -82,7 +93,7 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد بازاریابی"
-              value={formatNumber(fees.marketing_wage)}
+              value={formatNumber(formData.marketing_wage)}
               onChange={handleChange('marketing_wage')}
               InputLabelProps={{ shrink: true }}
             />
@@ -92,20 +103,33 @@ const Fees = ({ allData, onFormDataChange }) => {
               type="text"
               fullWidth
               label="دستمزد گواهی شرکت"
-              value={formatNumber(fees.company_certificate_wage)}
+              value={formatNumber(formData.company_certificate_wage)}
               onChange={handleChange('company_certificate_wage')}
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
         </Grid>
       </AccordionDetails>
+
+      <Stack spacing={2} justifyContent="center" sx={{ mt: 8 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Button
+            sx={{ width: '100%', maxWidth: 400 }}
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? 'در حال ارسال...' : 'ارسال اطلاعات'}
+          </Button>
+        </Box>
+      </Stack>
     </Box>
   );
 };
 
 Fees.propTypes = {
   allData: PropTypes.object.isRequired,
-  onFormDataChange: PropTypes.func,
 };
 
 export default Fees;
