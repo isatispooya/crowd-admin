@@ -19,28 +19,23 @@ function TabPanel(props) {
     </div>
   );
 }
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   value: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
 };
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
 const AnalyzesPage = () => {
   const [value, setValue] = useState(0);
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-
-  console.log('AnalyzesPage');
 
   return (
     <Box
@@ -101,8 +96,8 @@ const AnalyzesPage = () => {
             textAlign: 'center',
           }}
         >
-          <ConstructionIcon 
-            sx={{ 
+          <ConstructionIcon
+            sx={{
               fontSize: '4rem',
               color: '#2196F3',
               marginBottom: '1rem',
@@ -110,9 +105,9 @@ const AnalyzesPage = () => {
               '@keyframes pulse': {
                 '0%': { transform: 'scale(1)' },
                 '50%': { transform: 'scale(1.1)' },
-                '100%': { transform: 'scale(1)' }
-              }
-            }} 
+                '100%': { transform: 'scale(1)' },
+              },
+            }}
           />
           <Box
             component="span"

@@ -36,6 +36,19 @@ const AgeAnalyzes = () => {
             {ageData?.std_dev_age?.toFixed(2) || '0'}
           </p>
         </div>
+        <div className="col-span-3">
+          <p className="text-start text-sm font-medium text-gray-700">
+            <span className="text-blue-600 text-lg">80%</span> سن کاربران مابین{' '}
+            <span className="font-semibold  border-b-2 ">
+              {((ageData?.average_age || 0) + (ageData?.std_dev_age || 0)).toFixed(1)}
+            </span>{' '}
+            و{' '}
+            <span className="font-semibold  border-b-2 ">
+              {((ageData?.average_age || 0) - (ageData?.std_dev_age || 0)).toFixed(1)}
+            </span>{' '}
+            میباشد
+          </p>
+        </div>
       </div>
     </div>
   );
