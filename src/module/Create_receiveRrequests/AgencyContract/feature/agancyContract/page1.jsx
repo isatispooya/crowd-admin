@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import moment from 'moment-jalaali';
 import crowdlogo from './crowdlogo.png';
 
 const Page1 = ({ agencyContract }) => {
@@ -13,13 +14,14 @@ const Page1 = ({ agencyContract }) => {
         {agencyContract.investor_request?.logo && (
           <div className="mb-1 flex items-center relative">
             <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
-              شماره قرارداد: {'  '}
-              {agencyContract.investor_request?.contract_number || ''}
+              شماره قرارداد: {'  '}1{agencyContract.investor_request?.contract_number || ''}
               <br />
               تاریخ: {'  '}
               {agencyContract.investor_request?.agency_agreement_date
-                .split('T')[0]
-                .replace(/-/g, '/')}
+                ? moment(agencyContract.investor_request.agency_agreement_date).format(
+                    'jYYYY/jMM/jDD'
+                  )
+                : ''}
             </div>
 
             <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
@@ -73,10 +75,12 @@ const Page1 = ({ agencyContract }) => {
                 {index < filteredArray.length - 1 ? ' و ' : ''}
               </React.Fragment>
             ))}{' '}
-            براساس{" "}
-          
-          {agencyContract.company_members.filter((member) => member.signature_document !== null)[0]?.signature_document} که در این قرارداد، «متقاضی» نامیده
-          می شود، از یک طرف،
+          براساس{' '}
+          {
+            agencyContract.company_members.filter((member) => member.signature_document !== null)[0]
+              ?.signature_document
+          }{' '}
+          که در این قرارداد، «متقاضی» نامیده می شود، از یک طرف،
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) طرف دوم:</span> شرکت سبدگردان ایساتیس پویا کیش
@@ -169,7 +173,6 @@ const Page1 = ({ agencyContract }) => {
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">ماده 4(کارمزد موضوع قرارداد)</span>
           <br />
-
         </p>
 
         <p className="mb-2">
