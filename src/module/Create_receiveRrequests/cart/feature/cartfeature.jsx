@@ -39,7 +39,7 @@ const CardFeature = ({ handleCardClick, cardData }) => (
       <div className="flex items-center justify-between">
         <p className="text-sm text-purple-600 font-medium">سرمایه:</p>
         <span className="text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
-          {(cardData.amount_of_investment)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || 'نامشخص'} ریال
+          {cardData.amount_of_investment ? `${cardData.amount_of_investment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ریال` : 'نامشخص'}
         </span>
       </div>
     </div>
