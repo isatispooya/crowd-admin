@@ -7,7 +7,7 @@ const Page7 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-      <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
+        <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
           <thead>
             <tr>
               <th className="border border-gray-300 text-[22px] text-right pr-2">ردیف</th>
@@ -16,7 +16,7 @@ const Page7 = ({ agencyContract }) => {
             </tr>
           </thead>
           <tbody className="border border-gray-300">
-      <tr>
+            <tr>
               <td className="border border-gray-300 text-[22px] text-right p-3">13</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">ارائه گزارشات</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
@@ -28,13 +28,6 @@ const Page7 = ({ agencyContract }) => {
             </tr>
           </tbody>
         </table>
-
-
-
-
-
-
-
 
         <h3 className="font-bold mb-2 text-[23px] text-right">ماده 6) مدت قرارداد </h3>
         <p className="mb-2 text-right">
@@ -85,16 +78,6 @@ const Page7 = ({ agencyContract }) => {
           متقاضي متعهد به عدم استفاده از گزارش هاي ارائه شده توسط عامل در مواردي غير از موضوع اين
           قرارداد است که احراز تخلف مستوجب خسارت وجه التزام معادل 10 درصد مبلغ کمپین تامین مالی است.
         </p>
-
-
-
-
-
-
-
-
-
-
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">9)</span>
@@ -160,7 +143,6 @@ const Page7 = ({ agencyContract }) => {
           است، منتشر كند و متقاضي نمي تواند هيچگونه ادعايي در رابطه با نقض محرمانگي اين اطلاعات
           داشته باشد.
         </p>
-       
       </div>
     </div>
   );
