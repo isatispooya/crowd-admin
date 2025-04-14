@@ -7,6 +7,15 @@ const Page4 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <p className="mb-3 pr-4 text-right">
+          <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
+          {Number(
+            agencyContract.investor_request.company_certificate_wage / 1000000 || 0
+          ).toLocaleString()}{' '}
+          میلیون ريال ميباشد. متقاضي متعهد است در صورت موفقيت كمپين، حداكثر يك روز كاري پيش از واريز
+          وجوه جمع آوري شده به حساب وي، كارمزد جمع آوري شده به حساب وي، كارمزد اين بند را به صورت
+          نقدي/ چك به حساب معرفي شده در بند 4-١- اين ماده واريز نمايد
+        </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">تبصره 2: </span>
           عامل حق دارد پس از تکمیل فرایند تأمین مالی جمعی و موفقیت پروژه، مبلغ قرارداد را رأسا از
