@@ -24,7 +24,7 @@ const Guarantor = ({ allData }) => {
       const formData = await submitGuarantorInfo();
       if (formData) {
         const payload = new FormData();
-
+        payload.append('investor_request_id', cartId);
         let birthDate = null;
         if (guarantorInfo.birth_date) {
           if (typeof guarantorInfo.birth_date.toDate === 'function') {
@@ -44,11 +44,9 @@ const Guarantor = ({ allData }) => {
           }
         });
 
-        payload.append('type', 'individual');
-
         await mutate(payload);
         updateGuarantorInfo({
-          investor_request_id: cartId || '',
+          investor_request_id: '',
           guarantor_name: '',
           guarantor_national_id: '',
           phone_number: '',

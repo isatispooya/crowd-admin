@@ -134,7 +134,6 @@ const useCompanyInfoStore = create((set, get) => ({
   },
 
   guarantorInfo: {
-    investor_request_id: null,
     guarantor_name: '',
     guarantor_national_id: '',
     phone_number: '',
@@ -143,7 +142,6 @@ const useCompanyInfoStore = create((set, get) => ({
     postal_code: '',
     gender: '',
     type: '',
-    company_rasmio_national_id: '',
   },
 
   fees: {
@@ -684,7 +682,6 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       guarantorInfo: {
-        investor_request_id: null,
         guarantor_name: '',
         guarantor_national_id: '',
         phone_number: '',
@@ -692,6 +689,7 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: '',
         postal_code: '',
         gender: '',
+        type: '',
       },
 
       fees: {
@@ -908,7 +906,6 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       guarantorInfo: {
-        investor_request_id: defaultValue(data.investor_request_id),
         guarantor_name: defaultValue(data.guarantor_name),
         guarantor_national_id: defaultValue(data.guarantor_national_id),
         phone_number: defaultValue(data.phone_number),
@@ -916,6 +913,7 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: defaultValue(data.guarantor_address),
         postal_code: defaultValue(data.postal_code),
         gender: defaultValue(data.gender),
+        type: defaultValue(data.type),
       },
 
       fees: {
@@ -1069,8 +1067,20 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      Object.entries(state.guarantorInfo).forEach(([key, value]) => {
-        if (value !== null) {
+      const validFields = {
+        investor_request_id: state.guarantorInfo.investor_request_id,
+        guarantor_name: state.guarantorInfo.guarantor_name,
+        guarantor_national_id: state.guarantorInfo.guarantor_national_id,
+        phone_number: state.guarantorInfo.phone_number,
+        birth_date: state.guarantorInfo.birth_date,
+        guarantor_address: state.guarantorInfo.guarantor_address,
+        postal_code: state.guarantorInfo.postal_code,
+        gender: state.guarantorInfo.gender,
+        type: state.guarantorInfo.type || 'individual'
+      };
+
+      Object.entries(validFields).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
           if (key === 'birth_date' && value) {
             let formattedDate = null;
             if (typeof value.toDate === 'function') {

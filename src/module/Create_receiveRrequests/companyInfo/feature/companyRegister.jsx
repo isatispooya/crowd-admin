@@ -101,7 +101,7 @@ const CompanyRegister = ({ data }) => {
     },
     {
       id: 'subject_activity_document',
-      label: 'موضوع فعالیت',
+      label: 'مبنای برسی مالی',
       type: 'text',
       value: subjectActivityDocument,
       onChange: (e) => handleFieldChange(e, 'subject_activity_document'),
