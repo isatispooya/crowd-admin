@@ -30,12 +30,19 @@ const CompanyConst = ({ allData }) => {
   };
 
   const handleChange = (field) => (event) => {
-    const value = event.target.value.replace(/,/g, '');
-    if (!Number.isNaN(Number(value)) || value === '') {
+    if (field === 'description') {
       setFormData((prev) => ({
         ...prev,
-        [field]: value,
+        [field]: event.target.value,
       }));
+    } else {
+      const value = event.target.value.replace(/,/g, '');
+      if (!Number.isNaN(Number(value)) || value === '') {
+        setFormData((prev) => ({
+          ...prev,
+          [field]: value,
+        }));
+      }
     }
   };
 
@@ -84,7 +91,7 @@ const CompanyConst = ({ allData }) => {
                 onChange={handleChange('amount_of_year')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
-                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                  endAdornment: <Typography variant="caption">میلیون‌ریال</Typography>,
                 }}
               />
             </Grid>
@@ -96,7 +103,7 @@ const CompanyConst = ({ allData }) => {
                 onChange={handleChange('amount_of_3_months')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
-                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                  endAdornment: <Typography variant="caption">میلیون‌ریال</Typography>,
                 }}
               />
             </Grid>

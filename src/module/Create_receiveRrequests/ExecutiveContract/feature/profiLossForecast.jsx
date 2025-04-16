@@ -19,13 +19,13 @@ const ProfitLossForecast = ({ allData }) => {
   const { mutate } = usePerformanceForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    three_month_sales_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_sales_profit_and_loss_forecast || '',
-    annual_sales_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_sales_profit_and_loss_forecast || '',
-    three_month_cost_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_cost_profit_and_loss_forecast || '',
-    three_month_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_profit_and_loss_forecast || '',
-    annual_cost_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_cost_profit_and_loss_forecast || '',
-    annual_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_profit_and_loss_forecast || '',
-    amount_production: allData?.profit_and_loss_forecast?.amount_production || '',
+    three_month_sales_profit_and_loss_forecast: allData?.investor_request?.three_month_sales_profit_and_loss_forecast || '',
+    annual_sales_profit_and_loss_forecast: allData?.investor_request?.annual_sales_profit_and_loss_forecast || '',
+    three_month_cost_profit_and_loss_forecast: allData?.investor_request?.three_month_cost_profit_and_loss_forecast || '',
+    three_month_profit_and_loss_forecast: allData?.investor_request?.three_month_profit_and_loss_forecast || '',
+    annual_cost_profit_and_loss_forecast: allData?.investor_request?.annual_cost_profit_and_loss_forecast || '',
+    annual_profit_and_loss_forecast: allData?.investor_request?.annual_profit_and_loss_forecast || '',
+    amount_production: allData?.investor_request?.amount_production || '',
   });
 
   const formatNumber = (number) => {
@@ -73,7 +73,7 @@ const ProfitLossForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="پیش‌بینی فروش سه ماهه"
-                value={formatNumber(allData.investor_request.three_month_sales_profit_and_loss_forecast)}
+                value={formatNumber(formData.three_month_sales_profit_and_loss_forecast)}
                 onChange={handleChange('three_month_sales_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
@@ -85,7 +85,7 @@ const ProfitLossForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="پیش‌بینی فروش سالیانه"
-                value={formatNumber(allData.investor_request.annual_sales_profit_and_loss_forecast)}
+                value={formatNumber(formData.annual_sales_profit_and_loss_forecast)}
                 onChange={handleChange('annual_sales_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
@@ -97,7 +97,7 @@ const ProfitLossForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="پیش‌بینی هزینه سه ماهه"
-                value={formatNumber(allData.investor_request.three_month_cost_profit_and_loss_forecast)}
+                value={formatNumber(formData.three_month_cost_profit_and_loss_forecast)}
                 onChange={handleChange('three_month_cost_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
@@ -108,20 +108,8 @@ const ProfitLossForecast = ({ allData }) => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="پیش‌بینی سود و زیان سه ماهه"
-                value={formatNumber(allData.investor_request.three_month_profit_and_loss_forecast)}
-                onChange={handleChange('three_month_profit_and_loss_forecast')}
-                InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  endAdornment: <Typography variant="caption">ریال</Typography>,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
                 label="پیش‌بینی هزینه سالیانه"
-                value={formatNumber(allData.investor_request.annual_cost_profit_and_loss_forecast)}
+                value={formatNumber(formData.annual_cost_profit_and_loss_forecast)}
                 onChange={handleChange('annual_cost_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
@@ -132,8 +120,21 @@ const ProfitLossForecast = ({ allData }) => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
+                label="پیش‌بینی سود و زیان سه ماهه"
+                value={formatNumber(formData.three_month_profit_and_loss_forecast)}
+                onChange={handleChange('three_month_profit_and_loss_forecast')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
+              />
+            </Grid>
+           
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
                 label="پیش‌بینی سود و زیان سالیانه"
-                value={formatNumber(allData.investor_request.annual_profit_and_loss_forecast)}
+                value={formatNumber(formData.annual_profit_and_loss_forecast)}
                 onChange={handleChange('annual_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
@@ -145,7 +146,7 @@ const ProfitLossForecast = ({ allData }) => {
               <TextField
                 fullWidth
                 label="میزان تولید"
-                value={formatNumber(allData.investor_request.amount_production)}
+                value={formatNumber(formData.amount_production)}
                 onChange={handleChange('amount_production')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
