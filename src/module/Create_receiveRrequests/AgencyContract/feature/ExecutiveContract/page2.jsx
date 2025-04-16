@@ -71,26 +71,24 @@ const Page2 = ({ data }) => {
             </tr>
             <tr>
               <td className="border border-gray-300 p-2">میزان تولید سال</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(
-                  investor_request?.amount_production ? investor_request.amount_production / 4 : 0
-                )}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.amount_production)}
+              <td className="border border-gray-300 p-2" colSpan="2">
+                {investor_request?.amount_production}
               </td>
             </tr>
           </tbody>
         </table>
         <p>
           تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name} با تأیید عامل، به
-          صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق توسط متقاضی تضمین
-          شده است.
+          صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به مبلغ{' '}
+          {investor_request?.annual_total_income_forecast} میلیون ریال سالیانه و{' '}
+          {investor_request?.three_months_gross_profit_of_the_plan_forecast} میلیون ریال دوره سه
+          ماهه توسط متقاضی تضمین شده است.
           <br />
           تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
-          حداقل 246,400 (61,600) میلیون ریال سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق
-          درآمد مذکور به هر علت و جهتی، متقاضی درآمد برآورد شده را از محل سایر دارایی‌های خود در
-          شرکت تضمین می‌نماید.
+          حداقل {investor_request?.annual_total_income_forecast} (
+          {investor_request?.three_months_total_income_forecast}) میلیون ریال سالیانه (دوره سه ماهه)
+          محقق نماید و در صورت عدم تحقق درآمد مذکور به هر علت و جهتی، متقاضی درآمد برآورد شده را از
+          محل سایر دارایی‌های خود در شرکت تضمین می‌نماید.
           <br />
           تبصر ه 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر
           اساس اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه
@@ -123,9 +121,9 @@ const Page2 = ({ data }) => {
           <span className="text-[23px] font-bold">2.</span>
           تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
           گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
-          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} میلیون
-          ریال، به نسبت{' '}
-          {formatMillionRials(investor_request?.annual_shareholders_equity_ratio_forecast)} درصد سهم
+          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} 
+          , به نسبت{' '}
+          {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم
           عامل و{' '}
           {investor_request?.annual_shareholders_equity_ratio_forecast
             ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
@@ -251,7 +249,7 @@ const Page2 = ({ data }) => {
         </table>
 
         <p className="mt-4 text-[23px]">
-          نرخ بازده سرمایه‌گذار: {formatPercentage(45)}-{formatPercentage(47)}
+          نرخ بازده سرمایه‌گذار: {one_year_return_on_investment[0]?.rate_to}٪-{one_year_return_on_investment[2]?.rate_to}٪
         </p>
       </div>
     );
