@@ -19,6 +19,7 @@ const useCompanyInfoStore = create((set, get) => ({
     suggestion_plan_name: '',
     amount_of_investment: '',
     refund_of_plan: '0',
+    subject_activity_document: '',
   },
   boardMembers: [],
   boardMembersFiles: {},
@@ -88,9 +89,13 @@ const useCompanyInfoStore = create((set, get) => ({
   },
 
   profitAndLossForecast: {
-    description: '',
-    amount_of_3_months: 0,
-    amount_of_year: 0,
+    three_month_sales_profit_and_loss_forecast: '',
+    annual_sales_profit_and_loss_forecast: '',
+    three_month_cost_profit_and_loss_forecast: '',
+    three_month_profit_and_loss_forecast: '',
+    annual_cost_profit_and_loss_forecast: '',
+    annual_profit_and_loss_forecast: '',
+    amount_production: '',
   },
 
 
@@ -348,6 +353,10 @@ const useCompanyInfoStore = create((set, get) => ({
         formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
       }
 
+      if (state.registerInfo.subject_activity_document) {
+        formData.append('subject_activity_document', state.registerInfo.subject_activity_document);
+      }
+
       Object.entries(state.agencyContract).forEach(([key, value]) => {
         if (value && state.isActualFile(value)) {
           formData.append(key, value);
@@ -407,6 +416,10 @@ const useCompanyInfoStore = create((set, get) => ({
 
       if (state.registerInfo.refund_of_plan) {
         formData.append('refund_of_plan', state.registerInfo.refund_of_plan);
+      }
+
+      if (state.registerInfo.subject_activity_document) {
+        formData.append('subject_activity_document', state.registerInfo.subject_activity_document);
       }
 
       set({ isLoading: false });
@@ -556,6 +569,7 @@ const useCompanyInfoStore = create((set, get) => ({
         suggestion_plan_name: '',
         amount_of_investment: '',
         refund_of_plan: '0',
+        subject_activity_document: '',
       },
       boardMembers: [],
       boardMembersFiles: {},
@@ -625,9 +639,13 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       profitAndLossForecast: {
-        description: '',
-        amount_of_3_months: 0,
-        amount_of_year: 0,
+        three_month_sales_profit_and_loss_forecast: '',
+        annual_sales_profit_and_loss_forecast: '',
+        three_month_cost_profit_and_loss_forecast: '',
+        three_month_profit_and_loss_forecast: '',
+        annual_cost_profit_and_loss_forecast: '',
+        annual_profit_and_loss_forecast: '',
+        amount_production: '',
       },
 
 
@@ -747,6 +765,7 @@ const useCompanyInfoStore = create((set, get) => ({
         suggestion_plan_name: defaultValue(data.suggestion_plan_name),
         amount_of_investment: defaultValue(data.amount_of_investment),
         refund_of_plan: defaultValue(data.refund_of_plan, '0'),
+        subject_activity_document: defaultValue(data.subject_activity_document, ''),
       },
       boardMembers: data.company_members || [],
       boardMembersFiles,
@@ -815,9 +834,13 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       profitAndLossForecast: {
-        description: defaultValue(data.profit_and_loss_forecast?.description, ''),
-        amount_of_3_months: defaultValue(data.profit_and_loss_forecast?.amount_of_3_months, 0),
-        amount_of_year: defaultValue(data.profit_and_loss_forecast?.amount_of_year, 0),
+        three_month_sales_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_sales_profit_and_loss_forecast, ''),
+        annual_sales_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_sales_profit_and_loss_forecast, ''),
+        three_month_cost_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_cost_profit_and_loss_forecast, ''),
+        three_month_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_profit_and_loss_forecast, ''),
+        annual_cost_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_cost_profit_and_loss_forecast, ''),
+        annual_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_profit_and_loss_forecast, ''),
+        amount_production: defaultValue(data.profit_and_loss_forecast?.amount_production, ''),
       },
 
 
@@ -988,9 +1011,11 @@ const useCompanyInfoStore = create((set, get) => ({
       const state = get();
       const formData = new FormData();
 
-      formData.append('description', state.profitAndLossForecast.description);
-      formData.append('amount_of_3_months', state.profitAndLossForecast.amount_of_3_months);
-      formData.append('amount_of_year', state.profitAndLossForecast.amount_of_year);
+      Object.entries(state.profitAndLossForecast).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          formData.append(key, value);
+        }
+      });
 
       set({ isLoading: false });
       return formData;

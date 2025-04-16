@@ -12,16 +12,20 @@ import {
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
-import { useProfitAndLossForecast } from '../service/profitAndLossForecast';
+import { usePerformanceForecast } from '../service/performanceForecast';
 
 const ProfitLossForecast = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate } = useProfitAndLossForecast(cartId);
+  const { mutate } = usePerformanceForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    amount_of_year: allData?.profit_and_loss_forecast?.amount_of_year || '',
-    amount_of_3_months: allData?.profit_and_loss_forecast?.amount_of_3_months || '',
-    description: allData?.profit_and_loss_forecast?.description || '',
+    three_month_sales_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_sales_profit_and_loss_forecast || '',
+    annual_sales_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_sales_profit_and_loss_forecast || '',
+    three_month_cost_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_cost_profit_and_loss_forecast || '',
+    three_month_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.three_month_profit_and_loss_forecast || '',
+    annual_cost_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_cost_profit_and_loss_forecast || '',
+    annual_profit_and_loss_forecast: allData?.profit_and_loss_forecast?.annual_profit_and_loss_forecast || '',
+    amount_production: allData?.profit_and_loss_forecast?.amount_production || '',
   });
 
   const formatNumber = (number) => {
@@ -31,7 +35,7 @@ const ProfitLossForecast = ({ allData }) => {
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    if (!Number.isNaN(Number(value)) || value === '') {
+    if (field === 'subject_activity_document' || (!Number.isNaN(Number(value)) || value === '')) {
       setFormData((prev) => ({
         ...prev,
         [field]: value,
@@ -45,13 +49,7 @@ const ProfitLossForecast = ({ allData }) => {
         investor_request: allData.id,
         ...formData,
       };
-      await mutate(payload);
-      setFormData({
-        investor_request_id: cartId || '',
-        amount_of_year: '',
-        amount_of_3_months: '',
-        description: '',
-      });
+      await mutate(payload); 
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -74,9 +72,9 @@ const ProfitLossForecast = ({ allData }) => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="مبلغ سالیانه"
-                value={formatNumber(formData.amount_of_year)}
-                onChange={handleChange('amount_of_year')}
+                label="پیش‌بینی فروش سه ماهه"
+                value={formatNumber(allData.investor_request.three_month_sales_profit_and_loss_forecast)}
+                onChange={handleChange('three_month_sales_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   endAdornment: <Typography variant="caption">ریال</Typography>,
@@ -86,21 +84,73 @@ const ProfitLossForecast = ({ allData }) => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="مبلغ سه ماهه"
-                value={formatNumber(formData.amount_of_3_months)}
-                onChange={handleChange('amount_of_3_months')}
+                label="پیش‌بینی فروش سالیانه"
+                value={formatNumber(allData.investor_request.annual_sales_profit_and_loss_forecast)}
+                onChange={handleChange('annual_sales_profit_and_loss_forecast')}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   endAdornment: <Typography variant="caption">ریال</Typography>,
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="توضیحات"
-                value={formData.description}
-                onChange={handleChange('description')}
+                label="پیش‌بینی هزینه سه ماهه"
+                value={formatNumber(allData.investor_request.three_month_cost_profit_and_loss_forecast)}
+                onChange={handleChange('three_month_cost_profit_and_loss_forecast')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="پیش‌بینی سود و زیان سه ماهه"
+                value={formatNumber(allData.investor_request.three_month_profit_and_loss_forecast)}
+                onChange={handleChange('three_month_profit_and_loss_forecast')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="پیش‌بینی هزینه سالیانه"
+                value={formatNumber(allData.investor_request.annual_cost_profit_and_loss_forecast)}
+                onChange={handleChange('annual_cost_profit_and_loss_forecast')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="پیش‌بینی سود و زیان سالیانه"
+                value={formatNumber(allData.investor_request.annual_profit_and_loss_forecast)}
+                onChange={handleChange('annual_profit_and_loss_forecast')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="میزان تولید"
+                value={formatNumber(allData.investor_request.amount_production)}
+                onChange={handleChange('amount_production')}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: <Typography variant="caption">ریال</Typography>,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -109,52 +159,6 @@ const ProfitLossForecast = ({ allData }) => {
               </Button>
             </Grid>
           </Grid>
-          <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
-            {allData?.profit_and_loss_forecast && allData.profit_and_loss_forecast.length > 0 ? (
-              allData.profit_and_loss_forecast
-                .slice()
-                .reverse()
-                .map((item) => (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '8px',
-                      padding: 2,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="body2">
-                          <strong>مبلغ سالیانه:</strong> {item.amount_of_year?.toLocaleString()}{' '}
-                          ریال
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="body2">
-                          <strong>مبلغ سه ماهه:</strong> {item.amount_of_3_months?.toLocaleString()}{' '}
-                          ریال
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="body2">
-                          <strong>توضیحات:</strong> {item.description}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography variant="caption" color="textSecondary">
-                          تاریخ ایجاد: {new Date(item.created_at).toLocaleDateString('fa-IR')}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))
-            ) : (
-              <Typography align="center">اطلاعاتی موجود نیست</Typography>
-            )}
-          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>
