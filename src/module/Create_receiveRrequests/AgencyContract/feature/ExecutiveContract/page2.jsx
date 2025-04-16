@@ -24,10 +24,9 @@ const Page2 = ({ data }) => {
 
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-        <h2 className="text-[23px] font-bold mt-4 mb-2">4- تعهد متقاضی به ایجاد درآمد عملیاتی</h2>
         <p>
-          متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400 (61,600)
-          میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
+          4- متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400
+          (61,600) میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
         </p>
         <h3 className="text-[23px] font-bold mt-2 mb-2">
           پیش‌بینی سود و زیان (ارقام به میلیون ریال)
@@ -41,31 +40,46 @@ const Page2 = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {performance_forecast && performance_forecast.length > 0 ? (
-              performance_forecast.map((item, index) => (
-                <tr key={item.id || index}>
-                  <td className="border border-gray-300 p-2">{item.title || ''}</td>
-                  <td className="border border-gray-300 p-2">
-                    {formatMillionRials(Number(item.value) / 4)}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {formatMillionRials(Number(item.value))}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="border border-gray-300 p-2">
-                  {profit_and_loss_forecast?.description || 'توضیحات'}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {formatMillionRials(profit_and_loss_forecast?.amount_of_months)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {formatMillionRials(profit_and_loss_forecast?.amount_of_year)}
-                </td>
-              </tr>
-            )}
+            <tr>
+              <td className="border border-gray-300 p-2">درآمد عملیاتی خاص (فروش)</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_income_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">بهای تمام شده درآمد های عملیاتی</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">سود ناخالص</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.three_months_gross_profit_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">میزان تولید سال</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.amount_production ? investor_request.amount_production / 4 : 0
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.amount_production)}
+              </td>
+            </tr>
           </tbody>
         </table>
         <p>
@@ -88,7 +102,7 @@ const Page2 = ({ data }) => {
           تبصره 4: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
           وصول نشده، حال شده فرض خواهد شد.
           <br />
-          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن فروش موضوع{' '}
+          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن محصولات موضوع این طرح{' '}
           {investor_request?.suggestion_plan_name}، آن را به صورت سایر انواع محصولات و خدمات مندرج
           در صورت‌های مالی تولید ارائه نماید و به فروش رساند و حداقل مبلغ سود ناخالص برآورد شده در
           قرارداد حاضر را ایجاد کند.
@@ -185,25 +199,17 @@ const Page2 = ({ data }) => {
           </tbody>
         </table>
         <p className="text-[23px]">
-          تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی موضوع طرح{' '}
-          {investor_request?.suggestion_plan_name} از خرید دو دستگاه تراک 10 چرخ جهت حمل، به هیچ
-          عنوان سود ناخالص موضوع طرح {investor_request?.suggestion_plan_name} از به‌کارگیری{' '}
-          {formatNumber(250000000000)} میلیون ریال سرمایه در گردش مورد نیاز دستگاه بنز کمپرسی 10 چرخ
-          ایران خودرو، کمتر از {formatNumber(investor_request?.annual_total_income_forecast)} میلیون
-          ریال سالیانه نخواهد شد. بنابراین هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و
-          متقاضی حق هیچگونه ادعا و مطالبه‌ای در این خصوص نخواهد داشت.
-          <br />
-          تبصره 2: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
+          تبصره 1: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
           درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
           <br />
-          تبصره 3: مبنای تقسیم سود ناخالص در هر بازه از جدول این بند میان متقاضی و عامل حاصل از
+          تبصره 2: مبنای تقسیم سود ناخالص در هر بازه از جدول این بند میان متقاضی و عامل حاصل از
           اجرای طرح موضوع قرارداد، حداقل سود ناخالص در هر بازه خواهد بود. فقط در صورت افزایش سود
           ناخالص برآورد شده بیش از{' '}
           {formatMillionRials(investor_request?.annual_total_income_forecast)} ریال سالیانه،
           مابه‌تفاوت آن از سود برآورد شده به نسبت 99.9 درصد سهم متقاضی و 0.1 درصد سهم عامل تقسیم
           خواهد شد.
           <br />
-          تبصره 4: در صورتی که سود ناخالص طرح کمتر از سود علی‌حساب پرداختی باشد، متقاضی،
+          تبصره 3: در صورتی که سود ناخالص طرح کمتر از سود علی‌حساب پرداختی باشد، متقاضی،
           مابه‌التفاوت آن را تا میزان سودهای علی‌الحساب پرداخت شده از محل سهم خود یا سایر دارایی‌های
           خود مجاناً و بلاعوض تأمین و به دارندگان گواهی‌های شراکت صلح می‌نماید. به استناد این تبصره
           متقاضی حق هرگونه ادعایی در این خصوص را از خود سلب و اسقاط نمود.
@@ -281,6 +287,7 @@ Page2.propTypes = {
       annual_profit_margin_of_the_plan_forecast: PropTypes.number,
       three_months_shareholders_equity_ratio_forecast: PropTypes.number,
       annual_shareholders_equity_ratio_forecast: PropTypes.number,
+      amount_production: PropTypes.number,
     }),
     company_cost: PropTypes.shape({
       description: PropTypes.string,
@@ -313,11 +320,7 @@ Page2.propTypes = {
       })
     ),
     performance_forecast: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        value: PropTypes.string,
-      })
+      PropTypes.shape({ id: PropTypes.number, title: PropTypes.string, value: PropTypes.string })
     ),
   }).isRequired,
 };

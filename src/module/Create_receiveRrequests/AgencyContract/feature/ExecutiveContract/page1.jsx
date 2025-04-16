@@ -47,14 +47,7 @@ const Page1 = ({ data }) => {
   };
 
   const renderContractClauses = () => {
-    const {
-      company,
-      investor_request,
-      company_cost,
-      guarantor,
-      company_members,
-
-    } = data;
+    const { company, investor_request, company_cost, guarantor, company_members } = data;
 
     console.log(company_cost);
 
@@ -65,18 +58,21 @@ const Page1 = ({ data }) => {
         <p className="text-[23px]  mt-4 mb-2">
           1-1. این قرارداد میان:
           <br />
-          1) {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
+          1) شرکت {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
           {company?.economic_code} و شماره ثبت {company?.registration_number} در اداره ثبت شرکت‌ها و
-          موسسات غیر تجاری شورای عالی مناطق آزاد به نشانی {company?.address}، پلاک 0، 7، به کد پستی{' '}
-          {company?.postal_code}، با نمایندگی 
-          {company_members && company_members.length > 0 && company_members.map((member, index) => (
-            <span key={member.id || index}>
-              {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
-              {member.uniqueIdentifier} به سمت {member.position_title}
-              {" "}
-              {member.signature && ` صاحب امضای مجاز بر اساس ${member.signature_document}`}
-            </span>
-          ))}
+          موسسات غیر تجاری {company?.general_directorate} به نشانی {company?.address}، پلاک 0، 7، به
+          کد پستی {company?.postal_code}، با نمایندگی
+          {company_members &&
+            company_members.length > 0 &&
+            company_members
+              .filter((member) => member.agent)
+              .map((member, index) => (
+                <span key={member.id || index}>
+                  {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
+                  {member.uniqueIdentifier} به سمت {member.position_title}{' '}
+                  {member.signature && ` صاحب امضای مجاز بر اساس ${member.signature_document}`}
+                </span>
+              ))}
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود، از یک طرف،
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
@@ -86,7 +82,7 @@ const Page1 = ({ data }) => {
           هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز
           بر اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
           نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
-          متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 03/5/1008438 مورخ 1403/05/15 از
+          متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 0042/ف/1403 مورخ 1403/05/15 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
           <br />
           {guarantor.map((item, index) => (
@@ -136,9 +132,9 @@ const Page1 = ({ data }) => {
           </span>
           <br />
           <span className="ml-4">
-            تبصره 2: به استناد صورت مالی منتهی به 1402/12/29 ، در صورت وجود هرگونه مشکل در اجرای طرح
-            و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی‌ها و دستگاه‌های تحت تملک خود
-            نسبت به اجرای طرح اقدام نماید.
+            تبصره 2: به استناد {investor_request?.subject_activity_document} ، در صورت وجود هرگونه
+            مشکل در اجرای طرح و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی‌ها و
+            دستگاه‌های تحت تملک خود نسبت به اجرای طرح اقدام نماید.
           </span>
           <br />
           2. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
@@ -165,9 +161,7 @@ const Page1 = ({ data }) => {
             {company_cost && company_cost.length > 0 ? (
               company_cost.map((item, index) => (
                 <tr key={item.id || index}>
-                  <td className="border border-gray-300 p-2">
-                    {item.description || ''}
-                  </td>
+                  <td className="border border-gray-300 p-2">{item.description || ''}</td>
                   <td className="border border-gray-300 p-2">
                     {formatMillionRials(item.amount_of_3_months)}
                   </td>
@@ -197,8 +191,6 @@ const Page1 = ({ data }) => {
           {investor_request?.suggestion_plan_name}» را از دارایی‌های خود مجاناً و بلاعوض تأمین
           نماید. متقاضی بر اساس این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
         </p>
-
-        
       </div>
     );
   };
@@ -215,10 +207,12 @@ Page1.propTypes = {
       registration_number: PropTypes.string,
       address: PropTypes.string,
       postal_code: PropTypes.string,
+      general_directorate: PropTypes.string,
     }),
     investor_request: PropTypes.shape({
       logo: PropTypes.string,
       contract_number: PropTypes.string,
+      subject_activity_document: PropTypes.string,
       agency_agreement_date: PropTypes.string,
       suggestion_plan_name: PropTypes.string,
       amount_of_investment: PropTypes.number,
@@ -251,15 +245,12 @@ Page1.propTypes = {
       })
     ),
     performance_forecast: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        value: PropTypes.string,
-      })
+      PropTypes.shape({ id: PropTypes.number, title: PropTypes.string, value: PropTypes.string })
     ),
     profit_and_loss_forecast: PropTypes.shape({
       description: PropTypes.string,
       amount_of_months: PropTypes.number,
+      amount_of_3_months: PropTypes.number,
       amount_of_year: PropTypes.number,
     }),
   }).isRequired,

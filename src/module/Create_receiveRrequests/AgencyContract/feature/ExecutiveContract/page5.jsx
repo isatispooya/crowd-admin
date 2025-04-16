@@ -79,6 +79,7 @@ const Page13 = ({ data }) => {
           1) متقاضی یک فقره ضمانت‌نامه تعهد پرداخت با قابلیت تمدید را مطابق جدول زیر ارائه نموده
           است.
         </p>
+        <p className="text-justify leading-relaxed text-[23px]">2) چک های ضامنین</p>
         <div className="w-full overflow-x-auto">
           <table className="w-full border-collapse border border-black text-[20px]">
             <thead>
@@ -93,7 +94,7 @@ const Page13 = ({ data }) => {
             </thead>
             <tbody>
               {data?.warranty
-                ?.filter((item) => item.type === 'warranty')
+                ?.filter((item) => item.type === 'بانکی')
                 .map((item, index) => (
                   <tr key={index}>
                     <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
@@ -116,6 +117,7 @@ const Page13 = ({ data }) => {
                 <th className="border border-black p-2 text-center">تعداد/نوع</th>
                 <th className="border border-black p-2 text-center">شرح</th>
                 <th className="border border-black p-2 text-center">موضوع</th>
+                <th className="border border-black p-2 text-center">صادرکننده</th>
                 <th className="border border-black p-2 text-center">شناسه صیادی</th>
                 <th className="border border-black p-2 text-center">ارزش (میلیون ریال)</th>
               </tr>
@@ -130,19 +132,18 @@ const Page13 = ({ data }) => {
                     <td className="border border-black p-2 text-center">
                       تضمین اصل مبلغ تامین مالی
                     </td>
-                    <td className="border border-black p-2 text-center">{item.sepam_id}</td>
-                    <td className="border border-black p-2 text-center">{item.value}</td>
+                    <td className="border border-black p-2 text-center">{item.bank_name}</td>
+                    <td className="border border-black p-2 text-center">{item.fishing_id}</td>
+                    <td className="border border-black p-2 text-center">{item.amount}</td>
                   </tr>
                 ))}
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
-                <td className="border border-black p-2 text-center" colSpan="3">
-                  {data?.warranty?.filter((item) => item.type === 'check').length}
-                </td>
+                <td className="border border-black p-2 text-center" colSpan="4"></td>
                 <td className="border border-black p-2 text-center">
                   {data?.warranty
                     ?.filter((item) => item.type === 'check')
-                    .reduce((sum, item) => sum + item.value, 0)}
+                    .reduce((sum, item) => sum + (item.amount || 0), 0)}
                 </td>
               </tr>
             </tbody>
@@ -158,8 +159,6 @@ const Page13 = ({ data }) => {
   );
 };
 
-Page13.propTypes = {
-  data: PropTypes.object.isRequired,
-};
+Page13.propTypes = { data: PropTypes.object.isRequired };
 
 export default Page13;
