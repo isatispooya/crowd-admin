@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   CircularProgress,
+  MenuItem,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -30,6 +31,8 @@ const Warranty = ({ allData }) => {
     number: allData?.warranty?.number || '',
     sepam_id: allData?.warranty?.sepam_id || '',
     type: allData?.warranty?.type || '',
+    fishing_id: allData?.warranty?.fishing_id || '',
+    exporter: allData?.warranty?.exporter || '',
   });
   const [loading, setLoading] = React.useState(false);
 
@@ -39,11 +42,16 @@ const Warranty = ({ allData }) => {
   };
 
   const handleChange = (field) => (event) => {
-    const value = event.target.value.replace(/,/g, '');
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    const value = field === 'type' ? event.target.value : event.target.value.replace(/,/g, '');
+    console.log('Field:', field, 'Value:', value);
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        [field]: value,
+      };
+      console.log('New Form Data:', newData);
+      return newData;
+    });
   };
 
   const handleSubmit = async () => {
@@ -77,6 +85,8 @@ const Warranty = ({ allData }) => {
         number: '',
         sepam_id: '',
         type: '',
+        fishing_id: '',
+        exporter: '',
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -123,28 +133,65 @@ const Warranty = ({ allData }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                fullWidth
-                label="شماره ضمانت‌نامه"
-                value={formData.number}
-                onChange={handleChange('number')}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="شناسه سپام"
-                value={formData.sepam_id}
-                onChange={handleChange('sepam_id')}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
+                select
                 fullWidth
                 label="نوع ضمانت‌نامه"
-                value={formData.type}
+                value={formData.type || ''}
                 onChange={handleChange('type')}
-              />
+              >
+                <MenuItem value="">انتخاب کنید</MenuItem>
+                <MenuItem value="warranty">ضمانت‌نامه</MenuItem>
+                <MenuItem value="check">چک</MenuItem>
+              </TextField>
             </Grid>
+            {formData.type === 'warranty' && (
+              <>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="شماره ضمانت‌نامه"
+                    value={formData.number}
+                    onChange={handleChange('number')}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="شناسه سپام"
+                    value={formData.sepam_id}
+                    onChange={handleChange('sepam_id')}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="صادرکننده"
+                    value={formData.exporter}
+                    onChange={handleChange('exporter')}
+                  />
+                </Grid>
+              </>
+            )}
+            {formData.type === 'check' && (
+              <>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="شناسه صیاد"
+                    value={formData.fishing_id}
+                    onChange={handleChange('fishing_id')}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="صادرکننده"
+                    value={formData.exporter}
+                    onChange={handleChange('exporter')}
+                  />
+                </Grid>
+              </>
+            )}
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -220,7 +267,7 @@ const Warranty = ({ allData }) => {
                           <strong>توضیحات:</strong> {item.description}
                         </Typography>
                       </Grid>
-               
+
                       <Grid item xs={12}>
                         <Typography variant="body2">
                           <strong>تاریخ ضمانت:</strong>{' '}

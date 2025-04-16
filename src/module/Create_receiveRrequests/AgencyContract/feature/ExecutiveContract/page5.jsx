@@ -102,9 +102,11 @@ const Page13 = ({ data }) => {
                     <td className="border border-black p-2 text-center">
                       {new Date(item.date).toLocaleDateString('fa-IR')}
                     </td>
-                    <td className="border border-black p-2 text-center">{item.sepam_id}</td>
-                    <td className="border border-black p-2 text-center">{item.number}</td>
-                    <td className="border border-black p-2 text-center">{item.description}</td>
+                    <td className="border border-black p-2 text-center">{item.sepam_id || '-'}</td>
+                    <td className="border border-black p-2 text-center">{item.number || '-'}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.description || '-'}
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -132,18 +134,20 @@ const Page13 = ({ data }) => {
                     <td className="border border-black p-2 text-center">
                       تضمین اصل مبلغ تامین مالی
                     </td>
-                    <td className="border border-black p-2 text-center">{item.bank_name}</td>
-                    <td className="border border-black p-2 text-center">{item.fishing_id}</td>
-                    <td className="border border-black p-2 text-center">{item.amount}</td>
+                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.fishing_id || '-'}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.value || 0}</td>
                   </tr>
                 ))}
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
-                <td className="border border-black p-2 text-center" colSpan="4"></td>
+                <td className="border border-black p-2 text-center" colSpan="4" />
                 <td className="border border-black p-2 text-center">
                   {data?.warranty
                     ?.filter((item) => item.type === 'check')
-                    .reduce((sum, item) => sum + (item.amount || 0), 0)}
+                    .reduce((sum, item) => sum + (item.value || 0), 0)}
                 </td>
               </tr>
             </tbody>
