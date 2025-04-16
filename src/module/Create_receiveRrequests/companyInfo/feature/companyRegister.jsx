@@ -17,6 +17,7 @@ const CompanyRegister = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [planName, setPlanName] = useState('');
   const [paymentPeriod, setPaymentPeriod] = useState('0');
+  const [subjectActivityDocument, setSubjectActivityDocument] = useState('');
 
   const MIN_INVESTMENT = 50000000000;
   const MAX_INVESTMENT = 250000000000;
@@ -38,6 +39,11 @@ const CompanyRegister = ({ data }) => {
     if (data?.refund_of_plan) {
       setPaymentPeriod(data.refund_of_plan);
       updateRegisterInfo('refund_of_plan', data.refund_of_plan);
+    }
+
+    if (data?.subject_activity_document) {
+      setSubjectActivityDocument(data.subject_activity_document);
+      updateRegisterInfo('subject_activity_document', data.subject_activity_document);
     }
   }, [data, updateRegisterInfo]);
 
@@ -76,6 +82,8 @@ const CompanyRegister = ({ data }) => {
     const { value } = e.target;
     if (fieldId === 'suggestion_plan_name') {
       setPlanName(value);
+    } else if (fieldId === 'subject_activity_document') {
+      setSubjectActivityDocument(value);
     } else if (fieldId === 'payment_period') {
       setPaymentPeriod(value);
       updateRegisterInfo('refund_of_plan', value);
@@ -90,6 +98,13 @@ const CompanyRegister = ({ data }) => {
       type: 'text',
       value: planName,
       onChange: (e) => handleFieldChange(e, 'suggestion_plan_name'),
+    },
+    {
+      id: 'subject_activity_document',
+      label: 'موضوع فعالیت',
+      type: 'text',
+      value: subjectActivityDocument,
+      onChange: (e) => handleFieldChange(e, 'subject_activity_document'),
     },
     {
       id: 'payment_period',
