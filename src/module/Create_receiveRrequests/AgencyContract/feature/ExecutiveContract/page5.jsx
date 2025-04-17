@@ -79,17 +79,17 @@ const Page13 = ({ data }) => {
           1) متقاضی یک فقره ضمانت‌نامه تعهد پرداخت با قابلیت تمدید را مطابق جدول زیر ارائه نموده
           است.
         </p>
-        <p className="text-justify leading-relaxed text-[23px]">2) چک های ضامنین</p>
         <div className="w-full overflow-x-auto">
           <table className="w-full border-collapse border border-black text-[20px]">
             <thead>
               <tr className="bg-gray-100">
+                <th className="border border-black p-2 text-center">تعداد/نوع</th>
+                <th className="border border-black p-2 text-center">شرح</th>
+                <th className="border border-black p-2 text-center">صادرکننده</th>
                 <th className="border border-black p-2 text-center">نوع ضمانت‌نامه</th>
-                <th className="border border-black p-2 text-center">مبلغ ضمانت‌نامه (ریال)</th>
                 <th className="border border-black p-2 text-center">تاریخ اعتبار ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">شماره سپام</th>
-                <th className="border border-black p-2 text-center">شماره ضمانت‌نامه</th>
-                <th className="border border-black p-2 text-center">موضوع</th>
+                <th className="border border-black p-2 text-center">مبلغ ضمانت‌نامه (ریال)</th>
               </tr>
             </thead>
             <tbody>
@@ -97,28 +97,30 @@ const Page13 = ({ data }) => {
                 ?.filter((item) => item.type === 'بانکی')
                 .map((item, index) => (
                   <tr key={index}>
+                    <td className="border border-black p-2 text-center">1 فقره ضمانت‌نامه</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.description || '-'}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
                     <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
-                    <td className="border border-black p-2 text-center">{item.value}</td>
                     <td className="border border-black p-2 text-center">
                       {new Date(item.date).toLocaleDateString('fa-IR')}
                     </td>
                     <td className="border border-black p-2 text-center">{item.sepam_id || '-'}</td>
-                    <td className="border border-black p-2 text-center">{item.number || '-'}</td>
-                    <td className="border border-black p-2 text-center">
-                      {item.description || '-'}
-                    </td>
+                    <td className="border border-black p-2 text-center">{item.value || 0}</td>
                   </tr>
                 ))}
             </tbody>
           </table>
         </div>
+
+        <p className="text-justify leading-relaxed text-[23px]">2) چک های ضامنین</p>
         <div className="w-full overflow-x-auto mt-6">
           <table className="w-full border-collapse border border-black text-[20px]">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border border-black p-2 text-center">تعداد/نوع</th>
                 <th className="border border-black p-2 text-center">شرح</th>
-                <th className="border border-black p-2 text-center">موضوع</th>
                 <th className="border border-black p-2 text-center">صادرکننده</th>
                 <th className="border border-black p-2 text-center">شناسه صیادی</th>
                 <th className="border border-black p-2 text-center">ارزش (میلیون ریال)</th>
@@ -131,9 +133,6 @@ const Page13 = ({ data }) => {
                   <tr key={index}>
                     <td className="border border-black p-2 text-center">1 فقره چک</td>
                     <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
-                    <td className="border border-black p-2 text-center">
-                      تضمین اصل مبلغ تامین مالی
-                    </td>
                     <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
                     <td className="border border-black p-2 text-center">
                       {item.fishing_id || '-'}
@@ -143,7 +142,7 @@ const Page13 = ({ data }) => {
                 ))}
               <tr className="font-bold">
                 <td className="border border-black p-2 text-center">جمع</td>
-                <td className="border border-black p-2 text-center" colSpan="4" />
+                <td className="border border-black p-2 text-center" colSpan="3" />
                 <td className="border border-black p-2 text-center">
                   {data?.warranty
                     ?.filter((item) => item.type === 'check')
@@ -153,7 +152,7 @@ const Page13 = ({ data }) => {
             </tbody>
           </table>
         </div>
-        <p>
+        <p className="text-justify leading-relaxed text-[23px]">
           تبصره 23: متقاضی تأیید و اقرار می‌نماید، با درخواست کتبی عامل، همکاری لازم را با بانک
           صادرکننده ضمانت‌نامه جهت تمدید ضمانت‌نامه تعهد پرداخت صادر شده به‌عمل آورد، در غیر اینصورت
           عامل مخیر به فسخ قرارداد می‌باشد و متقاضی موظف است روال اتمام قرارداد را طی کند.
