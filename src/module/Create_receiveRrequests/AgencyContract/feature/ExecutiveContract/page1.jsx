@@ -49,7 +49,7 @@ const Page1 = ({ data }) => {
   const renderContractClauses = () => {
     const { company, investor_request, company_cost, guarantor, company_members } = data;
 
-    console.log(company_cost);
+   
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
@@ -70,10 +70,10 @@ const Page1 = ({ data }) => {
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                  {member.signature && ` صاحب امضای مجاز بر اساس ${member.signature_document}`}
+                  {member.signature && ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
                 </span>
               ))}
-          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود، از یک طرف،
+          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،   
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
