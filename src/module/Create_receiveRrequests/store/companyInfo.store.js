@@ -134,6 +134,7 @@ const useCompanyInfoStore = create((set, get) => ({
   },
 
   guarantorInfo: {
+    investor_request_id: null,
     guarantor_name: '',
     guarantor_national_id: '',
     phone_number: '',
@@ -1076,7 +1077,7 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: state.guarantorInfo.guarantor_address,
         postal_code: state.guarantorInfo.postal_code,
         gender: state.guarantorInfo.gender,
-        type: state.guarantorInfo.type || 'individual'
+        type: state.guarantorInfo.type
       };
 
       Object.entries(validFields).forEach(([key, value]) => {

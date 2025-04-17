@@ -28,9 +28,8 @@ const Guarantor = ({ allData }) => {
     try {
       const formData = await submitGuarantorInfo();
       if (formData) {
-        formData.append('type', 'physical');
+        formData.append('investor_request_id', allData.id || cartId);
         await mutate(formData);
-        updateGuarantorInfo('type', 'physical');
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);

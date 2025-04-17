@@ -12,15 +12,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
 import Guarantor from './guarantor';
 import LegalGuarantor from './LegalGuarantor';
-import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const GuarantorMain = ({ allData, refetch }) => {
   const [activeForm, setActiveForm] = useState('');
-  const { updateGuarantorInfo } = useCompanyInfoStore();
 
   const handleFormChange = (formType) => {
     setActiveForm(formType);
-    updateGuarantorInfo('type', formType === 'physical' ? 'individual' : 'legal');
   };
 
   return (
@@ -62,7 +59,7 @@ const GuarantorMain = ({ allData, refetch }) => {
             </ButtonGroup>
           </Box>
           {activeForm === 'physical' && <Guarantor allData={allData} refetch={refetch} />}
-          {activeForm === 'legal' && <LegalGuarantor allData={allData} refetch={refetch} />}
+          {activeForm === 'legal' && <LegalGuarantor allData={allData} refetch={refetch} />}  
         </AccordionDetails>
       </Accordion>
     </Box>
