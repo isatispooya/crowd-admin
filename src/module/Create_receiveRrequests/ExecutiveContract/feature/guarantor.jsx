@@ -1,222 +1,71 @@
-import React from 'react';
-import { Box, Grid, Typography, TextField, Button, MenuItem } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import { PiTrash } from 'react-icons/pi';
+import React, { useCallback, useMemo } from 'react';
+import { Box, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import DatePicker from 'react-multi-date-picker';
-import persian from 'react-date-object/calendars/persian';
-import persian_fa from 'react-date-object/locales/persian_fa';
-import DateObject from 'react-date-object';
 import { useGuarantor, useDeleteGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
+import GuarantorForm from './GuarantorForm';
+import GuarantorList from './GuarantorList';
 
-const Guarantor = ({ allData }) => {
+function GuarantorComponent({ allData }) {
   const { cartId } = useParams();
   const { mutate } = useGuarantor(cartId);
   const { mutate: deleteGuarantor } = useDeleteGuarantor(cartId);
+  const { submitGuarantorInfo, resetGuarantorInfo } = useCompanyInfoStore();
 
-  console.log(allData);
-
-  const { guarantorInfo, updateGuarantorInfo, submitGuarantorInfo } = useCompanyInfoStore();
-
-  const handleChange = (field) => (event) => {
-    updateGuarantorInfo(field, event.target.value);
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     try {
       const formData = await submitGuarantorInfo();
       if (formData) {
         formData.append('investor_request_id', allData.id || cartId);
+        formData.append('type', 'physical');
         await mutate(formData);
+        resetGuarantorInfo();
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
     }
-  };
+  }, [submitGuarantorInfo, allData.id, cartId, mutate, resetGuarantorInfo]);
 
-  const handleDelete = async (guarantorId) => {
+  const handleDelete = useCallback(async (guarantorId) => {
     try {
       await deleteGuarantor(guarantorId);
     } catch (error) {
       console.error('خطا در حذف ضامن:', error);
     }
-  };
+  }, [deleteGuarantor]);
 
-  const nonLegalGuarantors = allData?.guarantor
-    ? allData.guarantor.filter((g) => g.type !== 'legal')
-    : [];
+  const nonLegalGuarantors = useMemo(() => 
+    allData?.guarantor?.filter((g) => g.type !== 'legal') ?? []
+  , [allData?.guarantor]);
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            label="نام ضامن"
-            value={guarantorInfo.guarantor_name}
-            onChange={handleChange('guarantor_name')}
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            label="کد ملی ضامن"
-            value={guarantorInfo.guarantor_national_id}
-            onChange={handleChange('guarantor_national_id')}
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            label="شماره تلفن"
-            value={guarantorInfo.phone_number}
-            onChange={handleChange('phone_number')}
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant="body2">تاریخ تولد</Typography>
-          <div style={{ direction: 'rtl' }}>
-            <DatePicker
-              value={guarantorInfo.birth_date}
-              onChange={(value) => updateGuarantorInfo('birth_date', value)}
-              calendar={persian}
-              locale={persian_fa}
-              calendarPosition="bottom-right"
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            label="آدرس ضامن"
-            value={guarantorInfo.guarantor_address}
-            onChange={handleChange('guarantor_address')}
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            label="کد پستی"
-            value={guarantorInfo.postal_code}
-            onChange={handleChange('postal_code')}
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            select
-            fullWidth
-            label="جنسیت"
-            value={guarantorInfo.gender}
-            onChange={(event) => handleChange('gender')(event)}
-          >
-            <MenuItem value="male">مرد</MenuItem>
-            <MenuItem value="female">زن</MenuItem>
-          </TextField>
-        </Grid>
+      <GuarantorForm />
+      
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        fullWidth
+        sx={{ mt: 2, mb: 2 }}
+      >
+        ذخیره اطلاعات
+      </Button>
 
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            ذخیره اطلاعات
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Box sx={{ maxHeight: 400, overflow: 'auto', mt: 2 }}>
-        {nonLegalGuarantors.length > 0 ? (
-          nonLegalGuarantors
-            .slice()
-            .reverse()
-            .map((item) => (
-              <Box
-                key={item.id}
-                sx={{
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '8px',
-                  padding: 2,
-                  marginBottom: 2,
-                  position: 'relative',
-                }}
-              >
-                <IconButton
-                  onClick={() => handleDelete(item.id)}
-                  sx={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    color: 'error.main',
-                  }}
-                >
-                  <PiTrash />
-                </IconButton>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="body2">
-                      <strong>نام ضامن:</strong> {item.guarantor_name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="body2">
-                      <strong>کد ملی ضامن:</strong> {item.guarantor_national_id}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">
-                      <strong>شماره تلفن:</strong> {item.phone_number}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">
-                      <strong>تاریخ تولد:</strong>{' '}
-                      {item.birth_date
-                        ? new DateObject({
-                            date: new Date(item.birth_date),
-                            calendar: persian,
-                            locale: persian_fa,
-                          }).format('YYYY/MM/DD')
-                        : '—'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">
-                      <strong>آدرس ضامن:</strong> {item.guarantor_address}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">
-                      <strong>کد پستی:</strong> {item.postal_code}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">
-                      <strong>جنسیت:</strong> {item.gender === 'male' ? 'مرد' : 'زن'}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            ))
-        ) : (
-          <Typography align="center">ضامن حقیقی ثبت نشده است</Typography>
-        )}
-      </Box>
+      <GuarantorList 
+        guarantors={nonLegalGuarantors} 
+        onDelete={handleDelete} 
+      />
     </Box>
   );
+}
+
+GuarantorComponent.propTypes = {
+  allData: PropTypes.shape({
+    id: PropTypes.number,
+    guarantor: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired,
 };
 
-Guarantor.propTypes = {
-  allData: PropTypes.object.isRequired,
-};
-
-export default Guarantor;
+export default React.memo(GuarantorComponent);

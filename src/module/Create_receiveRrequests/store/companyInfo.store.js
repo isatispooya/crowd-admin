@@ -142,7 +142,6 @@ const useCompanyInfoStore = create((set, get) => ({
     guarantor_address: '',
     postal_code: '',
     gender: '',
-    type: '',
   },
 
   fees: {
@@ -690,7 +689,6 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: '',
         postal_code: '',
         gender: '',
-        type: '',
       },
 
       fees: {
@@ -914,7 +912,6 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: defaultValue(data.guarantor_address),
         postal_code: defaultValue(data.postal_code),
         gender: defaultValue(data.gender),
-        type: defaultValue(data.type),
       },
 
       fees: {
@@ -1077,7 +1074,6 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: state.guarantorInfo.guarantor_address,
         postal_code: state.guarantorInfo.postal_code,
         gender: state.guarantorInfo.gender,
-        type: state.guarantorInfo.type
       };
 
       Object.entries(validFields).forEach(([key, value]) => {
@@ -1149,6 +1145,19 @@ const useCompanyInfoStore = create((set, get) => ({
     set((state) => ({
       [id]: value,
     })),
+
+  resetGuarantorInfo: () => set({
+    guarantorInfo: {
+      investor_request_id: null,
+      guarantor_name: '',
+      guarantor_national_id: '',
+      phone_number: '',
+      birth_date: '',
+      guarantor_address: '',
+      postal_code: '',
+      gender: '',
+    }
+  }),
 }));
 
 export default useCompanyInfoStore;

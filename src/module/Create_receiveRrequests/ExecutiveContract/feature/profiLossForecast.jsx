@@ -19,23 +19,29 @@ const ProfitLossForecast = ({ allData }) => {
   const { mutate } = usePerformanceForecast(cartId);
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
-    three_month_sales_profit_and_loss_forecast: allData?.investor_request?.three_month_sales_profit_and_loss_forecast || '',
-    annual_sales_profit_and_loss_forecast: allData?.investor_request?.annual_sales_profit_and_loss_forecast || '',
-    three_month_cost_profit_and_loss_forecast: allData?.investor_request?.three_month_cost_profit_and_loss_forecast || '',
-    three_month_profit_and_loss_forecast: allData?.investor_request?.three_month_profit_and_loss_forecast || '',
-    annual_cost_profit_and_loss_forecast: allData?.investor_request?.annual_cost_profit_and_loss_forecast || '',
-    annual_profit_and_loss_forecast: allData?.investor_request?.annual_profit_and_loss_forecast || '',
+    three_month_sales_profit_and_loss_forecast:
+      allData?.investor_request?.three_month_sales_profit_and_loss_forecast || '',
+    annual_sales_profit_and_loss_forecast:
+      allData?.investor_request?.annual_sales_profit_and_loss_forecast || '',
+    three_month_cost_profit_and_loss_forecast:
+      allData?.investor_request?.three_month_cost_profit_and_loss_forecast || '',
+    three_month_profit_and_loss_forecast:
+      allData?.investor_request?.three_month_profit_and_loss_forecast || '',
+    annual_cost_profit_and_loss_forecast:
+      allData?.investor_request?.annual_cost_profit_and_loss_forecast || '',
+    annual_profit_and_loss_forecast:
+      allData?.investor_request?.annual_profit_and_loss_forecast || '',
     amount_production: allData?.investor_request?.amount_production || '',
   });
 
   const formatNumber = (number) => {
     if (!number) return '';
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   const handleChange = (field) => (event) => {
     const value = event.target.value.replace(/,/g, '');
-    if (field === 'subject_activity_document' || (!Number.isNaN(Number(value)) || value === '')) {
+    if (field === 'amount_production' || !Number.isNaN(Number(value)) || value === '') {
       setFormData((prev) => ({
         ...prev,
         [field]: value,
@@ -49,7 +55,7 @@ const ProfitLossForecast = ({ allData }) => {
         investor_request: allData.id,
         ...formData,
       };
-      await mutate(payload); 
+      await mutate(payload);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -129,7 +135,7 @@ const ProfitLossForecast = ({ allData }) => {
                 }}
               />
             </Grid>
-           
+
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
@@ -149,9 +155,6 @@ const ProfitLossForecast = ({ allData }) => {
                 value={formatNumber(formData.amount_production)}
                 onChange={handleChange('amount_production')}
                 InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  endAdornment: <Typography variant="caption">ریال</Typography>,
-                }}
               />
             </Grid>
             <Grid item xs={12}>
