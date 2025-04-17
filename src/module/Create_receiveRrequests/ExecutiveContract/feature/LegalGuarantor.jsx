@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Grid, Typography, TextField, Button } from '@mui/material';
+import { Box, Grid, Typography, TextField, Button, IconButton } from '@mui/material';
+import { PiTrash } from 'react-icons/pi';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useGuarantor } from '../service/guarantorService';
@@ -14,6 +15,14 @@ const LegalGuarantor = ({ allData }) => {
 
   const handleChange = (field) => (event) => {
     updateGuarantorInfo(field, event.target.value);
+  };
+
+  const handleDelete = async (guarantorId) => {
+    try {
+      console.log('Deleting legal guarantor with ID:', guarantorId);
+    } catch (error) {
+      console.error('خطا در حذف ضامن حقوقی:', error);
+    }
   };
 
   const handleSubmit = async () => {
@@ -87,8 +96,20 @@ const LegalGuarantor = ({ allData }) => {
                   borderRadius: '8px',
                   padding: 2,
                   marginBottom: 2,
+                  position: 'relative',
                 }}
               >
+                <IconButton
+                  onClick={() => handleDelete(item.id)}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    color: 'error.main',
+                  }}
+                >
+                  <PiTrash />
+                </IconButton>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <Typography variant="body2">

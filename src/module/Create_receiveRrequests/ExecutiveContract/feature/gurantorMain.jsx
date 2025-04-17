@@ -14,7 +14,7 @@ import Guarantor from './guarantor';
 import LegalGuarantor from './LegalGuarantor';
 
 const GuarantorMain = ({ allData, refetch }) => {
-  const [activeForm, setActiveForm] = useState('haghighi');
+  const [activeForm, setActiveForm] = useState('');
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -41,20 +41,20 @@ const GuarantorMain = ({ allData, refetch }) => {
           >
             <ButtonGroup variant="outlined" aria-label="گروه دکمه‌های اصلی">
               <Button
-                onClick={() => setActiveForm('haghighi')}
-                variant={activeForm === 'haghighi' ? 'contained' : 'outlined'}
+                onClick={() => setActiveForm('physical')}
+                variant={activeForm === 'physical' ? 'contained' : 'outlined'}
               >
                 اطلاعات حقیقی
               </Button>
               <Button
-                onClick={() => setActiveForm('hoghughi')}
-                variant={activeForm === 'hoghughi' ? 'contained' : 'outlined'}
+                onClick={() => setActiveForm('legal')}
+                variant={activeForm === 'legal' ? 'contained' : 'outlined'}
               >
                 اطلاعات حقوقی
               </Button>
             </ButtonGroup>
           </Box>
-          {activeForm === 'haghighi' ? (
+          {activeForm === 'physical' ? (
             <Guarantor allData={allData} refetch={refetch} />
           ) : (
             <LegalGuarantor allData={allData} refetch={refetch} />

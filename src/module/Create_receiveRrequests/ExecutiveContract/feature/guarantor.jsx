@@ -1,5 +1,7 @@
 import React from 'react';
 import { Box, Grid, Typography, TextField, Button, MenuItem } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { PiTrash } from 'react-icons/pi';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
@@ -59,6 +61,14 @@ const Guarantor = ({ allData }) => {
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
+    }
+  };
+
+  const handleDelete = async (guarantorId) => {
+    try {
+      console.log('Deleting guarantor with ID:', guarantorId);
+    } catch (error) {
+      console.error('خطا در حذف ضامن:', error);
     }
   };
 
@@ -165,8 +175,20 @@ const Guarantor = ({ allData }) => {
                   borderRadius: '8px',
                   padding: 2,
                   marginBottom: 2,
+                  position: 'relative',
                 }}
               >
+                <IconButton
+                  onClick={() => handleDelete(item.id)}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    color: 'error.main',
+                  }}
+                >
+                  <PiTrash />
+                </IconButton>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <Typography variant="body2">
