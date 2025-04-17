@@ -25,8 +25,10 @@ const Page2 = ({ data }) => {
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
         <p>
-          4- متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به 246,400
-          (61,600) میلیون ریال سالیانه (دوره 3 ماهه) ایجاد نماید. ارقام به میلیون ریال می‌باشد.
+          4- متقاضی متعهد است از اجرای طرح فوق درآمد عملیاتی به شرح جدول زیر، حداقل به{' '}
+          {investor_request?.annual_total_income_forecast?.toLocaleString()},
+          {`(${investor_request?.three_months_total_income_forecast?.toLocaleString()})`} میلیون ریال سالیانه (دوره 3 ماهه)
+          ایجاد نماید. ارقام به میلیون ریال می‌باشد.
         </p>
         <h3 className="text-[23px] font-bold mt-2 mb-2">
           پیش‌بینی سود و زیان (ارقام به میلیون ریال)
@@ -78,15 +80,15 @@ const Page2 = ({ data }) => {
           </tbody>
         </table>
         <p>
-          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name} با تأیید عامل، به
+          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name?.toLocaleString()} با تأیید عامل، به
           صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به مبلغ{' '}
-          {investor_request?.annual_total_income_forecast} میلیون ریال سالیانه و{' '}
-          {investor_request?.three_months_gross_profit_of_the_plan_forecast} میلیون ریال دوره سه
+          {investor_request?.annual_total_income_forecast?.toLocaleString()} میلیون ریال سالیانه و{' '}
+          {investor_request?.three_months_gross_profit_of_the_plan_forecast?.toLocaleString()} میلیون ریال دوره سه
           ماهه توسط متقاضی تضمین شده است.
           <br />
           تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
-          حداقل {investor_request?.annual_total_income_forecast} (
-          {investor_request?.three_months_total_income_forecast}) میلیون ریال سالیانه (دوره سه ماهه)
+          حداقل {investor_request?.annual_total_income_forecast?.toLocaleString()} (
+          {investor_request?.three_months_total_income_forecast?.toLocaleString()}) میلیون ریال سالیانه (دوره سه ماهه)
           محقق نماید و در صورت عدم تحقق درآمد مذکور به هر علت و جهتی، متقاضی درآمد برآورد شده را از
           محل سایر دارایی‌های خود در شرکت تضمین می‌نماید.
           <br />

@@ -65,7 +65,7 @@ const Page1 = ({ data }) => {
           {company_members &&
             company_members.length > 0 &&
             company_members
-              .filter((member) => member.agent)
+              .filter((member) => member.signature)
               .map((member, index) => (
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}

@@ -94,7 +94,7 @@ const Page13 = ({ data }) => {
             </thead>
             <tbody>
               {data?.warranty
-                ?.filter((item) => item.type === 'بانکی')
+                ?.filter((item) => item.type === 'warranty')
                 .map((item, index) => (
                   <tr key={index}>
                     <td className="border border-black p-2 text-center">1 فقره ضمانت‌نامه</td>
@@ -107,7 +107,9 @@ const Page13 = ({ data }) => {
                       {new Date(item.date).toLocaleDateString('fa-IR')}
                     </td>
                     <td className="border border-black p-2 text-center">{item.sepam_id || '-'}</td>
-                    <td className="border border-black p-2 text-center">{item.value || 0}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.value?.toLocaleString() || 0}
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -123,7 +125,7 @@ const Page13 = ({ data }) => {
                 <th className="border border-black p-2 text-center">شرح</th>
                 <th className="border border-black p-2 text-center">صادرکننده</th>
                 <th className="border border-black p-2 text-center">شناسه صیادی</th>
-                <th className="border border-black p-2 text-center">ارزش (میلیون ریال)</th>
+                <th className="border border-black p-2 text-center">ارزش ( ریال)</th>
               </tr>
             </thead>
             <tbody>
@@ -137,7 +139,9 @@ const Page13 = ({ data }) => {
                     <td className="border border-black p-2 text-center">
                       {item.fishing_id || '-'}
                     </td>
-                    <td className="border border-black p-2 text-center">{item.value || 0}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.value?.toLocaleString() || 0}
+                    </td>
                   </tr>
                 ))}
               <tr className="font-bold">
@@ -146,7 +150,8 @@ const Page13 = ({ data }) => {
                 <td className="border border-black p-2 text-center">
                   {data?.warranty
                     ?.filter((item) => item.type === 'check')
-                    .reduce((sum, item) => sum + (item.value || 0), 0)}
+                    .reduce((sum, item) => sum + (item.value || 0), 0)
+                    .toLocaleString()}
                 </td>
               </tr>
             </tbody>
