@@ -121,10 +121,8 @@ const Page2 = ({ data }) => {
           <span className="text-[23px] font-bold">2.</span>
           تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
           گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
-          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} 
-          , به نسبت{' '}
-          {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم
-          عامل و{' '}
+          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}, به نسبت{' '}
+          {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم عامل و{' '}
           {investor_request?.annual_shareholders_equity_ratio_forecast
             ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
             : 0}{' '}
@@ -249,7 +247,8 @@ const Page2 = ({ data }) => {
         </table>
 
         <p className="mt-4 text-[23px]">
-          نرخ بازده سرمایه‌گذار: {one_year_return_on_investment[0]?.rate_to}٪-{one_year_return_on_investment[2]?.rate_to}٪
+          نرخ بازده سرمایه‌گذار: {one_year_return_on_investment[0]?.rate_to}٪-
+          {one_year_return_on_investment[2]?.rate_to}٪
         </p>
       </div>
     );
