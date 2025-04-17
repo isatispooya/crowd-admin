@@ -51,8 +51,6 @@ const PerformanceForecast = ({ allData }) => {
   const { mutate } = usePerformanceForecast(cartId);
   const { updatePerformanceForecast, submitPerformanceForecast } = useCompanyInfoStore();
 
-  console.log('allData:', allData);
-
   const getFormState = useCallback(() => {
     const formState = {
       investor_request_id: cartId,
