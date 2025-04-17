@@ -54,11 +54,8 @@ const GuarantorMain = ({ allData, refetch }) => {
               </Button>
             </ButtonGroup>
           </Box>
-          {activeForm === 'physical' ? (
-            <Guarantor allData={allData} refetch={refetch} />
-          ) : (
-            <LegalGuarantor allData={allData} refetch={refetch} />
-          )}
+          {activeForm === 'physical' && <Guarantor allData={allData} refetch={refetch} />}
+          {activeForm === 'legal' && <LegalGuarantor allData={allData} refetch={refetch} />}
         </AccordionDetails>
       </Accordion>
     </Box>
