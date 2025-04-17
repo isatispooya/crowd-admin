@@ -27,6 +27,21 @@ export const deleteGuarantor = async (guarantorId) => {
   return response.data;
 };
 
+
+export const patchGuarantor = async ({ guarantorId, data }) => {
+  const accessApi = getCookie('accessApi');
+  const response = await api.patch(`/api/guarantor/admin/${guarantorId}/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessApi}`,
+    },
+  });
+
+  return response.data;
+};
+
+
+
 export const useGuarantor = (cartId) => {
   const { refetch: refetchGet } = useGetCompanyInfo(cartId);
   const { mutate, data: responseData, refetch } = useMutation({
@@ -56,5 +71,25 @@ export const useDeleteGuarantor = (cartId) => {
 
   return { mutate, data: responseData, refetch };
 };
+
+
+export const usePatchGuarantor = (cartId) => {
+  const { refetch: refetchGet } = useGetCompanyInfo(cartId);
+  const { mutate, data: responseData, refetch } = useMutation({
+    mutationFn: (data) => patchGuarantor(data),
+    onSuccess: () => {
+      refetchGet();
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+    },
+  });
+
+  return { mutate, data: responseData, refetch };
+};
+
+
+
+
 
 

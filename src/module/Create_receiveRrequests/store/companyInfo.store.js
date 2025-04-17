@@ -727,16 +727,18 @@ const useCompanyInfoStore = create((set, get) => ({
 
     const boardMembersFiles = {};
 
-    if (data.company_members && Array.isArray(data.company_members)) {
-      data.company_members.forEach((member) => {
+    const companyMembers = data?.company_members || [];
+    
+    companyMembers.forEach((member) => {
+      if (member?.id) {
         boardMembersFiles[member.id] = {
-          validation_report: member.validation_report,
-          previous_article: member.previous_article,
-          national_card: member.national_cart,
-          identity_card: member.birth_certificate,
+          validation_report: member.validation_report || null,
+          previous_article: member.previous_article || null,
+          national_card: member.national_cart || null,
+          identity_card: member.birth_certificate || null,
         };
-      });
-    }
+      }
+    });
 
     set({
       companyInfo: {

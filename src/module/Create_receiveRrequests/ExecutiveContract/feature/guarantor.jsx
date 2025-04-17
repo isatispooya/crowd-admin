@@ -35,9 +35,7 @@ function GuarantorComponent({ allData }) {
     }
   }, [deleteGuarantor]);
 
-  const nonLegalGuarantors = useMemo(() => 
-    allData?.guarantor?.filter((g) => g.type !== 'legal') ?? []
-  , [allData?.guarantor]);
+
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -53,10 +51,7 @@ function GuarantorComponent({ allData }) {
         ذخیره اطلاعات
       </Button>
 
-      <GuarantorList 
-        guarantors={nonLegalGuarantors} 
-        onDelete={handleDelete} 
-      />
+     
     </Box>
   );
 }
