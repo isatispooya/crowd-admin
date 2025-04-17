@@ -8,12 +8,15 @@ import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
-import { useGuarantor } from '../service/guarantorService';
+import { useGuarantor, useDeleteGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const Guarantor = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useGuarantor(cartId);
+  const { mutate: deleteGuarantor } = useDeleteGuarantor(cartId);
+
+  console.log(allData);
 
   const { guarantorInfo, updateGuarantorInfo, submitGuarantorInfo } = useCompanyInfoStore();
 
@@ -25,39 +28,9 @@ const Guarantor = ({ allData }) => {
     try {
       const formData = await submitGuarantorInfo();
       if (formData) {
-        const payload = new FormData();
-        payload.append('investor_request_id', cartId);
-        let birthDate = null;
-        if (guarantorInfo.birth_date) {
-          if (typeof guarantorInfo.birth_date.toDate === 'function') {
-            birthDate = guarantorInfo.birth_date.toDate().toISOString();
-          } else {
-            birthDate = new Date(guarantorInfo.birth_date).toISOString();
-          }
-        }
-
-        Object.entries(guarantorInfo).forEach(([key, value]) => {
-          if (value !== null) {
-            if (key === 'birth_date') {
-              payload.append(key, birthDate);
-            } else {
-              payload.append(key, value);
-            }
-          }
-        });
-
-        await mutate(payload);
-        updateGuarantorInfo({
-          investor_request_id: '',
-          guarantor_name: '',
-          guarantor_national_id: '',
-          phone_number: '',
-          birth_date: '',
-          guarantor_address: '',
-          postal_code: '',
-          gender: '',
-          type: 'individual',
-        });
+        formData.append('type', 'physical');
+        await mutate(formData);
+        updateGuarantorInfo('type', 'physical');
       }
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
@@ -66,7 +39,7 @@ const Guarantor = ({ allData }) => {
 
   const handleDelete = async (guarantorId) => {
     try {
-      console.log('Deleting guarantor with ID:', guarantorId);
+      await deleteGuarantor(guarantorId);
     } catch (error) {
       console.error('خطا در حذف ضامن:', error);
     }

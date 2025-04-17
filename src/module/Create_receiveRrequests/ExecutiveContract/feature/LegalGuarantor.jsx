@@ -3,12 +3,13 @@ import { Box, Grid, Typography, TextField, Button, IconButton } from '@mui/mater
 import { PiTrash } from 'react-icons/pi';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { useGuarantor } from '../service/guarantorService';
+import { useGuarantor, useDeleteGuarantor } from '../service/guarantorService';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
 const LegalGuarantor = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useGuarantor();
+  const { mutate: deleteGuarantor } = useDeleteGuarantor(cartId);
 
   const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
     useCompanyInfoStore();
@@ -19,7 +20,7 @@ const LegalGuarantor = ({ allData }) => {
 
   const handleDelete = async (guarantorId) => {
     try {
-      console.log('Deleting legal guarantor with ID:', guarantorId);
+      await deleteGuarantor(guarantorId);
     } catch (error) {
       console.error('خطا در حذف ضامن حقوقی:', error);
     }
