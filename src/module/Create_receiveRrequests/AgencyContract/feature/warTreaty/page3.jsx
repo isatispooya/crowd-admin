@@ -8,6 +8,27 @@ const Page4 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] ">
         <p className="text-justify leading-relaxed text-[23px]">
+          17) موفقیت کمپین»: منظور، اعم از موفقیت کمپین در جذب سرمایه به میزان حداقل مبلغ قابل پذیرش
+          و یا جمع آوری کامل وجوه مورد نیاز (به مبلغ{' '}
+          <strong>
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
+          </strong>{' '}
+          میلیون ریال)، می باشد.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          18) »تاریخ موفقیت کمپین»: منظور، تاریخی است که در آن، طرح موفق به جذب سرمایه به میزان
+          حداقل مبلغ قابل پذیرش یا جمع‌آوری کامل وجوه مورد نیاز، می شود.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          19) »آورده شخصی»: منظور، حداقل <strong>10 </strong>درصد سرمایه مورد نیاز (معادل مبلغ
+          <strong>
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
+          </strong>{' '}
+          میلیون ریال) است که متقاضی موظف است شخصاً نسبت به تأمین آن اقدام و ظرف مدت حداکثر 7 روز
+          تقویمی از تاریخ درخواست مکتوب عامل، به شماره حساب عامل واریز نماید. انتشار فراخوان جمع
+          آوری، منوط به واریز رقم مزبور توسط متقاضی می باشد.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
           20) »بدهی»: عبارت از اصل مبلغ سرمایه، اقساط خرید دارایی و حسب مورد وجه التزام و خسارات
           تعلقگرفته به آن، میباشد.
         </p>
@@ -25,10 +46,14 @@ const Page4 = ({ agencyContract }) => {
 
         <p className="text-justify leading-relaxed text-[23px]">
           23) »اقساط خرید دارایی»: منظور، مابه التفاوت قیمت خرید و فروش دارایی است (معادل مبلغ
-          {((Number(agencyContract.investor_request.amount_of_investment) * (1 + Number(agencyContract.investor_request.profit_percentage) || 0)) / 1000000).toLocaleString()}
-          میلیون ریال) که متقاضی موظف است در مواعد پرداخت و وفق مفاد این قرارداد، به
-          شماره حساب عامل واریز نماید. بدیهی است در محاسبه این مبلغ، سود تعلق گرفته به آورده شخصی،
-          مدنظر قرار نمیگیرد.
+          {(
+            (Number(agencyContract.investor_request.amount_of_investment) *
+              (1 + Number(agencyContract.investor_request.profit_percentage) || 0)) /
+            1000000
+          ).toLocaleString()}
+          میلیون ریال) که متقاضی موظف است در مواعد پرداخت و وفق مفاد این قرارداد، به شماره حساب عامل
+          واریز نماید. بدیهی است در محاسبه این مبلغ، سود تعلق گرفته به آورده شخصی، مدنظر قرار
+          نمیگیرد.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
@@ -63,11 +88,12 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           29) »شماره حساب متقاضی»: منظور، حساب به شماره{' '}
           <strong>{agencyContract.investor_request.account_number || 0}</strong> با شماره شبای{' '}
-          <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد {' '}
-          {agencyContract.investor_request.bank || 'بانک سامان'} به نام شرکت {agencyContract.investor_request.company.title}{' '}
-          (سهامی خاص) میباشد که صرفاً مربوط به انجام تراکنش های مالی مربوط به این قرارداد بوده و
-          متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد داشت. تحت هیچ
-          عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد داشت.
+          <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد{' '}
+          {agencyContract.investor_request.bank || 'بانک سامان'} به نام شرکت{' '}
+          {agencyContract.investor_request.company.title} (سهامی خاص) میباشد که صرفاً مربوط به انجام
+          تراکنش های مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور
+          را برای مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر
+          نخواهد داشت.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
@@ -117,13 +143,13 @@ const Page4 = ({ agencyContract }) => {
           باشند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          37) first_role:{agencyContract.guarantor.map((item) => (
+          37) ضامنین:
+          {agencyContract.guarantor.map((item) => (
             <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name} به کد ملی {item.guarantor_national_id}  که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد
-              می باشند.
+              {item.guarantor_name} به کد ملی {item.guarantor_national_id} که متضامناً با متقاضی،
+              مسئول ایفای تعهدات مذکور در این قرارداد می باشند.
             </p>
           ))}
-          
         </p>
         <br />
         <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
