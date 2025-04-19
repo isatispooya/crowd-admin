@@ -24,7 +24,7 @@ const Page1 = ({ agencyContract }) => {
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
               <h3 className=" text-[22px]">
-                قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
+                قرارداد مشارکت  {agencyContract.company?.title} (سهامی خاص)
               </h3>
             </div>
 
@@ -66,8 +66,9 @@ const Page1 = ({ agencyContract }) => {
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">3)</span>
           شرکت سبدگردان ایساتیس پویا کیش به عنوان یکی از عاملین مجاز تأمین مالی جمعی، دارای مجوز
-          تأمین مالی جمعی از شرکت فرابورس ایران به شماره <strong>1008438/5/03</strong> ، مورخ
-          <strong>15/05/1403</strong>
+          تأمین مالی جمعی از شرکت فرابورس ایران به شماره <br />
+          <strong>0042/ف/1403</strong> ، مورخ
+          <strong>3041/50/51</strong>
           میباشد؛
         </p>
         <p className="mb-3 pr-4 text-[23px]">
@@ -136,7 +137,10 @@ const Page1 = ({ agencyContract }) => {
           میلیون ریال و فروش دارایی‌های خریداری‌ شده به خود به وکالت از سرمایه‌گذار به مبلغ{' '}
           <strong>
             {(
-              Number(agencyContract.investor_request.amount_of_investment) / 1000000
+              Number(
+                agencyContract.investor_request.amount_of_investment +
+                  Number(1 + agencyContract.investor_request.amount_of_investment)
+              ) / 1000000
             ).toLocaleString()}
           </strong>
           میلیون ریال و بدین شکل خواهد بود که سرمایه‌گذار، وفق ضوابط و مقررات استفاده از خدمات سکوی
@@ -155,7 +159,10 @@ const Page1 = ({ agencyContract }) => {
           میلیون ریال و فروش دارایی های خریداری شده به خود (سرمایه پذیر)به مبلغ{' '}
           <strong>
             {(
-              Number(agencyContract.investor_request.amount_of_investment) / 1000000
+              Number(
+                agencyContract.investor_request.amount_of_investment +
+                  Number(1 + agencyContract.investor_request.amount_of_investment)
+              ) / 1000000
             ).toLocaleString()}
           </strong>
           میلیون ریال اعطا می نماید. بدین ترتیب، به مجرد سرمایه گذاری تأمین کننده در طرح کسب و کار
@@ -164,7 +171,6 @@ const Page1 = ({ agencyContract }) => {
           فروش دارایی های خریداری شده به خود (سرمایه پذیر) می باشد.
         </p>
         <br />
-        <h3 className="font-bold mb-2 text-[23px]">اطراف قرارداد :</h3>
         <p>
           استفاده از مبلغ سرمایه گذاری تأمین کننده و نیز فروش دارایی های خریداری شده به خود (سرمایه
           پذیر) می باشد. پس از سرمایه گذاری و اعطای وکالت مزبور، سرمایه پذیر، اقساط دارایی های
@@ -179,22 +185,18 @@ const Page1 = ({ agencyContract }) => {
           انتخاب وکیل دادگستری به عامل، حق انجام موضوع وکالت را تا پایان مدت طرح متقاضی از خود سلب و
           ساقط می نماید.
         </p>
+        <br />
+        <h3 className="font-bold mb-2 text-[23px]">اطراف قرارداد :</h3>
 
         <p className="text-justify leading-relaxed text-[23px]">
-          1) <strong>شرکت سبدگردان ایساتیس پویا کیش </strong>(سهامی خاص) به شماره ثبت 13702 نزد
-          اداره ثبت شرکت ها و مؤسسات غیرتجاری استان هرمزگان و شناسه ملی <strong>14007805556</strong>{' '}
-          به نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4 واحد 44 شماره تلفن 076-44480555 و کد
-          پستی
-          <strong>7941757334</strong> و با نمایندگی:
-          {agencyContract.company_members.map((member, index) => (
-            <span key={member.id}>
-              {index > 0 && ' و '}
-              {member.person_title} به سمت {member.first_role}
-              {member.second_role && ` و ${member.second_role}`}
-              {member.uniqueIdentifier && ` به شماره ملی ${member.uniqueIdentifier}`}
-            </span>
-          ))}
-          ، که در این قرارداد به اختصار &quot;عامل/ شرکت&quot; نامیده می شود؛
+          <br />
+          1) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
+          411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
+          نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4، واحد 44، شماره تلفن 076-44480555 و کد
+          پستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو
+          هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز
+          بر اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
+          <br />
         </p>
       </div>
     </div>

@@ -11,8 +11,9 @@ const Page5 = ({ agencyContract }) => {
         <h3 className="text-[23px] font-bold">5) حق الزحمه ارائه خدمات و نحوه پرداخت </h3>
         <p>
           <span className="font-bold">الف)</span> حق الزحمه عامل بابت ارائه خدمات تأمین مالی جمعی به
-          متقاضی و خدمات ارائه شده در سکو، جمعاً به میزان <strong>{' ???????'}</strong> ریال، معادل
-          سیصد میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل پرداخت خواهدشد.
+          متقاضی و خدمات ارائه شده در سکو، جمعاً به میزان{' '}
+          <strong>{formatNumber(Number(3000000000) / 1000000)}</strong> میلیون ریال، معادل سیصد
+          میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل پرداخت خواهدشد.
         </p>
         <p>
           <span className="font-bold">الف)</span> نحوه پرداخت: مبلغ مذکور در بند فوق پس از موفقیت
@@ -38,11 +39,6 @@ const Page5 = ({ agencyContract }) => {
           3) امضای این قرارداد و یا ارزیابی متقاضی و تهیه طرح توجیهی، به معنای الزام شرکت به پذیرش
           درخواست متقاضی مبنیبر تأمین مالی نبوده و شرکت در قبول و یا رد درخواست، اختیار تام دارد.
           بدین ترتیب، صرفاً واریز سرمایه به حساب متقاضی، به منزله تأیید نهایی تأمین مالی میباشد.
-        </p>
-        <p>
-          <span className="font-bold">ب)</span> متقاضی موظف به تامین مالی جمعی به میزان
-          <strong>{' ???????'}</strong> فرآیند تأمین مالی متقاضی صرفاً وفق مفاد این ماده و با رعایت
-          شرایط و ضوابط مذکور در ذیل انجام خواهدشد{' '}
         </p>
         <p>
           <span className="font-bold">ب)انتشار فراخوان جمع‌آوری:</span>
@@ -73,7 +69,7 @@ const Page5 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           7) از وجوه جمع آوری شده، حق الزحمه عامل به میزان مقرر در ماده 5 و نیز کارمزد شرکت فرابورس
           ایران به میزان{' '}
-          <strong>{formatNumber(agencyContract.investor_request.farabours_wage)}</strong> ریال،
+          <strong>{formatNumber(Number(agencyContract.investor_request.farabours_wage) / 1000000)}</strong> میلیون ریال،
           معادل بیست میلیون تومان کسر و مابقی ظرف مدت 2 روز کاری، به شماره حساب متقاضی واریز
           خواهدشد.
         </p>
@@ -86,11 +82,10 @@ const Page5 = ({ agencyContract }) => {
           جمعاً به مبلغ
           <strong>
             {formatNumber(
-              (agencyContract.investor_request.amount_of_investment *
-                (agencyContract.investor_request.interest_rate_plan / 100) +
-                agencyContract.investor_request.amount_of_investment) /
-                1000000
-            )} میلیون
+              ((agencyContract.investor_request.amount_of_investment || 0) +
+                (agencyContract.investor_request.profit_percentage || 0)) / 1000000
+            )}{' '}
+            میلیون
           </strong>{' '}
           ریال، حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت اصل مبلغ
           سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با تاریخهای پرداخت

@@ -6,42 +6,63 @@ const Page2 = ({ agencyContract }) => {
 
   return (
     <div className="contract-page page-1">
+      <p className="text-justify leading-relaxed text-[23px]">
+        نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
+        متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 0042/ف/1403 مورخ 1403/05/15 از
+        طرف دیگر، به شرح مواد زیر منعقد گردید.
+      </p>
       <div className="text-justify leading-relaxed text-[23px] ">
+        {agencyContract.guarantor.map((item, index) => (
+          <p>
+            {index + 2}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.national_id} و
+            شماره تماس {item?.phone_number} متولد{' '}
+            {item?.birth_date
+              ? new Date(item?.birth_date).toLocaleDateString('fa-IR')
+              : 'تاریخ نامعتبر'}{' '}
+            به آدرس
+            {item?.address} واحد {item?.unit} به کد پستی {item?.postal_code} که از این پس در این
+            قرارداد به عنوان «ضامن» معرفی می‌گردد.
+          </p>
+        ))}
         <br />
-        <p className="text-justify leading-relaxed text-[23px]">
-          2)شرکت <strong>{agencyContract.investor_request.company.title}</strong> (سهامی خاص) به
-          شمارۀ شناسۀ ملی <strong>{agencyContract.investor_request.company.national_id}</strong>، کد
-          اقتصادی <strong>{agencyContract.investor_request.company.economic_code}</strong>، و شماره
-          ثبت <strong>{agencyContract.investor_request.company.registration_number}</strong> نزد
-          اداره ثبت شركت ها و موسسات غيرتجاري يزد، استان يزد، شهرستان يزد، بخش مركزي، شهر يزد،
-          صفاييه، خيابان شركت ها و موسسات غيرتجاري يزد، استان يزد، شهرستان يزد، بخش مركزي، شهر يزد،
-          صفاييه، خيابان پژوهش، خيابان 10دانشگاه[بهار]، پلاك 0، ساختمان مجتمع مسكوني رزلند(ROSE
-          LAND)، بلوك A، طبقه 4، واحد 403، کدپستی <strong>8915834258</strong>، شماره تماس
-          38255950-035، و با نمایندگی آقای مجید حاجی زاده به شماره ملی
-          <strong>4420356960</strong> به سمت مدیرعامل و رئیس هیئت‌مدیره به عنوان صاحب امضای مجاز بر
-          اساس روزنامه رسمی شماره <strong>23274</strong> شهرستان مورخ <strong>29/11/1403</strong> که
-          در این قرارداد،
-          <strong>&quot;متقاضی/سرمایه‌پذیر&quot;</strong> نامیده می شود،
-        </p>
+        3) شرکت {agencyContract.investor_request.company.title} (سهامی خاص) به شناسه ملی{' '}
+        {agencyContract.investor_request.company.national_id} کد اقتصادی{' '}
+        {agencyContract.investor_request.company.economic_code} و شماره ثبت{' '}
+        {agencyContract.investor_request.company.registration_number} در اداره ثبت شرکت‌ها و موسسات
+        غیر تجاری {agencyContract.investor_request.company.general_directorate} به نشانی{' '}
+        {agencyContract.investor_request.company.address}، پلاک 0، 7، به کد پستی{' '}
+        {agencyContract.investor_request.company.postal_code}، با نمایندگی
+        {agencyContract.company_members &&
+          agencyContract.company_members.length > 0 &&
+          agencyContract.company_members
+            .filter((member) => member.signature)
+            .map((member, index) => (
+              <span key={member.id || index}>
+                {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
+                {member.uniqueIdentifier} به سمت {member.position_title}{' '}
+                {member.signature &&
+                  ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
+              </span>
+            ))}
+        بر اساس {agencyContract.investor_request.company_members?.signture_document}، «متقاضی»
+        نامیده می‌شود،
+        <br />
         <p className="text-justify leading-relaxed text-[23px]">
           ِ 3) شخص حقیقی/حقوقی با مشخصات و اطلاعات سجامی مندرج در سکوی تأمین مالی جمعی عامل به نشانی
           <strong>Isatiscrowd.ir</strong> که در این قرارداد به اختصار &quot;تأمین کننده/سرمایه
           گذار&quot; نامیده می شود.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           <span className="font-bold">تبصره:</span> واریز وجه توسط سرمایه‌گذار از طریق سکوی تأمین
           مالی جمعی عامل و نیز تأیید متن بیانیه ریسک و قوانین و مقررات مندرج در سکوی عامل به نشانی
           <strong>isatiscrowd.ir</strong>، به منزله امضای این قرارداد توسط سرمایه گذار تلقی میگردد.
         </p>
         <br />
-
         <h3 className="text-justify leading-relaxed text-[23px] font-bold"> 2) تعاریف</h3>
         <p className="text-justify leading-relaxed text-[23px]">
           اصطلاحات و واژگان مذکور در این قرارداد، در معنای عرفی و مرسوم خود به کار برده شده اند.
           سایر واژگان، دارای معانی ذیل هستند:
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           1) کارگروه ارزیابی منظور، کارگروهی است که در محل شرکت فرابورس ایران تشکیل میشود و دارای
           پنج عضو و یک دبیر به شرح ذیل میباشد:
@@ -66,7 +87,7 @@ const Page2 = ({ agencyContract }) => {
           اقدام می کند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          5) طرح »: منظور، موضوع کسب و کار و فعالیت متقاضی است که عبارت از خرید و فروش برنج ایرانی،
+          5)   منظور، موضوع کسب و کار و فعالیت متقاضی است که عبارت {agencyContract.investor_request.suggestion_plan_name} 
           بوده و متقاضی، قصد تأمین منابع مالی مورد نیاز آن را وفق مفاد این قرارداد و از طریق مشارکت
           با سرمایه گذاران، دارد.
         </p>
@@ -76,7 +97,6 @@ const Page2 = ({ agencyContract }) => {
           مبلغ سرمایه گذاری را تحت هر عنوان نداشته و طی این مدت، تنها مستحق دریافت اقساط خرید دارایی
           به تناسب مبلغ سرمایه گذاری خود خواهد بود.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           7) گواهی سرمایه گذاری/گواهی شراکت»: منظور، گواهی ای است که متعاقب سرمایه گذاری، به میزان
           مبلغ سرمایه گذاری و به نام تأمین کننده، صادر و نشانگر حقوق و تکالیف تأمین کننده وفق مفاد
@@ -86,7 +106,6 @@ const Page2 = ({ agencyContract }) => {
           8) طرح توجیهی»: منظور، گزارشی است که جهت تشریح و توجیه پذیری تأمین مالی طرح متقاضی و با
           توجه به مدارک و مستندات ارسالی متقاضی، توسط عامل تهیه می شود.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           9) سرمایه: منظور، مجموع مبالغ سرمایه گذاری واریزشده از جانب تأمین کنندگان در تاریخ موفقیت
           کمپین می باشد که با رعایت شرایط مذکور در ای ن قرارداد و پس از کسر هزینه های قانونی (کارمزد
@@ -105,38 +124,35 @@ const Page2 = ({ agencyContract }) => {
           12) دوره جمع آوری»: منظور، یک دوره 21 روزه می باشد که با صلاح دید عامل و برای مدت حداکثر 2
           ماه قابل تمدید می باشد.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           13) وکالت خرید»: منظور، وکالتی است که تأمین کننده، همزمان با واریز مبلغ سرمایه گذاری، جهت
           خرید داراییهای مورد نیاز به مبلغ{' '}
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000000).toLocaleString()}
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
           </strong>{' '}
           میلیون ریال از فروشنده مجاز، به متقاضی اعطا می نماید. نماید.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           14) دارایی های خریداری شده: منظور، دارایی‌هایی است که متقاضی با استفاده از مبلغ سرمایه
           گذاری تأمین کننده و به استناد وکالت خرید، از فروشنده مجاز خریداری می نماید.
         </p>
-
         <p className="text-justify leading-relaxed text-[23px]">
           15) وکالت فروش: منظور، وکالتی است که سرمایه‌گذار ، همزمان با واریز مبلغ سرمایه گذاری، به
           متقاضی اعطا نموده و متقاضی به استناد آن، نسبت به انتقال دارایی های خریداری شده به خود
-          (سرمایه پذیر) به مبلغ <strong>&#128512;&#128512;</strong> میلیون ریال، اقدام می نماید.
+          (سرمایه پذیر) هنوزم به مبلغ {((Number(agencyContract.investor_request.amount_of_investment) * 0.9) * (Number(agencyContract.investor_request.profit_percentage || 0) / 100)) / 1000000} میلیون ریال، اقدام می نماید.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           16) »حداقل مبلغ قابل پذیرش»: منظور، مبلغ{' '}
           <strong>
-            {(agencyContract.investor_request.amount_of_investment * 0.8).toLocaleString()}
+            {((Number(agencyContract.investor_request.amount_of_investment) * 0.7)/1000000).toLocaleString()}
           </strong>{' '}
-          ریال است که در صورت جذب آن تا پایان دوره جمع آوری، کمپین موفق فرض می گردد.
+          میلیون ریال است که در صورت جذب آن تا پایان دوره جمع آوری، کمپین موفق فرض می گردد.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           17) موفقیت کمپین»: منظور، اعم از موفقیت کمپین در جذب سرمایه به میزان حداقل مبلغ قابل پذیرش
           و یا جمع آوری کامل وجوه مورد نیاز (به مبلغ{' '}
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000000).toLocaleString()}
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
           </strong>{' '}
           میلیون ریال)، می باشد.
         </p>
@@ -147,16 +163,11 @@ const Page2 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           19) »آورده شخصی»: منظور، حداقل <strong>10 </strong>درصد سرمایه مورد نیاز (معادل مبلغ
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000000).toLocaleString()}
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
           </strong>{' '}
           میلیون ریال) است که متقاضی موظف است شخصاً نسبت به تأمین آن اقدام و ظرف مدت حداکثر 7 روز
           تقویمی از تاریخ درخواست مکتوب عامل، به شماره حساب عامل واریز نماید. انتشار فراخوان جمع
           آوری، منوط به واریز رقم مزبور توسط متقاضی می باشد.
-        </p>
-
-        <p className="text-justify leading-relaxed text-[23px]">
-          20) »بدهی»: عبارت از اصل مبلغ سرمایه، اقساط خرید دارایی و حسب مورد وجه التزام و خسارات
-          تعلقگرفته به آن، میباشد.
         </p>
       </div>
     </div>

@@ -8,6 +8,10 @@ const Page4 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] ">
         <p className="text-justify leading-relaxed text-[23px]">
+          20) »بدهی»: عبارت از اصل مبلغ سرمایه، اقساط خرید دارایی و حسب مورد وجه التزام و خسارات
+          تعلقگرفته به آن، میباشد.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
           21) »قیمت خرید دارایی»: منظور، قیمتی است که متقاضی با پرداخت آن، دارایی های مورد نیاز را
           از فروشنده مجاز خریداری نموده و در وکالت خرید نیز منعکس میگردد. قیمت خرید دارایی در این
           قرارداد، معادل وجوه جمع آوری شده در تاریخ موفقیت کمپین است. )اعم از حداقل مبلغ قابل پذیرش
@@ -21,7 +25,8 @@ const Page4 = ({ agencyContract }) => {
 
         <p className="text-justify leading-relaxed text-[23px]">
           23) »اقساط خرید دارایی»: منظور، مابه التفاوت قیمت خرید و فروش دارایی است (معادل مبلغ
-          &#128512;&#128512; ریال) که متقاضی موظف است در مواعد پرداخت و وفق مفاد این قرارداد، به
+          {((Number(agencyContract.investor_request.amount_of_investment) * (1 + Number(agencyContract.investor_request.profit_percentage) || 0)) / 1000000).toLocaleString()}
+          میلیون ریال) که متقاضی موظف است در مواعد پرداخت و وفق مفاد این قرارداد، به
           شماره حساب عامل واریز نماید. بدیهی است در محاسبه این مبلغ، سود تعلق گرفته به آورده شخصی،
           مدنظر قرار نمیگیرد.
         </p>
@@ -45,9 +50,9 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           27) »مواعد پرداخت«: منظور، انقضای هر دوره سه ماهه از تاریخ موفقیت کمپین میباشد که متقاضی
           در آن تاریخها، ملزم به پرداخت اقساط خرید دارایی به شماره حساب عامل می باشد. بدین ترتیب، در
-          فرضی که تاریخ موفقیت کمپین <strong>01/01/1403</strong> باشد، موعد پرداخت اولین قسط خرید
+          فرضی که تاریخ موفقیت کمپین <strong>1403/01/01</strong> باشد، موعد پرداخت اولین قسط خرید
           دارایی، تاریخ
-          <strong>01/04/1403</strong> میباشد.
+          <strong>1403/04/01</strong> میباشد.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           28) »شماره حساب عامل»: منظور، حساب به شماره <strong>3002115158845881</strong> با شماره
@@ -57,12 +62,12 @@ const Page4 = ({ agencyContract }) => {
 
         <p className="text-justify leading-relaxed text-[23px]">
           29) »شماره حساب متقاضی»: منظور، حساب به شماره{' '}
-          <strong>{agencyContract.company.national_id}</strong> با شماره شبای{' '}
-          <strong>{agencyContract.investor_request.sheba_number}</strong> نزد بانک {agencyContract.bank_name} به نام شرکت{' '}
-          {agencyContract.investor_request.company.title} (سهامی خاص) میباشد که صرفاً مربوط به انجام
-          تراکنش های مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور
-          را برای مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر
-          نخواهد داشت.
+          <strong>{agencyContract.investor_request.account_number || 0}</strong> با شماره شبای{' '}
+          <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد {' '}
+          {agencyContract.investor_request.bank || 'بانک سامان'} به نام شرکت {agencyContract.investor_request.company.title}{' '}
+          (سهامی خاص) میباشد که صرفاً مربوط به انجام تراکنش های مالی مربوط به این قرارداد بوده و
+          متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد داشت. تحت هیچ
+          عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد داشت.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
@@ -112,16 +117,13 @@ const Page4 = ({ agencyContract }) => {
           باشند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-        37){agencyContract.guarantor.map((item) => (
+          37) ضامنین:{agencyContract.guarantor.map((item) => (
             <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name}
+              {item.guarantor_name} که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد
+              می باشند.
             </p>
           ))}
-          37) ضامنین: منظور، {agencyContract.guarantor.map((item) => (
-            <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name} که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد می باشند.
-            </p>
-          ))}
+          
         </p>
         <br />
         <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
@@ -153,7 +155,7 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
         </p>
-         
+
         <br />
       </div>
     </div>
