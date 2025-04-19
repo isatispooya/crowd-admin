@@ -47,9 +47,12 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           23) »اقساط خرید دارایی»: منظور، مابه التفاوت قیمت خرید و فروش دارایی است (معادل مبلغ
           {(
-            (Number(agencyContract.investor_request.amount_of_investment) *
-              (1 + Number(agencyContract.investor_request.profit_percentage) || 0)) /
-            1000000
+            Number(
+              agencyContract.investor_request.amount_of_investment *
+                0.9 *
+                (agencyContract.investor_request.interest_rate_plan / 100) +
+                agencyContract.investor_request.amount_of_investment
+            ) / 1000000
           ).toLocaleString()}
           میلیون ریال) که متقاضی موظف است در مواعد پرداخت و وفق مفاد این قرارداد، به شماره حساب عامل
           واریز نماید. بدیهی است در محاسبه این مبلغ، سود تعلق گرفته به آورده شخصی، مدنظر قرار

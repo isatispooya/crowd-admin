@@ -24,7 +24,7 @@ const Page1 = ({ agencyContract }) => {
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
               <h3 className=" text-[22px]">
-                قرارداد مشارکت  {agencyContract.company?.title} (سهامی خاص)
+                قرارداد مشارکت {agencyContract.company?.title} (سهامی خاص)
               </h3>
             </div>
 
@@ -54,8 +54,9 @@ const Page1 = ({ agencyContract }) => {
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2)</span>
-          شرکت {agencyContract.company?.title}، فعال در حوزه بازرگانی مواد غذایی، در راستای بهبود
-          عملکرد و توسعه کسب و کار خود، نیازمند جذب سرمایه به میزان{' '}
+          شرکت {agencyContract.company?.title}، فعال در حوزه
+          {agencyContract.investor_request?.activity_field}، در راستای بهبود عملکرد و توسعه کسب و
+          کار خود، نیازمند جذب سرمایه به میزان{' '}
           <strong>
             {(
               Number(agencyContract.investor_request.amount_of_investment) / 1000000
@@ -68,7 +69,7 @@ const Page1 = ({ agencyContract }) => {
           شرکت سبدگردان ایساتیس پویا کیش به عنوان یکی از عاملین مجاز تأمین مالی جمعی، دارای مجوز
           تأمین مالی جمعی از شرکت فرابورس ایران به شماره <br />
           <strong>0042/ف/1403</strong> ، مورخ
-          <strong>3041/50/51</strong>
+          <strong>1403/05/15</strong>
           میباشد؛
         </p>
         <p className="mb-3 pr-4 text-[23px]">
@@ -138,8 +139,10 @@ const Page1 = ({ agencyContract }) => {
           <strong>
             {(
               Number(
-                agencyContract.investor_request.amount_of_investment +
-                  Number(1 + agencyContract.investor_request.amount_of_investment)
+                agencyContract.investor_request.amount_of_investment *
+                  0.9 *
+                  agencyContract.investor_request.interest_rate_plan +
+                  agencyContract.investor_request.amount_of_investment
               ) / 1000000
             ).toLocaleString()}
           </strong>
@@ -160,8 +163,10 @@ const Page1 = ({ agencyContract }) => {
           <strong>
             {(
               Number(
-                agencyContract.investor_request.amount_of_investment +
-                  Number(1 + agencyContract.investor_request.amount_of_investment)
+                agencyContract.investor_request.amount_of_investment *
+                  0.9 *
+                  (agencyContract.investor_request.interest_rate_plan / 100) +
+                  agencyContract.investor_request.amount_of_investment
               ) / 1000000
             ).toLocaleString()}
           </strong>

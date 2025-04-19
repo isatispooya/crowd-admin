@@ -12,8 +12,13 @@ const Page5 = ({ agencyContract }) => {
         <p>
           <span className="font-bold">الف)</span> حق الزحمه عامل بابت ارائه خدمات تأمین مالی جمعی به
           متقاضی و خدمات ارائه شده در سکو، جمعاً به میزان{' '}
-          <strong>{formatNumber(Number(agencyContract.investor_request.company_certificate_wage) / 1000000)}</strong> میلیون ریال، معادل سیصد
-          میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل پرداخت خواهدشد.
+          <strong>
+            {formatNumber(
+              Number(agencyContract.investor_request.company_certificate_wage) / 1000000
+            )}
+          </strong>{' '}
+          میلیون ریال، معادل سیصد میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل
+          پرداخت خواهدشد.
         </p>
         <p>
           <span className="font-bold">الف)</span> نحوه پرداخت: مبلغ مذکور در بند فوق پس از موفقیت
@@ -81,13 +86,28 @@ const Page5 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           9) متقاضی مکلف است چک های پرداخت اقساط خرید دارایی و بازپرداخت اصل سرمایه را مطابق طرح
           جمعاً به مبلغ
-          <strong>{formatNumber(Number(agencyContract.investor_request.farabours_wage) / 1000000)}</strong> میلیون ریال،
-          حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت اصل مبلغ
-          سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با تاریخهای پرداخت
-          5 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل تعهدی نسبت به
-          پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده شخصی، پس از کسر مبلغ{' '}
-          <strong>{formatNumber(Number(agencyContract.investor_request.amount_of_investment*0.15) / 1000000)}</strong> میلیون ریال به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده
-          خواهدشد و قرارداد از سوی عامل فسخ میگردد.
+          <strong>
+            {' '}
+            {(
+              Number(
+                agencyContract.investor_request.amount_of_investment *
+                  0.9 *
+                  (agencyContract.investor_request.interest_rate_plan / 100) +
+                  agencyContract.investor_request.amount_of_investment
+              ) / 1000000
+            ).toLocaleString()}
+          </strong>{' '}
+          میلیون ریال، حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت
+          اصل مبلغ سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با
+          تاریخهای پرداخت 5 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل
+          تعهدی نسبت به پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده شخصی، پس از کسر مبلغ{' '}
+          <strong>
+            {formatNumber(
+              Number(agencyContract.investor_request.amount_of_investment * 0.15) / 1000000
+            )}
+          </strong>{' '}
+          میلیون ریال به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده خواهدشد و قرارداد از سوی
+          عامل فسخ میگردد.
         </p>
         <h3 className="text-[23px] font-bold"> د) شرایط و ضوابط مصرف سرمایه:</h3>
         <p className="text-justify leading-relaxed text-[22px]">
