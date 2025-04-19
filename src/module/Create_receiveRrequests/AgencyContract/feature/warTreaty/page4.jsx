@@ -12,7 +12,7 @@ const Page5 = ({ agencyContract }) => {
         <p>
           <span className="font-bold">الف)</span> حق الزحمه عامل بابت ارائه خدمات تأمین مالی جمعی به
           متقاضی و خدمات ارائه شده در سکو، جمعاً به میزان{' '}
-          <strong>{formatNumber(Number(3000000000) / 1000000)}</strong> میلیون ریال، معادل سیصد
+          <strong>{formatNumber(Number(agencyContract.investor_request.company_certificate_wage) / 1000000)}</strong> میلیون ریال، معادل سیصد
           میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل پرداخت خواهدشد.
         </p>
         <p>
@@ -69,9 +69,10 @@ const Page5 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           7) از وجوه جمع آوری شده، حق الزحمه عامل به میزان مقرر در ماده 5 و نیز کارمزد شرکت فرابورس
           ایران به میزان{' '}
-          <strong>{formatNumber(Number(agencyContract.investor_request.farabours_wage) / 1000000)}</strong> میلیون ریال،
-          معادل بیست میلیون تومان کسر و مابقی ظرف مدت 2 روز کاری، به شماره حساب متقاضی واریز
-          خواهدشد.
+          <strong>
+            {formatNumber(Number(agencyContract.investor_request.farabours_wage) / 1000000)}
+          </strong>{' '}
+          میلیون ریال، کسر و مابقی ظرف مدت 2 روز کاری، به شماره حساب متقاضی واریز خواهدشد.
         </p>
         <p className="text-justify leading-relaxed text-[22px]">
           8) در هر حال، پرداخت وجوه جمع آوری شده به متقاضی، منوط به سپردن وثایق و تضامین مذکور در
@@ -80,16 +81,10 @@ const Page5 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[22px]">
           9) متقاضی مکلف است چک های پرداخت اقساط خرید دارایی و بازپرداخت اصل سرمایه را مطابق طرح
           جمعاً به مبلغ
-          <strong>
-            {formatNumber(
-              ((agencyContract.investor_request.amount_of_investment || 0) +
-                (agencyContract.investor_request.profit_percentage || 0)) / 1000000
-            )}{' '}
-            میلیون
-          </strong>{' '}
-          ریال، حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت اصل مبلغ
+          <strong>{formatNumber(Number(agencyContract.investor_request.farabours_wage) / 1000000)}</strong> میلیون ریال،
+          حداکثر ظرف مدت دو روز کاری از تاریخ پایان دوره جمع آوری، طی یک فقره چک بابت اصل مبلغ
           سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با تاریخهای پرداخت
-          4 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل تعهدی نسبت به
+          5 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل تعهدی نسبت به
           پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده شخصی، پس از کسر مبلغ{' '}
           <strong>{' ???????'}</strong> ریال به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده
           خواهدشد و قرارداد از سوی عامل فسخ میگردد.

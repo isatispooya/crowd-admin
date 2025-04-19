@@ -117,9 +117,9 @@ const Page4 = ({ agencyContract }) => {
           باشند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          37) ضامنین:{agencyContract.guarantor.map((item) => (
+          37) first_role:{agencyContract.guarantor.map((item) => (
             <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name} که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد
+              {item.guarantor_name} به کد ملی {item.guarantor_national_id}  که متضامناً با متقاضی، مسئول ایفای تعهدات مذکور در این قرارداد
               می باشند.
             </p>
           ))}
