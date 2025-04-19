@@ -17,7 +17,7 @@ const Contracts = ({ data }) => {
     { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}` },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}` },
     { id: 4, title: 'قرارداد اجرایی', path: `/executiveContract/${data?.uuid}` },
-    { id: 5, title: 'قرارداد معاربت', path: `/WarTreaty/${data?.uuid}` },
+    { id: 5, title: 'قرارداد مشارکت', path: `/WarTreaty/${data?.uuid}` },
   ];
 
   const isButtonsDisabled =
@@ -27,7 +27,7 @@ const Contracts = ({ data }) => {
     <Container maxWidth="md" dir="rtl">
       {links.map((link) => (
         <Button
-          key={link.id}
+          key={link.id} ر
           component={Link}
           to={link.path}
           target="_blank"

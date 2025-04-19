@@ -55,22 +55,25 @@ const WarTreaty = () => {
       { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
     ];
 
+    const guarantors = agencyContract.guarantor || [];
+
     return (
-      <div className="absolute bottom-0 left-0 right-0">
-        <table className="w-full border-collapse text-sm">
+      <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
+      <table className="w-full border-collapse text-sm">
+        <thead>
           <tr>
-            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-              <div>عامل</div>
-            </td>
-            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-              <div>متقاضی</div>
-            </td>
+            <th className="border border-gray-300 p-2 text-center font-bold">عامل</th>
+            <th className="border border-gray-300 p-2 text-center font-bold">متقاضی</th>
+            <th className="border border-gray-300 p-2 text-center font-bold">ضامنین</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
+            {/* عامل */}
             <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex justify-between">
+              <div className="flex flex-wrap gap-4 justify-center">
                 {staticUsers.map((user, index) => (
-                  <div key={`static-signatory-${index}`} className="text-center w-96">
+                  <div key={`static-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
                     <p className="font-bold mb-1">{user.person_title}</p>
                     <p className="text-sm text-gray-600 mb-2">{user.position_title}</p>
                     <div className="border border-gray-300 rounded h-16 w-full mb-1">
@@ -82,10 +85,12 @@ const WarTreaty = () => {
                 ))}
               </div>
             </td>
+    
+            {/* متقاضی */}
             <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-row gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 justify-center">
                 {signatoryMembers.map((member, index) => (
-                  <div key={`dynamic-signatory-${index}`} className="text-center w-96">
+                  <div key={`dynamic-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
                     <p className="font-bold mb-1">{member.person_title}</p>
                     <p className="text-sm text-gray-600 mb-2">{member.position_title}</p>
                     <div className="border border-gray-300 rounded h-16 w-full mb-1">
@@ -97,9 +102,28 @@ const WarTreaty = () => {
                 ))}
               </div>
             </td>
+    
+            {/* ضامنین */}
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-wrap gap-4 justify-center">
+                {guarantors.map((guarantor, index) => (
+                  <div key={`guarantor-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
+                    <p className="font-bold mb-1">{guarantor.guarantor_name}</p>
+                    <p className="text-sm text-gray-600 mb-2">ضامن</p>
+                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                        محل امضاء
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </td>
           </tr>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
+    
     );
   };
 
