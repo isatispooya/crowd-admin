@@ -18,6 +18,7 @@ const CompanyRegister = ({ data }) => {
   const [planName, setPlanName] = useState('');
   const [paymentPeriod, setPaymentPeriod] = useState('0');
   const [subjectActivityDocument, setSubjectActivityDocument] = useState('');
+  const [activityField, setActivityField] = useState('');
 
   const MIN_INVESTMENT = 50000000000;
   const MAX_INVESTMENT = 250000000000;
@@ -40,10 +41,16 @@ const CompanyRegister = ({ data }) => {
       setPaymentPeriod(data.refund_of_plan);
       updateRegisterInfo('refund_of_plan', data.refund_of_plan);
     }
+    
 
     if (data?.subject_activity_document) {
       setSubjectActivityDocument(data.subject_activity_document);
       updateRegisterInfo('subject_activity_document', data.subject_activity_document);
+    }
+
+    if (data?.activity_feild) {
+      setActivityField(data.activity_feild);
+      updateRegisterInfo('activity_feild', data.activity_feild);
     }
   }, [data, updateRegisterInfo]);
 
@@ -87,6 +94,8 @@ const CompanyRegister = ({ data }) => {
     } else if (fieldId === 'payment_period') {
       setPaymentPeriod(value);
       updateRegisterInfo('refund_of_plan', value);
+    } else if (fieldId === 'activity_feild') {
+      setActivityField(value);
     }
     updateRegisterInfo(fieldId, value);
   };
@@ -117,6 +126,13 @@ const CompanyRegister = ({ data }) => {
         { value: '1', label: 'پرداخت یک ماهه' },
         { value: '3', label: 'پرداخت سه ماهه' },
       ],
+    },
+    {
+      id: 'activity_feild',
+      label: 'زمینه فعالیت',
+      type: 'text',
+      value: activityField,
+      onChange: (e) => handleFieldChange(e, 'activity_feild'),
     },
   ];
   return (

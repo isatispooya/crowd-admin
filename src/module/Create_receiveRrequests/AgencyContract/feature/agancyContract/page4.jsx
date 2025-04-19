@@ -169,11 +169,24 @@ const Page5 = ({ agencyContract }) => {
               </td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
                 10 متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً
-                به مبلغ 349،000ميليون ريال، 250،000 بابت اصل مبلغ تأمين مالي 99،000 میلیون ریال بابت
-                متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي 5 فقره چك، با
-                تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت سود مشاركت به
-                دارندگان گواهي شراكت) كه پس از موفقيت كمپين توسط عامل به متقاضي اعلام مي گردد، به
-                عامل تحويل نمايد.
+                به مبلغ{' '}
+                {(
+                  (Number(agencyContract.investor_request.amount_of_investment || 0) +
+                    Number(agencyContract.investor_request.profit_of_investment || 0)) /
+                    1000000
+                ).toLocaleString()}
+                ميليون ريال،{' '}
+                {Number(
+                  agencyContract.investor_request.amount_of_investment / 1000000 || 0
+                ).toLocaleString()}{' '}
+                بابت اصل مبلغ تأمين مالي{' '}
+                {Number(
+                  agencyContract.investor_request.profit_of_investment / 1000000 || 0
+                ).toLocaleString()}{' '}
+                میلیون ریال بابت متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي
+                5 فقره چك، با تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت
+                سود مشاركت به دارندگان گواهي شراكت) كه پس از موفقيت كمپين توسط عامل به متقاضي اعلام
+                مي گردد، به عامل تحويل نمايد.
               </td>
             </tr>
             <tr>
@@ -212,9 +225,8 @@ const Page5 = ({ agencyContract }) => {
                 و متقاضي متعهد به اجراي بند 3-١ مادة ٩ اين قرارداد مي باشد.
               </td>
             </tr>
-
-            </tbody>
-            </table>
+          </tbody>
+        </table>
 
         {/* <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold">تبصره 15)</span>

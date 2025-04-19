@@ -20,6 +20,7 @@ const useCompanyInfoStore = create((set, get) => ({
     amount_of_investment: '',
     refund_of_plan: '0',
     subject_activity_document: '',
+    activity_feild: '',
   },
   boardMembers: [],
   boardMembersFiles: {},
@@ -342,6 +343,9 @@ const useCompanyInfoStore = create((set, get) => ({
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
       }
+      if (state.registerInfo.activity_feild) {
+        formData.append('activity_feild', state.registerInfo.activity_feild);
+      }
 
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
@@ -407,6 +411,9 @@ const useCompanyInfoStore = create((set, get) => ({
 
       if (state.registerInfo.suggestion_plan_name) {
         formData.append('suggestion_plan_name', state.registerInfo.suggestion_plan_name);
+      }
+      if (state.registerInfo.activity_feild) {
+        formData.append('activity_feild', state.registerInfo.activity_feild);
       }
       if (state.registerInfo.amount_of_investment) {
         formData.append('amount_of_investment', state.registerInfo.amount_of_investment);
@@ -568,6 +575,7 @@ const useCompanyInfoStore = create((set, get) => ({
         amount_of_investment: '',
         refund_of_plan: '0',
         subject_activity_document: '',
+        activity_feild: '',
       },
       boardMembers: [],
       boardMembersFiles: {},
@@ -765,6 +773,7 @@ const useCompanyInfoStore = create((set, get) => ({
         amount_of_investment: defaultValue(data.amount_of_investment),
         refund_of_plan: defaultValue(data.refund_of_plan, '0'),
         subject_activity_document: defaultValue(data.subject_activity_document, ''),
+        activity_feild: defaultValue(data.activity_feild, ''),
       },
       boardMembers: data.company_members || [],
       boardMembersFiles,
