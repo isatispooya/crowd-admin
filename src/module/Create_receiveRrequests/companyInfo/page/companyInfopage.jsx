@@ -34,7 +34,7 @@ const CompanyInfoPage = ({ companyInfo, refetch }) => {
     },
   };
 
-  const formatNumber = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const formatNumber = (number) => number?.toString?.().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const cartId = companyInfo?.company?.id;
   const { mutate } = useCompanyInfo(cartId);
@@ -98,7 +98,7 @@ const CompanyInfoPage = ({ companyInfo, refetch }) => {
     const dataToSubmit = { ...pendingChanges };
 
     if (!Object.prototype.hasOwnProperty.call(dataToSubmit, 'registration_date')) {
-      dataToSubmit.registration_date = companyInfo.company.registration_date;
+      dataToSubmit.registration_date = companyInfo?.company?.registration_date;
     }
 
     if (!Object.prototype.hasOwnProperty.call(dataToSubmit, 'capital')) {
