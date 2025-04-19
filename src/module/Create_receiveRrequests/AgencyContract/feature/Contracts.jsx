@@ -27,7 +27,7 @@ const Contracts = ({ data }) => {
     <Container maxWidth="md" dir="rtl">
       {links.map((link) => (
         <Button
-          key={link.id}
+          key={link.id} ر
           component={Link}
           to={link.path}
           target="_blank"
