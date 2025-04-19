@@ -77,6 +77,18 @@ const CompanyInfoPage = ({ companyInfo, refetch }) => {
         ...prev,
         capital: Number(value.replace(/,/g, '')),
       }));
+    } else if (field === 'activity_field') {
+      setLocalCompanyInfo((prev) => ({
+        ...prev,
+        company: {
+          ...prev.company,
+          activity_field: value,
+        },
+      }));
+      setPendingChanges((prev) => ({
+        ...prev,
+        activity_field: value,
+      }));
     }
   };
 
@@ -91,6 +103,9 @@ const CompanyInfoPage = ({ companyInfo, refetch }) => {
 
     if (!Object.prototype.hasOwnProperty.call(dataToSubmit, 'capital')) {
       dataToSubmit.capital = Number(companyInfo.company.capital.toString().replace(/,/g, ''));
+    }
+    if (!Object.prototype.hasOwnProperty.call(dataToSubmit, 'activity_field')) {
+      dataToSubmit.activity_field = companyInfo.company.activity_field;
     }
 
     setIsSaving(true);
