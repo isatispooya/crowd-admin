@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'jalali-moment';
 
 const Page7 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -25,7 +26,6 @@ const Page7 = ({ agencyContract }) => {
                 <th className="border border-gray-400 p-2 text-center">تاریخ چک</th>
                 <th className="border border-gray-400 p-2 text-center">شماره چک</th>
                 <th className="border border-gray-400 p-2 text-center">نام بانک</th>
-                <th className="border border-gray-400 p-2 text-center">کد شعبه</th>
                 <th className="border border-gray-400 p-2 text-center">مبلغ (ریال)</th>
               </tr>
             </thead>
@@ -33,13 +33,12 @@ const Page7 = ({ agencyContract }) => {
               {agencyContract.checks.map((check, index) => (
                 <tr key={check.id}>
                   <td className="border border-gray-400 p-2 text-center">{index + 1}</td>
-                  <td className="border border-gray-400 p-2 text-center">{check.date}</td>
+                  <td className="border border-gray-400 p-2 text-center">{moment(check.date).format('jYYYY/jMM/jDD')}</td>
                   <td className="border border-gray-400 p-2 text-center">{check.fishing_id}</td>
-                  <td className="border border-gray-400 p-2 text-center">{check.type}</td>
-                  <td className="border border-gray-400 p-2 text-center">{check.amount}</td>
+                  <td className="border border-gray-400 p-2 text-center">{check.bank_name}</td>
+                  <td className="border border-gray-400 p-2 text-center">{Number(check.amount).toLocaleString()}</td>
                 </tr>
               ))}
-
             </tbody>
           </table>
           <p className="mt-4">
@@ -150,7 +149,6 @@ const Page7 = ({ agencyContract }) => {
             به حسابرس را به عامل ارائه نماید. همچنین تأیید این گزارشات منوط به ارائه گزارش حسابرسی
             رسمی خواهد بود.
           </p>
-         
         </div>
       </div>
     </div>

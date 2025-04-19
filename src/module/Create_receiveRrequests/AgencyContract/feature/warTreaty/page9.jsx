@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'jalali-moment';
 
 const Page9 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -91,7 +92,7 @@ const Page9 = ({ agencyContract }) => {
         <h3 className="text-[23px] font-bold">17)نسخ قرارداد </h3>
         <p className="text-[23px]">
           این قرارداد در ۲۰ ماده و بدون هرگونه قلم خوردگی در ۲ نسخه متحد المتن که همگی حکم واحد را
-          دارد در نشانی شرکت تنظیم و در تاریخ <strong>{' ???????'}</strong> امضاء و میان طرفین مبادله شد. یک نسخه از
+          دارد در نشانی شرکت تنظیم و در تاریخ <strong>{moment(agencyContract.investor_request.agency_agreement_date).format('jYYYY/jMM/jDD')}</strong> امضاء و میان طرفین مبادله شد. یک نسخه از
           قرارداد در اختیار شرکت و نسخه دوم در اختیار متقاضی میباشد.{' '}
         </p>
       </div>
