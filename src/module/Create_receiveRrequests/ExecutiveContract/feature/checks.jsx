@@ -8,6 +8,10 @@ import {
   AccordionDetails,
   TextField,
   Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -63,7 +67,7 @@ const Checks = ({ allData }) => {
         ...formData,
         date: formattedDate,
       };
-      
+
       await mutate(payload);
       setFormData({
         investor_request_id: cartId,
@@ -132,12 +136,21 @@ const Checks = ({ allData }) => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="نوع چک"
-                value={formData.type}
-                onChange={handleChange('type')}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="check-type-label">نوع چک</InputLabel>
+                <Select
+                  labelId="check-type-label"
+                  id="check-type"
+                  value={formData.type || ''}
+                  label="نوع چک"
+                  onChange={handleChange('type')}
+                >
+                  <MenuItem value="خسارت">خسارت</MenuItem>
+                  <MenuItem value="اصل">اصل</MenuItem>
+                  <MenuItem value="فرع">فرع</MenuItem>
+                  <MenuItem value="وجه التزام">وجه التزام</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField

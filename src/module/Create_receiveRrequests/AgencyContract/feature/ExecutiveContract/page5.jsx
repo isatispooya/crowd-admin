@@ -84,8 +84,10 @@ const Page13 = ({ data }) => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="border border-black p-2 text-center">تعداد/نوع</th>
-                <th className="border border-black p-2 text-center">شرح</th>
+                <th className="border border-black p-2 text-center">موضوع</th>
                 <th className="border border-black p-2 text-center">صادرکننده</th>
+                <th className="border border-black p-2 text-center">شماره ضمانت نامه</th>
+
                 <th className="border border-black p-2 text-center">نوع ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">تاریخ اعتبار ضمانت‌نامه</th>
                 <th className="border border-black p-2 text-center">شماره سپام</th>
@@ -102,6 +104,9 @@ const Page13 = ({ data }) => {
                       {item.description || '-'}
                     </td>
                     <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.number || '-'}
+                    </td>
                     <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
                     <td className="border border-black p-2 text-center">
                       {new Date(item.date).toLocaleDateString('fa-IR')}
@@ -122,7 +127,7 @@ const Page13 = ({ data }) => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="border border-black p-2 text-center">تعداد/نوع</th>
-                <th className="border border-black p-2 text-center">شرح</th>
+                <th className="border border-black p-2 text-center">موضوع</th>
                 <th className="border border-black p-2 text-center">صادرکننده</th>
                 <th className="border border-black p-2 text-center">شناسه صیادی</th>
                 <th className="border border-black p-2 text-center">ارزش ( ریال)</th>
@@ -134,7 +139,9 @@ const Page13 = ({ data }) => {
                 .map((item, index) => (
                   <tr key={index}>
                     <td className="border border-black p-2 text-center">1 فقره چک</td>
-                    <td className="border border-black p-2 text-center">جهت تضمین اصل</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.description || '-'}
+                    </td>
                     <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
                     <td className="border border-black p-2 text-center">
                       {item.fishing_id || '-'}
