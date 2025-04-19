@@ -37,7 +37,6 @@ const GuarantorMain = ({ allData, refetch }) => {
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
-        defaultExpanded
         sx={{
           borderRadius: '10px',
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
