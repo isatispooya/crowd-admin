@@ -18,11 +18,13 @@ import { useDeleteGuarantor } from '../service/guarantorService';
 
 const GuarantorMain = ({ allData, refetch }) => {
   const [activeForm, setActiveForm] = useState('');
+  const [editGuarantor, setEditGuarantor] = useState(null);
   const { cartId } = useParams();
   const { mutate: deleteGuarantor } = useDeleteGuarantor(cartId);
 
   const handleFormChange = (formType) => {
     setActiveForm(formType);
+    setEditGuarantor(null); 
   };
 
   const handleDelete = async (guarantorId) => {
@@ -34,14 +36,15 @@ const GuarantorMain = ({ allData, refetch }) => {
     }
   };
 
+  const handleEdit = (guarantor) => {
+    setEditGuarantor(guarantor);
+    setActiveForm('physical');
+  };
+
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
       <Accordion
-        sx={{
-          borderRadius: '10px',
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          padding: '10px',
-        }}
+        sx={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', padding: '10px' }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>اطلاعات ضامن</Typography>
@@ -52,12 +55,10 @@ const GuarantorMain = ({ allData, refetch }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              '& > *': {
-                m: 1,
-              },
+              '& > *': { m: 1 },
             }}
           >
-            <ButtonGroup variant="outlined" aria-label="گروه دکمه‌های اصلی">
+            <ButtonGroup variant="outlined">
               <Button
                 onClick={() => handleFormChange('physical')}
                 variant={activeForm === 'physical' ? 'contained' : 'outlined'}
@@ -73,16 +74,34 @@ const GuarantorMain = ({ allData, refetch }) => {
             </ButtonGroup>
           </Box>
 
-          {activeForm === 'physical' && <Guarantor allData={allData} refetch={refetch} />}
+          {activeForm === 'physical' && (
+            <Guarantor
+              allData={allData}
+              refetch={refetch}
+              initialValues={editGuarantor}
+              onFinishEdit={() => setEditGuarantor(null)}
+            />
+          )}
 
-          {activeForm === 'legal' && <LegalGuarantor allData={allData} refetch={refetch} />}
+          {activeForm === 'legal' && (
+            <LegalGuarantor
+              allData={allData}
+              refetch={refetch}
+              initialValues={editGuarantor}
+              onFinishEdit={() => setEditGuarantor(null)}
+            />
+          )}
 
           {allData?.guarantor && allData.guarantor.length > 0 && (
             <Box sx={{ mt: 4 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
                 لیست ضامن‌ها
               </Typography>
-              <GuarantorList guarantors={allData.guarantor} onDelete={handleDelete} />
+              <GuarantorList
+                guarantors={allData.guarantor}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+              />
             </Box>
           )}
         </AccordionDetails>
