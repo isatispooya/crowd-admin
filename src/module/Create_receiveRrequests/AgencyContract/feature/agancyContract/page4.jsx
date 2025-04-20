@@ -208,8 +208,8 @@ const Page5 = ({ agencyContract }) => {
                 متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
                 مبلغ{' '}
                 {(
-                  (Number(agencyContract.investor_request.amount_of_investment || 0) +
-                    Number(agencyContract.investor_request.profit_of_investment || 0)) /
+                  (Number(agencyContract.investor_request.amount_of_investment || 0) *
+                    Number(((agencyContract.investor_request.interest_rate_plan/100)+1) || 0)) /
                   1000000
                 ).toLocaleString()}
                 ميليون ريال،{' '}
@@ -217,10 +217,10 @@ const Page5 = ({ agencyContract }) => {
                   agencyContract.investor_request.amount_of_investment / 1000000 || 0
                 ).toLocaleString()}{' '}
                 بابت اصل مبلغ تأمين مالي{' '}
-                {Number(
-                  (agencyContract.investor_request.amount_of_investment +
-                    agencyContract.investor_request.interest_rate_plan / 100) /
-                    1000000 || 0
+                {(
+                  (Number(agencyContract.investor_request.amount_of_investment || 0) *
+                    Number(((agencyContract.investor_request.interest_rate_plan/100)) || 0)) /
+                  1000000
                 ).toLocaleString()}{' '}
                 میلیون ریال بابت متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي
                 5 فقره چك، با تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت
