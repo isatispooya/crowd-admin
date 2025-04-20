@@ -1,12 +1,38 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Typography, TextField, MenuItem } from '@mui/material';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DateObject from 'react-date-object';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
-const GuarantorForm = () => {
-  const { guarantorInfo, updateGuarantorInfo } = useCompanyInfoStore();
+const GuarantorForm = ({ initialValues }) => {
+  const { guarantorInfo, updateGuarantorInfo, setGuarantorInfo } = useCompanyInfoStore();
+
+  useEffect(() => {
+    if (initialValues) {
+      let birthDate = initialValues.birth_date || '';
+      
+      if (birthDate && typeof birthDate === 'string') {
+        birthDate = new DateObject({
+          date: new Date(birthDate),
+          calendar: persian,
+          locale: persian_fa
+        });
+      }
+      
+      setGuarantorInfo({
+        guarantor_name: initialValues.guarantor_name || '',
+        guarantor_national_id: initialValues.guarantor_national_id || '',
+        phone_number: initialValues.phone_number || '',
+        birth_date: birthDate,
+        guarantor_address: initialValues.guarantor_address || '',
+        postal_code: initialValues.postal_code || '',
+        gender: initialValues.gender || '',
+      });
+    }
+  }, [initialValues, setGuarantorInfo]);
 
   const handleChange = useCallback(
     (field) => (event) => {
@@ -88,6 +114,14 @@ const GuarantorForm = () => {
       </Grid>
     </Grid>
   );
+};
+
+GuarantorForm.propTypes = {
+  initialValues: PropTypes.object,
+};
+
+GuarantorForm.defaultProps = {
+  initialValues: null,
 };
 
 export default GuarantorForm;
