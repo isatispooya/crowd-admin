@@ -49,40 +49,79 @@ const Page1 = ({ agencyContract }) => {
       {renderHeaderContent()}
 
       <div className="text-justify leading-relaxed text-[23px]">
+        <h3 className="font-bold mb-2 text-[23px]">مقدمه</h3>
+        <p className="mb-3 pr-4 text-[23px]">
+          استعانت از خداوند متعال، در تاریخ 24/01/1404 قرارداد لازم حاضر وفق مواد 10 و 190 و 219
+          قانون مدنی به همراه دیگر اسناد و مدارک منضم به آن که مجموعاً قرارداد واحد محسوب می¬گردد در
+          شهر یزد منعقد می¬گردد و طرفین اظهار و اعلام می¬نمایند که هیچ¬گونه محدودیت یا ممنوعیتی جهت
+          امضای این قرارداد نداشته و دارای صلاحیت لازم و کمال صحت عقل و اراده شخصی جهت امضای قرارداد
+          هستند و از تاریخ انعقاد، طرفین ملزم و متعهد به اجرای مفاد آن می-باشند. مضافا نظر به اینکه
+          متقاضی برای انجام امور کسب وکارخود نیازمند سرمایه و تأمین مالی است و شرکت ایساتیس پویا از
+          طریق سکوی تأمین مالی جمعی با «مجوز تأمین مالی جمعی» از کارگروه ارزیابی تأمین مالی جمعی به
+          آدرس: تهران،خیابان خالد اسلامبولی (وزرا)، ابتدای خیابان عماد مغنیه، پلاک 145(شرکت فرابورس
+          ایران) می تواند به متقاضی، تأمین کننده یا تأمین کنندگانی را معرفی نماید و نیز به منظور
+          تشریح حقوق و تعهدات طرفین، قرارداد تأمین مالی جمعی حاضر (ازاین پس قرارداد ) در راستای ماده
+          ۱۰قانون مدنی و دستورالعمل تأمین مالی جمعی مصوب ۲۵اردیبهشت ماه 1397 شورای عالی بورس و اوراق
+          بهادار، در شهر یزد منعقد گردید. مضافا این قرارداد به ضمیمه قرارداد اقدامات اجرایی همچنین
+          قرارداد مرابحه منعقد می گردد که هر سه عقد در زمان واحد و با اراده واحد منعقد گردیده و غیر
+          قابل انفکاک است.
+        </p>
         <h3 className="font-bold mb-2 text-[23px]">ماده 1) مشخصات طرفین قرارداد</h3>
         <p className="mb-2 text-[23px]">1-1. این قرارداد میان:</p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">1) طرف اول:</span> شرکت{' '}
-          {agencyContract.company?.title || ''} (
-          {agencyContract.company?.registration_type_title || ''}) به شمارۀ شناسۀ ملی{' '}
-          <strong>{agencyContract.company?.national_id || ''}</strong>، کد اقتصادی{' '}
-          <strong>{agencyContract.company?.economic_code || ''}</strong>، و شماره ثبت{' '}
-          <strong>{agencyContract.company?.registration_number || ''}</strong> نزد{' '}
-          {agencyContract.company?.registration_unit || ''}، به نشانی{' '}
-          {agencyContract.company?.address || ''}
-          {agencyContract.company?.postal_code
-            ? `، کدپستی ${agencyContract.company.postal_code}`
-            : ''}{' '}
-          {agencyContract.company?.tel ? `، شماره تماس ${agencyContract.company.tel}` : ''}، و با
-          نمایندگی{' '}
-          {agencyContract.company_members
-            ?.filter((member) => member.signature === true)
-            .map((member, index, filteredArray) => (
-              <React.Fragment key={member.id}>
-                {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
-                {member.uniqueIdentifier}
-                سمت {member.first_role}
-                {member.second_role && ` و ${member.second_role}`}
-                {index < filteredArray.length - 1 ? ' و ' : ''}
-              </React.Fragment>
-            ))}{' '}
-          براساس{' '}
-          {
-            agencyContract.company_members.filter((member) => member.signature_document !== null)[0]
-              ?.signature_document
-          }{' '}
-          که در این قرارداد، «متقاضی» نامیده می شود، از یک طرف،
-        </p>
+        <div>
+          <p className="mb-3 pr-4 text-[23px]">
+            <span className="font-bold text-[23px]">1) طرف اول:</span> شرکت{' '}
+            {agencyContract.company?.title || ''} (
+            {agencyContract.company?.registration_type_title || ''}) به شمارۀ شناسۀ ملی{' '}
+            <strong>{agencyContract.company?.national_id || ''}</strong>، کد اقتصادی{' '}
+            <strong>{agencyContract.company?.economic_code || ''}</strong>، و شماره ثبت{' '}
+            <strong>{agencyContract.company?.registration_number || ''}</strong> نزد{' '}
+            {agencyContract.company?.registration_unit || ''}، به نشانی{' '}
+            {agencyContract.company?.address || ''}
+            {agencyContract.company?.postal_code
+              ? `، کدپستی ${agencyContract.company.postal_code}`
+              : ''}{' '}
+            {agencyContract.company?.tel ? `، شماره تماس ${agencyContract.company.tel}` : ''}، و با
+            نمایندگی{' '}
+            {agencyContract.company_members
+              ?.filter((member) => member.signature === true)
+              .map((member, index, filteredArray) => (
+                <React.Fragment key={member.id}>
+                  {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
+                  {member.uniqueIdentifier}
+                  سمت {member.first_role}
+                  {member.second_role && ` و ${member.second_role}`}
+                  {index < filteredArray.length - 1 ? ' و ' : ''}
+                </React.Fragment>
+              ))}{' '}
+            براساس{' '}
+            {
+              agencyContract.company_members.filter(
+                (member) => member.signature_document !== null
+              )[0]?.signature_document
+            }{' '}
+            در این قرارداد، «متقاضی» نامیده می شود،
+          </p>
+
+          <p className="mb-3 pr-4 text-[23px]">
+            به استناد {agencyContract.company_members.find(member => member.signature === true)?.signature_document || ''} نمایندگان مجاز و صاحبان
+            امضای طرف اول قرارداد در خصوص امضا و استنکاب اسناد تعهد آور طرف اول اشخاص ذیل می‌باشند:
+            <ul className="list-disc pr-8">
+              {agencyContract.company_members
+                ?.filter((member) => member.signature === true)
+                .map((member, index) => (
+                  <li key={member.id}>
+                    <p>
+                      {String.fromCharCode(1575 + index)}) نمايندگان طرف نخست، صاحب امضاى مجاز{' '}
+                      {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title}، شماره ملى{' '}
+                      {member.uniqueIdentifier}، سمت {member.first_role} می‌باشد.
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          </p>
+        </div>
+
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) طرف دوم:</span> شرکت سبدگردان ایساتیس پویا کیش
           (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی 411615733645، و شماره ثبت 13702، در اداره
