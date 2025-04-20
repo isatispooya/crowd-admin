@@ -7,34 +7,13 @@ const Page7 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-        <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 text-[22px] text-right pr-2">ردیف</th>
-              <th className="border border-gray-300 text-[22px] text-right pr-2">شرایط</th>
-              <th className="border border-gray-300 text-[22px] text-right pr-2">توضیحات</th>
-            </tr>
-          </thead>
-          <tbody className="border border-gray-300">
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">13</td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">ارائه گزارشات</td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                متقاضي متعهد است نسبت به ارائة گزارش عملكرد از پيشرفت فيزيكي-ريالي اجراي طرح به صورت
-                سه ماهه و ارائه صورتهاي مالي طرح (حسابرسي نشده) به صورت شش ماهه و ارائة صورتهاي مالي
-                طرح (حسابرسي شده توسط حسابرس) در انتهاي دوره اقدام نمايد. تخلف از هر یک ، مستوجب حق
-                فسخ برای عامل بوده و عامل حق مطالبه تمام مبالغ مندرج در قرارداد را داراست.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
         <h3 className="font-bold mb-2 text-[23px] text-right">ماده 6) مدت قرارداد </h3>
         <p className="mb-2 text-right">
           اين قرارداد از زمان امضاي قرارداد، تا 15 روز كاري پس از اتمام مدت فراخوان جمع آوري وجوه از
           اعتبار قانوني برخوردار است. زمان قرارداد به صلاحديد عامل به طور خودكار و طي ارسال نامه
-          كتبي به متقاضي قابل تمديد است. تبصره: خاتمه مدت قرارداد، تأثیری در تعهد متقاضی به پرداخت
-          مبلغ قرارداد و نیز ایفای تعهدات وی در برابر عامل ،تأمین کنندگان و نهاد مالی ندارد.
+          كتبي به متقاضي قابل تمديد است.
+          <br /> تبصره: خاتمه مدت قرارداد، تأثیری در تعهد متقاضی به پرداخت مبلغ قرارداد و نیز ایفای
+          تعهدات وی در برابر عامل ،تأمین کنندگان و نهاد مالی ندارد.
         </p>
         <h3 className="font-bold mb-2 text-[23px] text-right">ماده 7) تعهدات و تأییدات متقاضی </h3>
         <p className="mb-3 pr-4 text-[23px]">

@@ -7,8 +7,7 @@ const Page2 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-        
-      <p className="mb-3 pr-4 text-[23px]">
+        <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">21) دوره اجرای طرح: </span>
           منظور مدت زمانی است که متقاضی نسبت به اجرای کسب‌وکار طرح اقدام می‌نماید. این مدت از اولین
           روز کاری پس از تاریخ موفقیت طرح در جذب سرمایه شروع می‌شود و درهرحال بیش‌تر از «18 ماه» پس
@@ -142,7 +141,8 @@ const Page2 = ({ agencyContract }) => {
             {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
-          كه به تفكيك زير، توسط متقاضي در وجه عامل و شركت فرابورس ايران پرداخت ميگردد:
+          كه به تفكيك زير، توسط متقاضي در وجه عامل و شركت فرابورس ايران ظرف مدت یک روز پرداخت
+          ميگردد:
         </p>
 
         <p className="mb-3 pr-4">
@@ -170,9 +170,8 @@ const Page2 = ({ agencyContract }) => {
           {Number(agencyContract.investor_request.execution_wage / 1000000 || 0).toLocaleString()}{' '}
           ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
           مالی شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين
-          ماده دريافت خواهد شد.
+          ماده دريافت خواهد شد و لازم هست تا رسیدی اخذ گردد که عدم ارائه رسید به منزله عدم ایفای تعهد است.
         </p>
-       
       </div>
     </div>
   );

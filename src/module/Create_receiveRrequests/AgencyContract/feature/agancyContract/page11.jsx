@@ -9,6 +9,7 @@ const Page7 = ({ agencyContract }) => {
       <div className="text-justify leading-relaxed text-[23px]">
         <p className="mb-3 pr-8 text-[23px]">
           <span className="font-bold">ماده 20) قانون حاکم بر قرارداد</span>
+          <br />
           کلیه اختلافات ناشی از این قرارداد اعم از و نه محدود به انعقاد صحت بطلان انحلال، فسخ، تأیید
           فسخ و همچنین اختلاف در هر یک از مواد قرارداد و یا تفسیر و اجرای آن وفق مفاد ماده ۳۶ قانون
           بازار اوراق بهادار جمهوری اسلامی ایران حل و فصل خواهد.و در صورت عدم رسیدگی محاکم استان یزد
@@ -16,7 +17,7 @@ const Page7 = ({ agencyContract }) => {
         </p>
 
         <p className="mb-3 pr-8 text-[23px]">
-          <span className="font-bold">ماده21) تفسیر قرارداد</span>
+          <span className="font-bold">ماده 21) تفسیر قرارداد</span>
         </p>
 
         <p className="mb-3 pr-8 text-[23px]">
@@ -55,7 +56,7 @@ const Page7 = ({ agencyContract }) => {
         </p>
 
         <p className="mb-3 pr-8 text-[23px]">
-          <span className="font-bold">ماده22) گزارش عملکرد</span>
+          <span className="font-bold">ماده 22) گزارش عملکرد</span>
         </p>
 
         <p className="mb-3 pr-8 text-[23px]">

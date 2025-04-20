@@ -18,48 +18,6 @@ const Page5 = ({ agencyContract }) => {
           </thead>
           <tbody className="border border-gray-300">
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">6</td>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">
-                {' '}
-                نوع تامین مالی{' '}
-              </td>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">
-                تأمين مالي شناور: {agencyContract.investor_request.buoyancy_plan}درصد از مبلغ كل
-                تأمين مالي معادل{' '}
-                <strong>
-                  {(
-                    (Number(agencyContract.investor_request.buoyancy_plan / 100 || 0) *
-                      Number(agencyContract.investor_request.amount_of_investment || 0)) /
-                    1000000
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{' '}
-                </strong>
-                ميباشد، لذا در صورت تأمين مالي به صورت شناور، كارمزد ياد شدة عامل به چهار درصد از
-                مبلغ كل تأمين مالي انجام شده (شامل آورده متقاضي و وجوه جمع آوري شده از دارندگان
-                گواهي شراكت) تعديل ميشود. تبصره 6: در صورت موفقيت كمپين به صورت شناور با حداقل
-                سرمايه قابل پذيرش، مبالغ چك هاي اقساط و تضامين متناسب با ميزان وجوه جمع آوري شده
-                تعديل ميگردد و جزئيات آن متعاقباً در قرارداد اقدامات اجرايي اعلام ميگردد.
-                <br />
-                تبصره 5 :مجموع کامزد عامل معادل چهار درصد مبلغ کل گواهی های شراکت می باشد , لذا در
-                صورت تامین مالی به صورت شناور ,کارمزد یاد شده عامل به چهار درصد از مبلغ کل تامین
-                مالی انجام شده (شامل آورده متقاضی و وجود جمع آوری شده از دارندگان گواهی شراکت ).
-              </td>
-            </tr>
-
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">7</td>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">
-                نرخ سود مشارکت اسمی{' '}
-              </td>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">
-                {agencyContract.investor_request.annualized_profit_forecast * 100} درصد ساليانه.
-                <br /> تبصره 7: متقاضي متعهد است در سررسيد گواهي شراكت مطابق با شرايط مندرج در
-                قرارداد اقدامات اجرايي به محاسبة سود قطعي گواهي هاي شراكت اقدام نمايد و سود قطعي
-                محاسبه شده را به تأييد حسابرس برساند.
-              </td>
-            </tr>
-
-            <tr>
               <td className="border border-gray-300 text-[22px] text-right pr-2">8</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">ضامن</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">
@@ -68,7 +26,7 @@ const Page5 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">11</td>
+              <td className="border border-gray-300 text-[22px] text-right p-3">9</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
                 مدت فراخوان جمع‌آوری وجوه
               </td>
@@ -80,7 +38,7 @@ const Page5 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">12</td>
+              <td className="border border-gray-300 text-[22px] text-right p-3">10</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
                 شرط پرداخت وجوه تامین مالی به حساب متقاضی
               </td>
@@ -105,7 +63,7 @@ const Page5 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">13</td>
+              <td className="border border-gray-300 text-[22px] text-right p-3">11</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">ارائه گزارشات</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
                 متقاضي متعهد است نسبت به ارائة گزارش عملكرد از پيشرفت فيزيكي-ريالي اجراي طرح به صورت
@@ -115,7 +73,7 @@ const Page5 = ({ agencyContract }) => {
               </td>
             </tr>
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">9</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">12</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">
                 تضامین مورد نیاز{' '}
               </td>
@@ -138,22 +96,22 @@ const Page5 = ({ agencyContract }) => {
                 (یک فقره چک به میزان اصل مبلغ تأمین مالی و یک فقره چک به میزان یک فرع از اقساط مبلغ
                 تأمین مالی) از ضامن دریافت و حداکثر یک روز کاری پس از موفقیت کمین و جمع آوری وجوه به
                 عامل تحویل نماید.
-                <br /> تبصره 8 : متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های
+                <br /> تبصره 7 : متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های
                 شراکت از شرکت فرابورس ایران، حداکثر طی 5 روز کاری نسبت به ارائه ضمانت نامه تعهد
                 پرداخت اقدام نماید. در صورت عدم ارائه ضمانت نامه در موعد مقرر به عامل، عامل مخیر به
                 فسخ قرارداد است و متقاضی متعهد به اجرای بند 2-1 ماده 9 این قرارداد می باشد.
-                <br /> تبصره 9 : کلیه هزینه های صدور، تمدید، اصلاح یا ابطال ضمانت نامه تعهد پرداخت
+                <br /> تبصره 8 : کلیه هزینه های صدور، تمدید، اصلاح یا ابطال ضمانت نامه تعهد پرداخت
                 بر عهده متقاضی است.
-                <br /> تبصره 10: در صورت عدم تحويل چك هاي تضمين در مواعد مقرر شده يا در صورت عدم ثبت
+                <br /> تبصره 9: در صورت عدم تحويل چك هاي تضمين در مواعد مقرر شده يا در صورت عدم ثبت
                 چك هاي تضمين در سامانه چك صيادي، و نیز عدم ظهرنویسی آن توسط صاحبین امضای مجاز، عامل
                 مخير به فسخ قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
-                <br /> تبصره 11: متقاضي متعهد است چك هاي تضمين را بدون درج عبارت «بابت ضمانت» روي چك
+                <br /> تبصره 10: متقاضي متعهد است چك هاي تضمين را بدون درج عبارت «بابت ضمانت» روي چك
                 تضمين و درج عبارت « تأديه ديون» در شرح سامانه چك صيادي يا عدم تكميل قسمت شرح چك در
                 سامانه چك صياد و به عامل تحويل نمايد، در غير اينصورت عامل مخير به فسخ قرارداد است و
                 متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
                 <br />
                 <span className="text-[18px]">
-                  تبصره 12: متقاضي ميتواند در صورت نياز هنگام تحويل چك تضمين و چك هاي پرداخت اقساط
+                  تبصره 11: متقاضي ميتواند در صورت نياز هنگام تحويل چك تضمين و چك هاي پرداخت اقساط
                   از عامل رسيد موقت دريافت اسناد ياد شده را درخواست نمايد، اما رسيد موقت صرفاً به
                   معناي تحويل اسناد يادشده توسط متقاضي است و به هيچ وجه به منزله صحت اسناد ياد شده
                   نيست.
@@ -162,18 +120,18 @@ const Page5 = ({ agencyContract }) => {
             </tr>
 
             <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">10</td>
+              <td className="border border-gray-300 text-[22px] text-right p-3">13</td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
                 {' '}
                 مواعدچک های پرداخت اقساط
               </td>
               <td className="border border-gray-300 text-[22px] text-right p-3">
-                10 متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً
-                به مبلغ{' '}
+                متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
+                مبلغ{' '}
                 {(
                   (Number(agencyContract.investor_request.amount_of_investment || 0) +
                     Number(agencyContract.investor_request.profit_of_investment || 0)) /
-                    1000000
+                  1000000
                 ).toLocaleString()}
                 ميليون ريال،{' '}
                 {Number(
@@ -181,7 +139,9 @@ const Page5 = ({ agencyContract }) => {
                 ).toLocaleString()}{' '}
                 بابت اصل مبلغ تأمين مالي{' '}
                 {Number(
-                  agencyContract.investor_request.profit_of_investment / 1000000 || 0
+                  (agencyContract.investor_request.amount_of_investment +
+                    agencyContract.investor_request.interest_rate_plan / 100) /
+                    1000000 || 0
                 ).toLocaleString()}{' '}
                 میلیون ریال بابت متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي
                 5 فقره چك، با تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت
@@ -189,101 +149,8 @@ const Page5 = ({ agencyContract }) => {
                 مي گردد، به عامل تحويل نمايد.
               </td>
             </tr>
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">11</td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                مدت فراخوان جمع‌آوری وجوه
-              </td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                مدت فراخوان جمع آوري وجوه به تشخيص عامل تعيين مي گردد اين دوره با نظر عامل براي يك
-                مرتبه قابل تمديد است. لازم به ذكر است تاريخ شروع جمع آوري وجوه و مدت زمان آن ، از
-                طريق نامه كتبي به استحضار متقاضي خواهد رسيد.
-              </td>
-            </tr>
-
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">12</td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                شرط پرداخت وجوه تامین مالی به حساب متقاضی
-              </td>
-              <td className="border border-gray-300 text-[18px] text-right p-3">
-                عامل پس از اخذ استعلام هاي لازم از تضامين مندرج در رديف 9 اين جدول و چك هاي پرداخت
-                اقساط مندرج در رديف 5 اين جدول و كسب اطمينان از صحت اسناد ياد شده، وجوه جمع آوري شده
-                را حداكثر طي دو روز كاري به حساب اعلام شده از سوي متقاضي واريز مي نمايد لذا متقاضي
-                تا زمان استعلام كامل و اطمينان از صحت اسناد ياد شده توسط عامل، حق هرگونه اعتراضي را
-                بابت دريافت وجوه تأمين مالي شده و رسيد قطعي اسناد ياد شده از خود سلب و اسقاط مي
-                نمايد.مضافا در تمامی مراحل، متقاضی، حق هیچ اعتراض یا ادعایی را ندارد و حق هر گونه
-                ادعا را از خود سلب نموده است.
-                <br />
-                تبصره 12: در صورت وجود هرگونه ايراد در چك هاي تضمين و چك هاي پرداخت اقساط (بابت اصل
-                و متفرعات) طي فرايند استعلام، متقاضي موظف است حداكثر طي دو روز كاري نسبت به رفع
-                ايرادات اقدام نمايد، در غيراينصورت عامل مخير به فسخ قرارداد است و متقاضي متعهد به
-                اجراي بند ٣-١ مادة ٩ اين قرارداد مي باشد.
-                <br />
-                تبصره 13: در صورت وجود هرگونه ايراد در تضامین موجود، متقاضي موظف است حداكثر طي دو
-                روز كاري نسبت به رفع ايرادات اقدام نمايد، در غيراينصورت عامل مخير به فسخ قرارداد است
-                و متقاضي متعهد به اجراي بند 3-١ مادة ٩ اين قرارداد مي باشد.
-              </td>
-            </tr>
           </tbody>
         </table>
-
-        {/* <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold">تبصره 15)</span>
-          در صورت فسخ قرارداد بر اساس بند ١-١ و ٢-١ اين ماده، عامل هيچگونه تعهدي نسبت به جمع آوري
-          وجوه نخواهد داشت و صرفاً باقي ماندة آوردة متقاضي پس از كسر كارمزد مشخص شده در اين بندها،
-          عودت داده ميشود.
-        </p>
-        <p className="mb-3 pr-4">
-          <span className="font-bold">تبصره 20</span>
-          در مواردي كه در مفاد اين قرارداد براي فسخ آن، ضمانت اجراي مشخصي در نظر گرفته شده است،
-          متقاضي ملزم به اجراي آن خواهد بود.
-        </p>
-        <p className="mb-3 pr-4">
-          <span className="font-bold">4)</span>
-          در صورت تحقق فورس ماژور به شرح مادة ١٠ اين قرارداد، عامل، حق فسخ قرارداد را خواهد داشت.
-        </p>
-        <p className="mb-3 pr-4">
-          <span className="font-bold">تبصره 21</span>
-          در صورت فسخ قرارداد بر اثر تحقق فورس ماژور، بنا به نظر عامل و متناسب با پيشرفت انجام خدمات
-          توسط عامل، كارمزد انجام خدمات تعيين و از متقاضي دريافت ميگردد.
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">4)</span>
-          متقاضي تا دو روز كاري پيش از اخذ مجوز از شركت فرابورس ايران جهت فروش گواهي هاي شراكت، به
-          شرط پرداخت <strong>بند 4-١ ماده 4</strong> اين قرارداد با ارسال درخواست كتبي، مجاز به فسخ
-          قرارداد خواهد بود.{' '}
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">تبصره 22</span>
-          متقاضي از زمان اخذ مجوز انتشار و فروش گواهي شراكت از شركت فرابورس ايران توسط عامل تا يك
-          روز كاري پيش از شروع فراخوان جمع آوري وجوه، به شرط پرداخت <strong>
-            كارمزد ماده 4
-          </strong>{' '}
-          اين قرارداد حق فسخ قرارداد را خواهد داشت.
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">تبصره 23</span>
-          متقاضي از يك روز كاري پيش از شروع فراخوان جمع آوري وجوه تا پايان دوره فراخوان حق انصراف را
-          از خود سلب نموده است.
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">5) خاتمه:</span>
-          اين قرارداد در شرايط زير خاتمه يافته تلقي ميشود:
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">1)</span>
-          عدم پذيرش طرح از سوي شركت فرابورس ايران؛
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">2)</span>
-          عدم موفقيت كمپين و عدم موافقت متقاضي، عامل يا فرابورس براي تمديد دوره كمپين؛{' '}
-        </p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">3)</span>
-          تصميم عامل مبني بر تعليق كمپين به نحوي كه به تشخيص عامل در زمان جمع آوري وجوه امكان رفع آن
-          فراهم نباشد؛{' '}
-        </p> */}
       </div>
     </div>
   );

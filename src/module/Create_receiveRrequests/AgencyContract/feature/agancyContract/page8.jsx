@@ -99,7 +99,7 @@ const Page7 = ({ agencyContract }) => {
         </p>
 
         <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold">ماده10) ضمائم قرارداد</span>
+          <span className="font-bold"> ماده 10) ضمائم قرارداد</span>
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           متقاضی متعهد است اطلاعات زیر را در اختیار عامل قرار دهد:

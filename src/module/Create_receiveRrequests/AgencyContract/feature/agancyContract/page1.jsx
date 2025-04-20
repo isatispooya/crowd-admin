@@ -29,7 +29,8 @@ const Page1 = ({ agencyContract }) => {
             <div className="flex flex-col items-center mx-auto">
               <h3 className="font-bold text-[26px] mb-4">بسمه تعالی</h3>
               <h3 className=" text-[22px]">
-                قرارداد عاملیت {agencyContract.company?.title} (سهامی خاص)
+                قرارداد عاملیت {agencyContract.company?.title} (
+                {agencyContract.company?.registration_type_title || ''})
               </h3>
             </div>
 
@@ -144,7 +145,7 @@ const Page1 = ({ agencyContract }) => {
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">10) دستورالعمل: </span>
-          منظور دستورالعمل تأمین مالی جمعی مصوب 25/02/1397 شورای عالی بورس و اوراق بهادار به انضمام
+          منظور دستورالعمل تأمین مالی جمعی مصوب 1397/02/25 شورای عالی بورس و اوراق بهادار به انضمام
           کلیه مصوبات، بخشنامه‌ها، ابلاغیه‌ها، اطّلاعیه‌ها، ضوابط و دستورالعمل‌های اجرایی که متعاقب
           آن توسط نهادهای ذیربط مصوب شده است، می‌باشد.
         </p>
@@ -208,7 +209,6 @@ const Page1 = ({ agencyContract }) => {
           تاریخی است که در آن، کل یا حداقل منابع مالی مورد نیاز متقاضی طبق این قرارداد، توسط
           تأمین‌کنندگان پرداخت شده باشد.
         </p>
-
       </div>
     </div>
   );
