@@ -18,6 +18,85 @@ const Page5 = ({ agencyContract }) => {
           </thead>
           <tbody className="border border-gray-300">
             <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">5</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                شیوه بازپرداخت اصل و متفرعات مبلغ تامین مالی
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                متفرعات (سود) به صورت{' '}
+                {(() => {
+                  switch (agencyContract.investor_request.refund_of_plan) {
+                    case '0':
+                      return 'یکجا در پایان طرح';
+                    case '1':
+                      return 'هر یکماه';
+                    case '3':
+                      return 'هر سه ماه';
+                    default:
+                      return agencyContract.investor_request.refund_of_plan;
+                  }
+                })()}{' '}
+                و با ارائه چك صيادي طرح جديد در مواعد مقرر توسط متقاضي (٤ فقره چك صيادي) حداكثر يك
+                روز كاري پس از موفقيت كمپين و جمع آوري وجوه.
+                <br />
+                اصل در انتهاي دوره با ارائه چك صيادي طرح كمپين و جمع آوري وجوه.
+                <br />
+                اصل در انتهاي دوره با ارائه چك صيادي طرح جديد توسط متقاضي (١ فقره چك صيادي) حداكثر
+                يك روز كاري پس از موفقيت كمپين و جمع آوري وجوه.
+                <br />
+                <br />
+                تبصره 3: در صورت عدم تحويل چك هاي پرداخت اقساط (بابت اصل و متفرعات) در مواعد مقرر
+                شده يا در صورت عدم ثبت چك هاي پرداخت اقساط (بابت اصل و سود) در سامانه چك صيادي، عامل
+                مخير به فسخ قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
+                <br />
+                <br />
+                تبصره 4: متقاضي متعهد است شرح چك هاي پرداخت اقساط بابت اصل و سود در سامانة چك صيادي
+                را با درج عبارت «تأديه ديون» ثبت و به عامل تحويل نمايد، در غير اينصورت عامل مخير به
+                فسخ قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">6</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {' '}
+                نوع تامین مالی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                تأمين مالي شناور: {agencyContract.investor_request.buoyancy_plan}درصد از مبلغ كل
+                تأمين مالي معادل{' '}
+                <strong>
+                  {(
+                    (Number(agencyContract.investor_request.buoyancy_plan / 100 || 0) *
+                      Number(agencyContract.investor_request.amount_of_investment || 0)) /
+                    1000000
+                  ).toLocaleString()}{' '}
+                  میلیون ریال{' '}
+                </strong>
+                ميباشد، لذا در صورت تأمين مالي به صورت شناور، كارمزد ياد شدة عامل به چهار درصد از
+                مبلغ كل تأمين مالي انجام شده (شامل آورده متقاضي و وجوه جمع آوري شده از دارندگان
+                گواهي شراكت) تعديل ميشود. تبصره 4: در صورت موفقيت كمپين به صورت شناور با حداقل
+                سرمايه قابل پذيرش، مبالغ چك هاي اقساط و تضامين متناسب با ميزان وجوه جمع آوري شده
+                تعديل ميگردد و جزئيات آن متعاقباً در قرارداد اقدامات اجرايي اعلام ميگردد.
+                <br />
+                تبصره 5 :مجموع کامزد عامل معادل چهار درصد مبلغ کل گواهی های شراکت می باشد , لذا در
+                صورت تامین مالی به صورت شناور ,کارمزد یاد شده عامل به چهار درصد از مبلغ کل تامین
+                مالی انجام شده (شامل آورده متقاضی و وجود جمع آوری شده از دارندگان گواهی شراکت ).
+              </td>
+            </tr>
+
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">7</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                نرخ سود مشارکت اسمی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {agencyContract.investor_request.annualized_profit_forecast * 100} درصد ساليانه.
+                <br /> تبصره 7: متقاضي متعهد است در سررسيد گواهي شراكت مطابق با شرايط مندرج در
+                قرارداد اقدامات اجرايي به محاسبة سود قطعي گواهي هاي شراكت اقدام نمايد و سود قطعي
+                محاسبه شده را به تأييد حسابرس برساند.
+              </td>
+            </tr>
+            <tr>
               <td className="border border-gray-300 text-[22px] text-right pr-2">8</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">ضامن</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">
