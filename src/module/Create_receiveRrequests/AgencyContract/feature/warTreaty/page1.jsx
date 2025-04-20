@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import moment from 'jalali-moment';
 import crowdlogo from './crowdlogo.png';
 
 const Page1 = ({ agencyContract }) => {
@@ -16,7 +17,7 @@ const Page1 = ({ agencyContract }) => {
               شماره قرارداد:{' '}
               {`3${agencyContract.investor_request?.contract_number || '370245611/12/03'}`}
               <br />
-              تاریخ: {agencyContract.investor_request?.contract_date || '11/12/1403'}
+              تاریخ: {moment(agencyContract.investor_request?.contract_date).format('jYYYY/jMM/jDD')}
             </div>
 
             <img src={crowdlogo} alt="Investor Logo" className="h-32 object-contain mt-4 mb-2" />

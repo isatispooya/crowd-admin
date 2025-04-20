@@ -102,8 +102,8 @@ const Page6 = ({ agencyContract }) => {
         </p>
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
-          <strong> {`3${agencyContract.investor_request?.contract_number || ''}`}</strong>
-          مورخ 14/12/1403 را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
+          <strong> {`1${agencyContract.investor_request?.contract_number || ''}`}</strong>
+          مورخ 1403/12/14 را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
           بابت حسن انجام کار و امثال هم خودداری نماید.
         </p>
 
