@@ -7,7 +7,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 import Tasks from 'src/module/tasks/tasks';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
+// export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
 export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
@@ -18,25 +18,32 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ProcessProjectPage = lazy(() => import('src/pages/processProject'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const EvaluationCommitteeDetails = lazy(() =>
-  import('src/module/evaluationCommittee/featuer/detail')
-);
-export const EvaluationCommittee = lazy(() =>
-  import('src/module/evaluationCommittee/page/evaluationCommitteePage')
+
+export const EvaluationCommittee = lazy(
+  () => import('src/module/evaluationCommittee/page/evaluationCommitteePage')
 );
 export const RiskCommittee = lazy(() => import('src/module/riskCommittee/page/riskCommitteePage'));
-export const RiskCommitteeDetails = lazy(() => import('src/module/riskCommittee/featuer/detail'));
-export const CardPage = lazy(() => import('src/module/Create_receiveRrequests/cart/page/cartPage'));
-export const CapitalCapable = lazy(() =>
-  import('src/module/Create_receiveRrequests/pages/CapitalCapable')
-);
-export const BankLetter = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter'))
-export const AgencyContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/feature/AgencyContract'))
-export const Agency = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/agency'))
-export const ExecutiveContract = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/ExecutiveContract'))
-export const WarTreaty = lazy(() =>import('src/module/Create_receiveRrequests/AgencyContract/page/warTreaty'))
-export const AnalyzesPage = lazy(() =>import('src/module/Analyzes/page/Analyzes.page'))
 
+export const CardPage = lazy(() => import('src/module/Create_receiveRrequests/cart/page/cartPage'));
+export const CapitalCapable = lazy(
+  () => import('src/module/Create_receiveRrequests/pages/CapitalCapable')
+);
+export const BankLetter = lazy(
+  () => import('src/module/Create_receiveRrequests/AgencyContract/feature/bankLetter')
+);
+export const AgencyContract = lazy(
+  () => import('src/module/Create_receiveRrequests/AgencyContract/feature/AgencyContract')
+);
+export const Agency = lazy(
+  () => import('src/module/Create_receiveRrequests/AgencyContract/page/agency')
+);
+export const ExecutiveContract = lazy(
+  () => import('src/module/Create_receiveRrequests/AgencyContract/page/ExecutiveContract')
+);
+export const WarTreaty = lazy(
+  () => import('src/module/Create_receiveRrequests/AgencyContract/page/warTreaty')
+);
+export const AnalyzesPage = lazy(() => import('src/module/Analyzes/page/Analyzes.page'));
 
 const motionWrapper = (Component = React.FC) => (
   <motion.div
@@ -71,9 +78,7 @@ export default function Router() {
         { path: '/userDetail/:userId', element: motionWrapper(Userdetail) },
         { path: 'user', element: motionWrapper(UserPage) },
         { path: 'evaluationCommittee', element: motionWrapper(EvaluationCommittee) },
-        { path: 'evaluationCommittee/:cartId', element: motionWrapper(EvaluationCommitteeDetails) },
         { path: 'riskCommittee', element: motionWrapper(RiskCommittee) },
-        { path: 'riskCommittee/:cartId', element: motionWrapper(RiskCommitteeDetails) },
         { path: 'tasks', element: motionWrapper(Tasks) },
         { path: 'cartDetail/:cartId', element: motionWrapper(CapitalCapable) },
         { path: 'bankLetter', element: motionWrapper(BankLetter) },
@@ -82,10 +87,6 @@ export default function Router() {
         { path: '/executiveContract/:uuid', element: motionWrapper(ExecutiveContract) },
         { path: '/WarTreaty/:uuid', element: motionWrapper(WarTreaty) },
         { path: 'analyzes', element: motionWrapper(AnalyzesPage) },
-
-
-        
-
       ],
     },
     {
