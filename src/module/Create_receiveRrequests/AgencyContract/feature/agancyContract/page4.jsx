@@ -90,7 +90,7 @@ const Page5 = ({ agencyContract }) => {
                 {agencyContract.investor_request.refund_of_plan === '3'
                   ? `(${(agencyContract.investor_request.annualized_profit_forecast * 100) / 4})`
                   : agencyContract.investor_request.annualized_profit_forecast * 100}
-                {'درصد سه ماهه'}
+                {' درصد سه ماهه'}
                 <br /> تبصره 7: متقاضي متعهد است در سررسيد گواهي شراكت مطابق با شرايط مندرج در
                 قرارداد اقدامات اجرايي به محاسبة سود قطعي گواهي هاي شراكت اقدام نمايد و سود قطعي
                 محاسبه شده را به تأييد حسابرس برساند.
