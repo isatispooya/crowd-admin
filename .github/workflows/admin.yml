@@ -50,7 +50,7 @@ jobs:
 
             echo "Restarting PM2 service..."
             pm2 delete crowdadmin  || echo "No existing PM2 process found"
-            NODE_NO_WARNINGS=1 pm2 start http-server --name crowdadmin -- /var/www/crowd/admin/dist -p 8210 --cors --spa || { echo "PM2 start failed"; exit 1; }
+            NODE_NO_WARNINGS=1 pm2 start serve --name crowdadmin -- /var/www/crowd/admin/dist -p 8210 -s || { echo "PM2 start failed"; exit 1; }
             pm2 save || { echo "PM2 save failed"; exit 1; }
 
             echo "Deployment completed successfully"
