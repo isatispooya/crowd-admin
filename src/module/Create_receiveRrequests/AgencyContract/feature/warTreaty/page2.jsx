@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'jalali-moment';
 
 const Page2 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -14,13 +15,13 @@ const Page2 = ({ agencyContract }) => {
       <div className="text-justify leading-relaxed text-[23px] ">
         {agencyContract.guarantor.map((item, index) => (
           <p>
-            {index + 2}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.national_id} و
+            {index + 2}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.guarantor_national_id} و
             شماره تماس {item?.phone_number} متولد{' '}
             {item?.birth_date
-              ? new Date(item?.birth_date).toLocaleDateString('fa-IR')
+              ? moment(item?.birth_date).format('jYYYY/jMM/jDD')
               : 'تاریخ نامعتبر'}{' '}
             به آدرس
-            {item?.address} واحد {item?.unit} به کد پستی {item?.postal_code} که از این پس در این
+            {item?.guarantor_address} به کد پستی {item?.postal_code} که از این پس در این
             قرارداد به عنوان «ضامن» معرفی می‌گردد.
           </p>
         ))}
@@ -88,7 +89,7 @@ const Page2 = ({ agencyContract }) => {
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           5) منظور، موضوع کسب و کار و فعالیت متقاضی است که عبارت{' '}
-          {agencyContract.investor_request.suggestion_plan_name}
+          {agencyContract.investor_request.suggestion_plan_name}{' '}
           بوده و متقاضی، قصد تأمین منابع مالی مورد نیاز آن را وفق مفاد این قرارداد و از طریق مشارکت
           با سرمایه گذاران، دارد.
         </p>

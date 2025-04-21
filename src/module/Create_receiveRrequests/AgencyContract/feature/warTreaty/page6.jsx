@@ -59,10 +59,10 @@ const Page6 = ({ agencyContract }) => {
             دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت
             حداکثر ۱ روز تقویمی از آن تاریخ یک فقره ضمانت نامه تعهد پرداخت بانکی به شماره سپام
             <strong>{agencyContract.warranty[0].sepam_id}</strong>مورخ عهده به مبلغ{' '}
-            <strong>{formatNumber(agencyContract.warranty[0].number)}</strong> ریال به شرکت تسلیم
+            <strong>{formatNumber(agencyContract.investor_request.amount_of_investment / 1000000)}</strong> ریال به شرکت تسلیم
             خواهد نمود.
-          </p>
-        )}
+          </p>  
+        )}  
         <p className="text-[23px]">
           2) در صورتی که شرکت خواهان تمدید مدت ضمانت نامه باشد بایستی درخواست خود را حداکثر تا تاریخ
           به متقاضی ارائه نماید. در صورت گذشت مدت ۲ روز کاری از تاریخ درخواست شرکت و عدم اقدام
@@ -103,7 +103,7 @@ const Page6 = ({ agencyContract }) => {
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
           <strong> {`1${agencyContract.investor_request?.contract_number || ''}`}</strong>
-          مورخ 1403/12/14 را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
+          با شماره {agencyContract.investor_request?.bank_letter_number} را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
           بابت حسن انجام کار و امثال هم خودداری نماید.
         </p>
 
