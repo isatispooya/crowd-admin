@@ -131,8 +131,13 @@ const Page1 = ({ agencyContract }) => {
           اطراف قرارداد، نحوه تأمین مالی وفق مفاد این قرارداد بر پایه مشارکت سرمایه‌گذاران در تأمین
           مالی شرکت از طریق خرید دارایی‌های مورد نیاز توسط متقاضی به وکالت از سرمایه‌گذار به مبلغ{' '}
           <strong>
-            {(
-              Number(agencyContract.investor_request.amount_of_investment) / 1000000
+          {(
+              Number(
+                agencyContract.investor_request.amount_of_investment *
+                  0.9 *
+                  (agencyContract.investor_request.interest_rate_plan / 100) +
+                  agencyContract.investor_request.amount_of_investment
+              ) / 1000000
             ).toLocaleString()}
           </strong>
           میلیون ریال و فروش دارایی‌های خریداری‌ شده به خود به وکالت از سرمایه‌گذار به مبلغ{' '}
