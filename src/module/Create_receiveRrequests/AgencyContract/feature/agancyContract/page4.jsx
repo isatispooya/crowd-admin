@@ -169,7 +169,7 @@ const Page5 = ({ agencyContract }) => {
                 واحد مالی عامل باشد، ارائه نماید، همچنین متقاضی متعهد است 2 فقره چک ضمانت صیادی طرح
                 جدید را جمعاً به مبلغ{' '}
                 <strong>
-                  {Math.floor(agencyContract.warranty_check / 1000000 || 0).toLocaleString()} میلیون
+                  {Math.ceil((Math.ceil(agencyContract.warranty_check / 1000) * 1000) / 1000000 || 0).toLocaleString()} میلیون
                   ریال{'  '}
                 </strong>
                 (یک فقره چک به میزان اصل مبلغ تأمین مالی و یک فقره چک به میزان یک فرع از اقساط مبلغ
