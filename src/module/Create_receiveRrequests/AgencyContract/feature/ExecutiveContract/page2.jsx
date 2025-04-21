@@ -109,12 +109,12 @@ const Page2 = ({ data }) => {
         </p>
 
         <p>
-          <span className="text-[23px] font-bold">1.</span>
-          سود ناخالص سالیانه (دوره سه ماهه){' '}
-          {formatMillionRials(
-            investor_request?.three_months_gross_profit_of_the_plan_forecast
-          )}{' '}
-          میلیون ریال برآورد گردیده است.
+          <p>
+            <span className="text-[23px] font-bold">1.</span>
+            سود ناخالص سالیانه (دوره سه ماهه){' '}
+            {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} برآورد
+            گردیده است.
+          </p>
           <br />
           تبصره: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
           عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای

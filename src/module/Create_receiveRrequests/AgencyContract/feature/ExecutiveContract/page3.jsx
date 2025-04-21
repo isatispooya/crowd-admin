@@ -25,7 +25,7 @@ const Page3 = ({ data }) => {
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 4) مبلغ تأمین مالی</h2>
         <p className="text-[23px]">
           4-1. مبلغ تأمین مالی انجام شده برای متقاضی{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.1)} میلیون ریال گواهی
+          {formatNumber((investor_request?.amount_of_investment || 0))} میلیون ریال گواهی
           شراکت 1,000 ریالی با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ سود
           علی‌الحساب {investor_request.interest_rate_plan} درصد است. بازپرداخت سود علی الحساب طی{' '}
           {investor_request?.duration_of_plan} ماه به صورت ماهیانه و پرداخت اصل مبلغ گواهی شراکت در

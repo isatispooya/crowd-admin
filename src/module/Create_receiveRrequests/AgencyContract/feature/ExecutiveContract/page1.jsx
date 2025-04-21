@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'jalali-moment';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
@@ -25,7 +26,7 @@ const Page1 = ({ data }) => {
             <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
               شماره قرارداد: {`2${data.investor_request?.contract_number || ''}`}
               <br />
-              تاریخ: {data.investor_request?.agency_agreement_date.split('T')[0].replace(/-/g, '/')}
+              تاریخ: {moment(data.investor_request?.agency_agreement_date).format('jYYYY/jMM/jDD')}
             </div>
 
             <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
@@ -49,8 +50,6 @@ const Page1 = ({ data }) => {
   const renderContractClauses = () => {
     const { company, investor_request, company_cost, guarantor, company_members } = data;
 
-   
-
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
         {renderHeaderContent()}
@@ -70,10 +69,11 @@ const Page1 = ({ data }) => {
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                  {member.signature && ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
+                  {member.signature &&
+                    ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
                 </span>
               ))}
-          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،   
+          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
@@ -87,21 +87,16 @@ const Page1 = ({ data }) => {
           <br />
           {guarantor.map((item, index) => (
             <p>
-              {index + 3}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.national_id} و
-              شماره تماس {item?.phone_number} متولد{' '}
+              {index + 3}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی{' '}
+              {item?.guarantor_national_id} و شماره تماس {item?.phone_number} متولد{' '}
               {item?.birth_date
                 ? new Date(item?.birth_date).toLocaleDateString('fa-IR')
                 : 'تاریخ نامعتبر'}{' '}
-              به آدرس
-              {item?.address} واحد {item?.unit} به کد پستی {item?.postal_code} که از این پس در این
-              قرارداد به عنوان «ضامن» معرفی می‌گردد.
+              به آدرس {item?.guarantor_address} واحد {item?.unit} به کد پستی {item?.postal_code} که
+              از این پس در این قرارداد به عنوان «ضامن» معرفی می‌گردد.
             </p>
           ))}
         </p>
-
-
-       
-
 
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) تعاریف</h2>
         <p className="text-[23px]  mt-4 mb-2">
