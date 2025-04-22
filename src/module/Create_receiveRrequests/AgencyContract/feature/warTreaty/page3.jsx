@@ -90,13 +90,13 @@ const Page4 = ({ agencyContract }) => {
 
         <p className="text-justify leading-relaxed text-[23px]">
           29) »شماره حساب متقاضی»: منظور، حساب به شماره{' '}
-          <strong>{agencyContract.investor_request.account_number || 0}</strong> با شماره شبای{' '}
-          <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد{' '}
-          {agencyContract.investor_request.bank || 'بانک سامان'} به نام شرکت{' '}
-          {agencyContract.investor_request.company.title} (سهامی خاص) میباشد که صرفاً مربوط به انجام
-          تراکنش های مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور
-          را برای مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر
-          نخواهد داشت.
+          <strong>{agencyContract.investor_request.payment_account_number || 0}</strong> با شماره
+          شبای <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد{' '}
+          {agencyContract.investor_request.payment_bank || 'بانک سامان'} به نام شرکت{' '}
+          {agencyContract.investor_request.company.title} میباشد که صرفاً مربوط به انجام تراکنش های
+          مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور را برای
+          مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد
+          داشت.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
@@ -113,12 +113,12 @@ const Page4 = ({ agencyContract }) => {
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
-          -شرکتی که یک یا چند عضو از هیئتمدیره و یا مدیرعامل آن، در هیئت مدیره متقاضی نیز عضویت
+          -شرکتی که یک یا چند عضو از هیئت مدیره و یا مدیرعامل آن، در هیئت مدیره متقاضی نیز عضویت
           داشته باشند؛{' '}
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
-          -شرکتی که مدیرعامل و یا هر یک از اعضای هیئتمدیره متقاضی، مدیرعامل و یا عضو هیئت مدیره آن
+          -شرکتی که مدیرعامل و یا هر یک از اعضای هیئت مدیره متقاضی، مدیرعامل و یا عضو هیئت مدیره آن
           باشند.
         </p>
 
@@ -148,11 +148,21 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           37) ضامنین:
           {agencyContract.guarantor.map((item) => (
-            <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name} به کد ملی {item.guarantor_national_id} که متضامناً با متقاضی،
-              مسئول ایفای تعهدات مذکور در این قرارداد می باشند.
+            <p className="text-[23px]">
+              جناب آقای {item.guarantor_name} به شماره ملی{' '}
+              <strong>{item.guarantor_national_id}</strong>
+              <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address}
+              که به عنوان 
+              {' '}
+              {item.company_agent
+                ? `ضامن حقوقی به نماینگی از شرکت ${item.company_agent} به شناسه ملی ${item.company_national_id}`
+                : 'ضامن حقیقی'}
+              {' '}
+              معرفی می گردد
             </p>
+
           ))}
+          <br />
         </p>
         <br />
         <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
@@ -180,12 +190,7 @@ const Page4 = ({ agencyContract }) => {
           6) بازپرداخت سرمایه توسط سرمایه پذیر در تاریخ اتمام طرح.
         </p>
         <br />
-        <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
-        <p className="text-justify leading-relaxed text-[22px]">
-          قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
-        </p>
-
-        <br />
+       
       </div>
     </div>
   );

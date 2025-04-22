@@ -59,10 +59,12 @@ const Page6 = ({ agencyContract }) => {
             دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت
             حداکثر ۱ روز تقویمی از آن تاریخ یک فقره ضمانت نامه تعهد پرداخت بانکی به شماره سپام
             <strong>{agencyContract.warranty[0].sepam_id}</strong>مورخ عهده به مبلغ{' '}
-            <strong>{formatNumber(agencyContract.investor_request.amount_of_investment / 1000000)}</strong> ریال به شرکت تسلیم
-            خواهد نمود.
-          </p>  
-        )}  
+            <strong>
+              {formatNumber(agencyContract.investor_request.amount_of_investment / 1000000)}
+            </strong>{' '}
+            ریال به شرکت تسلیم خواهد نمود.
+          </p>
+        )}
         <p className="text-[23px]">
           2) در صورتی که شرکت خواهان تمدید مدت ضمانت نامه باشد بایستی درخواست خود را حداکثر تا تاریخ
           به متقاضی ارائه نماید. در صورت گذشت مدت ۲ روز کاری از تاریخ درخواست شرکت و عدم اقدام
@@ -78,20 +80,25 @@ const Page6 = ({ agencyContract }) => {
           دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت حداکثر
           ۱ روز تقویمی از آن تاریخ متقاضی همزمان با امضای قرارداد یک فقره چک صیادی به شناسه صیادی
           <p className="text-[23px]">
-          1) به منظور تضمین ابقای هر یک از تعهدات ناشی از این قرارداد از جمله پرداخت اقساط خرید
-          دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت حداکثر
-          ۱ روز تقویمی از آن تاریخ متقاضی همزمان با امضای قرارداد یک فقره چک صیادی به شناسه صیادی
-          <strong>
-            {agencyContract.checks.find(check => check.type === "وجه التزام")?.fishing_id || ' ???????'}
-          </strong> و به مبلغ{' '}
-          <strong>
-            {agencyContract.checks.find(check => check.type === "وجه التزام")?.amount ? 
-              formatNumber(agencyContract.checks.find(check => check.type === "وجه التزام").amount) : 
-              ' ???????'}
-          </strong> ریال صادر و به شرکت
-          تسلیم خواهد نمود.
-        </p>
-          ریال صادر و به شرکت تسلیم خواهد نمود. 
+            1) به منظور تضمین ابقای هر یک از تعهدات ناشی از این قرارداد از جمله پرداخت اقساط خرید
+            دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت
+            حداکثر ۱ روز تقویمی از آن تاریخ متقاضی همزمان با امضای قرارداد یک فقره چک صیادی به شناسه
+            صیادی
+            <strong>
+              {agencyContract.checks.find((check) => check.type === 'وجه التزام')?.fishing_id ||
+                ' ???????'}
+            </strong>{' '}
+            و به مبلغ{' '}
+            <strong>
+              {agencyContract.checks.find((check) => check.type === 'وجه التزام')?.amount
+                ? formatNumber(
+                    agencyContract.checks.find((check) => check.type === 'وجه التزام').amount
+                  )
+                : ' ???????'}
+            </strong>{' '}
+            ریال صادر و به شرکت تسلیم خواهد نمود.
+          </p>
+          ریال صادر و به شرکت تسلیم خواهد نمود.
         </p>
         <p className="text-[23px]">
           2) متقاضی متعهد است ضمن ثبت چک مذکور در سامانه ماد رسید ثبت را تحویل شرکت نماید. در صورتی
@@ -103,8 +110,9 @@ const Page6 = ({ agencyContract }) => {
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
           <strong> {`1${agencyContract.investor_request?.contract_number || ''}`}</strong>
-          با شماره {agencyContract.investor_request?.bank_letter_number} را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت
-          بابت حسن انجام کار و امثال هم خودداری نماید.
+          با شماره {agencyContract.investor_request?.bank_letter_number} را درج نموده و از درج هر
+          گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت بابت حسن انجام کار و امثال هم خودداری
+          نماید.
         </p>
 
         <h4 className="text-[23px] font-bold">(ب) ضامن</h4>
@@ -120,10 +128,17 @@ const Page6 = ({ agencyContract }) => {
           {agencyContract.guarantor.map((item) => (
             <p className="text-[23px]">
               جناب آقای {item.guarantor_name} به شماره ملی{' '}
-              <strong>{item.guarantor_national_id}</strong> متولد
-              <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address} که از
-              این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی می گردد
+              <strong>{item.guarantor_national_id}</strong>
+              <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address}
+              که به عنوان 
+              {' '}
+              {item.company_agent
+                ? `ضامن حقوقی به نماینگی از شرکت ${item.company_agent} به شناسه ملی ${item.company_national_id}`
+                : 'ضامن حقیقی'}
+              {' '}
+              معرفی می گردد
             </p>
+
           ))}
           <br />
         </p>

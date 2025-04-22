@@ -55,7 +55,7 @@ const Page1 = ({ agencyContract }) => {
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2)</span>
-          شرکت {agencyContract.company?.title}، فعال در حوزه {agencyContract.investor_request?.activity_field}، در راستای بهبود عملکرد و توسعه کسب و
+          شرکت {agencyContract.company?.title}، فعال در حوزه {agencyContract.investor_request?.activity_feild}، در راستای بهبود عملکرد و توسعه کسب و
           کار خود، نیازمند جذب سرمایه به میزان{' '}
           <strong>
             {(
@@ -146,7 +146,7 @@ const Page1 = ({ agencyContract }) => {
               Number(
                 agencyContract.investor_request.amount_of_investment *
                   0.9 *
-                  agencyContract.investor_request.interest_rate_plan +
+                  (agencyContract.investor_request.interest_rate_plan / 100) +
                   agencyContract.investor_request.amount_of_investment
               ) / 1000000
             ).toLocaleString()}

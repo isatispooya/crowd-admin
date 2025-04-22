@@ -71,6 +71,7 @@ const useCompanyInfoStore = create((set, get) => ({
     payment_bank: '',
     payment_bank_branch: '',
     payment_account_number: '',
+    sheba_number: '',
   },
   commentStep1: '',
   commentStep2: '',
@@ -98,8 +99,6 @@ const useCompanyInfoStore = create((set, get) => ({
     annual_profit_and_loss_forecast: '',
     amount_production: '',
   },
-
-
 
   performanceForecast: {
     annual_total_income_forecast: '',
@@ -626,6 +625,7 @@ const useCompanyInfoStore = create((set, get) => ({
         payment_bank: '',
         payment_bank_branch: '',
         payment_account_number: '',
+        sheba_number: '',
       },
       commentStep1: '',
       commentStep2: '',
@@ -653,8 +653,6 @@ const useCompanyInfoStore = create((set, get) => ({
         annual_profit_and_loss_forecast: '',
         amount_production: '',
       },
-
-
 
       performanceForecast: {
         annual_total_income_forecast: '',
@@ -724,6 +722,7 @@ const useCompanyInfoStore = create((set, get) => ({
           payment_bank: '',
           payment_bank_branch: '',
           payment_account_number: '',
+          sheba_number: '',
         },
         interest_rate_plan: '',
         buoyancy_plan: '',
@@ -736,7 +735,7 @@ const useCompanyInfoStore = create((set, get) => ({
     const boardMembersFiles = {};
 
     const companyMembers = data?.company_members || [];
-    
+
     companyMembers.forEach((member) => {
       if (member?.id) {
         boardMembersFiles[member.id] = {
@@ -826,6 +825,7 @@ const useCompanyInfoStore = create((set, get) => ({
         payment_bank: defaultValue(data.payment_bank),
         payment_bank_branch: defaultValue(data.payment_bank_branch),
         payment_account_number: defaultValue(data.payment_account_number),
+        sheba_number: defaultValue(data.sheba_number),
       },
       commentStep1: defaultValue(data.comment_step_1),
       commentStep2: defaultValue(data.comment_step_2),
@@ -842,15 +842,32 @@ const useCompanyInfoStore = create((set, get) => ({
       },
 
       profitAndLossForecast: {
-        three_month_sales_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_sales_profit_and_loss_forecast, ''),
-        annual_sales_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_sales_profit_and_loss_forecast, ''),
-        three_month_cost_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_cost_profit_and_loss_forecast, ''),
-        three_month_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.three_month_profit_and_loss_forecast, ''),
-        annual_cost_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_cost_profit_and_loss_forecast, ''),
-        annual_profit_and_loss_forecast: defaultValue(data.profit_and_loss_forecast?.annual_profit_and_loss_forecast, ''),
+        three_month_sales_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.three_month_sales_profit_and_loss_forecast,
+          ''
+        ),
+        annual_sales_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.annual_sales_profit_and_loss_forecast,
+          ''
+        ),
+        three_month_cost_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.three_month_cost_profit_and_loss_forecast,
+          ''
+        ),
+        three_month_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.three_month_profit_and_loss_forecast,
+          ''
+        ),
+        annual_cost_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.annual_cost_profit_and_loss_forecast,
+          ''
+        ),
+        annual_profit_and_loss_forecast: defaultValue(
+          data.profit_and_loss_forecast?.annual_profit_and_loss_forecast,
+          ''
+        ),
         amount_production: defaultValue(data.profit_and_loss_forecast?.amount_production, ''),
       },
-
 
       performanceForecast: {
         annual_total_income_forecast: defaultValue(
@@ -1157,18 +1174,19 @@ const useCompanyInfoStore = create((set, get) => ({
       [id]: value,
     })),
 
-  resetGuarantorInfo: () => set({
-    guarantorInfo: {
-      investor_request_id: null,
-      guarantor_name: '',
-      guarantor_national_id: '',
-      phone_number: '',
-      birth_date: '',
-      guarantor_address: '',
-      postal_code: '',
-      gender: '',
-    }
-  }),
+  resetGuarantorInfo: () =>
+    set({
+      guarantorInfo: {
+        investor_request_id: null,
+        guarantor_name: '',
+        guarantor_national_id: '',
+        phone_number: '',
+        birth_date: '',
+        guarantor_address: '',
+        postal_code: '',
+        gender: '',
+      },
+    }),
 }));
 
 export default useCompanyInfoStore;

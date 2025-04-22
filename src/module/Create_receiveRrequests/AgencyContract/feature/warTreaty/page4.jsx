@@ -8,6 +8,12 @@ const Page5 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
+        <p className="text-justify leading-relaxed text-[22px]">
+          قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
+        </p>
+
+        <br />
         <h3 className="text-[23px] font-bold">5) حق الزحمه ارائه خدمات و نحوه پرداخت </h3>
         <p>
           <span className="font-bold">الف)</span> حق الزحمه عامل بابت ارائه خدمات تأمین مالی جمعی به
@@ -101,13 +107,8 @@ const Page5 = ({ agencyContract }) => {
           اصل مبلغ سرمایه به تاریخ اعلامی توسط عامل و چهار فقره چک بابت اقساط خرید دارایی، با
           تاریخهای پرداخت 5 روز کاری قبل از مواعد پرداخت، به عامل تحویل نماید. در غیر این صورت، عامل
           تعهدی نسبت به پرداخت وجوه جمع آوری شده به متقاضی نداشته و صرفاً آورده شخصی، پس از کسر مبلغ{' '}
-          <strong>
-            {formatNumber(
-              Number(agencyContract.investor_request.amount_of_investment * 0.15) / 1000000
-            )}
-          </strong>{' '}
-          میلیون ریال به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده خواهدشد و قرارداد از سوی
-          عامل فسخ میگردد.
+          <strong>150 درصد از مبلغ</strong> به عنوان خسارت عدم انجام تعهد، به متقاضی عودت داده
+          خواهدشد و قرارداد از سوی عامل فسخ میگردد.
         </p>
         <h3 className="text-[23px] font-bold"> د) شرایط و ضوابط مصرف سرمایه:</h3>
         <p className="text-justify leading-relaxed text-[22px]">

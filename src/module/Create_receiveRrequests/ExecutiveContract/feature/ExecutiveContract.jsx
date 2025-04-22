@@ -103,6 +103,7 @@ const ExecutiveContract = ({ data }) => {
   const bankValue = getBankIdByName();
   const branchValue = executiveContract?.payment_bank_branch || '';
   const accountValue = executiveContract?.payment_account_number || '';
+  const ibanValue = executiveContract?.sheba_number || '';
 
   return (
     <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
@@ -153,6 +154,18 @@ const ExecutiveContract = ({ data }) => {
                 type="number"
                 name="payment_account_number"
                 value={accountValue}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Typography sx={{ fontSize: '15px' }}>شماره شبا</Typography>
+              <TextField
+                type="text"
+                name="sheba_number"
+                value={ibanValue}
                 onChange={handleChange}
                 fullWidth
                 required

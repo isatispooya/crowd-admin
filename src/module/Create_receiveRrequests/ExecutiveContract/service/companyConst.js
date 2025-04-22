@@ -12,6 +12,13 @@ export const createCompanyConst = async (data) => {
   return response.data;
 };
 
+export const deleteCompanyConst = async (id) => {
+  const response = await api.delete(`/api/company/cost/admin/${id}/`);
+  return response.data;
+};
+
+
+
 export const useCompanyConst = (cartId) => {
   const { refetch: refetchGet } = useGetCompanyInfo(cartId);
 
@@ -30,4 +37,19 @@ export const useCompanyConst = (cartId) => {
   });
 
   return { mutate, data: responseData, refetch };
+};
+
+export const useDeleteCompanyConst = (id) => {
+  const { refetch: refetchGet } = useGetCompanyInfo(id);
+  const { mutate } = useMutation({
+    mutationFn: () => deleteCompanyConst(id),
+    onSuccess: () => {
+      refetchGet();
+    },
+    onError: (error) => {
+      console.error('Error deleting company const:', error);
+    },
+  });
+
+  return { mutate };
 };
