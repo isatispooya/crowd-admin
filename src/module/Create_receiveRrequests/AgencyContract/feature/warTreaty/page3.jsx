@@ -22,7 +22,10 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           19) »آورده شخصی»: منظور، حداقل <strong>10 </strong>درصد سرمایه مورد نیاز (معادل مبلغ
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
+            {(
+              (agencyContract.investor_request.amount_of_investment * 0.1) /
+              1000000
+            ).toLocaleString()}
           </strong>{' '}
           میلیون ریال) است که متقاضی موظف است شخصاً نسبت به تأمین آن اقدام و ظرف مدت حداکثر 7 روز
           تقویمی از تاریخ درخواست مکتوب عامل، به شماره حساب عامل واریز نماید. انتشار فراخوان جمع
@@ -152,15 +155,12 @@ const Page4 = ({ agencyContract }) => {
               جناب آقای {item.guarantor_name} به شماره ملی{' '}
               <strong>{item.guarantor_national_id}</strong>
               <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address}
-              که به عنوان 
-              {' '}
+              که به عنوان{' '}
               {item.company_agent
                 ? `ضامن حقوقی به نماینگی از شرکت ${item.company_agent} به شناسه ملی ${item.company_national_id}`
-                : 'ضامن حقیقی'}
-              {' '}
+                : 'ضامن حقیقی'}{' '}
               معرفی می گردد
             </p>
-
           ))}
           <br />
         </p>
@@ -190,7 +190,6 @@ const Page4 = ({ agencyContract }) => {
           6) بازپرداخت سرمایه توسط سرمایه پذیر در تاریخ اتمام طرح.
         </p>
         <br />
-       
       </div>
     </div>
   );

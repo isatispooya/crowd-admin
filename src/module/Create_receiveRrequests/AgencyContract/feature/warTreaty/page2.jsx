@@ -20,11 +20,19 @@ const Page2 = ({ agencyContract }) => {
             {item?.birth_date
               ? moment(item?.birth_date).format('jYYYY/jMM/jDD')
               : 'تاریخ نامعتبر'}{' '}
-            به آدرس
-            {item?.guarantor_address} به کد پستی {item?.postal_code} که از این پس در این
+            به آدرس{' '}
+            {item?.guarantor_address} به کد پستی {item?.postal_code}
+            {item.company_agent
+                ? `ضامن حقوقی به نماینگی از شرکت ${item.company_agent} به شناسه ملی ${item.company_national_id}`
+                : 'ضامن حقیقی'}
+            {' '}
+             که از این پس در این
             قرارداد به عنوان «ضامن» معرفی می‌گردد.
           </p>
         ))}
+
+
+        
         <br />
         3) شرکت {agencyContract.investor_request.company.title} (سهامی خاص) به شناسه ملی{' '}
         {agencyContract.investor_request.company.national_id} کد اقتصادی{' '}

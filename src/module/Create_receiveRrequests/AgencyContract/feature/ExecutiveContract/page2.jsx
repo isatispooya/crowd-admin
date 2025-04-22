@@ -111,7 +111,7 @@ const Page2 = ({ data }) => {
         <p>
           <p>
             <span className="text-[23px] font-bold">1.</span>
-            سود ناخالص سالیانه (دوره سه ماهه){' '}
+            سود ناخالص  (دوره سه ماهه){' '}
             {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} برآورد
             گردیده است.
           </p>

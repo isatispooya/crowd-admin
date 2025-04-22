@@ -9,6 +9,12 @@ const Page6 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
         <p className="text-[23px]">
+          <span className="font-bold">تبصره ۲:</span> در مورد گزارشات نیازمند حسابرسی رسمی متقاضی
+          موظف است همزمان با ارائه گزارش جهت حسابرسی یک نسخه از صورتهای مالی و مستندات ارائه شده به
+          حسابرس را به عامل ارائه نماید. همچنین تأیید این گزارشات منوط به ارائه گزارش حسابرسی رسمی
+          خواهد بود.
+        </p>
+        <p className="text-[23px]">
           <span className="font-bold">تبصره ۳:</span> در صورت عدم ارائه گزارش پایانی یا گزارش
           حسابرسی طرح تا پایان مهلتهای مقرر کلیه سودهای پیش بینی شده طرح حال شده فرض گشته و سود پیش
           بینی شده معیار کلیه تسویه حسابها قرار خواهد گرفت در فرض اخیر خسارت عدم ارائه گزارش پایانی
@@ -62,7 +68,7 @@ const Page6 = ({ agencyContract }) => {
             <strong>
               {formatNumber(agencyContract.investor_request.amount_of_investment / 1000000)}
             </strong>{' '}
-            ریال به شرکت تسلیم خواهد نمود.
+            میلیون ریال به شرکت تسلیم خواهد نمود.
           </p>
         )}
         <p className="text-[23px]">
@@ -130,15 +136,12 @@ const Page6 = ({ agencyContract }) => {
               جناب آقای {item.guarantor_name} به شماره ملی{' '}
               <strong>{item.guarantor_national_id}</strong>
               <strong>{item.guarantor_birth_date}</strong> به آدرس {item.guarantor_address}
-              که به عنوان 
-              {' '}
+              که به عنوان{' '}
               {item.company_agent
                 ? `ضامن حقوقی به نماینگی از شرکت ${item.company_agent} به شناسه ملی ${item.company_national_id}`
-                : 'ضامن حقیقی'}
-              {' '}
+                : 'ضامن حقیقی'}{' '}
               معرفی می گردد
             </p>
-
           ))}
           <br />
         </p>
