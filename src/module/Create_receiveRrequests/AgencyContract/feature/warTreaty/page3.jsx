@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'jalali-moment';
 
 const Page4 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -151,38 +152,40 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           37) ضامنین:
           {agencyContract.guarantor
-            .filter((g) => g.guarantor_national_id === 'physical')
-            .map((item, index) => (
-              <p key={`physical-guarantor-${index}`}>
-                {index + 3}) سرکار آقای/خانم {item?.members?.guarantor_name} به کد ملی{' '}
-                {item?.members?.guarantor_national_id} و شماره تماس {item?.members?.phone_number}{' '}
-                متولد {item?.members?.birth_date} به آدرس {item?.members?.guarantor_address} واحد{' '}
-                {item?.members?.unit} به کد پستی {item?.members?.postal_code} که از این پس در این
-                قرارداد به عنوان «ضامن حقیقی» معرفی می‌گردد.
-              </p>
-            ))}
-          {agencyContract.guarantor
-            .filter((g) => g.guarantor_type !== 'physical')
-            .map((item, index) => (
-              <p key={`legal-guarantor-${index}`}>
-                {index +
-                  3 +
-                  agencyContract.guarantor.filter((g) => g.guarantor_national_id === 'physical')
-                    .length}
-                ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
-                {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
-                {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
-                {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
-                {item.members &&
-                  item.members.length > 0 &&
-                  item.members.map(
-                    (member) =>
-                      `با نمایندگی ${member.guarantor_name} به شماره ملی ${member.guarantor_national_id}`
-                  )}
-                بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
-                &quot;ضامن حقوقی&quot; نامیده می‌شود
-              </p>
-            ))}
+          .filter((g) => g.guarantor_national_id === 'physical')
+          .map((item, index) => (
+            <p key={`physical-guarantor-${index}`}>
+              {index + 3}) سرکار آقای/خانم {item?.members?.guarantor_name} به کد ملی{' '}
+              {item?.members?.guarantor_national_id} و شماره تماس {item?.members?.phone_number}{' '}
+              متولد {moment(item?.members?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
+              {item?.members?.guarantor_address} واحد {item?.members?.unit} به کد پستی{' '}
+              {item?.members?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی
+              می‌گردد.
+            </p>
+          ))}
+        {agencyContract.guarantor
+          .filter((g) => g.guarantor_national_id !== 'physical')
+          .map((item, index) => (
+            <p key={`legal-guarantor-${index}`}>
+              {index +
+                3 +
+                agencyContract.guarantor.filter((g) => g.guarantor_national_id === 'physical')
+                  .length}
+              ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
+              {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
+              {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
+              {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
+              {item.members &&
+                item.members.length > 0 &&
+                item.members.map(
+                  (member, memberIndex) =>
+                    `${memberIndex > 0 ? ' و ' : ''}با نمایندگی ${member.guarantor_name} به شماره ملی ${member.guarantor_national_id}`
+                )}
+              {item.document_news_paper &&
+                ` بر اساس روزنامه رسمى شماره ${item.document_news_paper}`}{' '}
+              که از این پس در این قرارداد &quot;ضامن حقوقی&quot; نامیده می‌شود
+            </p>
+          ))}
           <br />
         </p>
         <br />
