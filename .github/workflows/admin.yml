@@ -22,7 +22,7 @@ jobs:
             echo "Starting deployment..."
 
             # پاک کردن کامل دایرکتوری قبلی
-            cd /var/www/crowd/admin/
+            cd /var/www/crowd/
             rm -rf admin
             mkdir -p admin
             cd admin

@@ -18,7 +18,9 @@ const Page1 = ({ agencyContract }) => {
               {`3${agencyContract.investor_request?.contract_number || '370245611/12/03'}`}
               <br />
               تاریخ:{' '}
-              {moment(agencyContract.investor_request?.agency_agreement_date).format('jYYYY/jMM/jDD')}
+              {moment(agencyContract.investor_request?.agency_agreement_date).format(
+                'jYYYY/jMM/jDD'
+              )}
             </div>
 
             <img src={crowdlogo} alt="Investor Logo" className="h-32 object-contain mt-4 mb-2" />
