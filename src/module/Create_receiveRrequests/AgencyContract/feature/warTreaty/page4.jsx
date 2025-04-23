@@ -8,6 +8,12 @@ const Page5 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <p className="text-justify leading-relaxed text-[22px]">
+          5) پرداخت اقساط خرید دارایی توسط سرمایه پذیر در مواعد پرداخت؛
+        </p>
+        <p className="text-justify leading-relaxed text-[22px]">
+          6) بازپرداخت سرمایه توسط سرمایه پذیر در تاریخ اتمام طرح.
+        </p>
       <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
         <p className="text-justify leading-relaxed text-[22px]">
           قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
