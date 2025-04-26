@@ -111,17 +111,15 @@ const LegalGuarantor = ({ allData }) => {
 
   const handleSubmit = async () => {
     try {
-      const formData = await submitGuarantorInfo();
-      if (formData) {
-        const payload = new FormData();
-        payload.append('investor_request_id', allData.id || cartId);
-        payload.append('type', 'legal');
-        payload.append('company_rasmio_national_id', guarantorInfo.company_rasmio_national_id);
-        payload.append('document_news_paper', documentNewsPaper);
-        await mutate(payload);
-        setGuarantorInfo({ Type: '', company_rasmio_national_id: '' });
-        setDocumentNewsPaper('');
-      }
+      const payload = {
+        investor_request_id: allData.id || cartId,
+        type: 'legal',
+        company_rasmio_national_id: guarantorInfo.company_rasmio_national_id,
+        document_news_paper: documentNewsPaper,
+      };
+      await mutate(payload);
+      setGuarantorInfo({ Type: '', company_rasmio_national_id: '' });
+      setDocumentNewsPaper('');
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
     }

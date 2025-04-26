@@ -41,7 +41,7 @@ const Page2 = ({ agencyContract }) => {
                 item.members.length > 0 &&
                 item.members.map(
                   (member, memberIndex) =>
-                    `${memberIndex > 0 ? ' و ' : ''}با نمایندگی ${member.guarantor_name} به شماره ملی ${member.guarantor_national_id}`
+                    `${memberIndex > 0 ? ' و ' : ''}با نمایندگی ${member.guarantor_name} به شماره ملی ${member.guarantor_national_id} به سمت ${member.position_title}`
                 )}
               {item.document_news_paper &&
                 ` بر اساس روزنامه رسمى شماره ${item.document_news_paper}`}{' '}

@@ -7,7 +7,7 @@ export const createGuarantor = async (data) => {
   const accessApi = getCookie('accessApi');
   const response = await api.post(`/api/guarantor/admin/`, data, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessApi}`,
     },
   });
