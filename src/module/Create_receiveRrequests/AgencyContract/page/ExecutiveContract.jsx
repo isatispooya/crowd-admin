@@ -58,28 +58,32 @@ const ExecutiveContract = () => {
 
     return (
       <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
-        <table className="w-full border-collapse text-xs sm:text-sm">
+        <table className="w-full border-collapse text-[8px] sm:text-[10px]">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">عامل</th>
-              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">متقاضی</th>
-              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">ضامنین</th>
+              <th className="border border-gray-300 p-0.5 text-center font-bold">عامل</th>
+              <th className="border border-gray-300 p-0.5 text-center font-bold">متقاضی</th>
+              <th className="border border-gray-300 p-0.5 text-center font-bold">ضامنین</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               {/* عامل */}
-              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
-                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+              <td className="border border-gray-300 p-0.5 rounded-lg">
+                <div className="flex flex-wrap gap-0.5 sm:gap-1 justify-center">
                   {staticUsers.map((user, index) => (
                     <div
                       key={`static-signatory-${index}`}
-                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                      className="text-center min-w-[60px] sm:min-w-[80px] max-w-[150px] flex-1"
                     >
-                      <p className="font-bold mb-1 text-xs sm:text-sm">{user.person_title}</p>
-                      <p className="text-xs text-gray-600 mb-2">{user.position_title}</p>
-                      <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
-                        <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                      <p className="font-bold mb-0.5 text-[8px] sm:text-[10px] leading-tight">
+                        {user.person_title}
+                      </p>
+                      <p className="text-[8px] sm:text-[10px] text-gray-600 mb-0.5 leading-tight">
+                        {user.position_title}
+                      </p>
+                      <div className="border border-gray-300 rounded h-6 sm:h-8 w-full">
+                        <p className="text-gray-400 text-[8px] sm:text-[10px] pt-1.5 sm:pt-2 border-dotted border-t border-gray-300 w-full leading-tight">
                           محل امضاء
                         </p>
                       </div>
@@ -89,17 +93,21 @@ const ExecutiveContract = () => {
               </td>
 
               {/* متقاضی */}
-              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
-                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+              <td className="border border-gray-300 p-0.5 rounded-lg">
+                <div className="flex flex-wrap gap-0.5 sm:gap-1 justify-center">
                   {signatoryMembers.map((member, index) => (
                     <div
                       key={`dynamic-signatory-${index}`}
-                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                      className="text-center min-w-[60px] sm:min-w-[80px] max-w-[150px] flex-1"
                     >
-                      <p className="font-bold mb-1 text-xs sm:text-sm">{member.person_title}</p>
-                      <p className="text-xs text-gray-600 mb-2">{member.position_title}</p>
-                      <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
-                        <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                      <p className="font-bold mb-0.5 text-[8px] sm:text-[10px] leading-tight">
+                        {member.person_title}
+                      </p>
+                      <p className="text-[8px] sm:text-[10px] text-gray-600 mb-0.5 leading-tight">
+                        {member.position_title}
+                      </p>
+                      <div className="border border-gray-300 rounded h-6 sm:h-8 w-full">
+                        <p className="text-gray-400 text-[8px] sm:text-[10px] pt-1.5 sm:pt-2 border-dotted border-t border-gray-300 w-full leading-tight">
                           محل امضاء
                         </p>
                       </div>
@@ -109,21 +117,23 @@ const ExecutiveContract = () => {
               </td>
 
               {/* ضامنین */}
-              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
-                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+              <td className="border border-gray-300 p-0.5 rounded-lg">
+                <div className="flex flex-row gap-0.5 sm:gap-1 justify-start overflow-x-auto">
                   {guarantors.map((guarantor, index) => (
                     <div
                       key={`guarantor-${index}`}
-                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                      className="text-center min-w-[60px] sm:min-w-[80px] max-w-[150px] flex-shrink-0"
                     >
                       {guarantor.members?.map((member, memberIndex) => (
                         <div key={`guarantor-member-${memberIndex}`}>
-                          <p className="font-bold mb-1 text-xs sm:text-sm">
+                          <p className="font-bold mb-0.5 text-[8px] sm:text-[10px] leading-tight">
                             {member.guarantor_name}
                           </p>
-                          <p className="text-xs text-gray-600 mb-2">ضامن</p>
-                          <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
-                            <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                          <p className="text-[8px] sm:text-[10px] text-gray-600 mb-0.5 leading-tight">
+                            ضامن
+                          </p>
+                          <div className="border border-gray-300 rounded h-6 sm:h-8 w-full">
+                            <p className="text-gray-400 text-[8px] sm:text-[10px] pt-1.5 sm:pt-2 border-dotted border-t border-gray-300 w-full leading-tight">
                               محل امضاء
                             </p>
                           </div>
