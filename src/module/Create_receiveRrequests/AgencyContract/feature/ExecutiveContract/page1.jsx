@@ -4,12 +4,8 @@ import moment from 'jalali-moment';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
-
-
 const Page1 = ({ data }) => {
   if (!data) return null;
-
-
 
   const renderHeaderContent = () => {
     if (!data) return null;
@@ -86,9 +82,10 @@ const Page1 = ({ data }) => {
               <p key={`physical-guarantor-${index}`}>
                 {index + 3}) سرکار آقای/خانم {item?.members?.guarantor_name} به کد ملی{' '}
                 {item?.members?.guarantor_national_id} و شماره تماس {item?.members?.phone_number}{' '}
-                متولد {item?.members?.birth_date} به آدرس {item?.members?.guarantor_address} واحد{' '}
-                {item?.members?.unit} به کد پستی {item?.members?.postal_code} که از این پس در این
-                قرارداد به عنوان «ضامن حقیقی» معرفی می‌گردد.
+                متولد {moment(item?.members?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
+                {item?.members?.guarantor_address} واحد {item?.members?.unit} به کد پستی{' '}
+                {item?.members?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی
+                می‌گردد.
               </p>
             ))}
           {guarantor
@@ -174,7 +171,6 @@ const Page1 = ({ data }) => {
           16-2. ضمانت نامه تعهد پرداخت: ضمانت نامه بانکی صادره از بانکهای جمهوری اسلامی ایران است که
           مستقل از قرارداد حاضر (قرارداد پایه) قابلیت مطالبه دارد.
           <br />
-
           17-2. فراخوان تامین: اعلام درخواست متقاضی، در سکو برای معرفی به تامین کنندگان است.
         </p>
       </div>

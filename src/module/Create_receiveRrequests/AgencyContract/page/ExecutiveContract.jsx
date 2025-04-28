@@ -58,70 +58,85 @@ const ExecutiveContract = () => {
 
     return (
       <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
-      <table className="w-full border-collapse text-sm">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2 text-center font-bold">عامل</th>
-            <th className="border border-gray-300 p-2 text-center font-bold">متقاضی</th>
-            <th className="border border-gray-300 p-2 text-center font-bold">ضامنین</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {/* عامل */}
-            <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
-                {staticUsers.map((user, index) => (
-                  <div key={`static-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{user.person_title}</p>
-                    <p className="text-sm text-gray-600 mb-2">{user.position_title}</p>
-                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
-                        محل امضاء
-                      </p>
+        <table className="w-full border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">عامل</th>
+              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">متقاضی</th>
+              <th className="border border-gray-300 p-1 sm:p-2 text-center font-bold">ضامنین</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {/* عامل */}
+              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+                  {staticUsers.map((user, index) => (
+                    <div
+                      key={`static-signatory-${index}`}
+                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                    >
+                      <p className="font-bold mb-1 text-xs sm:text-sm">{user.person_title}</p>
+                      <p className="text-xs text-gray-600 mb-2">{user.position_title}</p>
+                      <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
+                        <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                          محل امضاء
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </td>
-    
-            {/* متقاضی */}
-            <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
-                {signatoryMembers.map((member, index) => (
-                  <div key={`dynamic-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{member.person_title}</p>
-                    <p className="text-sm text-gray-600 mb-2">{member.position_title}</p>
-                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
-                        محل امضاء
-                      </p>
+                  ))}
+                </div>
+              </td>
+
+              {/* متقاضی */}
+              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+                  {signatoryMembers.map((member, index) => (
+                    <div
+                      key={`dynamic-signatory-${index}`}
+                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                    >
+                      <p className="font-bold mb-1 text-xs sm:text-sm">{member.person_title}</p>
+                      <p className="text-xs text-gray-600 mb-2">{member.position_title}</p>
+                      <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
+                        <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                          محل امضاء
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </td>
-    
-            {/* ضامنین */}
-            <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
-                {guarantors.map((guarantor, index) => (
-                  <div key={`guarantor-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{guarantor.guarantor_name}</p>
-                    <p className="text-sm text-gray-600 mb-2">ضامن</p>
-                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
-                        محل امضاء
-                      </p>
+                  ))}
+                </div>
+              </td>
+
+              {/* ضامنین */}
+              <td className="border border-gray-300 p-1 sm:p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+                  {guarantors.map((guarantor, index) => (
+                    <div
+                      key={`guarantor-${index}`}
+                      className="text-center min-w-[120px] sm:min-w-[200px] max-w-[300px] flex-1"
+                    >
+                      {guarantor.members?.map((member, memberIndex) => (
+                        <div key={`guarantor-member-${memberIndex}`}>
+                          <p className="font-bold mb-1 text-xs sm:text-sm">
+                            {member.guarantor_name}
+                          </p>
+                          <p className="text-xs text-gray-600 mb-2">ضامن</p>
+                          <div className="border border-gray-300 rounded h-12 sm:h-16 w-full mb-1">
+                            <p className="text-gray-400 text-xs pt-4 sm:pt-6 border-dotted border-t border-gray-300 w-full">
+                              محل امضاء
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                ))}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+                  ))}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     );
   };
 
