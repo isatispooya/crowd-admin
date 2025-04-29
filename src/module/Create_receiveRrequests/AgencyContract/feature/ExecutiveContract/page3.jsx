@@ -1,149 +1,185 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatMillionRials, formatPercentage } from '../../utils/formatters_func';
 
 const Page3 = ({ data }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const { investor_request, checks } = data;
+    const { investor_request, checks, one_year_return_on_investment } = data;
 
-    const formatNumber = (amount) => {
-      if (!amount) return '0';
-      const millionAmount = amount / 1000000;
-      return millionAmount.toLocaleString('en-US');
-    };
 
-    const formatRials = (value) => {
-      if (!value) return '0 ریال';
-      return `${value.toLocaleString('en-US')} ریال`;
-    };
-
-    const totalAmount = checks?.reduce((sum, check) => sum + (check?.amount || 0), 0) || 0;
-
+    
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 4) مبلغ تأمین مالی</h2>
-        <p className="text-[23px]">
-          4-1. مبلغ تأمین مالی انجام شده برای متقاضی{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.1)} میلیون ریال گواهی
-          شراکت 1,000 ریالی با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ سود
-          علی‌الحساب {investor_request.interest_rate_plan} درصد است. بازپرداخت سود علی الحساب طی{' '}
-          {investor_request?.duration_of_plan} ماه به صورت ماهیانه و پرداخت اصل مبلغ گواهی شراکت در
-          انتهای دوره سرمایه‌گذاری توسط متقاضی خواهد بود.
+        <p>
           <br />
-          تبصره 4: لازم به ذکر است مبلغ{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.1)} میلیون ریال، گواهی
-          شراکت خریداری شده توسط متقاضی از مجموع گواهی‌های شراکت ابطال شده، و بنابراین هیچگونه سود و
-          امتیازی به آن تعلق نمی‌گیرد.
-        </p>
-
-        <p className="text-[23px]">
-          4-2. تعهد به استفاده از مبلغ تأمین مالی: متقاضی متعهد است مبلغ تأمین مالی را صرفاً در جهت
-          اجرای طرح موضوع ماده 3 این قرارداد استفاده خواهد شد و غیر از آن. در صورت تخلف متقاضی از
-          این مقرره، سود علی‌الحساب به تناسب دوره نگهداری، اصل مبلغ دریافتی و جریمه‌ای به میزان 2/5
-          درصد از مبلغ کل گواهی‌های شراکت، از متقاضی اخذ می‌گردد و عامل مخیر به فسخ قرارداد می‌باشد.
+          تبصر ه 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر
+          اساس اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه
+          گردیده است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش
+          مبلغ بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
+          مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
+          از خود سلب و اسقاط نمود.
           <br />
-          تبصره 5: در صورت عدم استرداد وجه از سوی متقاضی، عامل می‌تواند تضامین مندرج در ماده 6 این
-          قرارداد را به نحو عرضی اجرا بگذارد.
+          تبصره 4: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
+          وصول نشده، حال شده فرض خواهد شد.
+          <br />
+          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن محصولات موضوع این طرح{' '}
+          {investor_request?.suggestion_plan_name}، آن را به صورت سایر انواع محصولات و خدمات مندرج
+          در صورت‌های مالی تولید ارائه نماید و به فروش رساند و حداقل مبلغ سود ناخالص برآورد شده در
+          قرارداد حاضر را ایجاد کند.
         </p>
 
-        <p className="text-[23px]">
-          4-3. چنانچه در طول اجرای طرح هزینه‌ای خارج از موارد ذکر شده در موضوع قرارداد ایجاد گردد،
-          اعم از اینکه قابل پیش‌بینی بوده و یا خیر، مسئولیت تأمین آن به عهده متقاضی می‌باشد و عامل
-          در خصوص هزینه‌های فوق هیچ‌گونه مسئولیتی به عهده نخواهد داشت. متقاضی حق هرگونه اعتراض در
-          این باره را از خود سلب و ساقط نموده است.
+        <p>
+          <p>
+            <span className="text-[23px] font-bold">1.</span>
+            سود ناخالص (دوره سه ماهه){' '}
+            {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} برآورد
+            گردیده است.
+          </p>
+          <br />
+          تبصره: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
+          عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای
+          عملیاتی بوده است.
         </p>
 
-        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 5) تعهدات متقاضی</h2>
-
-        <p className="text-[23px]">
-          5-1. تسلیم چک‌های پرداخت اقساط: متقاضی چک‌های پرداخت اقساط بابت اصل و متفرعات (سود علی
-          الحساب) را مطابق جدول زیر به عامل تسلیم نموده است و مکلف است نسبت به پرداخت اقساط بابت اصل
-          و متفرعات (سود علی الحساب) مطابق جدول زیر، در مواعد مقرر اقدام نماید.
+        <p>
+          <span className="text-[23px] font-bold">2.</span>
+          تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
+          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
+          {formatMillionRials(investor_request?.three_months_gross_profit_of_the_plan_forecast)}, به
+          نسبت {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم عامل و{' '}
+          {investor_request?.annual_shareholders_equity_ratio_forecast
+            ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
+            : 0}{' '}
+          درصد سهم متقاضی خواهد بود.
         </p>
 
-        <table className="w-full border-collapse border border-gray-300 mb-4 text-center">
+        <h2 className="text-[23px] font-bold mt-4 mb-2">پیش‌بینی عملکرد طرح</h2>
+
+        <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2  text-center">ردیف</th>
-              <th className="border border-gray-300 p-2  text-center">شناسه صیادی</th>
-              <th className="border border-gray-300 p-2  text-center">تاریخ</th>
-              <th className="border border-gray-300 p-2  text-center">مبلغ (ریال)</th>
-              <th className="border border-gray-300 p-2  text-center">بانک</th>
-              <th className="border border-gray-300 p-2  text-center">شعبه</th>
-              <th className="border border-gray-300 p-2  text-center">نوع</th>
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سال</th>
             </tr>
           </thead>
-          <tbody>
-            {checks?.map((check, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 p-2">{index + 1}</td>
-                <td className="border border-gray-300 p-2">{check?.fishing_id || 'N/A'}</td>
-                <td className="border border-gray-300 p-2">
-                  {check?.date ? new Date(check.date).toLocaleDateString('fa-IR') : 'N/A'}
-                </td>
-                <td className="border border-gray-300 p-2">{formatRials(check?.amount)}</td>
-                <td className="border border-gray-300 p-2">{check?.bank_name || '_'}</td>
-                <td className="border border-gray-300 p-2">{check?.branch_name || '_'}</td>
-                <td className="border border-gray-300 p-2">{check?.type}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
+
+          <tbody className="text-[23px]">
             <tr>
-              <td colSpan="3" className="border border-gray-300 p-2 font-bold">
-                مجموع مبلغ چک‌ها (ریال)
+              <td className="border border-gray-300 p-2">پیش بینی درآمد کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
               </td>
-              <td colSpan="4" className="border border-gray-300 p-2 font-bold">
-                {formatRials(totalAmount)}
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_income_forecast)}
               </td>
             </tr>
-          </tfoot>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی هزینه کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی سود ناخالص طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.three_months_gross_profit_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی حاشیه سود طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_profit_margin_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_profit_margin_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی نسبت حقوق صاحبان سهام</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_shareholders_equity_ratio_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_shareholders_equity_ratio_forecast)}
+              </td>
+            </tr>
+          </tbody>
         </table>
-
         <p className="text-[23px]">
-          تبصره 6: در صورت عدم ایفای تعهدات جدول فوق، متقاضی علاوه بر پرداخت سود علی‌الحساب، ملزم به
-          پرداخت وجه التزامی مطابق دو دهم مبلغ پرداخت نشده به ازای هر روز تأخیر به عامل خواهد بود.
-          وجه التزام مبالغ پرداخت نشده از محل تضامین قابل برداشت است.
+          تبصره 1: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
+          درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
           <br />
-          تبصره 7: متقاضی تأیید و اقرار نموده است، در صورت عدم ایفای تعهدات جدول فوق توسط متقاضی و
-          رجوع عامل به بانک صادرکننده ضمانت‌نامه تعهد پرداخت و به ازای هر روز تأخیر در پرداخت مبلغ
-          مطالبه شده توسط بانک، عامل وجه التزامی به میزان دو دهم مبلغ پرداخت نشده به ازای هر روز
-          تأخیر در پرداخت از متقاضی مطالبه می‌نماید که از محل چک‌های اقساط و سایر تضامین به صورت
-          عرضی قابل برداشت است و متقاضی حق هرگونه اعتراض و ادعایی در این خصوص را از خود سلب و اسقاط
-          نمودند.
+          تبصره 2: مبنای تقسیم سود ناخالص در هر بازه از جدول این بند میان متقاضی و عامل حاصل از
+          اجرای طرح موضوع قرارداد، حداقل سود ناخالص در هر بازه خواهد بود. فقط در صورت افزایش سود
+          ناخالص برآورد شده بیش از{' '}
+          {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} ریال
+          سالیانه، مابه‌تفاوت آن از سود برآورد شده به نسبت 99.9 درصد سهم متقاضی و 0.1 درصد سهم عامل
+          تقسیم خواهد شد.
           <br />
-          تبصره 8: با توجه به خرید 10 درصد از گواهی‌های شراکت توسط متقاضی به مبلغ{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.1)} میلیون ریال، آن
-          گواهی‌های شراکت ابطال و از مجموع کسر شده و پرداخت اقساط لازم‌الاداء به همان میزان تعدیل
-          می‌شود. بنابراین مبنای پرداخت اقساط بر اساس میزان مشارکت دارندگان گواهی‌های شراکت به مبلغ{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.9)} میلیون ریال محاسبه
-          گردیده است.
-        </p>
-
-        <p className="text-[23px]">
-          5-2. افزایش نرخ سود: در صورت افزایش عمومی نرخ سود سپرده‌های متناظر بانکی و اوراق مشابه،
-          عامل رأساً می‌تواند با اعلام کتبی به متقاضی درخواست افزایش نرخ سود گواهی‌های شراکت موضوع
-          این قرارداد را بنماید. متقاضی متعهد می‌گردد ظرف 7 روز از تاریخ درخواست عامل حسب مورد نسبت
-          به افزایش نرخ سود گواهی‌های شراکت به میزان افزایش عمومی نرخ سود سپرده‌های متناظر بانکی و
-          اوراق مشابه اقدام نماید. در غیر این صورت متقاضی ملزم به پرداخت وجه التزامی معادل میزان
-          افزایش نرخ سود سپرده‌های متناظر بانکی و اوراق مشابه به صورت ماهیانه می‌باشد.
-        </p>
-
-        <p className="text-[23px]">
-          5-3. محاسبه سود قطعی: متقاضی متعهد است حداکثر پس از دو هفته از پایان عمر گواهی‌های شراکت،
-          نسبت به محاسبه سود قطعی گواهی‌های شراکت اقدام نماید. همچنین حسابرس حداکثر یک ماه پس از
-          اعلام سود قطعی توسط متقاضی اظهار نظر خواهد نمود.
+          تبصره 3: در صورتی که سود ناخالص طرح کمتر از سود علی‌حساب پرداختی باشد، متقاضی،
+          مابه‌التفاوت آن را تا میزان سودهای علی‌الحساب پرداخت شده از محل سهم خود یا سایر دارایی‌های
+          خود مجاناً و بلاعوض تأمین و به دارندگان گواهی‌های شراکت صلح می‌نماید. به استناد این تبصره
+          متقاضی حق هرگونه ادعایی در این خصوص را از خود سلب و اسقاط نمود.
           <br />
-          تبصره 9: عامل به عنوان ناظر قرارداد، پس از اظهار نظر حسابرس، در خصوص سود قطعی حاصل از
-          گواهی‌های شراکت، حق دارد نسبت به تأیید یا تعیین حسابرس جدید (حسابرس رسمی) و حسابرسی مجدد
-          سود قطعی گواهی‌های شراکت اظهار نظر خود را حداکثر طی دو هفته اعلام نماید.
-        </p>
-
-        <p className="text-[23px]">
-          5-4. عدم وجود دعاوی: متقاضی تأیید و تعهد می‌کند که دعاوی مؤثر با اهمیت حقوقی یا کیفری علیه
-          شرکت/موسسه و اعضای هیئت مدیره یا مدیرعامل وی وجود ندارد. در صورت کشف هرگونه دعاوی مؤثر،
-          عامل مخیر به فسخ قرارداد خواهد بود و متقاضی روال اتمام قرارداد را طی خواهد کرد.
+          تبصره 4: ترکیب فروش محصولات و خدمات با تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع
+          درآمد حاصل از موضوع قرارداد به مبلغ حداقل 1،448،891 (362،223) میلیون ریال سالیانه (دوره سه
+          ماهه) توسط متقاضی تضمین شده است.
+          <br />
+          تبصره 5: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
+          حداقل 1،448،891 (362،223) میلیون ریال سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق
+          درآمد مذکور به هر علت و جهتی، متقاضی درآمد برآورد شده را از محل سایر دارایی‌های خود در
+          شرکت تضمین می‌نماید.
+          <br />
+          تبصره 6: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر اساس
+          اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه گردیده
+          است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش مبلغ
+          بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
+          مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
+          از خود سلب و اسقاط نمود.
+          <br />
+          تبصره 7: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
+          وصول نشده، حال شده فرض خواهد شد.
+          <br />
+          تبصره 8: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن فروش نخ DTY 300، آن را به صورت
+          سایر انواع محصولات و خدمات مندرج در صورت‌های مالی تولید ارائه نماید و به فروش رساند و
+          حداقل مبلغ سود ناخالص برآورد شده در قرارداد حاضر را ایجاد کند.
+          <br />
+          1. سود ناخالص سالیانه (دوره سه ماهه) حاصل از اجرای موضوع قرارداد 217،334 (54،333) میلیون
+          ریال برآورد گردیده است.
+          <br />
+          تبصره 9: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
+          عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای
+          عملیاتی بوده است.
+          <br />
+          2. تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
+          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره یک ساله به میزان 217،334 میلیون
+          ریال، به نسبت 45.55 درصد سهم عامل و 54.45 درصد سهم متقاضی خواهد بود و در صورت کاهش سود
+          ناخالص به شرح جدول زیر خواهد بود.
+          <br />
+          تبصره 10: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی حاصل از خرید
+          و فروش نخ DTY300 ، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری 250,000 میلیون ریال سرمایه
+          در گردش مورد نیاز خرید و فروش نخ DTY300 ، کمتر از 217،334 میلیون ریال سالیانه نخواهد شد.
+          بنابراین هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد بود و متقاضی حق هیچگونه ادعا و
+          مطالبه‌ای در این خصوص نخواهد داشت.
+          <br />
+          تبصره 11: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
+          درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
         </p>
       </div>
     );

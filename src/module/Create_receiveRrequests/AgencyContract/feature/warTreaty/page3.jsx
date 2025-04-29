@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'jalali-moment';
 
 const Page4 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -22,7 +23,10 @@ const Page4 = ({ agencyContract }) => {
         <p className="text-justify leading-relaxed text-[23px]">
           19) »آورده شخصی»: منظور، حداقل <strong>10 </strong>درصد سرمایه مورد نیاز (معادل مبلغ
           <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
+            {(
+              (agencyContract.investor_request.amount_of_investment * 0.1) /
+              1000000
+            ).toLocaleString()}
           </strong>{' '}
           میلیون ریال) است که متقاضی موظف است شخصاً نسبت به تأمین آن اقدام و ظرف مدت حداکثر 7 روز
           تقویمی از تاریخ درخواست مکتوب عامل، به شماره حساب عامل واریز نماید. انتشار فراخوان جمع
@@ -90,13 +94,13 @@ const Page4 = ({ agencyContract }) => {
 
         <p className="text-justify leading-relaxed text-[23px]">
           29) »شماره حساب متقاضی»: منظور، حساب به شماره{' '}
-          <strong>{agencyContract.investor_request.account_number || 0}</strong> با شماره شبای{' '}
-          <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد{' '}
-          {agencyContract.investor_request.bank || 'بانک سامان'} به نام شرکت{' '}
-          {agencyContract.investor_request.company.title} (سهامی خاص) میباشد که صرفاً مربوط به انجام
-          تراکنش های مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور
-          را برای مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر
-          نخواهد داشت.
+          <strong>{agencyContract.investor_request.payment_account_number || 0}</strong> با شماره
+          شبای <strong>{agencyContract.investor_request.sheba_number || 0}</strong> نزد{' '}
+          {agencyContract.investor_request.payment_bank || 'بانک سامان'} به نام شرکت{' '}
+          {agencyContract.investor_request.company.title} میباشد که صرفاً مربوط به انجام تراکنش های
+          مالی مربوط به این قرارداد بوده و متقاضی تحت هیچ عنوان، حق استفاده از حساب مذکور را برای
+          مقاصد دیگر نخواهد داشت. تحت هیچ عنوان، حق استفاده از حساب مذکور را برای مقاصد دیگر نخواهد
+          داشت.
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
@@ -113,12 +117,12 @@ const Page4 = ({ agencyContract }) => {
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
-          -شرکتی که یک یا چند عضو از هیئتمدیره و یا مدیرعامل آن، در هیئت مدیره متقاضی نیز عضویت
+          -شرکتی که یک یا چند عضو از هیئت مدیره و یا مدیرعامل آن، در هیئت مدیره متقاضی نیز عضویت
           داشته باشند؛{' '}
         </p>
 
         <p className="text-justify leading-relaxed text-[23px]">
-          -شرکتی که مدیرعامل و یا هر یک از اعضای هیئتمدیره متقاضی، مدیرعامل و یا عضو هیئت مدیره آن
+          -شرکتی که مدیرعامل و یا هر یک از اعضای هیئت مدیره متقاضی، مدیرعامل و یا عضو هیئت مدیره آن
           باشند.
         </p>
 
@@ -147,12 +151,42 @@ const Page4 = ({ agencyContract }) => {
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
           37) ضامنین:
-          {agencyContract.guarantor.map((item) => (
-            <p className="text-justify leading-relaxed text-[23px]">
-              {item.guarantor_name} به کد ملی {item.guarantor_national_id} که متضامناً با متقاضی،
-              مسئول ایفای تعهدات مذکور در این قرارداد می باشند.
+          {agencyContract.guarantor
+          .filter((g) => g.guarantor_national_id === 'physical')
+          .map((item, index) => (
+            <p key={`physical-guarantor-${index}`}>
+              {index + 3}) سرکار آقای/خانم {item?.members?.guarantor_name} به کد ملی{' '}
+              {item?.members?.guarantor_national_id} و شماره تماس {item?.members?.phone_number}{' '}
+              متولد {moment(item?.members?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
+              {item?.members?.guarantor_address} واحد {item?.members?.unit} به کد پستی{' '}
+              {item?.members?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی» معرفی
+              می‌گردد.
             </p>
           ))}
+        {agencyContract.guarantor
+          .filter((g) => g.guarantor_national_id !== 'physical')
+          .map((item, index) => (
+            <p key={`legal-guarantor-${index}`}>
+              {index +
+                3 +
+                agencyContract.guarantor.filter((g) => g.guarantor_national_id === 'physical')
+                  .length}
+              ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
+              {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
+              {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
+              {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
+              {item.members &&
+                item.members.length > 0 &&
+                item.members.map(
+                  (member, memberIndex) =>
+                    `${memberIndex > 0 ? ' و ' : ''}با نمایندگی ${member.guarantor_name} به شماره ملی ${member.guarantor_national_id}`
+                )}
+              {item.document_news_paper &&
+                ` بر اساس روزنامه رسمى شماره ${item.document_news_paper}`}{' '}
+              که از این پس در این قرارداد &quot;ضامن حقوقی&quot; نامیده می‌شود
+            </p>
+          ))}
+          <br />
         </p>
         <br />
         <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
@@ -172,17 +206,6 @@ const Page4 = ({ agencyContract }) => {
         </p>
         <p className="text-justify leading-relaxed text-[22px]">
           4) انتقال دارایی های خریداری شده به سرمایه پذیر به استناد وکالت فروش ؛
-        </p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          5) پرداخت اقساط خرید دارایی توسط سرمایه پذیر در مواعد پرداخت؛
-        </p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          6) بازپرداخت سرمایه توسط سرمایه پذیر در تاریخ اتمام طرح.
-        </p>
-        <br />
-        <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
-        <p className="text-justify leading-relaxed text-[22px]">
-          قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
         </p>
 
         <br />

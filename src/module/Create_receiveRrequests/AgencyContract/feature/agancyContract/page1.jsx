@@ -49,40 +49,85 @@ const Page1 = ({ agencyContract }) => {
       {renderHeaderContent()}
 
       <div className="text-justify leading-relaxed text-[23px]">
+        <h3 className="font-bold mb-2 text-[23px]">مقدمه</h3>
+        <p className="mb-3 pr-4 text-[23px]">
+          با استعانت از خداوند متعال، در تاریخ{' '}
+          {agencyContract.investor_request?.agency_agreement_date
+            ? moment(agencyContract.investor_request.agency_agreement_date).format('jYYYY/jMM/jDD')
+            : ''}{' '}
+          قرارداد حاضر وفق مواد 10، 190 و 219 قانون مدنی به همراه دیگر اسناد و مدارک منضم به آن که
+          مجموعاً قرارداد واحد محسوب می‌گردد، در شهر یزد منعقد می‌گردد. طرفین اظهار و اعلام
+          می‌نمایند که هیچ‌گونه محدودیت یا ممنوعیتی جهت امضای این قرارداد نداشته و دارای صلاحیت لازم
+          و کمال صحت عقل و اراده شخصی جهت امضای قرارداد هستند و از تاریخ انعقاد، طرفین ملزم و متعهد
+          به اجرای مفاد آن می‌باشند. مضافاً نظر به اینکه متقاضی برای انجام امور کسب و کار خود
+          نیازمند سرمایه و تأمین مالی است و شرکت ایساتیس پویا از طریق سکوی تأمین مالی جمعی با «مجوز
+          تأمین مالی جمعی» از کارگروه ارزیابی تأمین مالی جمعی به آدرس: تهران، خیابان خالد اسلامبولی
+          (وزرا)، ابتدای خیابان عماد مغنیه، پلاک 145 (شرکت فرابورس ایران) می‌تواند به متقاضی،
+          تأمین‌کننده یا تأمین‌کنندگانی را معرفی نماید و نیز به منظور تشریح حقوق و تعهدات طرفین،
+          قرارداد تأمین مالی جمعی حاضر (از این پس قرارداد) در راستای ماده ۱۰ قانون مدنی و دستورالعمل
+          تأمین مالی جمعی مصوب ۲۵ اردیبهشت ماه 1397 شورای عالی بورس و اوراق بهادار، در شهر یزد منعقد
+          گردید. مضافاً این قرارداد به ضمیمه قرارداد اقدامات اجرایی همچنین قرارداد مرابحه منعقد
+          می‌گردد که هر سه عقد در زمان واحد و با اراده واحد منعقد گردیده و غیرقابل انفکاک است.
+        </p>
         <h3 className="font-bold mb-2 text-[23px]">ماده 1) مشخصات طرفین قرارداد</h3>
         <p className="mb-2 text-[23px]">1-1. این قرارداد میان:</p>
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">1) طرف اول:</span> شرکت{' '}
-          {agencyContract.company?.title || ''} (
-          {agencyContract.company?.registration_type_title || ''}) به شمارۀ شناسۀ ملی{' '}
-          <strong>{agencyContract.company?.national_id || ''}</strong>، کد اقتصادی{' '}
-          <strong>{agencyContract.company?.economic_code || ''}</strong>، و شماره ثبت{' '}
-          <strong>{agencyContract.company?.registration_number || ''}</strong> نزد{' '}
-          {agencyContract.company?.registration_unit || ''}، به نشانی{' '}
-          {agencyContract.company?.address || ''}
-          {agencyContract.company?.postal_code
-            ? `، کدپستی ${agencyContract.company.postal_code}`
-            : ''}{' '}
-          {agencyContract.company?.tel ? `، شماره تماس ${agencyContract.company.tel}` : ''}، و با
-          نمایندگی{' '}
-          {agencyContract.company_members
-            ?.filter((member) => member.signature === true)
-            .map((member, index, filteredArray) => (
-              <React.Fragment key={member.id}>
-                {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
-                {member.uniqueIdentifier}
-                سمت {member.first_role}
-                {member.second_role && ` و ${member.second_role}`}
-                {index < filteredArray.length - 1 ? ' و ' : ''}
-              </React.Fragment>
-            ))}{' '}
-          براساس{' '}
-          {
-            agencyContract.company_members.filter((member) => member.signature_document !== null)[0]
-              ?.signature_document
-          }{' '}
-          که در این قرارداد، «متقاضی» نامیده می شود، از یک طرف،
-        </p>
+        <div>
+          <p className="mb-3 pr-4 text-[23px]">
+            <span className="font-bold text-[23px]">1) طرف اول:</span> شرکت{' '}
+            {agencyContract.company?.title || ''} (
+            {agencyContract.company?.registration_type_title || ''}) به شمارۀ شناسۀ ملی{' '}
+            <strong>{agencyContract.company?.national_id || ''}</strong>، کد اقتصادی{' '}
+            <strong>{agencyContract.company?.economic_code || ''}</strong>، و شماره ثبت{' '}
+            <strong>{agencyContract.company?.registration_number || ''}</strong> نزد{' '}
+            {agencyContract.company?.registration_unit || ''}، به نشانی{' '}
+            {agencyContract.company?.address || ''}
+            {agencyContract.company?.postal_code
+              ? `، کدپستی ${agencyContract.company.postal_code}`
+              : ''}{' '}
+            {agencyContract.company?.tel ? `، شماره تماس ${agencyContract.company.tel}` : ''}، و با
+            نمایندگی{' '}
+            {agencyContract.company_members
+              ?.filter((member) => member.signature === true)
+              .map((member, index, filteredArray) => (
+                <React.Fragment key={member.id}>
+                  {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
+                  {member.uniqueIdentifier}
+                  سمت {member.first_role}
+                  {member.second_role && ` و ${member.second_role}`}
+                  {index < filteredArray.length - 1 ? ' و ' : ''}
+                </React.Fragment>
+              ))}{' '}
+            براساس{' '}
+            {
+              agencyContract.company_members.filter(
+                (member) => member.signature_document !== null
+              )[0]?.signature_document
+            }{' '}
+            در این قرارداد، «متقاضی» نامیده می شود،
+          </p>
+
+          <p className="mb-3 pr-4 text-[23px]">
+            به استناد{' '}
+            {agencyContract.company_members.find((member) => member.signature === true)
+              ?.signature_document || ''}{' '}
+            نمایندگان مجاز و صاحبان امضای طرف اول قرارداد در خصوص امضا و استنکاب اسناد تعهد آور طرف
+            اول اشخاص ذیل می‌باشند:
+            <ul className="list-disc pr-8">
+              {agencyContract.company_members
+                ?.filter((member) => member.signature === true)
+                .map((member, index) => (
+                  <li key={member.id}>
+                    <p>
+                      {String.fromCharCode(1575 + index)}) نمايندگان طرف نخست، صاحب امضاى مجاز{' '}
+                      {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title}، شماره ملى{' '}
+                      {member.uniqueIdentifier}، سمت {member.first_role} می‌باشد.
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          </p>
+        </div>
+
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2) طرف دوم:</span> شرکت سبدگردان ایساتیس پویا کیش
           (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی 411615733645، و شماره ثبت 13702، در اداره
@@ -159,55 +204,6 @@ const Page1 = ({ agencyContract }) => {
           <span className="font-bold text-[23px]">12) متقاضی: </span>
           شخص حقوقی است که به منظور تأمین منابع مالی، طبق الزامات دستورالعمل تأمین مالی جمعی و
           مقررات سکوی شرکت ایساتیس پویا به عامل مراجعه می‌کند.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">13) تأمین کننده (تأمین کنندگان): </span>
-          شخص حقیقی یا حقوقی است که منابع مالی مورد نیاز متقاضی را تأمین می‌کند. عامل و نهاد مالی
-          درصورتی که سرمایه‌گذاری کنند به عنوان تأمین کننده خواهند بود و از تمامی حقوق آنها برخوردار
-          خواهند بود.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">14) حداقل منابع مالی جمع‌آوری شده: </span>
-          مقدار وجوه نقدی است که در صورت جمع‌آوری و پرداخت آن توسط تأمین‌کنندگان، فرض می‌شود طرح در
-          جذب سرمایه مورد نیاز متقاضی موفق بوده است.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">15) سکو: </span>
-          پلتفرمی است که برای تأمین مالی جمعی توسط عامل ایجاد شده است و اطلاعات لازم طبق مفاد
-          دستورالعمل در آن منتشر می‌شود.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">16) فراخوان تأمین: </span>
-          اعلام درخواست متقاضی، در سکو برای معرفی به تأمین‌کنندگان است.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">17) گواهی شراکت: </span>
-          ورقه‌ی بهاداری است که در فرایند تأمین مالی جمعی به شکل الکترونیکی به تقاضای عامل و توسط
-          شرکت فرابورس ایران منتشر می‌شود.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">18) واحد سرمایه‌گذاری: </span>
-          هر واحد سرمایه‌گذاری برابر با مبلغ 1،000 ریال است. حداقل تعداد واحد سرمایه‌گذاری برای
-          مشارکت تأمین‌کننده در این قرارداد، هزار واحد است.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">19) موفقیت طرح در جذب سرمایه: </span>
-          به وضعیتی اطلاق می‌شود که کلیه منابع مالی مورد نیاز متقاضی یا حداقل منابع مالی جمع‌آوری
-          شده طبق این قرارداد در بازه‌ی زمانی نمایش، توسط یک یا چند تأمین‌کننده تعهد و به حساب مشخص
-          شده بابت آن، نزد عامل، پرداخت شده باشد.
-        </p>
-
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">20) تاریخ موفقیت طرح در جذب سرمایه: </span>
-          تاریخی است که در آن، کل یا حداقل منابع مالی مورد نیاز متقاضی طبق این قرارداد، توسط
-          تأمین‌کنندگان پرداخت شده باشد.
         </p>
       </div>
     </div>

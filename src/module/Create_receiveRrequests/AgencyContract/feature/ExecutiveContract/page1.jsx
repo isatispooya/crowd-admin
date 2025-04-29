@@ -1,19 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'jalali-moment';
 import { OnRun } from 'src/api/OnRun';
 import crowdlogo from './crowdlogo.png';
 
-const formatAmount = (amount) => {
-  if (!amount) return '0';
-  const millionAmount = amount / 1000000;
-  return millionAmount.toLocaleString('en-US');
-};
-
 const Page1 = ({ data }) => {
   if (!data) return null;
-
-  const formatMillionRials = (value) =>
-    value ? `${value.toLocaleString('en-US')} میلیون ریال` : '0 میلیون ریال';
 
   const renderHeaderContent = () => {
     if (!data) return null;
@@ -25,7 +17,7 @@ const Page1 = ({ data }) => {
             <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
               شماره قرارداد: {`2${data.investor_request?.contract_number || ''}`}
               <br />
-              تاریخ: {data.investor_request?.agency_agreement_date.split('T')[0].replace(/-/g, '/')}
+              تاریخ: {moment(data.investor_request?.agency_agreement_date).format('jYYYY/jMM/jDD')}
             </div>
 
             <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
@@ -49,8 +41,6 @@ const Page1 = ({ data }) => {
   const renderContractClauses = () => {
     const { company, investor_request, company_cost, guarantor, company_members } = data;
 
-   
-
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
         {renderHeaderContent()}
@@ -70,10 +60,11 @@ const Page1 = ({ data }) => {
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                  {member.signature && ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
+                  {member.signature &&
+                    ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
                 </span>
               ))}
-          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،   
+          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
@@ -85,23 +76,35 @@ const Page1 = ({ data }) => {
           متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 0042/ف/1403 مورخ 1403/05/15 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
           <br />
-          {guarantor.map((item, index) => (
-            <p>
-              {index + 3}) سرکار آقای/خانم {item?.guarantor_name} به کد ملی {item?.national_id} و
-              شماره تماس {item?.phone_number} متولد{' '}
-              {item?.birth_date
-                ? new Date(item?.birth_date).toLocaleDateString('fa-IR')
-                : 'تاریخ نامعتبر'}{' '}
-              به آدرس
-              {item?.address} واحد {item?.unit} به کد پستی {item?.postal_code} که از این پس در این
-              قرارداد به عنوان «ضامن» معرفی می‌گردد.
-            </p>
-          ))}
+          {guarantor
+            .filter((g) => g.guarantor_national_id === 'physical')
+            .map((item, index) => (
+              <p key={`physical-guarantor-${index}`}>
+                {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
+                {item.members?.[0]?.guarantor_national_id} و شماره تماس{' '}
+                {item.members?.[0]?.phone_number} متولد{' '}
+                {moment(item.members?.[0]?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
+                {item.members?.[0]?.guarantor_address} واحد {item.members?.[0]?.unit} به کد پستی{' '}
+                {item.members?.[0]?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی»
+                معرفی می‌گردد.
+              </p>
+            ))}
+          {guarantor
+            .filter((g) => g.guarantor_national_id !== 'physical')
+            .map((item, index) => (
+              <p key={`legal-guarantor-${index}`}>
+                {index + 3 + guarantor.filter((g) => g.guarantor_national_id === 'physical').length}
+                ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
+                {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
+                {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
+                {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
+                {item.members?.[0] &&
+                  ` با نمایندگی ${item.members[0].guarantor_name} به شماره ملی ${item.members[0].guarantor_national_id}`}
+                بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
+                &quot;ضامن حقوقی&quot; نامیده می‌شود
+              </p>
+            ))}
         </p>
-
-
-       
-
 
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) تعاریف</h2>
         <p className="text-[23px]  mt-4 mb-2">
@@ -118,82 +121,54 @@ const Page1 = ({ data }) => {
           <br />
           5-2. روز کاری: تمام روزهای هفته به غیر از پنج‌شنبه، جمعه، تعطیلات رسمی و روزهایی که به هر
           دلیلی بانک‌ها تعطیل می‌باشند، روز کاری محسوب می‌گردد.
-        </p>
-
-        <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 2) موضوع فعالیت</h2>
-        <p className="text-[23px]  mt-4 mb-2">
-          موضوع قرارداد عبارت است از تامین سرمایه مورد نیاز اجرای طرح «
-          {investor_request?.suggestion_plan_name}» این شرکت بر اساس اساسنامه فعالیت آن، به شرح زیر
-          توسط متقاضی:
           <br />
-          1. در راستای اجرای طرح موضوع قرارداد، متقاضی متعهد است همزمان با واریز وجوه جمع‌آوری شده
-          به متقاضی، بصورت آنی و به یکباره مواد اولیه مورد نیاز اجرای طرح در این قرارداد را خریداری
-          و نسبت به استفاده و ایجاد ارزش افزوده در چرخه‌های عملیاتی خود اقدام نماید.
+          2-6. حداقل منابع مالی جمع آوری شده: مقدار وجوه نقدی است که درصورت جمع آوری و پرداخت آن
+          توسط تامین کنندگان، فرض میشود طرح در جذب سرمایه مورد نیاز متقاضی موفق بوده است. در قرارداد
+          حاضر حداقل منابع مالی جمع آوری شده 175،000 میلیون ریال معادل هفده میلیارد و پانصد میلیون
+          تومان است.
           <br />
-          <span className="ml-4">
-            تبصره 1: متقاضی متعهد است مواد اولیه خریداری شده را طی نامه کتبی و با پیوست مستندات خرید
-            به استحضار عامل برساند.
-          </span>
+          2-7. دستورالعمل: منظور دستورالعمل تأمین مالی جمعی مصوب 25/02/1395 شورای عالی بورس و اوراق
+          بهادار به انضمام کلیه مصوبات، بخشنامه ها، ابلاغیه ها، اطلاعیه ها، ضوابط و دستورالعمل‌های
+          اجرایی که متعاقب آن توسط نهادهای ذیربط مصوب شده است، می باشد.
           <br />
-          <span className="ml-4">
-            تبصره 2: به استناد {investor_request?.subject_activity_document} ، در صورت وجود هرگونه
-            مشکل در اجرای طرح و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی‌ها و
-            دستگاه‌های تحت تملک خود نسبت به اجرای طرح اقدام نماید.
-          </span>
+          2-8. کارگروه ارزیابی: کارگروهی که مطابق ماده 14 دستورالعمل تامین مالی جمعی تشکیل می گردد.
           <br />
-          2. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
-          تمام شده خدمات منتهی به 1402/12/29 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
-          اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
-          طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
-          {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش
-          محصولات در هر چرخۀ عملیاتی{' '}
-          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.9)} میلیون ریال آن از محل
-          وجوه جمع‌آوری شده از طریق دارندگان گواهی شراکت برای خرید کل مواد اولیه مورد نیاز و بخشی از
-          دستمزد و سایر هزینه‌ها و{' '}
-          {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.1)} میلیون ریال آن توسط
-          متقاضی برای هزینه دستمزد و سایر هزینه‌های فروش محصولات و خدمات تأمین می‌گردد.
-        </p>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-right">شرح</th>
-              <th className="border border-gray-300 p-2 text-right">مبلغ (دوره سه ماهه)</th>
-              <th className="border border-gray-300 p-2 text-right">مبلغ (سالیانه)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {company_cost && company_cost.length > 0 ? (
-              company_cost.map((item, index) => (
-                <tr key={item.id || index}>
-                  <td className="border border-gray-300 p-2">{item.description || ''}</td>
-                  <td className="border border-gray-300 p-2">
-                    {formatMillionRials(item.amount_of_3_months)}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {formatMillionRials(item.amount_of_year)}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="border border-gray-300 p-2">
-                  {company_cost?.description || 'توضیحات'}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {formatMillionRials(company_cost?.amount_of_months)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {formatMillionRials(company_cost?.amount_of_year)}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <p>
-          تبصره 1: متقاضی تأیید و اقرار می‌نماید در صورت افزایش بهای تمام‌شدۀ خرید مواد اولیه و سایر
-          موارد موجود در این قرارداد، مابه‌التفاوت بهای تمام‌شدۀ انجام طرح مذکور «
-          {investor_request?.suggestion_plan_name}» را از دارایی‌های خود مجاناً و بلاعوض تأمین
-          نماید. متقاضی بر اساس این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
+          2-9. گواهی شراکت: ورقه بهاداری است که در تامین مالی جمعی بصورت الکترونیکی به درخواست عامل
+          و توسط شرکت فرابورس ایران منتشر می شود.
+          <br />
+          1 شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
+          411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
+          نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4، واحد 44، شماره تلفن 076-44480555 و کد
+          پستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو
+          هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز
+          بر اساس روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
+          <br />
+          10-2. واحد سرمایه گذاری: هر واحد سرمایه گذاری برابر با مبلغ 1،000 ریال معادل صد تومان است.
+          حداقل تعداد واحد سرمایه گذاری برای مشارکتِ تامین کننده در این قرارداد هزار واحد است.
+          <br />
+          11-2. موفقیت طرح در جذب سرمایه: به وضعیتی اطلاق می شود که کلیه منابع مالی مورد نیاز متقاضی
+          یا حداقل منابع مالی جمع آوری شده طبق این قرارداد در بازه زمانی نمایش، توسط یک یا چند تامین
+          کننده تعهد و به حساب مشخص شده بابت آن نزد عامل پرداخت شده باشد.
+          <br />
+          12-2. دوره اجرای طرح: منظور مدت زمانی است که متقاضی نسبت به اجرای کسب وکار طرح اقدام می
+          نماید. این مدت از اولین روز کاری پس از تحویل اولین قسط از وجوه به متقاضی شروع می شود و در
+          هر حال بیشتر از 14 ماه پس از آن مقطع نخواهد بود. در پایان دوره اجرای طرح، پس از وصول و بر
+          اساس گزارش تسویه طرح نسبت به تسویه حساب ذینفعان آن اقدام می شود.
+          <br />
+          13-2. متقاضی: شخص حقیقی است که به منظور تامین منابع مالی، طبق الزامات دستورالعمل تامین
+          مالی جمعی و مقررات سکوی شرکت ایساتیس به عامل مراجعه می کند.
+          <br />
+          14-2. تامین کننده (تامین کنندگان):شخص حقیقی یا حقوقی است که منابع مالی مورد نیاز متقاضی را
+          تامین می کند. عامل و نهاد مالی درصورتی که سرمایه گذاری کنند به عنوان تامین کننده خواهند
+          بود و از تمامی حقوق آنها برخوردار می گردند.
+          <br />
+          15-2. ضامن: شخص حقیقی یا حقوقی است که ایفای تعهدات متقاضی در این قرارداد را تضمین نموده
+          است.
+          <br />
+          16-2. ضمانت نامه تعهد پرداخت: ضمانت نامه بانکی صادره از بانکهای جمهوری اسلامی ایران است که
+          مستقل از قرارداد حاضر (قرارداد پایه) قابلیت مطالبه دارد.
+          <br />
+          17-2. فراخوان تامین: اعلام درخواست متقاضی، در سکو برای معرفی به تامین کنندگان است.
         </p>
       </div>
     );

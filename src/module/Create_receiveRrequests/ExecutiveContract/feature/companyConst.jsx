@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Box,
   Grid,
@@ -8,25 +8,35 @@ import {
   AccordionDetails,
   TextField,
   Button,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams } from 'react-router-dom';
-import { useCompanyConst } from '../service/companyConst';
+import { useCompanyConst, deleteCompanyConst } from '../service/companyConst';
 
 const CompanyConst = ({ allData }) => {
   const { cartId } = useParams();
-  const { mutate } = useCompanyConst(cartId);
-  const [formData, setFormData] = React.useState({
+  const { mutate, refetch } = useCompanyConst(cartId);
+  const [formData, setFormData] = useState({
     investor_request_id: cartId,
     amount_of_year: allData?.company_cost?.amount_of_year || '',
     amount_of_3_months: allData?.company_cost?.amount_of_3_months || '',
     description: allData?.company_cost?.description || '',
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const formatNumber = (number) => {
     if (!number) return '';
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   const handleChange = (field) => (event) => {
@@ -65,6 +75,31 @@ const CompanyConst = ({ allData }) => {
       });
     } catch (error) {
       console.error('Error submitting form:', error);
+    }
+  };
+
+  const handleDeleteClick = (id) => {
+    setSelectedItemId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setSelectedItemId(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedItemId && !isDeleting) {
+      try {
+        setIsDeleting(true);
+        await deleteCompanyConst(selectedItemId);
+        refetch();
+      } catch (error) {
+        console.error('Error deleting item:', error);
+      } finally {
+        setIsDeleting(false);
+        handleCloseDeleteDialog();
+      }
     }
   };
 
@@ -135,8 +170,17 @@ const CompanyConst = ({ allData }) => {
                       borderRadius: '8px',
                       padding: 2,
                       marginBottom: 2,
+                      position: 'relative',
                     }}
                   >
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => handleDeleteClick(item.id)}
+                      sx={{ position: 'absolute', top: 10, right: 10 }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
@@ -169,6 +213,29 @@ const CompanyConst = ({ allData }) => {
           </Box>
         </AccordionDetails>
       </Accordion>
+
+      {/* Dialog for delete confirmation */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">تایید حذف</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            آیا از حذف این مورد اطمینان دارید؟
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary" disabled={isDeleting}>
+            انصراف
+          </Button>
+          <Button onClick={handleConfirmDelete} color="error" autoFocus disabled={isDeleting}>
+            {isDeleting ? 'در حال حذف...' : 'حذف'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

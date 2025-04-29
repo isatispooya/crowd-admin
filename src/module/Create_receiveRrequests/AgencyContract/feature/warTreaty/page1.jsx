@@ -17,7 +17,10 @@ const Page1 = ({ agencyContract }) => {
               شماره قرارداد:{' '}
               {`3${agencyContract.investor_request?.contract_number || '370245611/12/03'}`}
               <br />
-              تاریخ: {moment(agencyContract.investor_request?.contract_date).format('jYYYY/jMM/jDD')}
+              تاریخ:{' '}
+              {moment(agencyContract.investor_request?.agency_agreement_date).format(
+                'jYYYY/jMM/jDD'
+              )}
             </div>
 
             <img src={crowdlogo} alt="Investor Logo" className="h-32 object-contain mt-4 mb-2" />
@@ -55,8 +58,8 @@ const Page1 = ({ agencyContract }) => {
         </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">2)</span>
-          شرکت {agencyContract.company?.title}، فعال در حوزه
-          {agencyContract.investor_request?.activity_field}، در راستای بهبود عملکرد و توسعه کسب و
+          شرکت {agencyContract.company?.title}، فعال در حوزه{' '}
+          {agencyContract.investor_request?.activity_feild}، در راستای بهبود عملکرد و توسعه کسب و
           کار خود، نیازمند جذب سرمایه به میزان{' '}
           <strong>
             {(
@@ -142,7 +145,7 @@ const Page1 = ({ agencyContract }) => {
               Number(
                 agencyContract.investor_request.amount_of_investment *
                   0.9 *
-                  agencyContract.investor_request.interest_rate_plan +
+                  (agencyContract.investor_request.interest_rate_plan / 100) +
                   agencyContract.investor_request.amount_of_investment
               ) / 1000000
             ).toLocaleString()}
