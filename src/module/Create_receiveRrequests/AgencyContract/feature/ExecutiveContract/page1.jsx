@@ -17,7 +17,10 @@ const Page1 = ({ data }) => {
             <div className="absolute top-0 left-[180px] text-[18px] font-bold text-left mt-4">
               شماره قرارداد: {`2${data.investor_request?.contract_number || ''}`}
               <br />
-              تاریخ: {moment(data.investor_request?.agency_agreement_date).format('YYYY/MM/DD')}
+              تاریخ:{' '}
+              {moment(data.investor_request?.agency_agreement_date)
+                .locale('fa')
+                .format('jYYYY/jMM/jDD')}
             </div>
 
             <img src={crowdlogo} alt="company Logo" className="h-32 object-contain mt-4 mb-2" />
@@ -39,7 +42,7 @@ const Page1 = ({ data }) => {
   };
 
   const renderContractClauses = () => {
-    const { company, investor_request, company_cost, guarantor, company_members } = data;
+    const { company, guarantor, company_members } = data;
 
     return (
       <div className="contract-clauses p-4 text-sm leading-relaxed">
@@ -77,7 +80,7 @@ const Page1 = ({ data }) => {
           طرف دیگر، به شرح مواد زیر منعقد گردید.
           <br />
           {guarantor
-            .filter((g) => g.guarantor_national_id === 'physical')
+            .filter((g) => g.type === 'physical')
             .map((item, index) => (
               <p key={`physical-guarantor-${index}`}>
                 {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
@@ -90,11 +93,11 @@ const Page1 = ({ data }) => {
               </p>
             ))}
           {guarantor
-            .filter((g) => g.guarantor_national_id !== 'physical')
+            .filter((g) => g.type !== 'physical')
             .map((item, index) => (
               <p key={`legal-guarantor-${index}`}>
-                {index + 3 + guarantor.filter((g) => g.guarantor_national_id === 'physical').length}
-                ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
+                {index + 3 + guarantor.filter((g) => g.type === 'physical').length}) شرکت{' '}
+                {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
                 {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
                 {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
                 {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
@@ -164,18 +167,12 @@ const Page1 = ({ data }) => {
           17-2. فراخوان تامین: اعلام درخواست متقاضی، در سکو برای معرفی به تامین کنندگان است.
         </p>
         <p className="text-[23px]  mt-4 mb-2">
-          18-2. طرح: فعالیتی است که متقاضی برای انجام آن، اقدام به تامین منابع مالی می کند. حداقل
+
+        18-2. طرح: فعالیتی است که متقاضی برای انجام آن، اقدام به تامین منابع مالی می کند. حداقل
           منابع مالی جمع آوری شده: مقدار وجوه نقدی است که در صورت جمع آوری و پرداخت آن توسط تامین
           کنندگان، فرض میشود طرح در جذب سرمایه موردنیاز متقاضی موفق بوده است. در قرارداد حاضر حداقل
           منابع مالی جمع آوری شده 175،000،000،000 ریال است.
           <br />
-          19-2. سکو: پلتفرمی است که برای تامین مالی جمعی توسط عامل ایجاد شده است و اطلاعات لازم طبق
-          مفاد دستورالعمل در آن منتشر میشود.
-          <br />
-          20-2. تاریخ موفقیت طرح در جذب سرمایه: تاریخی است که در آن، کل یا حداقل منابع مالی موردنیاز
-          متقاضی طبق این قرارداد، توسط تامین کنندگان پرداخت شده باشد.
-          <br />
-         
         </p>
       </div>
     );

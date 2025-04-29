@@ -10,6 +10,15 @@ const Page2 = ({ data }) => {
     const { company_cost, investor_request } = data;
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
+         <p className="text-[23px]  mt-4 mb-2">
+
+          19-2. سکو: پلتفرمی است که برای تامین مالی جمعی توسط عامل ایجاد شده است و اطلاعات لازم طبق
+          مفاد دستورالعمل در آن منتشر میشود.
+          <br />
+          20-2. تاریخ موفقیت طرح در جذب سرمایه: تاریخی است که در آن، کل یا حداقل منابع مالی موردنیاز
+          متقاضی طبق این قرارداد، توسط تامین کنندگان پرداخت شده باشد.
+          <br />
+        </p>
         <p className="text-[23px]  mt-4 mb-2">
           21-2. گزارش تسویه: منظور گزارشی است که حسب مورد و طبق سازوکارهای شرکت فرابورس ایران (یا
           کارگروه ارزیابی)، به ترتیب اولویت از سوی فرابورس یا کارگروه ارزیابی (در مواردی که فرابورس
@@ -221,19 +230,7 @@ const Page2 = ({ data }) => {
             </tr>
           </tbody>
         </table>
-        <p>
-          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name?.toLocaleString()} با
-          تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به
-          مبلغ {investor_request?.annual_total_income_forecast?.toLocaleString()} میلیون ریال
-          سالیانه و {investor_request?.three_months_total_income_forecast?.toLocaleString()} میلیون
-          ریال دوره سه ماهه توسط متقاضی تضمین شده است.
-          <br />
-          تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
-          حداقل {investor_request?.annual_total_income_forecast?.toLocaleString()} (
-          {investor_request?.three_months_total_income_forecast?.toLocaleString()}) میلیون ریال
-          سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق درآمد مذکور به هر علت و جهتی، متقاضی
-          درآمد برآورد شده را از محل سایر دارایی‌های خود در شرکت تضمین می‌نماید.
-        </p>
+      
 
 
       </div>
