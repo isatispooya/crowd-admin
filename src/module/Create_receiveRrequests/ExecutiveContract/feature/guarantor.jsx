@@ -14,30 +14,23 @@ function GuarantorComponent({ allData, initialValues, onFinishEdit }) {
 
   const handleSubmit = useCallback(async () => {
     try {
-      const formData = await submitGuarantorInfo();
-      if (formData) {
-        formData.append('investor_request_id', allData.id || cartId);
-        formData.append('type', 'physical');
-        
-        if (formData.has('birth_date')) {
-          const birthDate = formData.get('birth_date');
-          if (birthDate && typeof birthDate === 'object' && birthDate.toString) {
-            formData.set('birth_date', birthDate.toString());
-          }
-        }
+      const data = await submitGuarantorInfo();
+      if (data) {
+        const jsonData = {
+          ...data,
+          investor_request_id: allData.id || cartId,
+          type: 'physical'
+        };
+
+        console.log('فرم ضامن غیرفعال شده است', jsonData);
 
         if (initialValues) {
-          const jsonData = {};
-          formData.forEach((value, key) => {
-            jsonData[key] = value;
-          });
-          
           updateMutate({
             guarantorId: initialValues.id,
             data: jsonData
           });
         } else {
-          await mutate(formData);
+          await mutate(jsonData);
         }
         
         resetGuarantorInfo();
@@ -51,7 +44,7 @@ function GuarantorComponent({ allData, initialValues, onFinishEdit }) {
   }, [submitGuarantorInfo, allData.id, cartId, mutate, updateMutate, resetGuarantorInfo, initialValues, onFinishEdit]);
 
   return (
-    <Box component="form" sx={{ padding: 2, borderRadius: 1 }} noValidate autoComplete="off">
+    <Box sx={{ padding: 2, borderRadius: 1 }}>
       <GuarantorForm initialValues={initialValues} onFinishEdit={onFinishEdit} />
 
       <Button
