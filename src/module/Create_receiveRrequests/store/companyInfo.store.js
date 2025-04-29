@@ -142,6 +142,10 @@ const useCompanyInfoStore = create((set, get) => ({
     guarantor_address: '',
     postal_code: '',
     gender: '',
+    company_agent: '',
+    document_news_paper: '',
+    position_title: '',
+    company_national_id: '',
   },
 
   fees: {
@@ -695,6 +699,10 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: '',
         postal_code: '',
         gender: '',
+        company_agent: '',
+        document_news_paper: '',
+        position_title: '',
+        company_national_id: '',
       },
 
       fees: {
@@ -940,6 +948,11 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: defaultValue(data.guarantor_address),
         postal_code: defaultValue(data.postal_code),
         gender: defaultValue(data.gender),
+
+        company_agent: defaultValue(data.company_agent),
+        position_title: defaultValue(data.position_title),
+        document_news_paper: defaultValue(data.document_news_paper),
+        company_national_id: defaultValue(data.company_national_id),
       },
 
       fees: {
@@ -1091,9 +1104,8 @@ const useCompanyInfoStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const state = get();
-      const formData = new FormData();
 
-      const validFields = {
+      const jsonData = {
         investor_request_id: state.guarantorInfo.investor_request_id,
         guarantor_name: state.guarantorInfo.guarantor_name,
         guarantor_national_id: state.guarantorInfo.guarantor_national_id,
@@ -1102,28 +1114,30 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: state.guarantorInfo.guarantor_address,
         postal_code: state.guarantorInfo.postal_code,
         gender: state.guarantorInfo.gender,
+        company_agent: state.guarantorInfo.company_agent,
+        position_title: state.guarantorInfo.position_title,
+        document_news_paper: state.guarantorInfo.document_news_paper,
+        company_national_id: state.guarantorInfo.company_national_id,
       };
 
-      Object.entries(validFields).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          if (key === 'birth_date' && value) {
-            let formattedDate = null;
-            if (typeof value.toDate === 'function') {
-              formattedDate = value.toDate().toISOString();
-            } else if (value instanceof Date) {
-              formattedDate = value.toISOString();
-            } else {
-              formattedDate = new Date(value).toISOString();
-            }
-            formData.append(key, formattedDate);
-          } else {
-            formData.append(key, value);
-          }
+      if (jsonData.birth_date) {
+        if (typeof jsonData.birth_date.toDate === 'function') {
+          jsonData.birth_date = jsonData.birth_date.toDate().toISOString();
+        } else if (jsonData.birth_date instanceof Date) {
+          jsonData.birth_date = jsonData.birth_date.toISOString();
+        } else if (typeof jsonData.birth_date === 'string') {
+          jsonData.birth_date = new Date(jsonData.birth_date).toISOString();
+        }
+      }
+
+      Object.keys(jsonData).forEach(key => {
+        if (jsonData[key] === null || jsonData[key] === undefined || jsonData[key] === '') {
+          delete jsonData[key];
         }
       });
 
       set({ isLoading: false });
-      return formData;
+      return jsonData;
     } catch (error) {
       set({ isLoading: false, error: error.message });
       return null;
@@ -1185,6 +1199,10 @@ const useCompanyInfoStore = create((set, get) => ({
         guarantor_address: '',
         postal_code: '',
         gender: '',
+        company_agent: '',
+        position_title: '',
+        document_news_paper: '',
+        company_national_id: '',
       },
     }),
 }));

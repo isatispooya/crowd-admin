@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Typography, IconButton } from '@mui/material';
+import { Box, Grid, Typography, IconButton, Divider } from '@mui/material';
 import DateObject from 'react-date-object';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -33,7 +33,7 @@ const GuarantorList = ({ guarantors, onDelete, onEdit }) => {
                 sx={{
                   position: 'absolute',
                   top: 8,
-                  right: 48, 
+                  right: 48,
                   color: 'error.main',
                 }}
               >
@@ -51,6 +51,7 @@ const GuarantorList = ({ guarantors, onDelete, onEdit }) => {
                 <CiEdit />
               </IconButton>
             </Box>
+
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Typography variant="body2">
@@ -62,12 +63,12 @@ const GuarantorList = ({ guarantors, onDelete, onEdit }) => {
                   <strong>کد ملی ضامن:</strong> {item.guarantor_national_id}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="body2">
                   <strong>شماره تلفن:</strong> {item.phone_number}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="body2">
                   <strong>تاریخ تولد:</strong>{' '}
                   {item.birth_date
@@ -79,19 +80,43 @@ const GuarantorList = ({ guarantors, onDelete, onEdit }) => {
                     : '—'}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="body2">
                   <strong>آدرس ضامن:</strong> {item.guarantor_address}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="body2">
                   <strong>کد پستی:</strong> {item.postal_code}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="body2">
                   <strong>جنسیت:</strong> {item.gender === 'male' ? 'مرد' : 'زن'}
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ my: 3 }} />
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="body2">
+                  <strong>نمایندگی از شرکت:</strong> {item.company_agent}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="body2">
+                  <strong>عنوان شغلی:</strong> {item.position_title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="body2">
+                  <strong>شماره شناسایی شرکت:</strong> {item.company_national_id}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="body2">
+                  <strong> براساس شماره:</strong> {item.document_news_paper}
                 </Typography>
               </Grid>
             </Grid>
@@ -112,6 +137,15 @@ GuarantorList.propTypes = {
       guarantor_address: PropTypes.string,
       postal_code: PropTypes.string,
       gender: PropTypes.oneOf(['male', 'female']),
+      address_of_company: PropTypes.string,
+      company_agent: PropTypes.string,
+      postal_code_of_company: PropTypes.string,
+      register_number_of_company: PropTypes.string,
+      registration_unit_of_company: PropTypes.string,
+      kind_of_company: PropTypes.string,
+      branch: PropTypes.string,
+      document_news_paper: PropTypes.string,
+      company_national_id: PropTypes.string,
     })
   ).isRequired,
   onDelete: PropTypes.func.isRequired,
