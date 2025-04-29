@@ -82,7 +82,7 @@ const LegalGuarantor = ({ allData }) => {
   const [selectedMembers, setSelectedMembers] = React.useState({});
   const [documentNewsPaper, setDocumentNewsPaper] = React.useState('');
 
-  const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo, submitGuarantorInfo } =
+  const { guarantorInfo, setGuarantorInfo, updateGuarantorInfo } =
     useCompanyInfoStore();
   const { mutate: patchGuarantor, data: patchData } = usePatchGuarantor(cartId);
 
