@@ -8,13 +8,14 @@ const Page2 = ({ data }) => {
   if (!data) return null;
 
   const renderContractClauses = () => {
-    const {
-      
-      company_cost,
-      investor_request,
-    } = data;
+    const { company_cost, investor_request } = data;
 
-
+    const getJalaliDate = (date) => {
+      if (!date) return '';
+      const m = moment(date);
+      if (!m.isValid()) return '';
+      return m.format('jYYYY/jMM/jDD');
+    };
 
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
@@ -48,7 +49,7 @@ const Page2 = ({ data }) => {
           به متقاضی، بصورت آنی و به یکباره مواد اولیه مورد نیاز اجرای طرح در این قرارداد را خریداری
           و نسبت به استفاده و ایجاد ارزش افزوده در چرخه‌های عملیاتی خود اقدام نماید.
           <br />
-          <span className="ml-4">
+          {/* <span className="ml-4">
             تبصره 1: متقاضی متعهد است مواد اولیه خریداری شده را طی نامه کتبی و با پیوست مستندات خرید
             به استحضار عامل برساند.
           </span>
@@ -57,22 +58,31 @@ const Page2 = ({ data }) => {
             تبصره 2: به استناد {investor_request?.subject_activity_document} ، در صورت وجود هرگونه
             مشکل در اجرای طرح و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی‌ها و
             دستگاه‌های تحت تملک خود نسبت به اجرای طرح اقدام نماید.
-          </span>
+          </span> */}
           <br />
-          2. استفاده از امکانات فراهم شده توسط عامل تنها در صورتی ممکن است که متقاضی نسبت به ثبت طرح خود در سکوی عامل طبق رویه تعیین شده و مندرج در دستورالعمل تامین مالی جمعی و مقررات و ضوابط عامل اقدام و کد اختصاصی دریافت کند و ضمانت نامه تعهد پرداخت را به عامل تودیع نماید.
-          <br />
-          <span className="ml-4">
-            تبصره 1: متقاضی متعهد است مواد اولیه خریداری شده را طی نامه کتبی و با پیوست مستندات خرید به استحضار عامل برساند. لذا در فرض انحراف از طرح، ملزم به تادیه خسارت وجه التزام به میزان 150 درصد مبلغ تامین مالی می باشد.
-          </span>
+          2. استفاده از امکانات فراهم شده توسط عامل تنها در صورتی ممکن است که متقاضی نسبت به ثبت طرح
+          خود در سکوی عامل طبق رویه تعیین شده و مندرج در دستورالعمل تامین مالی جمعی و مقررات و ضوابط
+          عامل اقدام و کد اختصاصی دریافت کند و ضمانت نامه تعهد پرداخت را به عامل تودیع نماید.
           <br />
           <span className="ml-4">
-            تبصره 2: به استناد صورت مالی منتهی به 29/12/1402، در صورت وجود هرگونه مشکل در اجرای طرح و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی ها و دستگاه های تحت تملک خود نسبت به اجرای طرح اقدام نماید.
+            تبصره 1: متقاضی متعهد است مواد اولیه خریداری شده را طی نامه کتبی و با پیوست مستندات خرید
+            به استحضار عامل برساند. لذا در فرض انحراف از طرح، ملزم به تادیه خسارت وجه التزام به
+            میزان 150 درصد مبلغ تامین مالی می باشد.
+          </span>
+          <br />
+          <span className="ml-4">
+            تبصره 2: به استناد صورت مالی منتهی به 1402/12/29، در صورت وجود هرگونه مشکل در اجرای طرح
+            و یا خرید مواد اولیه، متقاضی متعهد است از طریق سایر دارایی ها و دستگاه های تحت تملک خود
+            نسبت به اجرای طرح اقدام نماید.
           </span>
           <br />
           3. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
-          تمام شده خدمات منتهی به {moment(data.investor_request?.agency_agreement_date).format('jYYYY/jMM/jDD')} اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
-          اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
-          طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
+          تمام شده خدمات منتهی به 
+          {/* {getJalaliDate(investor_request?.agency_agreement_date)} */}
+          1401/
+           اظهار شده
+          توسط متقاضی محاسبه شده است، مبلغ کل مواد اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر
+          موارد ملزوم جهت در هر چرخۀ عملیاتی در این طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
           {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش
           محصولات در هر چرخۀ عملیاتی{' '}
           {formatAmount((investor_request?.amount_of_investment ?? 0) * 0.9)} میلیون ریال آن از محل
@@ -133,65 +143,7 @@ const Page2 = ({ data }) => {
         <h3 className="text-[23px] font-bold mt-2 mb-2">
           پیش‌بینی سود و زیان (ارقام به میلیون ریال)
         </h3>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-right">شرح</th>
-              <th className="border border-gray-300 p-2 text-right">دوره سه ماهه</th>
-              <th className="border border-gray-300 p-2 text-right">سالیانه</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">درآمد عملیاتی خاص (فروش)</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_total_income_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">بهای تمام شده درآمد های عملیاتی</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">سود ناخالص</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(
-                  investor_request?.three_months_gross_profit_of_the_plan_forecast
-                )}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">میزان تولید سال</td>
-              <td className="border border-gray-300 p-2" colSpan="2">
-                {investor_request?.amount_production}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name?.toLocaleString()} با
-          تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به
-          مبلغ {investor_request?.annual_total_income_forecast?.toLocaleString()} میلیون ریال
-          سالیانه و {investor_request?.three_months_total_income_forecast?.toLocaleString()} میلیون
-          ریال دوره سه ماهه توسط متقاضی تضمین شده است.
-          <br />
-          تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
-          حداقل {investor_request?.annual_total_income_forecast?.toLocaleString()} (
-          {investor_request?.three_months_total_income_forecast?.toLocaleString()}) میلیون ریال
-          سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق درآمد مذکور به هر علت و جهتی، متقاضی
-          درآمد برآورد شده را از محل سایر دارایی‌های خود در شرکت تضمین می‌نماید.
-        </p>
+      
       </div>
     );
   };

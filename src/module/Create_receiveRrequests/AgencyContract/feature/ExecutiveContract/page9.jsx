@@ -1,12 +1,13 @@
-import { formatNumber } from '../../utils/formatters_func';
+import { formatRials } from '../../utils/formatters_func';
 
 const page9 = ({ data }) => {
   if (!data) return null;
+  const checks = data?.checks?.filter((item) => item.type === 'وجه التزام');
+  console.log(checks);
+
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">
-
-        
         <p className="text-justify leading-relaxed text-[23px]">
           52) متقاضی متعهد است (10ده) درصد از مبلغ سرمایه موردنیاز خود را راسا پرداخت نماید. این
           پرداخت در قالب وجه تضمین عدم نقض تعهدات قراردادی و به حساب اعلام شده توسط عامل صورت می
@@ -58,15 +59,21 @@ const page9 = ({ data }) => {
           سلب و ساقط نمودند و کلیه اختیارات دراین خصوص را به عامل و کارگزار عامل واگذار کردند.
         </p>
         <p className="text-justify leading-relaxed text-[23px]">
-          متقاضی در فرض عدم ارایه گزارش طبق قرارداد حاضر، ملزم به تادیه مبلغ وجه التزام به مبلغ
-          10،000،000،000 ریال معادل یک میلیارد تومان است. بر این اساس، متقاضی باید مبلغ مزبور رابا
-          ارایه نمودن یک فقره چک به مبلغ 10،000 میلیون ریال به شماره 9222030079159024به تاریخ
-          ....... تضمین کند. لذا در فرض عدم ایفای تعهد بیان شده، متقاضی به عامل وکالت و وکالت در
-          توکیل داد تا نسبت به وصول چک مزبور اقدام کند که وصول چک، نافی حق فسخ نبوده و متقاضی نسبت
-          به وصول چک مزبور از طرف عامل، هیچ گونه اعتراض یا ادعایی ندارد.
+          {checks.map((check, index) => (
+            <p key={index}>
+              متقاضی در فرض عدم ارایه گزارش طبق قرارداد حاضر، ملزم به تادیه مبلغ وجه التزام به مبلغ
+              {formatRials(check.amount)} ریال معادل یک میلیارد تومان است. بر این اساس، متقاضی
+              باید مبلغ مزبور رابا ارایه نمودن یک فقره چک به مبلغ {formatRials(check.amount)} {' '}
+              به شماره {check.number}
+              به تاریخ {check?.date ? new Date(check.date).toLocaleDateString('fa-IR') : 'N/A'}{' '}
+              تضمین کند. لذا در فرض عدم ایفای تعهد بیان شده، متقاضی به عامل وکالت و وکالت در توکیل
+              داد تا نسبت به وصول چک مزبور اقدام کند که وصول چک، نافی حق فسخ نبوده و متقاضی نسبت به
+              وصول چک مزبور از طرف عامل، هیچ گونه اعتراض یا ادعایی ندارد.
+            </p>
+          ))}
         </p>
         <p className="text-justify leading-relaxed text-[23px] font-bold">ماده 6) تضامین</p>
-        <p className="text-justify leading-relaxed text-[23px]">
+        <p className="text-justify leading-relaxed text-[23px]">ّ
           1) متقاضی یک فقره ضمانت‌نامه تعهد پرداخت با قابلیت تمدید را مطابق جدول زیر ارائه نموده
           است.
         </p>

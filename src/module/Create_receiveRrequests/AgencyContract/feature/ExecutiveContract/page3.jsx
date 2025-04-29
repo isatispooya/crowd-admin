@@ -9,54 +9,55 @@ const Page3 = ({ data }) => {
   const renderContractClauses = () => {
     const { investor_request, checks, one_year_return_on_investment } = data;
 
-
-    
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-        <p>
-          <br />
-          تبصر ه 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر
-          اساس اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه
-          گردیده است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش
-          مبلغ بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
-          مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
-          از خود سلب و اسقاط نمود.
-          <br />
-          تبصره 4: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
-          وصول نشده، حال شده فرض خواهد شد.
-          <br />
-          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن محصولات موضوع این طرح{' '}
-          {investor_request?.suggestion_plan_name}، آن را به صورت سایر انواع محصولات و خدمات مندرج
-          در صورت‌های مالی تولید ارائه نماید و به فروش رساند و حداقل مبلغ سود ناخالص برآورد شده در
-          قرارداد حاضر را ایجاد کند.
-        </p>
+          <table className="w-full border-collapse border border-gray-300 mb-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">دوره سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سالیانه</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-2">درآمد عملیاتی خاص (فروش)</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_income_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">بهای تمام شده درآمد های عملیاتی</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">سود ناخالص</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.three_months_gross_profit_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">میزان تولید سال</td>
+              <td className="border border-gray-300 p-2" colSpan="2">
+                {investor_request?.amount_production}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-        <p>
-          <p>
-            <span className="text-[23px] font-bold">1.</span>
-            سود ناخالص (دوره سه ماهه){' '}
-            {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)} برآورد
-            گردیده است.
-          </p>
-          <br />
-          تبصره: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
-          عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای
-          عملیاتی بوده است.
-        </p>
-
-        <p>
-          <span className="text-[23px] font-bold">2.</span>
-          تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
-          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
-          {formatMillionRials(investor_request?.three_months_gross_profit_of_the_plan_forecast)}, به
-          نسبت {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم عامل و{' '}
-          {investor_request?.annual_shareholders_equity_ratio_forecast
-            ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
-            : 0}{' '}
-          درصد سهم متقاضی خواهد بود.
-        </p>
-
-        <h2 className="text-[23px] font-bold mt-4 mb-2">پیش‌بینی عملکرد طرح</h2>
 
         <table className="w-full border-collapse border border-gray-300 mb-4">
           <thead>
@@ -121,6 +122,67 @@ const Page3 = ({ data }) => {
             </tr>
           </tbody>
         </table>
+        <p>
+          تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name?.toLocaleString()} با
+          تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به
+          مبلغ {investor_request?.annual_total_income_forecast?.toLocaleString()} میلیون ریال
+          سالیانه و {investor_request?.three_months_total_income_forecast?.toLocaleString()} میلیون
+          ریال دوره سه ماهه توسط متقاضی تضمین شده است.
+          <br />
+          تبصره 2: متقاضی متعهد است از محل فروش محصولات مندرج در جدول فوق، درآمدی جمعاً به مبلغ
+          حداقل {investor_request?.annual_total_income_forecast?.toLocaleString()} (
+          {investor_request?.three_months_total_income_forecast?.toLocaleString()}) میلیون ریال
+          سالیانه (دوره سه ماهه) محقق نماید و در صورت عدم تحقق درآمد مذکور به هر علت و جهتی، متقاضی
+          درآمد برآورد شده را از محل سایر دارایی‌های خود در شرکت تضمین می‌نماید.
+        </p>
+        <p>
+          <br />
+          تبصر ه 3: با توجه به اینکه مبلغ بهای تمام شده فروش محصولات و مبلغ مندرج در جدول فوق بر
+          اساس اطلاعات صورت‌های مالی منتهی به 29 اسفند 1402 و اطلاعات اظهار شده توسط متقاضی محاسبه
+          گردیده است، متقاضی تأیید و اقرار می‌نماید هرگونه انحرافی در خصوص کاهش مبلغ فروش و افزایش
+          مبلغ بهای تمام شده به هر علت و جهتی، تماماً متوجه متقاضی خواهد بود و متقاضی متعهد به تأمین
+          مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
+          از خود سلب و اسقاط نمود.
+          <br />
+          تبصره 4: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
+          وصول نشده، حال شده فرض خواهد شد.
+          <br />
+          تبصره 5: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن محصولات موضوع این طرح{' '}
+          {investor_request?.suggestion_plan_name}، آن را به صورت سایر انواع محصولات و خدمات مندرج
+          در صورت‌های مالی تولید ارائه نماید و به فروش رساند و حداقل مبلغ سود ناخالص برآورد شده در
+          قرارداد حاضر را ایجاد کند.
+        </p>
+
+        <p>
+          <p>
+            <span className="text-[23px] font-bold">1.</span>
+            سود ناخالص (دوره سه ماهه){' '}
+            {formatMillionRials(
+              investor_request?.three_months_gross_profit_of_the_plan_forecast
+            )}{' '}
+            برآورد گردیده است.
+          </p>
+          <br />
+          تبصره: سایر هزینه‌های متعلقه به موضوع قرارداد به جز بهای تمام شده درآمدهای عملیاتی، بر
+          عهده متقاضی خواهد بود. بنابراین برآورد سود ناخالص حاصل، با احتساب بهای تمام شده درآمدهای
+          عملیاتی بوده است.
+        </p>
+
+        <p>
+          <span className="text-[23px] font-bold">2.</span>
+          تقسیم سود ناخالص دوره 3 ماهه حاصل از اجرای طرح میان متقاضی و عامل (به وکالت از دارندگان
+          گواهی شراکت)، در صورت تحقق سود ناخالص برآورد شده دوره 3 ماهه به میزان{' '}
+          {formatMillionRials(investor_request?.three_months_gross_profit_of_the_plan_forecast)}, به
+          نسبت {investor_request?.annual_shareholders_equity_ratio_forecast} درصد سهم عامل و{' '}
+          {investor_request?.annual_shareholders_equity_ratio_forecast
+            ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
+            : 0}{' '}
+          درصد سهم متقاضی خواهد بود.
+        </p>
+
+        <h2 className="text-[23px] font-bold mt-4 mb-2">پیش‌بینی عملکرد طرح</h2>
+
+
         <p className="text-[23px]">
           تبصره 1: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
           درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
@@ -153,7 +215,7 @@ const Page3 = ({ data }) => {
           مابه‌التفاوت آن از سایر دارایی‌های خود می‌باشد و به واسطۀ این تبصره حق هرگونه اعتراضی را
           از خود سلب و اسقاط نمود.
           <br />
-          تبصره 7: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
+          {/* تبصره 7: متقاضی تأیید و اقرار می‌نماید در صورت افزایش دورۀ وصول مطالبات، تمامی مطالبات
           وصول نشده، حال شده فرض خواهد شد.
           <br />
           تبصره 8: متقاضی با تأیید عامل مخیر است در صورت محیا نشدن فروش نخ DTY 300، آن را به صورت
@@ -179,7 +241,7 @@ const Page3 = ({ data }) => {
           مطالبه‌ای در این خصوص نخواهد داشت.
           <br />
           تبصره 11: در پایان دوره، تمامی مطالبات حال شده و متقاضی تأیید و تعهد می‌نماید تمامی
-          درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد.
+          درآمدهای برآورد شده طی دوره یکسالۀ طرح به صورت نقدی می‌باشد. */}
         </p>
       </div>
     );
