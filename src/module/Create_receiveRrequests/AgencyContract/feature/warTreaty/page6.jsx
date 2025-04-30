@@ -108,11 +108,10 @@ const Page6 = ({ agencyContract }) => {
           ریال صادر و به شرکت تسلیم خواهد نمود.
         </p>
         <p className="text-[23px]">
-          2) متقاضی متعهد است ضمن ثبت چک مذکور در سامانه ماد رسید ثبت را تحویل شرکت نماید. در صورتی
-          که در هر زمان پس از امضای قرارداد، عدم ثبت چک در سامانه مشخص گردد. شرکت مستحق در مطالبه
-          معادل وجه چک صادره به عنوان وجه التزام قراردادی خواهد بود. وجه التزام باد شده، بدل از اصل
-          تعهد نبوده و صادر کننده همچنان موظف به ایفای تعهدات خود وفق مفاد این قرارداد نیز خواهد
-          بود.
+          2) متقاضی متعهد است ضمن ثبت چک در سامانه ماد رسید ثبت را تحویل شرکت نماید. در صورتی که در
+          هر زمان پس از امضای قرارداد، عدم ثبت چک در سامانه مشخص گردد. شرکت مستحق در مطالبه معادل
+          وجه چک صادره به عنوان وجه التزام قراردادی خواهد بود. وجه التزام باد شده، بدل از اصل تعهد
+          نبوده و صادر کننده همچنان موظف به ایفای تعهدات خود وفق مفاد این قرارداد نیز خواهد بود.
         </p>
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
@@ -127,50 +126,54 @@ const Page6 = ({ agencyContract }) => {
         <p className="text-[23px]">
           به منظور تضمین ایفای هر یک از تعهدات ناشی از این قرارداد متقاضی موظف است همزمان با امضای
           قرارداد نسبت به معرفی{' '}
-          {`${agencyContract?.guarantor ? agencyContract?.guarantor?.length : 0}`} ضامن به شرح ذیل
-          به شرکت اقدام نماید.
+          {`${Array.isArray(agencyContract?.guarantor) ? agencyContract.guarantor.length : 0}`} ضامن
+          به شرح ذیل به شرکت اقدام نماید.
         </p>
 
         <p className="text-[23px]">
-        {agencyContract
-          .filter((g) => g.company_agent === null)
-          .map((item, index) => (
-            <p key={`physical-guarantor-${index}`}>
-              {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
-              {item.members?.[0]?.guarantor_national_id} و شماره تماس{' '}
-              {item.members?.[0]?.phone_number} متولد{' '}
-              {moment(item.members?.[0]?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
-              {item.members?.[0]?.guarantor_address} واحد {item.members?.[0]?.unit} به کد پستی{' '}
-              {item.members?.[0]?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی»
-              معرفی می‌گردد.
-            </p>
-          ))}
-        {agencyContract
-          .filter((g) => g.company_agent !== null)
-          .map((item, index) => (
-            <p key={`legal-guarantor-${index}`}>
-              {index + 3 + agencyContract.filter((g) => g.company_agent === null).length}) شرکت{' '}
-              {item.company_agent} ({item.kind_of_company}) به شناسه ملی {item.company_national_id}،
-              به شماره ثبت {item.register_number_of_company} در{' '}
-              {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
-              {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
-              {item.members && item.members.length > 0 && (
-                <>
-                  {' '}
-                  با نمایندگی{' '}
-                  {item.members.map((member, memberIndex) => (
-                    <span key={member.id}>
-                      {memberIndex > 0 && ' و '}
-                      {member.guarantor_name} به شماره ملی {member.guarantor_national_id} به سمت{' '}
-                      {member.position_title}
-                    </span>
-                  ))}
-                </>
-              )}{' '}
-              بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
-              &quot;ضامن حقوقی&quot; نامیده می‌شود
-            </p>
-          ))}
+          {Array.isArray(agencyContract?.guarantor) &&
+            agencyContract.guarantor
+              .filter((g) => g.company_agent === null)
+              .map((item, index) => (
+                <p key={`physical-guarantor-${index}`}>
+                  {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
+                  {item.members?.[0]?.guarantor_national_id} و شماره تماس{' '}
+                  {item.members?.[0]?.phone_number} متولد{' '}
+                  {moment(item.members?.[0]?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
+                  {item.members?.[0]?.guarantor_address} واحد {item.members?.[0]?.unit} به کد پستی{' '}
+                  {item.members?.[0]?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی»
+                  معرفی می‌گردد.
+                </p>
+              ))}
+          {Array.isArray(agencyContract?.guarantor) &&
+            agencyContract.guarantor
+              .filter((g) => g.company_agent !== null)
+              .map((item, index) => (
+                <p key={`legal-guarantor-${index}`}>
+                  {index +
+                    3 +
+                    agencyContract.guarantor.filter((g) => g.company_agent === null).length}
+                  ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
+                  {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
+                  {item.general_directorate_of_company}،{item.registration_unit_of_company}، به
+                  نشانی {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
+                  {item.members && item.members.length > 0 && (
+                    <>
+                      {' '}
+                      با نمایندگی{' '}
+                      {item.members.map((member, memberIndex) => (
+                        <span key={member.id}>
+                          {memberIndex > 0 && ' و '}
+                          {member.guarantor_name} به شماره ملی {member.guarantor_national_id} به سمت{' '}
+                          {member.position_title}
+                        </span>
+                      ))}
+                    </>
+                  )}{' '}
+                  بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
+                  &quot;ضامن حقوقی&quot; نامیده می‌شود
+                </p>
+              ))}
           <br />
         </p>
       </div>
