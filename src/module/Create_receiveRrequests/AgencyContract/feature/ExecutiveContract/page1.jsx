@@ -64,7 +64,7 @@ const Page1 = ({ data }) => {
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
                   {member.signature &&
-                    ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
+                    ` که از این پس در این قرارداد بر اساس  ${' '} ${member.signature_document}`}
                 </span>
               ))}
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،
@@ -80,7 +80,7 @@ const Page1 = ({ data }) => {
           طرف دیگر، به شرح مواد زیر منعقد گردید.
           <br />
           {guarantor
-            .filter((g) => g.type === 'physical')
+            .filter((g) => g.company_agent === null)
             .map((item, index) => (
               <p key={`physical-guarantor-${index}`}>
                 {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
@@ -93,16 +93,27 @@ const Page1 = ({ data }) => {
               </p>
             ))}
           {guarantor
-            .filter((g) => g.type !== 'physical')
+            .filter((g) => g.company_agent !== null)
             .map((item, index) => (
               <p key={`legal-guarantor-${index}`}>
-                {index + 3 + guarantor.filter((g) => g.type === 'physical').length}) شرکت{' '}
+                {index + 3 + guarantor.filter((g) => g.company_agent === null).length}) شرکت{' '}
                 {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
                 {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
                 {item.general_directorate_of_company}،{item.registration_unit_of_company}، به نشانی{' '}
                 {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
-                {item.members?.[0] &&
-                  ` با نمایندگی ${item.members[0].guarantor_name} به شماره ملی ${item.members[0].guarantor_national_id}`}
+                {item.members && item.members.length > 0 && (
+                  <>
+                    {' '}
+                    با نمایندگی{' '}
+                    {item.members.map((member, memberIndex) => (
+                      <span key={member.id}>
+                        {memberIndex > 0 && ' و '}
+                        {member.guarantor_name} به شماره ملی {member.guarantor_national_id} به سمت{' '}
+                        {member.position_title}
+                      </span>
+                    ))}
+                  </>
+                )}{' '}
                 بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
                 &quot;ضامن حقوقی&quot; نامیده می‌شود
               </p>
@@ -166,7 +177,6 @@ const Page1 = ({ data }) => {
           <br />
           17-2. فراخوان تامین: اعلام درخواست متقاضی، در سکو برای معرفی به تامین کنندگان است.
         </p>
-  
       </div>
     );
   };

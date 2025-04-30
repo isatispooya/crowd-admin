@@ -118,7 +118,7 @@ const ExecutiveContract = () => {
                     >
                       <p className="font-bold mb-1 text-sm md:text-base">{member.guarantor_name}</p>
                       <p className="text-xs md:text-sm text-gray-600 mb-2">
-                        {member.position_title}
+                        {member.position_title || 'شخص حقیقی'}
                       </p>
                       <div className="border border-gray-300 rounded h-16 w-full mb-1">
                         <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
