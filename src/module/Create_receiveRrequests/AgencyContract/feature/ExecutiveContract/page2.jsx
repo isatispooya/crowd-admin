@@ -10,8 +10,14 @@ const Page2 = ({ data }) => {
     const { company_cost, investor_request } = data;
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-         <p className="text-[23px]  mt-4 mb-2">
-
+        <p className="">
+          18-2. طرح: فعالیتی است که متقاضی برای انجام آن، اقدام به تامین منابع مالی می کند. حداقل
+          منابع مالی جمع آوری شده: مقدار وجوه نقدی است که در صورت جمع آوری و پرداخت آن توسط تامین
+          کنندگان، فرض میشود طرح در جذب سرمایه موردنیاز متقاضی موفق بوده است. در قرارداد حاضر حداقل
+          منابع مالی جمع آوری شده 175،000،000،000 ریال است.
+          <br />
+        </p>
+        <p className="text-[23px]  mt-4 mb-2">
           19-2. سکو: پلتفرمی است که برای تامین مالی جمعی توسط عامل ایجاد شده است و اطلاعات لازم طبق
           مفاد دستورالعمل در آن منتشر میشود.
           <br />
@@ -56,7 +62,7 @@ const Page2 = ({ data }) => {
           </span>
           <br />
           3. با توجه به نسبت هزینه‌های عملیاتی به بهای تمام‌شدۀ خدمات که بر اساس میانگین ترکیب بهای
-          تمام شده خدمات منتهی به 1401/12/29 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
+          تمام شده خدمات منتهی به 1402/12/29 اظهار شده توسط متقاضی محاسبه شده است، مبلغ کل مواد
           اولیه مورد نیاز و همچنین هزینۀ کل دستمزد و سایر موارد ملزوم جهت در هر چرخۀ عملیاتی در این
           طرح، به‌شرح جدول زیر برآورد می‌گردد. از{' '}
           {formatAmount(investor_request?.amount_of_investment)} میلیون ریال بهای تمام شده فروش
@@ -167,72 +173,7 @@ const Page2 = ({ data }) => {
           </tbody>
         </table>
 
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-right">شرح</th>
-              <th className="border border-gray-300 p-2 text-right">سه ماهه</th>
-              <th className="border border-gray-300 p-2 text-right">سال</th>
-            </tr>
-          </thead>
-
-          <tbody className="text-[23px]">
-            <tr>
-              <td className="border border-gray-300 p-2">پیش بینی درآمد کل</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_total_income_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">پیش بینی هزینه کل</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">پیش بینی سود ناخالص طرح</td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(
-                  investor_request?.three_months_gross_profit_of_the_plan_forecast
-                )}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">پیش بینی حاشیه سود طرح</td>
-              <td className="border border-gray-300 p-2">
-                {formatPercentage(
-                  investor_request?.three_months_profit_margin_of_the_plan_forecast
-                )}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatPercentage(investor_request?.annual_profit_margin_of_the_plan_forecast)}
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">پیش بینی نسبت حقوق صاحبان سهام</td>
-              <td className="border border-gray-300 p-2">
-                {formatPercentage(
-                  investor_request?.three_months_shareholders_equity_ratio_forecast
-                )}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {formatPercentage(investor_request?.annual_shareholders_equity_ratio_forecast)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      
-
-
+ 
       </div>
     );
   };

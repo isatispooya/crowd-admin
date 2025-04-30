@@ -8,6 +8,44 @@ const page8 = ({ data }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">
+      <p className="text-justify leading-relaxed text-[23px]">
+          48) متقاضی در دوره اجرای طرح اقدام به انجام عملیات کسب وکار اعلامی خویش تحت نظارت کامل
+          عامل، حسابرس معتمد سازمان بورس و اوراق بهادار (در صورت صلاحدید عامل) و کارگروه ارزیابی می
+          نماید و مکلف است نسبت به ارائه گزارش های دورهای از عملکرد خود طبق مقررات سازمان بورس اوراق
+          بهادار و دستورالعمل تامین مالی جمعی و قرارداد حاضر اقدام کند. متقاضی موظف است همواره یک
+          نسخه مورد تایید فرابورس یا کارگروه ارزیابی یا نهاد مالی (طبق سازوکارهای دستورالعمل) از
+          گزارش های مزبور را مطابق با ابلاغیه شماره /2377و/ 99مورخ 29/09/1399را به عامل ارائه نماید.
+          درهرحال، لازم است علاوه بر گزارش های مذکور، در پایان هر طرح، بنا بر صلاحدید عامل گزارش
+          حسابرسی شده طرح توسط حسابرس(که فاقد قید عدم اظهارنظر یا مردود باشد) ارائه شود و متقاضی
+          متعهد است دراین خصوص شرایط مورد نیاز را مهیا نماید.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          تبصره: تمامی طرح های بالای 5 میلیارد تومان طبق دستورالعمل کارگروه ارزیابی ملزم به ارائه
+          گزارش حسابرسی در انتهای دوره خواهند بود.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          49) درصورتی که متقاضی از ارائه گزارش های موضوع این قرارداد و سایر گزارش های مورد درخواست
+          عامل به پیوست شماره 4خودداری کند، متعهد است نسبت به پرداخت150 درصد مبلغ سرمایه موردنیاز به
+          عنوان وجه التزام نقض تعهد به عامل اقدام کند. مطالبه این خسارت نافی اعمال حق فسخ قرارداد
+          توسط عامل نیست.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          50) مسئولیت صحت اطلاعات، گزارش ها و اظهارات متقاضی (به استثنای گزارش های حسابرس مگر در
+          مواردی که گزارش حسابرس بر اساس اطلاعات اشتباه و یا ناقص متقاضی تدوین شده باشند) مستقیماً
+          بر عهده خود متقاضی است و چنانچه از باب نقض این تعهد خسارتی به عامل، نهاد مالی و تامین
+          کنندگان وارد گردد، متقاضی مسئول جبران آن خواهد بود. در این راستا لازم است متقاضی شرایطی را
+          مهیا نماید که حسابداری هر یک از طرحها در طول دوره اجرا به نحو استاندارد و مطلوب مورد قبول
+          حسابرس (در صورت صلاحدید عامل) صورت پذیرد. متقاضی می بایست در ابتدای شروع طرح استانداردهای
+          لازم، نوع و شیوه ارائه اسناد و مدارک مالی مورد قبول و دستورالعمل های مقتضی را با حسابرس
+          معتمد سازمان بورس و اوراق بهادار و عامل تعیین نماید تا در زمان حسابرسی بر مبنای تاییدات
+          حسابرس و عامل اقدام شده باشد.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          51) متقاضی متعهد است درصورتی که در انتهای دوره اجرای طرح، شخصی تمام یا بخشی از کالاها و
+          محصولات خریداری یا تولید شده از طریق فرایند تامین مالی جمعی را با قیمت های تضمینی مندرج در
+          قرارداد، خریداری ننمود، شخصا و راسا این کالاها را به همان قیمت تضمینی از تامین کنندگان
+          خریداری نماید.
+        </p>
         <p className="text-justify leading-relaxed text-[23px]">
           52) متقاضی متعهد است (10ده) درصد از مبلغ سرمایه موردنیاز خود را راسا پرداخت نماید. این
           پرداخت در قالب وجه تضمین عدم نقض تعهدات قراردادی و به حساب اعلام شده توسط عامل صورت می
@@ -72,99 +110,7 @@ const page8 = ({ data }) => {
             </p>
           ))}
         </p>
-        <p className="text-justify leading-relaxed text-[23px] font-bold">ماده 6) تضامین</p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          ّ 1) متقاضی یک فقره ضمانت‌نامه تعهد پرداخت با قابلیت تمدید را مطابق جدول زیر ارائه نموده
-          است.
-        </p>
-        <div className="w-full overflow-x-auto">
-          <table className="w-full border-collapse border border-black text-[20px]">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-black p-2 text-center">تعداد/نوع</th>
-                <th className="border border-black p-2 text-center">موضوع</th>
-                <th className="border border-black p-2 text-center">صادرکننده</th>
-                <th className="border border-black p-2 text-center">شماره ضمانت نامه</th>
 
-                <th className="border border-black p-2 text-center">نوع ضمانت‌نامه</th>
-                <th className="border border-black p-2 text-center">تاریخ اعتبار ضمانت‌نامه</th>
-                <th className="border border-black p-2 text-center">شماره سپام</th>
-                <th className="border border-black p-2 text-center">مبلغ ضمانت‌نامه (ریال)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.warranty
-                ?.filter((item) => item.type === 'warranty')
-                .map((item, index) => (
-                  <tr key={index}>
-                    <td className="border border-black p-2 text-center">1 فقره ضمانت‌نامه</td>
-                    <td className="border border-black p-2 text-center">
-                      {item.description || '-'}
-                    </td>
-                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
-                    <td className="border border-black p-2 text-center">{item.number || '-'}</td>
-                    <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
-                    <td className="border border-black p-2 text-center">
-                      {new Date(item.date).toLocaleDateString('fa-IR')}
-                    </td>
-                    <td className="border border-black p-2 text-center">{item.sepam_id || '-'}</td>
-                    <td className="border border-black p-2 text-center">
-                      {item.value?.toLocaleString() || 0}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-
-        <p className="text-justify leading-relaxed text-[23px]">2) چک های ضامنین</p>
-        <div className="w-full overflow-x-auto mt-6">
-          <table className="w-full border-collapse border border-black text-[20px]">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-black p-2 text-center">تعداد/نوع</th>
-                <th className="border border-black p-2 text-center">موضوع</th>
-                <th className="border border-black p-2 text-center">صادرکننده</th>
-                <th className="border border-black p-2 text-center">شناسه صیادی</th>
-                <th className="border border-black p-2 text-center">ارزش ( ریال)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.warranty
-                ?.filter((item) => item.type === 'check')
-                .map((item, index) => (
-                  <tr key={index}>
-                    <td className="border border-black p-2 text-center">1 فقره چک</td>
-                    <td className="border border-black p-2 text-center">
-                      {item.description || '-'}
-                    </td>
-                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
-                    <td className="border border-black p-2 text-center">
-                      {item.fishing_id || '-'}
-                    </td>
-                    <td className="border border-black p-2 text-center">
-                      {item.value?.toLocaleString() || 0}
-                    </td>
-                  </tr>
-                ))}
-              <tr className="font-bold">
-                <td className="border border-black p-2 text-center">جمع</td>
-                <td className="border border-black p-2 text-center" colSpan="3" />
-                <td className="border border-black p-2 text-center">
-                  {data?.warranty
-                    ?.filter((item) => item.type === 'check')
-                    .reduce((sum, item) => sum + (item.value || 0), 0)
-                    .toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p className="text-justify leading-relaxed text-[23px]">
-          تبصره 23: متقاضی تأیید و اقرار می‌نماید، با درخواست کتبی عامل، همکاری لازم را با بانک
-          صادرکننده ضمانت‌نامه جهت تمدید ضمانت‌نامه تعهد پرداخت صادر شده به‌عمل آورد، در غیر اینصورت
-          عامل مخیر به فسخ قرارداد می‌باشد و متقاضی موظف است روال اتمام قرارداد را طی کند.
-        </p>
       </div>
     </div>
   );

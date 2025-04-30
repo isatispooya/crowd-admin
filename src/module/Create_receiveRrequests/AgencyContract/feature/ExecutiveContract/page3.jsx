@@ -13,7 +13,70 @@ const Page3 = ({ data }) => {
 
     return (
       <div className="contract-clauses p-4 text-[23px] leading-relaxed">
-          <p>
+        <table className="w-full border-collapse border border-gray-300 mb-2">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-right">شرح</th>
+              <th className="border border-gray-300 p-2 text-right">سه ماهه</th>
+              <th className="border border-gray-300 p-2 text-right">سال</th>
+            </tr>
+          </thead>
+
+          <tbody className="text-[23px]">
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی درآمد کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_income_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_income_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی هزینه کل</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.three_months_total_cost_forecast)}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_total_cost_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی سود ناخالص طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(
+                  investor_request?.three_months_gross_profit_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatMillionRials(investor_request?.annual_gross_profit_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی حاشیه سود طرح</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_profit_margin_of_the_plan_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_profit_margin_of_the_plan_forecast)}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">پیش بینی نسبت حقوق صاحبان سهام</td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(
+                  investor_request?.three_months_shareholders_equity_ratio_forecast
+                )}
+              </td>
+              <td className="border border-gray-300 p-2">
+                {formatPercentage(investor_request?.annual_shareholders_equity_ratio_forecast)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
           تبصره 1: ترکیب فروش موضوع {investor_request?.suggestion_plan_name?.toLocaleString()} با
           تأیید عامل، به صلاحدید متقاضی خواهد بود، اما جمع درآمد حاصل از فروش مندرج در جدول فوق به
           مبلغ {investor_request?.annual_total_income_forecast?.toLocaleString()} میلیون ریال
@@ -69,13 +132,17 @@ const Page3 = ({ data }) => {
             ? 100 - investor_request.annual_shareholders_equity_ratio_forecast
             : 0}{' '}
           درصد سهم متقاضی خواهد بود.
-        </p>       
+        </p>
         <p>
           تبصره 1: متقاضی تأیید و اقرار می‌نماید بنا به تخصص و با تکیه بر تجربه تاریخی حاصل از{' '}
           {investor_request?.suggestion_plan_name}، به هیچ عنوان سود ناخالص حاصل از به‌کارگیری
-          ???????? میلیون ریال سرمایه در گردش مورد نیاز {investor_request?.suggestion_plan_name}،
-          کمتر از ???????? میلیون ریال سالیانه نخواهد شد. بنابراین هرگونه تغییری در این روند صرفاً
-          متوجه متقاضی خواهد بود و متقاضی حق هیچگونه ادعا و مطالبه‌ای در این خصوص نخواهد داشت.
+          {investor_request?.amount_of_investment
+            ? (investor_request.amount_of_investment / 1000000).toLocaleString()
+            : 0}{' '}
+          میلیون ریال سرمایه در گردش مورد نیاز {investor_request?.suggestion_plan_name}، کمتر از{' '}
+          {formatMillionRials(investor_request?.three_months_gross_profit_of_the_plan_forecast)}{' '}
+          میلیون ریال سالیانه نخواهد شد. بنابراین هرگونه تغییری در این روند صرفاً متوجه متقاضی خواهد
+          بود و متقاضی حق هیچگونه ادعا و مطالبه‌ای در این خصوص نخواهد داشت.
         </p>
 
         <p className="text-[23px]">
@@ -134,15 +201,21 @@ const Page3 = ({ data }) => {
         <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 4) مبلغ تأمین مالی</h2>
         <p className="text-[23px]">
           4-1. مبلغ تأمین مالی انجام شده برای متقاضی{' '}
-          {formatNumber(investor_request?.amount_of_investment || 0)} میلیون ریال گواهی شراکت 1,000
-          ریالی با اعتبار {investor_request?.duration_of_plan} ماهه، با نرخ سود علی‌الحساب{' '}
+          {investor_request?.amount_of_investment
+            ? (investor_request.amount_of_investment / 1000000).toLocaleString()
+            : 0}{' '}
+          میلیون ریال گواهی شراکت 1,000 ریالی با اعتبار {investor_request?.duration_of_plan} ماهه، با
+          نرخ سود علی‌الحساب{' '}
           {investor_request.interest_rate_plan} درصد است. بازپرداخت سود علی الحساب طی{' '}
           {investor_request?.duration_of_plan} ماه به صورت ماهیانه و پرداخت اصل مبلغ گواهی شراکت در
           انتهای دوره سرمایه‌گذاری توسط متقاضی خواهد بود.
           <br />
           تبصره 4: لازم به ذکر است مبلغ{' '}
-          {formatNumber((investor_request?.amount_of_investment || 0) * 0.1)} میلیون ریال، گواهی
-          شراکت خریداری شده توسط متقاضی از مجموع گواهی‌های شراکت ابطال شده، و بنابراین هیچگونه سود و
+          {investor_request?.amount_of_investment
+            ? (investor_request.amount_of_investment * 0.1 / 1000000).toLocaleString()
+            : 0}{' '}
+          میلیون ریال، گواهی شراکت خریداری شده توسط متقاضی از مجموع گواهی‌های شراکت ابطال شده، و
+          بنابراین هیچگونه سود و امتیازی به آن تعلق نمی‌گیرد.
           امتیازی به آن تعلق نمی‌گیرد.
         </p>
 
