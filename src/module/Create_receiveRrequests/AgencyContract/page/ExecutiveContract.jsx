@@ -60,7 +60,6 @@ const ExecutiveContract = () => {
       <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <tr>
-            {}
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
               <div>عامل</div>
             </td>
@@ -68,7 +67,10 @@ const ExecutiveContract = () => {
               <div>متقاضی</div>
             </td>
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-              <div>ضامن</div>
+              <div>ضامن حقیقی</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>ضامن حقوقی</div>
             </td>
           </tr>
           <tr>
@@ -110,24 +112,52 @@ const ExecutiveContract = () => {
             </td>
             <td className="border border-gray-300 p-2 rounded-lg">
               <div className="flex flex-col md:flex-row justify-center gap-4">
-                {guarantors.flatMap((guarantor, guarantorIndex) =>
-                  guarantor.members.map((member, index) => (
-                    <div
-                      key={`guarantor-${guarantorIndex}-${index}`}
-                      className="text-center flex-1 min-w-[200px]"
-                    >
-                      <p className="font-bold mb-1 text-sm md:text-base">{member.guarantor_name}</p>
-                      <p className="text-xs md:text-sm text-gray-600 mb-2">
-                        {member.position_title || 'شخص حقیقی'}
-                      </p>
-                      <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                        <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
-                          محل امضاء
+                {guarantors
+                  .filter((g) => g.company_agent === null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`physical-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
                         </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">حقیقی</p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
+              </div>
+            </td>
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-col md:flex-row justify-center gap-4">
+                {guarantors
+                  .filter((g) => g.company_agent !== null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`legal-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
+                        </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">
+                          {member.position_title} (حقوقی)
+                        </p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
               </div>
             </td>
           </tr>
