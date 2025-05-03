@@ -177,7 +177,7 @@ const WarTreaty = () => {
         format: 'a4',
       });
 
-      const pageWidth = 210; // A4 width in mm
+      const pageWidth = 210; 
 
       const pages = await Promise.all(
         pageRefs.current.map(async (ref, i) => {
