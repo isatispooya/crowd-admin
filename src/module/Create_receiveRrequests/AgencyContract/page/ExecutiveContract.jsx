@@ -50,8 +50,8 @@ const ExecutiveContract = () => {
       agencyContract.company_members?.filter((member) => member.signature === true) || [];
 
     const staticUsers = [
-      { person_title: 'سیدعلیمحمد خبیری', position_title: 'مدیر عامل' },
-      { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
+      { person_title: 'محسن زارعیان', position_title: 'مدیر عامل' },
+      { person_title: 'سیدعلیمحمد خبیری', position_title: 'رئیس هیئت مدیره' },
     ];
 
     const guarantors = agencyContract.guarantor || [];
@@ -60,18 +60,18 @@ const ExecutiveContract = () => {
       <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <tr>
-            {}
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
               <div>عامل</div>
             </td>
             <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
               <div>متقاضی</div>
             </td>
-            {guarantors.length > 0 && (
-              <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
-                <div>ضامن</div>
-              </td>
-            )}
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>ضامن حقیقی</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>ضامن حقوقی</div>
+            </td>
           </tr>
           <tr>
             <td className="border border-gray-300 p-2 rounded-lg">
@@ -110,22 +110,56 @@ const ExecutiveContract = () => {
                 ))}
               </div>
             </td>
-            {guarantors.length > 0 && (
-              <td className="border border-gray-300 p-2 rounded-lg">
-                <div className="flex flex-col md:flex-row justify-center gap-4">
-                  {guarantors.map((guarantor, index) => (
-                    <div key={`guarantor-${index}`} className="text-center flex-1 min-w-[200px]">
-                      <p className="font-bold mb-1 text-sm md:text-base">
-                        {guarantor.person_title}
-                      </p>
-                      <p className="text-xs md:text-sm text-gray-600 mb-2">
-                        {guarantor.position_title}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </td>
-            )}
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-col md:flex-row justify-center gap-4">
+                {guarantors
+                  .filter((g) => g.company_agent === null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`physical-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
+                        </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">حقیقی</p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+              </div>
+            </td>
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-col md:flex-row justify-center gap-4">
+                {guarantors
+                  .filter((g) => g.company_agent !== null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`legal-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
+                        </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">
+                          {member.position_title} (حقوقی)
+                        </p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+              </div>
+            </td>
           </tr>
         </table>
       </div>

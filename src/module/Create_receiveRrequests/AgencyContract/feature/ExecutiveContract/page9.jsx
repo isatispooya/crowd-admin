@@ -6,6 +6,99 @@ const Page9 = ({ data }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">
+        <p className="text-justify leading-relaxed text-[23px] font-bold">ماده 6) تضامین</p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          ّ 1) متقاضی یک فقره ضمانت‌نامه تعهد پرداخت با قابلیت تمدید را مطابق جدول زیر ارائه نموده
+          است.
+        </p>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full border-collapse border border-black text-[20px]">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-black p-2 text-center">تعداد/نوع</th>
+                <th className="border border-black p-2 text-center">موضوع</th>
+                <th className="border border-black p-2 text-center">صادرکننده</th>
+                <th className="border border-black p-2 text-center">شماره ضمانت نامه</th>
+
+                <th className="border border-black p-2 text-center">نوع ضمانت‌نامه</th>
+                <th className="border border-black p-2 text-center">تاریخ اعتبار ضمانت‌نامه</th>
+                <th className="border border-black p-2 text-center">شماره سپام</th>
+                <th className="border border-black p-2 text-center">مبلغ ضمانت‌نامه (ریال)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.warranty
+                ?.filter((item) => item.type === 'warranty')
+                .map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-black p-2 text-center">1 فقره ضمانت‌نامه</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.description || '-'}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
+                    <td className="border border-black p-2 text-center">{item.number || '-'}</td>
+                    <td className="border border-black p-2 text-center">ضمانت‌نامه تعهد پرداخت</td>
+                    <td className="border border-black p-2 text-center">
+                      {new Date(item.date).toLocaleDateString('fa-IR')}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.sepam_id || '-'}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.value?.toLocaleString() || 0}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-justify leading-relaxed text-[23px]">2) چک های ضامنین</p>
+        <div className="w-full overflow-x-auto mt-6">
+          <table className="w-full border-collapse border border-black text-[20px]">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-black p-2 text-center">تعداد/نوع</th>
+                <th className="border border-black p-2 text-center">موضوع</th>
+                <th className="border border-black p-2 text-center">صادرکننده</th>
+                <th className="border border-black p-2 text-center">شناسه صیادی</th>
+                <th className="border border-black p-2 text-center">ارزش ( ریال)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.warranty
+                ?.filter((item) => item.type === 'check')
+                .map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-black p-2 text-center">1 فقره چک</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.description || '-'}
+                    </td>
+                    <td className="border border-black p-2 text-center">{item.exporter || '-'}</td>
+                    <td className="border border-black p-2 text-center">
+                      {item.fishing_id || '-'}
+                    </td>
+                    <td className="border border-black p-2 text-center">
+                      {item.value?.toLocaleString() || 0}
+                    </td>
+                  </tr>
+                ))}
+              <tr className="font-bold">
+                <td className="border border-black p-2 text-center">جمع</td>
+                <td className="border border-black p-2 text-center" colSpan="3" />
+                <td className="border border-black p-2 text-center">
+                  {data?.warranty
+                    ?.filter((item) => item.type === 'check')
+                    .reduce((sum, item) => sum + (item.value || 0), 0)
+                    .toLocaleString()}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-justify leading-relaxed text-[23px]">
+          تبصره 23: متقاضی تأیید و اقرار می‌نماید، با درخواست کتبی عامل، همکاری لازم را با بانک
+          صادرکننده ضمانت‌نامه جهت تمدید ضمانت‌نامه تعهد پرداخت صادر شده به‌عمل آورد، در غیر اینصورت
+          عامل مخیر به فسخ قرارداد می‌باشد و متقاضی موظف است روال اتمام قرارداد را طی کند.
+        </p>
         <p>
           تبصره 24: متقاضی تأیید و اقرار می‌نماید، به موجب این ضمانت‌نامه، عامل مخیر است به هر عنوان
           و هر جهتی که عامل تشخیص دهد و مطالبه نماید، به محض ارسال تقاضای کتبی، بدون نیاز به صدور
@@ -75,42 +168,7 @@ const Page9 = ({ data }) => {
           اقدام عامل در این خصوص برای متقاضی غیرقابل اعتراض و لازم الاجرا می‌باشد.
         </p>
 
-        <p>
-          تبصره 37: متقاضی تأیید و اقرار می‌نماید در صورت نکول در پرداخت متفرعات توسط متقاضی، عامل
-          مخیر است در صورت حتی یک نکول متقاضی در پرداخت متفرعات، کل مبلغ ضمانت‌نامه صادر شده بابت
-          فرع مبلغ تأمین مالی را به یکباره از بانک مطالبه و دریافت نماید و متقاضی به موجب این تبصره
-          حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
-        </p>
 
-        <p>
-          تبصره 32: درصورت عدم ایفای تعهدات و یا تأخیر در پرداخت هر یک از اقساط، در سررسـیدهـای
-          مقـرر و همچنـین اسـتفاده غیـر مجـاز از وجوه دریافتی و یـا سـایر موارد تخلف از مفاد این
-          قرارداد، به تشخیص و صلاحدید عامل کلیه دیون متقاضی تبدیل به دین حال شده
-        </p>
-
-        <p>
-          تبصره 33: متقاضی و ضامن تأیید و اقرار می‌نماید در صورت نکول در پرداخت متفرعات توسط متقاضی،
-          عامل مخیر است در صورت حتی یک نکول متقاضی در پرداخت متفرعات، کل ارزش اوراق بهادار توثیق شده
-          نزد خود را بابت فرع مبلغ تأمین مالی را به یکباره از کارگزار مربوطه مطالبه و دریافت نماید و
-          متقاضی به موجب این تبصره حق هرگونه اعتراضی را از خود سلب و اسقاط نمود.
-        </p>
-
-        <p>
-          تبصره 34: سررسید چک ضمانت بابت ضمانت اصل مبلغ تأمین مالی، باید حداقل سه روز کاری پس از
-          موعد پرداخت اصل مبلغ تأمین مالیِ مندرج در جدول بند 1 مادۀ 5 این قرارداد باشد، در صورتیکه
-          موعد سررسید چک ضمانت پیش از موعد مقرر در جدول بند 1 مادۀ 5 این قرارداد باشد، عامل رأسا
-          نسبت به تمدید چک ضمانت اقدام می‌نماید و در صورتیکه شرایط تمدید توسط متقاضی فراهم نشود،
-          عامل در همان تاریخ کل وجه را از بانک مطالبه نموده و دریافت می‌نماید. متقاضی حق هرگونه
-          اعتراضی را از خود سلب و اسقاط نموده است.
-        </p>
-
-        <p>
-          تبصره 35: در این قرارداد عامل به وکالت از دارندگان گواهی‌های شراکت می‌باشد. متقاضی،¬ تأیید
-          می‌نمایند که در صورت هرگونه تخلف در اجرای طرح و تأخیر در پرداخت اقساط بند 1 ماده 5، عامل
-          به وکالت از دارندگان گواهی‌های شراکت رأسا می‌تواند نسبت به وصول مطالبات این اشخاص از محل
-          چک‌های تضامین یا ضمانت نامه تعهد پرداخت و یا اوراق بهادار توثیق شده به صورت عرضی اقدام
-          نماید. اقدام عامل در این خصوص برای متقاضی غیرقابل اعتراض و لازم الاجرا می‌باشد.
-        </p>
       </div>
     </div>
   );

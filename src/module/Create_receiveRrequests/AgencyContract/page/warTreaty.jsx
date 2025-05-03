@@ -51,33 +51,41 @@ const WarTreaty = () => {
     );
 
     const staticUsers = [
-      { person_title: 'سیدعلیمحمد خبیری', position_title: 'مدیر عامل' },
-      { person_title: 'محسن زارعیان', position_title: 'رئیس هیئت مدیره' },
+      { person_title: 'محسن زارعیان', position_title: 'مدیر عامل' },
+      { person_title: 'سیدعلیمحمد خبیری', position_title: 'رئیس هیئت مدیره' },
     ];
 
     const guarantors = agencyContract.guarantor || [];
 
     return (
       <div className="absolute bottom-0 left-0 right-0 overflow-x-auto">
-      <table className="w-full border-collapse text-sm">
-        <thead>
+        <table className="w-full border-collapse text-sm">
           <tr>
-            <th className="border border-gray-300 p-2 text-center font-bold">عامل</th>
-            <th className="border border-gray-300 p-2 text-center font-bold">متقاضی</th>
-            <th className="border border-gray-300 p-2 text-center font-bold">ضامنین</th>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>عامل</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>متقاضی</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>ضامن حقیقی</div>
+            </td>
+            <td className="border border-gray-300 p-2 text-center w-1/2 font-bold">
+              <div>ضامن حقوقی</div>
+            </td>
           </tr>
-        </thead>
-        <tbody>
           <tr>
-            {/* عامل */}
             <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-col md:flex-row justify-between gap-4">
                 {staticUsers.map((user, index) => (
-                  <div key={`static-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{user.person_title}</p>
-                    <p className="text-sm text-gray-600 mb-2">{user.position_title}</p>
+                  <div
+                    key={`static-signatory-${index}`}
+                    className="text-center flex-1 min-w-[200px]"
+                  >
+                    <p className="font-bold mb-1 text-sm md:text-base">{user.person_title}</p>
+                    <p className="text-xs md:text-sm text-gray-600 mb-2">{user.position_title}</p>
                     <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                      <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
                         محل امضاء
                       </p>
                     </div>
@@ -85,16 +93,17 @@ const WarTreaty = () => {
                 ))}
               </div>
             </td>
-    
-            {/* متقاضی */}
             <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-col md:flex-row justify-center gap-4">
                 {signatoryMembers.map((member, index) => (
-                  <div key={`dynamic-signatory-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{member.person_title}</p>
-                    <p className="text-sm text-gray-600 mb-2">{member.position_title}</p>
+                  <div
+                    key={`dynamic-signatory-${index}`}
+                    className="text-center flex-1 min-w-[200px]"
+                  >
+                    <p className="font-bold mb-1 text-sm md:text-base">{member.person_title}</p>
+                    <p className="text-xs md:text-sm text-gray-600 mb-2">{member.position_title}</p>
                     <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                      <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
                         محل امضاء
                       </p>
                     </div>
@@ -102,28 +111,59 @@ const WarTreaty = () => {
                 ))}
               </div>
             </td>
-    
-            {/* ضامنین */}
             <td className="border border-gray-300 p-2 rounded-lg">
-              <div className="flex flex-wrap gap-4 justify-center">
-                {guarantors.map((guarantor, index) => (
-                  <div key={`guarantor-${index}`} className="text-center min-w-[200px] max-w-[300px] flex-1">
-                    <p className="font-bold mb-1">{guarantor.guarantor_name}</p>
-                    <p className="text-sm text-gray-600 mb-2">ضامن</p>
-                    <div className="border border-gray-300 rounded h-16 w-full mb-1">
-                      <p className="text-gray-400 text-sm pt-6 border-dotted border-t border-gray-300 w-full">
-                        محل امضاء
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex flex-col md:flex-row justify-center gap-4">
+                {guarantors
+                  .filter((g) => g.company_agent === null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`physical-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
+                        </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">حقیقی</p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+              </div>
+            </td>
+            <td className="border border-gray-300 p-2 rounded-lg">
+              <div className="flex flex-col md:flex-row justify-center gap-4">
+                {guarantors
+                  .filter((g) => g.company_agent !== null)
+                  .flatMap((guarantor, guarantorIndex) =>
+                    guarantor.members.map((member, index) => (
+                      <div
+                        key={`legal-guarantor-${guarantorIndex}-${index}`}
+                        className="text-center flex-1 min-w-[200px]"
+                      >
+                        <p className="font-bold mb-1 text-sm md:text-base">
+                          {member.guarantor_name}
+                        </p>
+                        <p className="text-xs md:text-sm text-gray-600 mb-2">
+                          {member.position_title} (حقوقی)
+                        </p>
+                        <div className="border border-gray-300 rounded h-16 w-full mb-1">
+                          <p className="text-gray-400 text-xs md:text-sm pt-6 border-dotted border-t border-gray-300 w-full">
+                            محل امضاء
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
               </div>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-    
+        </table>
+      </div>
     );
   };
 
@@ -137,7 +177,7 @@ const WarTreaty = () => {
         format: 'a4',
       });
 
-      const pageWidth = 210; // A4 width in mm
+      const pageWidth = 210; 
 
       const pages = await Promise.all(
         pageRefs.current.map(async (ref, i) => {
