@@ -8,6 +8,13 @@ export const getUserDetail = async (userId) => {
   return response.data.success;
 };
 
+export const postTradingCodes = async (userId, data) => {
+  const response = await api.post(`/api/add-trading-code/admin/${userId}/`, {
+    data,
+  });
+
+  return response.data.success;
+};
 export const postOtpUser = async (nationalCode) => {
   const response = await api.post(
     `/api/otp/update/`,

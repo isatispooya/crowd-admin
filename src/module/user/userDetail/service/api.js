@@ -28,3 +28,11 @@ export const updateUser = async (data) => {
 
   return response;
 };
+
+
+export const postTradingCodes = async (data) => {
+  
+  const response = await api.post(`/api/add/trading/code/admin/`, data);
+
+  return response.data.success;
+};
