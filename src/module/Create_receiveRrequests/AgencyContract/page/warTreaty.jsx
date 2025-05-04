@@ -52,7 +52,7 @@ const WarTreaty = () => {
 
     const staticUsers = [
       { person_title: 'محسن زارعیان', position_title: 'مدیر عامل' },
-      { person_title: 'سیدعلیمحمد خبیری', position_title: 'رئیس هیئت مدیره' },
+      { person_title: 'سیدعلیمحمد خبیری', position_title: 'عضو هیئت مدیره' },
     ];
 
     const guarantors = agencyContract.guarantor || [];
@@ -177,7 +177,7 @@ const WarTreaty = () => {
         format: 'a4',
       });
 
-      const pageWidth = 210; 
+      const pageWidth = 210;
 
       const pages = await Promise.all(
         pageRefs.current.map(async (ref, i) => {
