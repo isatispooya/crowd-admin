@@ -28,6 +28,7 @@ const Page2 = ({ agencyContract }) => {
               </p>
             ))}
         <br />
+        بر اساس روزنامه رسمى شماره
         {Array.isArray(agencyContract?.guarantor) &&
           agencyContract.guarantor
             .filter((g) => g.company_agent !== null)
@@ -53,8 +54,8 @@ const Page2 = ({ agencyContract }) => {
                     ))}
                   </>
                 )}{' '}
-                بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
-                &quot;ضامن حقوقی&quot; نامیده می‌شود
+                {item.document_news_paper} که از این پس در این قرارداد &quot;ضامن حقوقی&quot; نامیده
+                می‌شود
               </p>
             ))}
         <br />

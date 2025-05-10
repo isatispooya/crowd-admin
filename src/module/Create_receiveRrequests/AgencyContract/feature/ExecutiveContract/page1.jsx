@@ -54,7 +54,7 @@ const Page1 = ({ data }) => {
           1) شرکت {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
           {company?.economic_code} و شماره ثبت {company?.registration_number} در اداره ثبت شرکت‌ها و
           موسسات غیر تجاری {company?.general_directorate} به نشانی {company?.address}، پلاک 0، 7، به
-          کد پستی {company?.postal_code}، با نمایندگی
+          کد پستی {company?.postal_code}، با نمایندگی که از این پس در این قرارداد بر اساس
           {company_members &&
             company_members.length > 0 &&
             company_members
@@ -63,8 +63,7 @@ const Page1 = ({ data }) => {
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                  {member.signature &&
-                    ` که از این پس در این قرارداد بر اساس  ${' '} ${member.signature_document}`}
+                  {member.signature && `  ${' '} ${member.signature_document}`}
                 </span>
               ))}
           بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،
@@ -78,7 +77,7 @@ const Page1 = ({ data }) => {
           نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
           متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 0042/ف/1403 مورخ 1403/05/15 از
           طرف دیگر، به شرح مواد زیر منعقد گردید.
-          <br />  
+          <br />
           {guarantor
             .filter((g) => g.company_agent === null)
             .map((item, index) => (
