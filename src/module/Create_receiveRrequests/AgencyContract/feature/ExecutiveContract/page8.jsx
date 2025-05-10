@@ -8,7 +8,7 @@ const page8 = ({ data }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] space-y-6">
-      <p className="text-justify leading-relaxed text-[23px]">
+        <p className="text-justify leading-relaxed text-[23px]">
           48) متقاضی در دوره اجرای طرح اقدام به انجام عملیات کسب وکار اعلامی خویش تحت نظارت کامل
           عامل، حسابرس معتمد سازمان بورس و اوراق بهادار (در صورت صلاحدید عامل) و کارگروه ارزیابی می
           نماید و مکلف است نسبت به ارائه گزارش های دورهای از عملکرد خود طبق مقررات سازمان بورس اوراق
@@ -110,7 +110,6 @@ const page8 = ({ data }) => {
             </p>
           ))}
         </p>
-
       </div>
     </div>
   );

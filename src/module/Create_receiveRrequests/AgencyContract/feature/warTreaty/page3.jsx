@@ -8,6 +8,30 @@ const Page4 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] ">
+      <p className="text-justify leading-relaxed text-[23px]">
+          15) وکالت فروش: منظور، وکالتی است که سرمایه‌گذار ، همزمان با واریز مبلغ سرمایه گذاری، به
+          متقاضی اعطا نموده و متقاضی به استناد آن، نسبت به انتقال دارایی های خریداری شده به خود
+          (سرمایه پذیر) هنوزم به مبلغ{' '}
+          {(
+            Number(
+              agencyContract.investor_request.amount_of_investment *
+                0.9 *
+                (agencyContract.investor_request.interest_rate_plan / 100) +
+                agencyContract.investor_request.amount_of_investment
+            ) / 1000000
+          ).toLocaleString()}{' '}
+          میلیون ریال، اقدام می نماید.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          16) »حداقل مبلغ قابل پذیرش»: منظور، مبلغ{' '}
+          <strong>
+            {(
+              (Number(agencyContract.investor_request.amount_of_investment) * 0.7) /
+              1000000
+            ).toLocaleString()}
+          </strong>{' '}
+          میلیون ریال است که در صورت جذب آن تا پایان دوره جمع آوری، کمپین موفق فرض می گردد.
+        </p>
         <p className="text-justify leading-relaxed text-[23px]">
           17) موفقیت کمپین»: منظور، اعم از موفقیت کمپین در جذب سرمایه به میزان حداقل مبلغ قابل پذیرش
           و یا جمع آوری کامل وجوه مورد نیاز (به مبلغ{' '}
