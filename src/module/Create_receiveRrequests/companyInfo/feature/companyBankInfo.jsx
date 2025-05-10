@@ -37,6 +37,8 @@ const banks = [
   { id: 26, name: 'بانک سرمایه' },
   { id: 27, name: 'بانک پاسارگاد' },
   { id: 28, name: 'بانک مشترک ایران-ونزوئلا' },
+  { id: 29, name: ' بانک آینده' },
+
 ];
 
 const CompanyBankInfo = ({ data }) => {
