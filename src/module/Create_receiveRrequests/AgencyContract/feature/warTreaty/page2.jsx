@@ -28,7 +28,6 @@ const Page2 = ({ agencyContract }) => {
               </p>
             ))}
         <br />
-        بر اساس روزنامه رسمى شماره
         {Array.isArray(agencyContract?.guarantor) &&
           agencyContract.guarantor
             .filter((g) => g.company_agent !== null)
@@ -74,12 +73,15 @@ const Page2 = ({ agencyContract }) => {
               <span key={member.id || index}>
                 {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                 {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                {member.signature &&
-                  ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
               </span>
             ))}
-        بر اساس {agencyContract.investor_request.company_members?.signture_document}، «متقاضی»
-        نامیده می‌شود،
+        بر اساس{' '}
+        {
+          agencyContract.investor_request.company_members.filter(
+            (member) => member.signature_document
+          )[0]?.signature_document
+        }
+        ، «متقاضی» نامیده می‌شود،
         <br />
         <p className="text-justify leading-relaxed text-[23px]">
           ِ 3) شخص حقیقی/حقوقی با مشخصات و اطلاعات سجامی مندرج در سکوی تأمین مالی جمعی عامل به نشانی

@@ -92,8 +92,8 @@ const Page1 = ({ agencyContract }) => {
                 <React.Fragment key={member.id}>
                   {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier}
-                  سمت {member.first_role}
-                  {member.second_role && ` و ${member.second_role}`}
+                  سمت 
+                  {member.position_title}
                   {index < filteredArray.length - 1 ? ' و ' : ''}
                 </React.Fragment>
               ))}{' '}

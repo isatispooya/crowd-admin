@@ -63,10 +63,12 @@ const Page1 = ({ data }) => {
                 <span key={member.id || index}>
                   {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                  {member.signature && `  ${' '} ${member.signature_document}`}
                 </span>
               ))}
-          بر اساس {company_members?.signture_document}، «متقاضی» نامیده می‌شود،
+          بر اساس{' '}
+          {company_members.filter((member) => member.signature_document)[0]?.signature_document ||
+            ''}
+          ، «متقاضی» نامیده می‌شود،
           <br />
           2) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
           411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به
