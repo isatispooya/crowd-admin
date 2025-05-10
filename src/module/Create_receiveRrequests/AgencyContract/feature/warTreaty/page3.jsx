@@ -9,6 +9,26 @@ const Page4 = ({ agencyContract }) => {
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px] ">
       <p className="text-justify leading-relaxed text-[23px]">
+          11) نماد طرح »: منظور، نمادی است که توسط شرکت فرابورس ایران و پس از ارسال مدارک و مستندات
+          مربوطه، به طرح تخصیص داده میشود.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          12) دوره جمع آوری»: منظور، یک دوره 21 روزه می باشد که با صلاح دید عامل و برای مدت حداکثر 2
+          ماه قابل تمدید می باشد.
+        </p>
+        <p className="text-justify leading-relaxed text-[23px]">
+          13) وکالت خرید»: منظور، وکالتی است که تأمین کننده، همزمان با واریز مبلغ سرمایه گذاری، جهت
+          خرید داراییهای مورد نیاز به مبلغ{' '}
+          <strong>
+            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
+          </strong>{' '}
+          میلیون ریال از فروشنده مجاز، به متقاضی اعطا می نماید. نماید.
+        </p>
+      <p className="text-justify leading-relaxed text-[23px]">
+          14) دارایی های خریداری شده: منظور، دارایی‌هایی است که متقاضی با استفاده از مبلغ سرمایه
+          گذاری تأمین کننده و به استناد وکالت خرید، از فروشنده مجاز خریداری می نماید.
+        </p>
+      <p className="text-justify leading-relaxed text-[23px]">
           15) وکالت فروش: منظور، وکالتی است که سرمایه‌گذار ، همزمان با واریز مبلغ سرمایه گذاری، به
           متقاضی اعطا نموده و متقاضی به استناد آن، نسبت به انتقال دارایی های خریداری شده به خود
           (سرمایه پذیر) هنوزم به مبلغ{' '}
@@ -221,24 +241,6 @@ const Page4 = ({ agencyContract }) => {
           <br />
         </p>
         <br />
-        <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
-        <br />
-
-        <p className="text-justify leading-relaxed text-[22px]">موضوع قرارداد حاضر عبارت است از:</p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          1) قبولی سمت شرکت به عنوان عامل تأمین مالی جمعی؛
-        </p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          2) سرمایه گذاری تأمین کننده در طرح به میزان مبلغ سرمایه گذاری و صدور گواهی سرمایه گذاری به
-          نام وی؛
-        </p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          3) خرید دارایی های مورد نیاز توسط سرمایه پذیر به استناد وکالت خرید و با استفاده از مبلغ
-          سرمایه گذاری؛
-        </p>
-        <p className="text-justify leading-relaxed text-[22px]">
-          4) انتقال دارایی های خریداری شده به سرمایه پذیر به استناد وکالت فروش ؛
-        </p>
 
         <br />
       </div>
