@@ -16,7 +16,73 @@ const Page5 = ({ agencyContract }) => {
               <th className="border border-gray-300 text-[22px] text-right pr-2">توضیحات</th>
             </tr>
           </thead>
+
           <tbody className="border border-gray-300">
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">1</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                مبلغ کل تامین مالی
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                <strong>
+                  {Number(
+                    agencyContract.investor_request.amount_of_investment / 1000000 || 0
+                  ).toLocaleString()}{' '}
+                  میلیون ریال
+                </strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">2</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">آورده متقاضی</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های شراکت از شرکت
+                فرابورس ایران،{' '}
+                <strong>
+                  {(
+                    (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
+                    0.1
+                  ).toLocaleString()}{' '}
+                  میلیون ریال{' '}
+                </strong>
+                معادل 10 درصد مبلغ کل تامین مالی (ردیف 1) را به شماره حساب 3002115158845881 و شماره
+                شبا 4705703002115158845881 IR نزد بانک پاسارگاد شعبه جمهوری یزد به نام شرکت سبدگردان
+                ایساتیس پویا کیش واریز نماید.
+                <br /> تبصره 1: در صورت عدم واریز آورده متقاضی حداکثر طی 5 روز کاری از زمان درخواست
+                عامل، عامل مخیر به فسخ قرارداد است و متقاضی متعهد به اجرای بند 2-1 ماده 9 این
+                قرارداد 2-1 ماده 9 این قرارداد می باشد.
+              </td>
+            </tr>
+
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">3</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                خالص مبلغ تامین مالی{' '}
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                <strong>
+                  {(
+                    (Number(agencyContract.investor_request.amount_of_investment || 0) / 1000000) *
+                    0.9
+                  ).toLocaleString()}{' '}
+                  میلیون ریال
+                </strong>
+                ، معادل 90 درصد مبلغ کل تامین مالی
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">4</td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {' '}
+                دوره بازپرداخت اقساط
+              </td>
+              <td className="border border-gray-300 text-[22px] text-right pr-2">
+                {Number(agencyContract.investor_request.duration_of_plan || 0).toLocaleString()}
+                ماه
+              </td>
+            </tr>
+
             <tr>
               <td className="border border-gray-300 text-[22px] text-right pr-2">5</td>
               <td className="border border-gray-300 text-[22px] text-right pr-2">
@@ -149,88 +215,6 @@ const Page5 = ({ agencyContract }) => {
                 سه ماهه و ارائه صورتهاي مالي طرح (حسابرسي نشده) به صورت شش ماهه و ارائة صورتهاي مالي
                 طرح (حسابرسي شده توسط حسابرس) در انتهاي دوره اقدام نمايد. تخلف از هر یک ، مستوجب حق
                 فسخ برای عامل بوده و عامل حق مطالبه تمام مبالغ مندرج در قرارداد را داراست.
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">12</td>
-              <td className="border border-gray-300 text-[22px] text-right pr-2">
-                تضامین مورد نیاز{' '}
-              </td>
-              <td className="border border-gray-300 text-[18px] text-right pr-2">
-                متقاضي متعهد است یک فقره ضمانت نامه تعهد پرداخت بانکی برابر اصل مبلغ تامین مالی به
-                <strong>
-                  {Number(
-                    agencyContract.investor_request.amount_of_investment / 1000000 || 0
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{'  '}
-                </strong>
-                را با اعتبار 12 ماهه و قابلیت تمدید توسط عامل و با قابلیت دریافت وجه ضمانت نامه بدون
-                قید و شرط در هر زمان به محض تقاضای عامل (عندالمطالبه)، که مورد تائید واحد حقوقی و
-                واحد مالی عامل باشد، ارائه نماید، همچنین متقاضی متعهد است 2 فقره چک ضمانت صیادی طرح
-                جدید را جمعاً به مبلغ{' '}
-                <strong>
-                  {Math.ceil(
-                    (Math.ceil(agencyContract.warranty_check / 1000) * 1000) / 1000000 || 0
-                  ).toLocaleString()}{' '}
-                  میلیون ریال{'  '}
-                </strong>
-                (یک فقره چک به میزان اصل مبلغ تأمین مالی و یک فقره چک به میزان یک فرع از اقساط مبلغ
-                تأمین مالی) از ضامن دریافت و حداکثر یک روز کاری پس از موفقیت کمین و جمع آوری وجوه به
-                عامل تحویل نماید.
-                <br /> تبصره 7 : متقاضی متعهد است پیش از اقدام عامل برای اخذ مجوز انتشار گواهی های
-                شراکت از شرکت فرابورس ایران، حداکثر طی 5 روز کاری نسبت به ارائه ضمانت نامه تعهد
-                پرداخت اقدام نماید. در صورت عدم ارائه ضمانت نامه در موعد مقرر به عامل، عامل مخیر به
-                فسخ قرارداد است و متقاضی متعهد به اجرای بند 2-1 ماده 9 این قرارداد می باشد.
-                <br /> تبصره 8 : کلیه هزینه های صدور، تمدید، اصلاح یا ابطال ضمانت نامه تعهد پرداخت
-                بر عهده متقاضی است.
-                <br /> تبصره 9: در صورت عدم تحويل چك هاي تضمين در مواعد مقرر شده يا در صورت عدم ثبت
-                چك هاي تضمين در سامانه چك صيادي، و نیز عدم ظهرنویسی آن توسط صاحبین امضای مجاز، عامل
-                مخير به فسخ قرارداد است و متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
-                <br /> تبصره 10: متقاضي متعهد است چك هاي تضمين را بدون درج عبارت «بابت ضمانت» روي چك
-                تضمين و درج عبارت « تأديه ديون» در شرح سامانه چك صيادي يا عدم تكميل قسمت شرح چك در
-                سامانه چك صياد و به عامل تحويل نمايد، در غير اينصورت عامل مخير به فسخ قرارداد است و
-                متقاضي متعهد به اجراي بند ٣-١ مادة ٩ اين قرارداد ميباشد.
-                <br />
-                <span className="text-[18px]">
-                  تبصره 11: متقاضي ميتواند در صورت نياز هنگام تحويل چك تضمين و چك هاي پرداخت اقساط
-                  از عامل رسيد موقت دريافت اسناد ياد شده را درخواست نمايد، اما رسيد موقت صرفاً به
-                  معناي تحويل اسناد يادشده توسط متقاضي است و به هيچ وجه به منزله صحت اسناد ياد شده
-                  نيست.
-                </span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="border border-gray-300 text-[22px] text-right p-3">13</td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                {' '}
-                مواعدچک های پرداخت اقساط
-              </td>
-              <td className="border border-gray-300 text-[22px] text-right p-3">
-                متقاضي متعهد است چك هاي پرداخت اقساط بابت اصل و متفرعات (سود علي الحساب) را جمعاً به
-                مبلغ{' '}
-                {(
-                  (Number(agencyContract.investor_request.amount_of_investment || 0) +
-                    Number(agencyContract.investor_request.amount_of_investment || 0) *
-                      Number(agencyContract.investor_request.interest_rate_plan / 100 || 0) *
-                      0.9) /
-                  1000000
-                ).toLocaleString()}
-                ميليون ريال،{' '}
-                {Number(
-                  agencyContract.investor_request.amount_of_investment / 1000000 || 0
-                ).toLocaleString()}{' '}
-                بابت اصل مبلغ تأمين مالي{' '}
-                {(
-                  (Number(agencyContract.investor_request.amount_of_investment || 0) *
-                    Number(agencyContract.investor_request.interest_rate_plan / 100 || 0) *
-                    0.9) /
-                  1000000
-                ).toLocaleString()}{' '}
-                میلیون ریال بابت متفرعات مبلغ تأمین مالی)، حداكثر يك روز كاري پس از موفقيت كمپين، طي
-                5 فقره چك، با تاريخ هاي پرداخت حداقل 5 روز كاري زودتر از مواعد سررسيد (زمان پرداخت
-                سود مشاركت به دارندگان گواهي شراكت) كه پس از موفقيت كمپين توسط عامل به متقاضي اعلام
-                مي گردد، به عامل تحويل نمايد.
               </td>
             </tr>
           </tbody>

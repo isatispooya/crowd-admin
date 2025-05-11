@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatNumber, formatPercentage, formatRials } from '../../utils/formatters_func';
+import { formatNumber, formatRials } from '../../utils/formatters_func';
 
 const Page4 = ({ data }) => {
   if (!data) return null;
 
-  const { investor_request, checks, one_year_return_on_investment } = data;
+  const { investor_request, checks } = data;
 
   const totalAmount = checks?.reduce((sum, check) => sum + (check?.amount || 0), 0) || 0;
 
@@ -143,14 +143,6 @@ const Page4 = ({ data }) => {
         شراکت بر عهده گیرد.
       </p>
 
-      <p className="text-justify leading-relaxed text-[23px]">
-        <span className="font-bold text-[23px]">تبصره 17:</span>
-        به غیر از موارد پیش‌بینی شده در این قرارداد، چنانچه متقاضی در اثنای مدت این قرارداد به تشخیص
-        عامل، از مفاد این قرارداد تخلف نماید، از تاریخ تخلف و به محض اعلام عامل می‌بایست سود
-        علی‌الحساب را به ازای دوره زمانی نگهداری مبلغ قرارداد به‌علاوه اصل مبلغ تأمین مالی و
-        جریمه‌ای معادل 150 درصد مبلغ کل قرارداد به عنوان وجه التزام به عامل پرداخت نماید و عامل مخیر
-        به فسخ قرارداد می‌باشد.
-      </p>
     </div>
   );
 

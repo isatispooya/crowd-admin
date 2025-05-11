@@ -12,19 +12,23 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
-import { useChecks } from '../service/checks';
+import { useChecks, useDeleteChecks } from '../service/checks';
 
 const Checks = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useChecks(cartId);
+  const { mutate: deleteCheck } = useDeleteChecks();
 
   const formatNumber = (number) => {
     if (!number) return '';
@@ -81,6 +85,10 @@ const Checks = ({ allData }) => {
     } catch (error) {
       console.error('Error submitting form:', error);
     }
+  };
+
+  const handleDelete = (id) => {
+    deleteCheck(id);
   };
 
   return (
@@ -179,8 +187,26 @@ const Checks = ({ allData }) => {
                       borderRadius: '8px',
                       padding: 2,
                       marginBottom: 2,
+                      position: 'relative',
                     }}
                   >
+                    <Tooltip title="حذف چک">
+                      <IconButton 
+                        sx={{ 
+                          position: 'absolute', 
+                          top: 10, 
+                          right: 10, 
+                          backgroundColor: 'transparent',
+                          '&:hover': {
+                            backgroundColor: 'rgba(211, 47, 47, 0.04)'
+                          }
+                        }}
+                        color="error"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">

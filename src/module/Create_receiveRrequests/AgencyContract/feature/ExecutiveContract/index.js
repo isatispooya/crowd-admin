@@ -12,6 +12,7 @@ import Page11 from './page11';
 import Page12 from './page12';
 import Page13 from './page13';
 import Page14 from './page14';
+import Page15 from './page15';
 
 export {
   Page1,
@@ -28,6 +29,7 @@ export {
   Page12,
   Page13,
   Page14,
+  Page15,
 };
 
 export const PAGES = [
@@ -45,5 +47,6 @@ export const PAGES = [
   Page12,
   Page13,
   Page14,
+  Page15,
 ];
 export const TOTAL_PAGES = PAGES.length;
