@@ -7,6 +7,16 @@ const Page2 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">11) کارگروه ارزیابی: </span>
+          کارگروهی که مطابق ماده ۱۴ دستورالعمل تأمین مالی جمعی تشکیل می‌گردد.
+        </p>
+
+        <p className="mb-3 pr-4 text-[23px]">
+          <span className="font-bold text-[23px]">12) متقاضی: </span>
+          شخص حقوقی است که به منظور تأمین منابع مالی، طبق الزامات دستورالعمل تأمین مالی جمعی و
+          مقررات سکوی شرکت ایساتیس پویا به عامل مراجعه می‌کند.
+        </p>
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">13) تأمین کننده (تأمین کنندگان): </span>
           شخص حقیقی یا حقوقی است که منابع مالی مورد نیاز متقاضی را تأمین می‌کند. عامل و نهاد مالی

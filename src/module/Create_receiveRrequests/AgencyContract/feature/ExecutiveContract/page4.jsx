@@ -1,17 +1,24 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatNumber, formatPercentage, formatRials } from '../../utils/formatters_func';
+import { formatNumber, formatRials } from '../../utils/formatters_func';
 
 const Page4 = ({ data }) => {
   if (!data) return null;
 
-  const { investor_request, checks, one_year_return_on_investment } = data;
+  const { investor_request, checks } = data;
 
   const totalAmount = checks?.reduce((sum, check) => sum + (check?.amount || 0), 0) || 0;
 
   const renderContractClauses = () => (
     <div className="contract-clauses p-4 text-[23px] leading-relaxed">
+      <p className="text-[23px]">
+        تبصره 5: در صورت عدم استرداد وجه از سوی متقاضی، عامل می‌تواند تضامین مندرج در ماده 6 این
+        قرارداد را به نحو عرضی اجرا بگذارد. 4-3. چنانچه در طول اجرای طرح هزینه‌ای خارج از موارد ذکر
+        شده در موضوع قرارداد ایجاد گردد، اعم از اینکه قابل پیش‌بینی بوده و یا خیر، مسئولیت تأمین آن
+        به عهده متقاضی می‌باشد و عامل در خصوص هزینه‌های فوق هیچ‌گونه مسئولیتی به عهده نخواهد داشت.
+        متقاضی حق هرگونه اعتراض در این باره را از خود سلب و ساقط نموده است.
+      </p>
       <h2 className="text-[23px] font-bold mt-4 mb-2">ماده 5) تعهدات متقاضی</h2>
 
       <p className="text-[23px]">
@@ -134,15 +141,6 @@ const Page4 = ({ data }) => {
       <p className="text-justify leading-relaxed text-[23px]">
         10) متقاضی متعهد می‌گردد تمام مسئولیت‌های مرتبط با موضوع قرارداد را تا سررسید گواهی‌های
         شراکت بر عهده گیرد.
-      </p>
-
-      <p className="text-justify leading-relaxed text-[23px]">
-        <span className="font-bold text-[23px]">تبصره 17:</span>
-        به غیر از موارد پیش‌بینی شده در این قرارداد، چنانچه متقاضی در اثنای مدت این قرارداد به تشخیص
-        عامل، از مفاد این قرارداد تخلف نماید، از تاریخ تخلف و به محض اعلام عامل می‌بایست سود
-        علی‌الحساب را به ازای دوره زمانی نگهداری مبلغ قرارداد به‌علاوه اصل مبلغ تأمین مالی و
-        جریمه‌ای معادل 150 درصد مبلغ کل قرارداد به عنوان وجه التزام به عامل پرداخت نماید و عامل مخیر
-        به فسخ قرارداد می‌باشد.
       </p>
 
     </div>

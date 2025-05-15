@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { formatNumber } from 'src/utils/formatNumbers';
-import moment from 'jalali-moment';
 
 const Page6 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -9,6 +8,54 @@ const Page6 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
+      <h3 className="text-[23px] font-bold"> 9) گزارش پیشرفت طرح</h3>
+          <p className="text-[23px]">
+            1) متقاضی موظف است گزارش دوره ای طرح خود را در بازههای زمانی ذکر شده در این ماده و گزارش
+            پایانی طرح را نیز در تاریخ اتمام طرح و در قالب مورد تأیید عامل، تهیه و از طریق پلتفرم به
+            اطلاع سرمایه گذاران برساند. حداقل مفاد لازم جهت ارائه در گزارش های دوره ای و پایانی در
+            پیوست های قرارداد، آیین نامه های مصوب عامل و آیین نامههای مصوب شرکت فرابورس ایران مشخص
+            شده است
+          </p>
+          <p className="text-[23px]">
+            2) متقاضی موظف است در بخش کیفی هر گزارش، عامل و سرمایه گذاران را از اقدامات انجام شده و
+            پیشرفت و تأ خیرات احتمالی طرح و برنامه های آتی آگاه کرده و در صورت وجود تأخیر، آنها را
+            از راهکارها ی ارائه شده به جهت مقابله با آن تأخیر مطلع کند.
+          </p>
+          <p className="text-[23px]">
+            3) گزارش دهی یک طرح در هیچ شرایطی به نسبت میزان وجوه تأمینشده نمیتواند از حداقل های زیر
+            کمتر باشد: -گزارش دوره ای هر سه ماه یکبار، گزارش سالیانه یا پایانی حسابرسی شده
+          </p>
+          <p className="text-[23px]">
+            4) تأخیر در ارائه گزارشات موضوع بندهای پیشین، در شرایط زیر مشمول خسارات تعیینشده در این
+            قرارداد می باشد:
+          </p>
+          <p className="text-[23px]">
+            1- گزارش دوره ای و پایانی در قالب مصوب عامل حداکثر مهلت ۱۰ روز
+          </p>
+          <p className="text-[23px]">2-گزارش حسابرسی شده حداکثر مهلت ۳۰ روز.</p>
+
+      <p className="text-[23px]">
+            5) با ارائه هر گزارش دوره ای صورت مالی با پایانی این گزارش علی ۳ روز کاری به تایید عامل
+            رسیده یا حسب مورد ایرادات گزارش به متقاضی اعلام می گردد.
+          </p>
+          <p className="text-[23px]">
+            در صورت اعلام عامل یا ناظر فنی مالی بر عدم پذیرش گزارش متقاضی گزارش اصلاح شده را ظرف مدت
+            ۲ روز به عامل ارائه نموده و این روند تا زمان اخذ تأیید عامل و حسب مورد ناظر فنی امالی
+            ادامه خواهد یافت.
+          </p>
+          <p className="text-[23px]">
+            کلیه بررسی ها و اصلاحات لازم برای گزارشات میبایست در مهلت مقرر در بند پیشین به انجام
+            برسد.
+          </p>
+
+      <p className="text-[23px]">
+            معیار زمان تحویل گزارش روز ارائه گزارش تایید شده بوده و تاخیر بیش از میزان تعیین شده در
+            بند فوق مشمول خسارات مشخص شده خواهد بود.
+          </p>
+          <p className="text-[23px]">
+            <span className="font-bold">تبصره ۱:</span> تأخیر عامل در بررسی و اعلام نظر بیش از زمان
+            مشخص شده در این بند به مهلت ارائه گزارش اضافه می شود.
+          </p>
         <p className="text-[23px]">
           <span className="font-bold">تبصره ۲:</span> در مورد گزارشات نیازمند حسابرسی رسمی متقاضی
           موظف است همزمان با ارائه گزارش جهت حسابرسی یک نسخه از صورتهای مالی و مستندات ارائه شده به
@@ -92,101 +139,8 @@ const Page6 = ({ agencyContract }) => {
           از خود سلب و ساقط نمود.
         </p>
 
-        <h4 className="text-[23px] font-bold">(ب) چک</h4>
-        <p className="text-[23px]">
-          1) به منظور تضمین ابقای هر یک از تعهدات ناشی از این قرارداد از جمله پرداخت اقساط خرید
-          دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت حداکثر
-          ۱ روز تقویمی از آن تاریخ متقاضی همزمان با امضای قرارداد یک فقره چک صیادی به شناسه صیادی
-          <p className="text-[23px]">
-            1) به منظور تضمین ابقای هر یک از تعهدات ناشی از این قرارداد از جمله پرداخت اقساط خرید
-            دارایی در مواعد پرداخت و نیز بازپرداخت سرمایه در تاریخ اتمام طرح و نهایتاً ظرف مدت
-            حداکثر ۱ روز تقویمی از آن تاریخ متقاضی همزمان با امضای قرارداد یک فقره چک صیادی به شناسه
-            صیادی
-            <strong>
-              {agencyContract.checks.find((check) => check.type === 'وجه التزام')?.fishing_id ||
-                ' ???????'}
-            </strong>{' '}
-            و به مبلغ{' '}
-            <strong>
-              {agencyContract.checks.find((check) => check.type === 'وجه التزام')?.amount
-                ? formatNumber(
-                    agencyContract.checks.find((check) => check.type === 'وجه التزام').amount
-                  )
-                : ' ???????'}
-            </strong>{' '}
-            ریال صادر و به شرکت تسلیم خواهد نمود.
-          </p>
-          ریال صادر و به شرکت تسلیم خواهد نمود.
-        </p>
-        <p className="text-[23px]">
-          2) متقاضی متعهد است ضمن ثبت چک در سامانه ماد رسید ثبت را تحویل شرکت نماید. در صورتی که در
-          هر زمان پس از امضای قرارداد، عدم ثبت چک در سامانه مشخص گردد. شرکت مستحق در مطالبه معادل
-          وجه چک صادره به عنوان وجه التزام قراردادی خواهد بود. وجه التزام باد شده، بدل از اصل تعهد
-          نبوده و صادر کننده همچنان موظف به ایفای تعهدات خود وفق مفاد این قرارداد نیز خواهد بود.
-        </p>
-        <p className="text-[23px]">
-          3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
-          <strong> {`1${agencyContract.investor_request?.contract_number || ''}`}</strong>
-          با شماره {agencyContract.investor_request?.bank_letter_number} را درج نموده و از درج هر
-          گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت بابت حسن انجام کار و امثال هم خودداری
-          نماید.
-        </p>
 
-        <h4 className="text-[23px] font-bold">(ب) ضامن</h4>
 
-        <p className="text-[23px]">
-          به منظور تضمین ایفای هر یک از تعهدات ناشی از این قرارداد متقاضی موظف است همزمان با امضای
-          قرارداد نسبت به معرفی{' '}
-          {`${Array.isArray(agencyContract?.guarantor) ? agencyContract.guarantor.length : 0}`} ضامن
-          به شرح ذیل به شرکت اقدام نماید.
-        </p>
-
-        <p className="text-[23px]">
-          {Array.isArray(agencyContract?.guarantor) &&
-            agencyContract.guarantor
-              .filter((g) => g.company_agent === null)
-              .map((item, index) => (
-                <p key={`physical-guarantor-${index}`}>
-                  {index + 3}) سرکار آقای/خانم {item.members?.[0]?.guarantor_name} به کد ملی{' '}
-                  {item.members?.[0]?.guarantor_national_id} و شماره تماس{' '}
-                  {item.members?.[0]?.phone_number} متولد{' '}
-                  {moment(item.members?.[0]?.birth_date).format('jYYYY/jMM/jDD')} به آدرس{' '}
-                  {item.members?.[0]?.guarantor_address} واحد {item.members?.[0]?.unit} به کد پستی{' '}
-                  {item.members?.[0]?.postal_code} که از این پس در این قرارداد به عنوان «ضامن حقیقی»
-                  معرفی می‌گردد.
-                </p>
-              ))}
-          {Array.isArray(agencyContract?.guarantor) &&
-            agencyContract.guarantor
-              .filter((g) => g.company_agent !== null)
-              .map((item, index) => (
-                <p key={`legal-guarantor-${index}`}>
-                  {index +
-                    3 +
-                    agencyContract.guarantor.filter((g) => g.company_agent === null).length}
-                  ) شرکت {item.company_agent} ({item.kind_of_company}) به شناسه ملی{' '}
-                  {item.company_national_id}، به شماره ثبت {item.register_number_of_company} در{' '}
-                  {item.general_directorate_of_company}،{item.registration_unit_of_company}، به
-                  نشانی {item.address_of_company}، به کدپستی {item.postal_code_of_company}،
-                  {item.members && item.members.length > 0 && (
-                    <>
-                      {' '}
-                      با نمایندگی{' '}
-                      {item.members.map((member, memberIndex) => (
-                        <span key={member.id}>
-                          {memberIndex > 0 && ' و '}
-                          {member.guarantor_name} به شماره ملی {member.guarantor_national_id} به سمت{' '}
-                          {member.position_title}
-                        </span>
-                      ))}
-                    </>
-                  )}{' '}
-                  بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
-                  &quot;ضامن حقوقی&quot; نامیده می‌شود
-                </p>
-              ))}
-          <br />
-        </p>
       </div>
     </div>
   );

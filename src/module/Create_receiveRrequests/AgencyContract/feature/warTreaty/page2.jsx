@@ -7,6 +7,18 @@ const Page2 = ({ agencyContract }) => {
 
   return (
     <div className="contract-page page-1">
+      <h3 className="font-bold mb-2 text-[23px]">اطراف قرارداد :</h3>
+
+      <p className="text-justify leading-relaxed text-[23px]">
+        <br />
+        1) شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
+        411615733645، و شماره ثبت 13702، در اداره ثبت شرکت‌ها و موسسات تجاری استان هرمزگان، به نشانی
+        کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4، واحد 44، شماره تلفن 076-44480555 و کد پستی
+        7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو هیئت
+        مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز بر اساس
+        روزنامه رسمی شماره 22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل»
+        <br />
+      </p>
       <p className="text-justify leading-relaxed text-[23px]">
         نامیده می‌شود. به وکالت از طرف دارندگان گواهی‌های شراکت جهت تأمین منابع مالی مورد نیاز
         متقاضی، بر اساس مجوز صادره توسط شرکت فرابورس به نامه شماره 0042/ف/1403 مورخ 1403/05/15 از
@@ -53,8 +65,8 @@ const Page2 = ({ agencyContract }) => {
                     ))}
                   </>
                 )}{' '}
-                بر اساس روزنامه رسمى شماره {item.document_news_paper} که از این پس در این قرارداد
-                &quot;ضامن حقوقی&quot; نامیده می‌شود
+                {item.document_news_paper} که از این پس در این قرارداد &quot;ضامن حقوقی&quot; نامیده
+                می‌شود
               </p>
             ))}
         <br />
@@ -73,12 +85,15 @@ const Page2 = ({ agencyContract }) => {
               <span key={member.id || index}>
                 {index > 0 && ' و '} آقای {member.person_title} به شماره ملی{' '}
                 {member.uniqueIdentifier} به سمت {member.position_title}{' '}
-                {member.signature &&
-                  ` که از این پس در این قرارداد بر اساس ${member.signature_document}`}
               </span>
             ))}
-        بر اساس {agencyContract.investor_request.company_members?.signture_document}، «متقاضی»
-        نامیده می‌شود،
+        بر اساس{' '}
+        {
+          agencyContract.investor_request.company_members.filter(
+            (member) => member.signature_document
+          )[0]?.signature_document
+        }
+        ، «متقاضی» نامیده می‌شود،
         <br />
         <p className="text-justify leading-relaxed text-[23px]">
           ِ 3) شخص حقیقی/حقوقی با مشخصات و اطلاعات سجامی مندرج در سکوی تأمین مالی جمعی عامل به نشانی
@@ -149,50 +164,9 @@ const Page2 = ({ agencyContract }) => {
           10) فراخوان جمع آوری»: منظور، اعلان عمومی طرح در پلتفرم به منظور جذب سرمایه لازم برای
           تأمین منابع مالی مورد نیاز متقاضی، می باشد.
         </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          11) نماد طرح »: منظور، نمادی است که توسط شرکت فرابورس ایران و پس از ارسال مدارک و مستندات
-          مربوطه، به طرح تخصیص داده میشود.
-        </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          12) دوره جمع آوری»: منظور، یک دوره 21 روزه می باشد که با صلاح دید عامل و برای مدت حداکثر 2
-          ماه قابل تمدید می باشد.
-        </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          13) وکالت خرید»: منظور، وکالتی است که تأمین کننده، همزمان با واریز مبلغ سرمایه گذاری، جهت
-          خرید داراییهای مورد نیاز به مبلغ{' '}
-          <strong>
-            {(agencyContract.investor_request.amount_of_investment / 1000000).toLocaleString()}
-          </strong>{' '}
-          میلیون ریال از فروشنده مجاز، به متقاضی اعطا می نماید. نماید.
-        </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          14) دارایی های خریداری شده: منظور، دارایی‌هایی است که متقاضی با استفاده از مبلغ سرمایه
-          گذاری تأمین کننده و به استناد وکالت خرید، از فروشنده مجاز خریداری می نماید.
-        </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          15) وکالت فروش: منظور، وکالتی است که سرمایه‌گذار ، همزمان با واریز مبلغ سرمایه گذاری، به
-          متقاضی اعطا نموده و متقاضی به استناد آن، نسبت به انتقال دارایی های خریداری شده به خود
-          (سرمایه پذیر) هنوزم به مبلغ{' '}
-          {(
-            Number(
-              agencyContract.investor_request.amount_of_investment *
-                0.9 *
-                (agencyContract.investor_request.interest_rate_plan / 100) +
-                agencyContract.investor_request.amount_of_investment
-            ) / 1000000
-          ).toLocaleString()}{' '}
-          میلیون ریال، اقدام می نماید.
-        </p>
-        <p className="text-justify leading-relaxed text-[23px]">
-          16) »حداقل مبلغ قابل پذیرش»: منظور، مبلغ{' '}
-          <strong>
-            {(
-              (Number(agencyContract.investor_request.amount_of_investment) * 0.7) /
-              1000000
-            ).toLocaleString()}
-          </strong>{' '}
-          میلیون ریال است که در صورت جذب آن تا پایان دوره جمع آوری، کمپین موفق فرض می گردد.
-        </p>
+       
+       
+       
       </div>
     </div>
   );

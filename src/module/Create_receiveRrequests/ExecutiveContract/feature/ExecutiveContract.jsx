@@ -42,6 +42,7 @@ const banks = [
   { id: 25, name: 'بانک انصار' },
   { id: 26, name: 'بانک سرمایه' },
   { id: 27, name: 'بانک پاسارگاد' },
+  { id: 28, name: ' بانک آینده' },
 ];
 
 const ExecutiveContract = ({ data }) => {

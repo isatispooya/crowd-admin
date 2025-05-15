@@ -10,19 +10,23 @@ import {
   Button,
   CircularProgress,
   MenuItem,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
-import { useWarranty } from '../service/warranty';
+import { useWarranty, useDeleteWarranty } from '../service/warranty';
 
 const Warranty = ({ allData }) => {
   const { cartId } = useParams();
   const { mutate } = useWarranty(cartId);
+  const { mutate: deleteWarranty } = useDeleteWarranty();
   const [formData, setFormData] = React.useState({
     investor_request_id: cartId,
     date: allData?.warranty?.date || null,
@@ -41,6 +45,17 @@ const Warranty = ({ allData }) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
+  const getWarrantyTypeInPersian = (type) => {
+    switch (type) {
+      case 'warranty':
+        return 'ضمانت‌نامه';
+      case 'check':
+        return 'چک';
+      default:
+        return type || '—';
+    }
+  };
+
   const handleChange = (field) => (event) => {
     const value = field === 'type' ? event.target.value : event.target.value.replace(/,/g, '');
     console.log('Field:', field, 'Value:', value);
@@ -52,6 +67,10 @@ const Warranty = ({ allData }) => {
       console.log('New Form Data:', newData);
       return newData;
     });
+  };
+
+  const handleDelete = (id) => {
+    deleteWarranty(id);
   };
 
   const handleSubmit = async () => {
@@ -227,8 +246,26 @@ const Warranty = ({ allData }) => {
                       borderRadius: '8px',
                       padding: 2,
                       marginBottom: 2,
+                      position: 'relative',
                     }}
                   >
+                    <Tooltip title="حذف ضمانت">
+                      <IconButton
+                        sx={{
+                          position: 'absolute',
+                          top: 10,
+                          right: 10,
+                          backgroundColor: 'transparent',
+                          '&:hover': {
+                            backgroundColor: 'rgba(211, 47, 47, 0.04)',
+                          },
+                        }}
+                        color="error"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2">
@@ -259,7 +296,7 @@ const Warranty = ({ allData }) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2">
-                          <strong>نوع ضمانت‌نامه:</strong> {item.type}
+                          <strong>نوع ضمانت‌نامه:</strong> {getWarrantyTypeInPersian(item.type)}
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>

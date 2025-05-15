@@ -10,8 +10,9 @@ import Page9 from './page9';
 import Page10 from './page10';
 import Page11 from './page11';
 import Page12 from './page12';
+import Page13 from './page13';
 
-export { Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page8, Page9, Page10, Page11, Page12};
+export { Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page8, Page9, Page10, Page11, Page12, Page13};
 
-export const PAGES = [Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page8, Page9, Page10, Page11, Page12];
+export const PAGES = [Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page8, Page9, Page10, Page11, Page12, Page13];
 export const TOTAL_PAGES = PAGES.length;

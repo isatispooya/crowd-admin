@@ -92,8 +92,8 @@ const Page1 = ({ agencyContract }) => {
                 <React.Fragment key={member.id}>
                   {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
                   {member.uniqueIdentifier}
-                  سمت {member.first_role}
-                  {member.second_role && ` و ${member.second_role}`}
+                  سمت 
+                  {member.position_title}
                   {index < filteredArray.length - 1 ? ' و ' : ''}
                 </React.Fragment>
               ))}{' '}
@@ -195,16 +195,7 @@ const Page1 = ({ agencyContract }) => {
           آن توسط نهادهای ذیربط مصوب شده است، می‌باشد.
         </p>
 
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">11) کارگروه ارزیابی: </span>
-          کارگروهی که مطابق ماده ۱۴ دستورالعمل تأمین مالی جمعی تشکیل می‌گردد.
-        </p>
 
-        <p className="mb-3 pr-4 text-[23px]">
-          <span className="font-bold text-[23px]">12) متقاضی: </span>
-          شخص حقوقی است که به منظور تأمین منابع مالی، طبق الزامات دستورالعمل تأمین مالی جمعی و
-          مقررات سکوی شرکت ایساتیس پویا به عامل مراجعه می‌کند.
-        </p>
       </div>
     </div>
   );
