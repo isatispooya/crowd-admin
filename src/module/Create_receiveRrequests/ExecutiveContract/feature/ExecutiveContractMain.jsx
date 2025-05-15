@@ -8,6 +8,7 @@ import PerformanceForecast from './performanceForecast';
 import Checks from './checks';
 import Warranty from './warranty';
 import GuarantorMain from './gurantorMain';
+import BankAccesable from './bank_accesable';
 
 const ExecutiveContractMain = ({ data, allData, refetch }) => (
   <div>
@@ -19,6 +20,7 @@ const ExecutiveContractMain = ({ data, allData, refetch }) => (
     <PerformanceForecast allData={allData} refetch={refetch} />
     <Checks allData={allData} refetch={refetch} />
     <Warranty allData={allData} refetch={refetch} />
+    <BankAccesable allData={allData} refetch={refetch}/>
   </div>
 );
 

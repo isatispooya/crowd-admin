@@ -96,7 +96,7 @@ const ExecutiveContractPage = ({ allData, data, refetch }) => {
           },
         }}
       >
-        اطلاعات قرارداد اجرایی را برسی کنید
+        اطلاعات قرارداد اجرایی را بررسی کنید
       </Typography>
 
       <ExecutiveContractMain allData={allData} data={data} refetch={refetch} />
