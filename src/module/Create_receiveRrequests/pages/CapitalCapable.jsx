@@ -58,6 +58,17 @@ const CapitalCapable = () => {
     );
   }
 
+  const safeData = investorRequest || {};
+  const contents = [
+    <CompanyInfoPage companyInfo={safeData} refetch={refetch} />,
+    <BoardofDirectorsPage data={safeData} refetch={refetch} />,
+    <AgencyContractPage data={safeData} refetch={refetch} />,
+    <AdditionalInformationPage data={safeData} refetch={refetch} />,
+    <Contracts data={safeData} refetch={refetch} />,
+    <ExecutiveContractPage allData={companyInfo || {}} data={safeData} refetch={refetch} />,
+    <FeesPage data={safeData} refetch={refetch} />,
+  ];
+
   return (
     <Container maxWidth="lg" className="py-6">
       <Paper
@@ -128,94 +139,83 @@ const CapitalCapable = () => {
           </div>
         </div>
 
-        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6', 'panel7'].map((panel, index) => {
-          const titles = [
-            'ثبت شرکت',
-            'ثبت هیئت مدیره',
-            'قرارداد عاملیت',
-            'اطلاعات تکمیلی',
-            'قرارداد ها',
-            'قرارداد اجرایی',
-            'کارمزد ها',
-          ];
-          const contents = [
-            <CompanyInfoPage companyInfo={investorRequest} refetch={refetch} />,
-            <BoardofDirectorsPage data={investorRequest} refetch={refetch} />,
-            <AgencyContractPage data={investorRequest} refetch={refetch} />,
-            <AdditionalInformationPage data={investorRequest} refetch={refetch} />,
-            <Contracts data={investorRequest} refetch={refetch} />,
-            <ExecutiveContractPage
-              allData={companyInfo}
-              data={investorRequest}
-              refetch={refetch}
-            />,
-            <FeesPage data={investorRequest} refetch={refetch} />,
-          ];
+        {['panel1', 'panel2', 'panel3', 'panel4', 'panel5', 'panel6', 'panel7'].map(
+          (panel, index) => {
+            const titles = [
+              'ثبت شرکت',
+              'ثبت هیئت مدیره',
+              'قرارداد عاملیت',
+              'اطلاعات تکمیلی',
+              'قرارداد ها',
+              'قرارداد اجرایی',
+              'کارمزد ها',
+            ];
 
-          return (
-            <Accordion
-              key={panel}
-              expanded={expanded === panel}
-              onChange={handleChange(panel)}
-              sx={{
-                mb: 2,
-                mx: 3,
-                boxShadow: expanded === panel ? '0 4px 20px rgba(0, 0, 0, 0.1)' : 'none',
-                borderRadius: '12px!important',
-                overflow: 'hidden',
-                border: '1px solid #eaedf2',
-                transition: 'all 0.3s ease',
-                '&:before': {
-                  display: 'none',
-                },
-                '&:hover': {
-                  backgroundColor: alpha('#f5f7fa', 0.8),
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={
-                  <ArrowDownwardIcon
-                    sx={{
-                      transform: expanded === panel ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.3s ease',
-                      color: expanded === panel ? 'primary.main' : 'text.secondary',
-                    }}
-                  />
-                }
-                aria-controls={`${panel}-content`}
-                id={`${panel}-header`}
+            return (
+              <Accordion
+                key={panel}
+                expanded={expanded === panel}
+                onChange={handleChange(panel)}
                 sx={{
-                  backgroundColor: expanded === panel ? alpha('#f0f7ff', 0.5) : 'transparent',
-                  borderBottom: expanded === panel ? '1px solid #eaedf2' : 'none',
+                  mb: 2,
+                  mx: 3,
+                  boxShadow: expanded === panel ? '0 4px 20px rgba(0, 0, 0, 0.1)' : 'none',
+                  borderRadius: '12px!important',
+                  overflow: 'hidden',
+                  border: '1px solid #eaedf2',
                   transition: 'all 0.3s ease',
-                  borderRadius: '12px',
-                  minHeight: '60px',
+                  '&:before': {
+                    display: 'none',
+                  },
+                  '&:hover': {
+                    backgroundColor: alpha('#f5f7fa', 0.8),
+                  },
                 }}
               >
-                <Typography
-                  component="span"
+                <AccordionSummary
+                  expandIcon={
+                    <ArrowDownwardIcon
+                      sx={{
+                        transform: expanded === panel ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease',
+                        color: expanded === panel ? 'primary.main' : 'text.secondary',
+                      }}
+                    />
+                  }
+                  aria-controls={`${panel}-content`}
+                  id={`${panel}-header`}
                   sx={{
-                    fontSize: '1.05rem',
-                    fontWeight: expanded === panel ? 600 : 500,
-                    color: expanded === panel ? 'primary.main' : 'text.primary',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
+                    backgroundColor: expanded === panel ? alpha('#f0f7ff', 0.5) : 'transparent',
+                    borderBottom: expanded === panel ? '1px solid #eaedf2' : 'none',
+                    transition: 'all 0.3s ease',
+                    borderRadius: '12px',
+                    minHeight: '60px',
                   }}
                 >
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-50 text-primary-600">
-                    {index + 1}
-                  </span>
-                  {titles[index]}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ px: 3, py: 2, backgroundColor: '#ffffff' }}>
-                {contents[index]}
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: '1.05rem',
+                      fontWeight: expanded === panel ? 600 : 500,
+                      color: expanded === panel ? 'primary.main' : 'text.primary',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                    }}
+                  >
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-50 text-primary-600">
+                      {index + 1}
+                    </span>
+                    {titles[index]}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ px: 3, py: 2, backgroundColor: '#ffffff' }}>
+                  {contents[index]}
+                </AccordionDetails>
+              </Accordion>
+            );
+          }
+        )}
       </Paper>
     </Container>
   );
