@@ -43,13 +43,15 @@ const CompanyBankInfo = ({ data }) => {
   const { bankInfo, updateBankInfo } = useCompanyInfoStore();
 
   useEffect(() => {
-    if (data?.bank) {
-      const bankObj = banks.find((b) => String(b.id) === String(data.bank));
-      if (bankObj) {
-        updateBankInfo('bank', bankObj.name);
-        updateBankInfo('bank_branch', data.bank_branch || '');
-        updateBankInfo('bank_branch_code', data.bank_branch_code || '');
+    if (data) {
+      if (data.bank) {
+        const bankObj = banks.find((b) => String(b.id) === String(data.bank));
+        if (bankObj) {
+          updateBankInfo('bank', bankObj.name);
+        }
       }
+      updateBankInfo('bank_branch', data.bank_branch || '');
+      updateBankInfo('bank_branch_code', data.bank_branch_code || '');
     }
   }, [data, updateBankInfo]);
 
@@ -81,9 +83,13 @@ const CompanyBankInfo = ({ data }) => {
             fullWidth
             required
             variant="outlined"
+            displayEmpty
           >
+            <MenuItem value="" disabled>
+              انتخاب بانک
+            </MenuItem>
             {banks.map((bank) => (
-              <MenuItem key={bank.id} value={bank.name}>
+              <MenuItem key={bank.id} value={String(bank.id)}>
                 {bank.name}
               </MenuItem>
             ))}
