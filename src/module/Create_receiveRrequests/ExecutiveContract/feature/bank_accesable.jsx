@@ -11,16 +11,17 @@ const BankAccesable = ({ allData }) => {
 
   const [paymentGatewayEnabled, setPaymentGatewayEnabled] = useState(false);
 
-  const handleSubmit = () => {
-    mutate({
-      investor_request_id: cartId,
-      status_payment: paymentGatewayEnabled,
-    });
+  const handlePaymentGatewayToggle = (event) => {
+    const checked = event.target.checked;
+    setPaymentGatewayEnabled(checked);
+    handleSubmit(checked);
   };
 
-  const handlePaymentGatewayToggle = () => {
-    setPaymentGatewayEnabled(!paymentGatewayEnabled);
-    handleSubmit();
+  const handleSubmit = (checked) => {
+    mutate({
+      investor_request_id: cartId,
+      status_payment: checked,
+    });
   };
 
   return (
@@ -50,7 +51,7 @@ const BankAccesable = ({ allData }) => {
           control={
             <Switch
               checked={paymentGatewayEnabled}
-              onChange={() => handlePaymentGatewayToggle()}
+              onChange={handlePaymentGatewayToggle}
               color="primary"
             />
           }
