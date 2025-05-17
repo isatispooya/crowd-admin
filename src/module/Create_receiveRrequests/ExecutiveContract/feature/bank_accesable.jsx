@@ -9,18 +9,18 @@ const BankAccesable = ({ allData }) => {
 
   const { mutate } = useFees(cartId);
 
-  const [paymentGatewayEnabled, setPaymentGatewayEnabled] = useState(false);
+  const [paymentGatewayEnabled, setPaymentGatewayEnabled] = useState(
+    allData?.status_payment || false
+  );
 
-  const handleSubmit = () => {
+
+  const handlePaymentGatewayToggle = (event) => {
+    const newValue = event.target.checked;
+    setPaymentGatewayEnabled(newValue);
     mutate({
       investor_request_id: cartId,
-      status_payment: paymentGatewayEnabled,
+      status_payment: newValue,
     });
-  };
-
-  const handlePaymentGatewayToggle = () => {
-    setPaymentGatewayEnabled(!paymentGatewayEnabled);
-    handleSubmit();
   };
 
   return (
@@ -50,7 +50,7 @@ const BankAccesable = ({ allData }) => {
           control={
             <Switch
               checked={paymentGatewayEnabled}
-              onChange={() => handlePaymentGatewayToggle()}
+              onChange={handlePaymentGatewayToggle}
               color="primary"
             />
           }
