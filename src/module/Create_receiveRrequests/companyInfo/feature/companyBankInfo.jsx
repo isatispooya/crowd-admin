@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import PropTypes from 'prop-types';
 import useCompanyInfoStore from '../../store/companyInfo.store';
 
-
 const banks = [
   { id: 1, name: 'بانک ملی ایران' },
   { id: 2, name: 'بانک سپه' },
