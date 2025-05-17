@@ -37,8 +37,6 @@ const banks = [
   { id: 26, name: 'بانک سرمایه' },
   { id: 27, name: 'بانک پاسارگاد' },
   { id: 28, name: 'بانک مشترک ایران-ونزوئلا' },
-  { id: 29, name: ' بانک آینده' },
-
 ];
 
 const CompanyBankInfo = ({ data }) => {
@@ -46,7 +44,7 @@ const CompanyBankInfo = ({ data }) => {
 
   useEffect(() => {
     if (data?.bank) {
-      const bankObj = banks.find((b) => b.name === data.bank);
+      const bankObj = banks.find((b) => String(b.id) === String(data.bank));
       if (bankObj) {
         updateBankInfo('bank', bankObj.name);
         updateBankInfo('bank_branch', data.bank_branch || '');
