@@ -1,5 +1,5 @@
 import { Box, TextField, Grid, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import usePostTradingCodes from '../service/usepostTradingCodes';
 import useGetUserDetail from '../service/useGetUserDetail';
 
@@ -7,6 +7,23 @@ const TradingCodes = () => {
   const { data } = useGetUserDetail();
   const { mutate } = usePostTradingCodes();
   const [editedData, setEditedData] = useState({});
+
+  useEffect(() => {
+    if (data?.trading_codes?.length > 0) {
+      const tradingCode = data.trading_codes[0];
+      setEditedData({
+        0: {
+          id: tradingCode.id,
+          trading_code: tradingCode.code,
+          first_part: tradingCode.firstPart,
+          second_part: tradingCode.secondPart,
+          third_part: tradingCode.thirdPart,
+          type: tradingCode.type,
+          user: tradingCode.user,
+        },
+      });
+    }
+  }, [data]);
 
   const handleChange = (index, field, value) => {
     setEditedData((prev) => ({
@@ -20,13 +37,15 @@ const TradingCodes = () => {
 
   const handleSubmit = async () => {
     try {
+      const trading_code = editedData[0]?.trading_code || data?.trading_codes?.[0]?.code || '';
+
       await mutate({
-        uniqueIdentifier: data?.private_person?.[0]?.uniqueIdentifier || '',
-        trading_code:
-          `${editedData[0]?.firstPart || ''} ${editedData[0]?.secondPart || ''} ${editedData[0]?.thirdPart || ''}`.trim(),
-        first_part: editedData[0]?.firstPart || '',
-        second_part: editedData[0]?.secondPart || '',
-        third_part: editedData[0]?.thirdPart || '',
+        uniqueIdentifier:
+          data?.private_person?.[0]?.uniqueIdentifier || data?.uniqueIdentifier || '',
+        trading_code,
+        first_part: trading_code,
+        second_part: trading_code,
+        third_part: trading_code,
       });
     } catch (error) {
       console.error('خطا در ذخیره تغییرات:', error);
@@ -35,10 +54,22 @@ const TradingCodes = () => {
 
   const fields = [
     { label: 'شناسه', value: (item) => item?.id || '', field: 'id', hideWhenNew: true },
-    { label: 'کد', value: (item) => item?.code || '', field: 'code' },
-    { label: 'قسمت اول', value: (item) => item?.firstPart || '', field: 'firstPart' },
-    { label: 'قسمت دوم', value: (item) => item?.secondPart || '', field: 'secondPart' },
-    { label: 'قسمت سوم', value: (item) => item?.thirdPart || '', field: 'thirdPart' },
+    { label: 'کد', value: (item) => item?.trading_code || item?.code || '', field: 'trading_code' },
+    {
+      label: 'قسمت اول',
+      value: (item) => item?.first_part || item?.firstPart || '',
+      field: 'first_part',
+    },
+    {
+      label: 'قسمت دوم',
+      value: (item) => item?.second_part || item?.secondPart || '',
+      field: 'second_part',
+    },
+    {
+      label: 'قسمت سوم',
+      value: (item) => item?.third_part || item?.thirdPart || '',
+      field: 'third_part',
+    },
     { label: 'نوع', value: (item) => item?.type || '', field: 'type', hideWhenNew: true },
     { label: 'کاربر', value: (item) => item?.user || '', field: 'user', hideWhenNew: true },
   ];
@@ -81,8 +112,8 @@ const TradingCodes = () => {
               },
               '& input': {
                 color: 'rgba(0, 0, 0, 0.38)',
-              }
-            }
+              },
+            },
           },
         }}
       />
