@@ -53,7 +53,7 @@ const Page1 = ({ data }) => {
           <br />
           1) شرکت {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
           {company?.economic_code} و شماره ثبت {company?.registration_number} در اداره ثبت شرکت‌ها و
-          موسسات غیر تجاری {company?.general_directorate} به نشانی {company?.address}، پلاک 0، 7، به
+          موسسات غیر تجاری {company?.registration_unit} به نشانی {company?.address}، پلاک 0، 7، به
           کد پستی {company?.postal_code}، با نمایندگی که از این پس در این قرارداد بر اساس
           {company_members &&
             company_members.length > 0 &&
@@ -194,7 +194,7 @@ Page1.propTypes = {
       registration_number: PropTypes.string,
       address: PropTypes.string,
       postal_code: PropTypes.string,
-      general_directorate: PropTypes.string,
+      registration_unit: PropTypes.string,
     }),
     investor_request: PropTypes.shape({
       logo: PropTypes.string,
