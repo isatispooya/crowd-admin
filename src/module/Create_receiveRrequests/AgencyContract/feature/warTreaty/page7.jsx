@@ -1,8 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import moment from 'moment';
+import moment from 'moment-jalaali';
 import { formatNumber } from 'src/utils/formatNumbers';
-
 
 const Page7 = ({ agencyContract }) => {
   if (!agencyContract) return null;
@@ -45,9 +44,8 @@ const Page7 = ({ agencyContract }) => {
         <p className="text-[23px]">
           3) صادر کننده موظف است در چک موضوع این ماده صرفاً جمله بایت قرارداد شماره
           <strong> {`1${agencyContract.investor_request?.contract_number || ''}`}</strong>
-          با شماره {agencyContract.investor_request?.bank_letter_number} را درج نموده و از درج هر
-          گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت بابت حسن انجام کار و امثال هم خودداری
-          نماید.
+          را درج نموده و از درج هر گونه عبارت مازاد از قبیل بابت تضمین بابت ضمانت بابت حسن انجام کار
+          و امثال هم خودداری نماید.
         </p>
 
         <h4 className="text-[23px] font-bold">(ب) ضامن</h4>
@@ -173,7 +171,6 @@ const Page7 = ({ agencyContract }) => {
           و وثایق مذکور جهت وصول مطالبات، به صلاحدید شرکت بوده و رجوع به هر یک از تضامین مانع وصول
           مطالبات از محل سایر تضامین نخواهد بود.
         </p>
-
       </div>
     </div>
   );
