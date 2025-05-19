@@ -42,13 +42,12 @@ const banks = [
 const CompanyBankInfo = ({ data }) => {
   const { bankInfo, updateBankInfo } = useCompanyInfoStore();
 
+  const paymentStatus = data?.code_status_payment;
+
   useEffect(() => {
     if (data) {
       if (data.bank) {
-        const bankObj = banks.find((b) => String(b.id) === String(data.bank));
-        if (bankObj) {
-          updateBankInfo('bank', bankObj.name);
-        }
+        updateBankInfo('bank', data.bank);
       }
       updateBankInfo('bank_branch', data.bank_branch || '');
       updateBankInfo('bank_branch_code', data.bank_branch_code || '');
@@ -84,6 +83,7 @@ const CompanyBankInfo = ({ data }) => {
             required
             variant="outlined"
             displayEmpty
+            disabled={paymentStatus === 'success'}
           >
             <MenuItem value="" disabled>
               انتخاب بانک
@@ -108,6 +108,7 @@ const CompanyBankInfo = ({ data }) => {
             fullWidth
             required
             variant="outlined"
+            disabled={paymentStatus === 'success'}
           />
         </Grid>
 
@@ -123,6 +124,7 @@ const CompanyBankInfo = ({ data }) => {
             fullWidth
             required
             variant="outlined"
+            disabled={paymentStatus === 'success'}
           />
         </Grid>
       </Grid>

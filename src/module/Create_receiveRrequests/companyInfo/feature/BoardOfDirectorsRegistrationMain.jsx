@@ -26,6 +26,8 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
   const { mutate: submitExecutiveContract } = useCreateExecutiveContract(cartId);
   const [selectedButton, setSelectedButton] = React.useState(companyInfo?.step_1 || null);
 
+ 
+
   const {
     commentStep1,
     setCommentStep1,
@@ -100,7 +102,6 @@ const BoardOfDirectorsRegistrationMain = ({ companyInfo }) => {
           <CompanyRegister data={companyInfo} />
         </AccordionDetails>
       </Accordion>
-
       <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 8 }}>
         <TextField
           label="توضیحات"
