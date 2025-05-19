@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import PrintableContractLayout from 'src/layouts/dashboard/printableLayourtContract';
-import { JsPDF } from 'jspdf';
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ToastContainer, toast } from 'react-toastify';
 import useAgencyContract from '../hooks/useAgencyContract';
@@ -173,7 +173,8 @@ const ExecutiveContract = () => {
     setIsGeneratingPDF(true);
     try {
       toast.info('شروع تولید PDF');
-      const pdf = new JsPDF({
+      // eslint-disable-next-line new-cap
+      const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4',
