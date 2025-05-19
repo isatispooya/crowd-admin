@@ -8,7 +8,7 @@ const Page5 = ({ agencyContract }) => {
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-      <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
+        <h3 className=" text-[23px] font-bold">موضوع قرارداد</h3>
         <br />
 
         <p className="text-justify leading-relaxed text-[22px]">موضوع قرارداد حاضر عبارت است از:</p>
@@ -20,7 +20,7 @@ const Page5 = ({ agencyContract }) => {
           نام وی؛
         </p>
 
-      <p className="text-justify leading-relaxed text-[22px]">
+        <p className="text-justify leading-relaxed text-[22px]">
           3) خرید دارایی های مورد نیاز توسط سرمایه پذیر به استناد وکالت خرید و با استفاده از مبلغ
           سرمایه گذاری؛
         </p>
@@ -28,13 +28,13 @@ const Page5 = ({ agencyContract }) => {
           4) انتقال دارایی های خریداری شده به سرمایه پذیر به استناد وکالت فروش ؛
         </p>
 
-      <p className="text-justify leading-relaxed text-[22px]">
+        <p className="text-justify leading-relaxed text-[22px]">
           5) پرداخت اقساط خرید دارایی توسط سرمایه پذیر در مواعد پرداخت؛
         </p>
         <p className="text-justify leading-relaxed text-[22px]">
           6) بازپرداخت سرمایه توسط سرمایه پذیر در تاریخ اتمام طرح.
         </p>
-      <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
+        <h3 className=" text-[23px] font-bold">مدت قرارداد</h3>
         <p className="text-justify leading-relaxed text-[22px]">
           قرارداد حاضر از تاریخ امضاء تا زمان ایفای کامل تعهدات توسط اطراف آن معتبر میباشد
         </p>
@@ -49,8 +49,7 @@ const Page5 = ({ agencyContract }) => {
               Number(agencyContract.investor_request.company_certificate_wage) / 1000000
             )}
           </strong>{' '}
-          میلیون ریال، معادل سیصد میلیون تومان میباشد که به شرح مندرج در بند ب این ماده در وجه عامل
-          پرداخت خواهدشد.
+          میلیون ریال، میباشد که به شرح مندرج در بند ب این ماده در وجه عامل پرداخت خواهدشد.
         </p>
         <p>
           <span className="font-bold">الف)</span> نحوه پرداخت: مبلغ مذکور در بند فوق پس از موفقیت
@@ -161,8 +160,6 @@ const Page5 = ({ agencyContract }) => {
           متقاضی، صرفاً صورتحساب بوده و عدم ارائه صورتحساب ظرف مهلت مقرر، به منزله عدم خرید توسط
           متقاضی میباشد. بدیهی است در فرض اخیر، متقاضی متعهد به پرداخت خسارات تعیین شده خواهدبود
         </p>
-
-
       </div>
     </div>
   );

@@ -139,8 +139,11 @@ const Page1 = ({ data }) => {
           <br />
           6-2. حداقل منابع مالی جمع آوری شده: مقدار وجوه نقدی است که درصورت جمع آوری و پرداخت آن
           توسط تامین کنندگان، فرض میشود طرح در جذب سرمایه مورد نیاز متقاضی موفق بوده است. در قرارداد
-          حاضر حداقل منابع مالی جمع آوری شده 175،000 میلیون ریال معادل هفده میلیارد و پانصد میلیون
-          تومان است.
+          حاضر حداقل منابع مالی جمع آوری شده{' '}
+          {(data.investor_request.amount_of_investment *
+            (data.investor_request.buoyancy_plan / 100)) /
+            1000000}{' '}
+          میلیون ریال است.
           <br />
           7-2. دستورالعمل: منظور دستورالعمل تأمین مالی جمعی مصوب 1395/02/25 شورای عالی بورس و اوراق
           بهادار به انضمام کلیه مصوبات، بخشنامه ها، ابلاغیه ها، اطلاعیه ها، ضوابط و دستورالعمل‌های
@@ -200,6 +203,7 @@ Page1.propTypes = {
       logo: PropTypes.string,
       contract_number: PropTypes.string,
       subject_activity_document: PropTypes.string,
+      buoyancy_plan: PropTypes.number,
       agency_agreement_date: PropTypes.string,
       suggestion_plan_name: PropTypes.string,
       amount_of_investment: PropTypes.number,
