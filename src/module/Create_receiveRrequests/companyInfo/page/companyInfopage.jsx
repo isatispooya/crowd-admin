@@ -6,11 +6,11 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import { useState } from 'react';
 import DateObject from 'react-date-object';
 import { toast, ToastContainer } from 'react-toastify';
+import useGetUser from 'src/module/user/users/services/useGetUser';
 import 'react-toastify/dist/ReactToastify.css';
 import BoardOfDirectorsRegistrationMain from '../feature/BoardOfDirectorsRegistrationMain';
 import { useCompanyInfo } from '../../ExecutiveContract/service/companyinfoService';
 import { useFees } from '../../Fees/service/BoardOfDirectors';
-import useGetUser from 'src/module/user/users/services/useGetUser';
 
 const CompanyInfoPage = ({ companyInfo, refetch }) => {
   const theme = {
