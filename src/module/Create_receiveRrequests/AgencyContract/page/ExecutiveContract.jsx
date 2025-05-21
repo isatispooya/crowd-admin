@@ -31,6 +31,7 @@ const ExecutiveContract = () => {
   const { uuid } = useParams();
   const [finalUuid, setFinalUuid] = useState('');
   const pageRefs = useRef([]);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   useEffect(() => {
     if (uuid && uuid !== 'undefined') {
@@ -167,6 +168,9 @@ const ExecutiveContract = () => {
   };
 
   const handleGeneratePDF = async () => {
+    if (isGeneratingPDF) return;
+
+    setIsGeneratingPDF(true);
     try {
       toast.info('شروع تولید PDF');
       // eslint-disable-next-line new-cap
@@ -183,12 +187,22 @@ const ExecutiveContract = () => {
           const page = ref.current;
           if (!page) return null;
 
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
           const canvas = await html2canvas(page, {
             scale: 2,
             useCORS: true,
             logging: false,
             windowWidth: page.scrollWidth * 1.2,
             windowHeight: page.scrollHeight * 1.2,
+            onclone: (clonedDoc) => {
+              const clonedPage = clonedDoc.querySelector(`[data-page="${i}"]`);
+              if (clonedPage) {
+                clonedPage.style.display = 'block';
+                clonedPage.style.visibility = 'visible';
+                clonedPage.style.opacity = '1';
+              }
+            },
           });
 
           return { canvas, index: i };
@@ -213,6 +227,8 @@ const ExecutiveContract = () => {
       toast.success('PDF با موفقیت تولید شد');
     } catch (error) {
       toast.error(`خطا در تولید PDF: ${error.message}`);
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
@@ -243,8 +259,15 @@ const ExecutiveContract = () => {
           <div
             key={`page-${index}`}
             ref={pageRefs.current[index]}
+            data-page={index}
             className="mb-8 bg-white"
-            style={{ breakInside: 'avoid', pageBreakAfter: 'always' }}
+            style={{
+              breakInside: 'avoid',
+              pageBreakAfter: 'always',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+            }}
           >
             <PrintableContractLayout footerChildren={renderFooterSignatures()}>
               <motion.div

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatAmount, formatMillionRials, formatPercentage } from '../../utils/formatters_func';
+import { formatAmount, formatMillionRials, formatNumber, formatPercentage } from '../../utils/formatters_func';
 
 const Page2 = ({ data }) => {
   if (!data) return null;
@@ -14,7 +14,11 @@ const Page2 = ({ data }) => {
           18-2. طرح: فعالیتی است که متقاضی برای انجام آن، اقدام به تامین منابع مالی می کند. حداقل
           منابع مالی جمع آوری شده: مقدار وجوه نقدی است که در صورت جمع آوری و پرداخت آن توسط تامین
           کنندگان، فرض میشود طرح در جذب سرمایه موردنیاز متقاضی موفق بوده است. در قرارداد حاضر حداقل
-          منابع مالی جمع آوری شده 175،000،000،000 ریال است.
+          منابع مالی جمع آوری شده{' '}
+          {(data.investor_request.amount_of_investment *
+            (data.investor_request.buoyancy_plan / 100)) /
+            1000000}{' '}
+          میلیون ریال است.
           <br />
         </p>
         <p className="text-[23px]  mt-4 mb-2">
@@ -172,8 +176,6 @@ const Page2 = ({ data }) => {
             </tr>
           </tbody>
         </table>
-
- 
       </div>
     );
   };

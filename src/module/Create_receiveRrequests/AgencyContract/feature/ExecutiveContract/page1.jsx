@@ -53,7 +53,7 @@ const Page1 = ({ data }) => {
           <br />
           1) شرکت {company?.title} (سهامی خاص) به شناسه ملی {company?.national_id} کد اقتصادی{' '}
           {company?.economic_code} و شماره ثبت {company?.registration_number} در اداره ثبت شرکت‌ها و
-          موسسات غیر تجاری {company?.general_directorate} به نشانی {company?.address}، پلاک 0، 7، به
+          موسسات غیر تجاری {company?.registration_unit} به نشانی {company?.address}، پلاک 0، 7، به
           کد پستی {company?.postal_code}، با نمایندگی که از این پس در این قرارداد بر اساس
           {company_members &&
             company_members.length > 0 &&
@@ -139,8 +139,11 @@ const Page1 = ({ data }) => {
           <br />
           6-2. حداقل منابع مالی جمع آوری شده: مقدار وجوه نقدی است که درصورت جمع آوری و پرداخت آن
           توسط تامین کنندگان، فرض میشود طرح در جذب سرمایه مورد نیاز متقاضی موفق بوده است. در قرارداد
-          حاضر حداقل منابع مالی جمع آوری شده 175،000 میلیون ریال معادل هفده میلیارد و پانصد میلیون
-          تومان است.
+          حاضر حداقل منابع مالی جمع آوری شده{' '}
+          {(data.investor_request.amount_of_investment *
+            (data.investor_request.buoyancy_plan / 100)) /
+            1000000}{' '}
+          میلیون ریال است.
           <br />
           7-2. دستورالعمل: منظور دستورالعمل تأمین مالی جمعی مصوب 1395/02/25 شورای عالی بورس و اوراق
           بهادار به انضمام کلیه مصوبات، بخشنامه ها، ابلاغیه ها، اطلاعیه ها، ضوابط و دستورالعمل‌های
@@ -194,12 +197,13 @@ Page1.propTypes = {
       registration_number: PropTypes.string,
       address: PropTypes.string,
       postal_code: PropTypes.string,
-      general_directorate: PropTypes.string,
+      registration_unit: PropTypes.string,
     }),
     investor_request: PropTypes.shape({
       logo: PropTypes.string,
       contract_number: PropTypes.string,
       subject_activity_document: PropTypes.string,
+      buoyancy_plan: PropTypes.number,
       agency_agreement_date: PropTypes.string,
       suggestion_plan_name: PropTypes.string,
       amount_of_investment: PropTypes.number,
