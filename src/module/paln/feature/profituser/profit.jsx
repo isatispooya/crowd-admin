@@ -12,9 +12,6 @@ const ProfitPage = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetProfit(trace_code);
 
-
-
-
   const formatNumber = (value) => {
     if (value === null || value === undefined || Number.isNaN(value)) return '—';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -31,11 +28,11 @@ const ProfitPage = () => {
     { label: 'شماره ملی', key: 'user' },
     { label: 'تعداد گواهی', key: 'amount' },
     { label: 'شماره شبا', key: 'account_number' },
-    { label: 'مبلغ سود اول', key: 'value1',  },
-    { label: 'مبلغ سود دوم', key: 'value2',  },
-    { label: 'مبلغ سود سوم', key: 'value3', },
-    { label: 'مبلغ سود چهارم', key: 'value4',  },
-   
+    { label: 'درصد مشارکت', key: 'amount_percent' },
+    { label: 'مبلغ سود اول', key: 'value1' },
+    { label: 'مبلغ سود دوم', key: 'value2' },
+    { label: 'مبلغ سود سوم', key: 'value3' },
+    { label: 'مبلغ سود چهارم', key: 'value4' },
   ];
 
   const columns = useMemo(
@@ -73,6 +70,7 @@ const ProfitPage = () => {
         'شماره ملی': item.user || '',
         'تعداد گواهی': item.amount || '',
         'شماره شبا': item.account_number || '',
+        'درصد مشارکت': item.amount_percent || '',
         'مبلغ سود اول': roundValue(item.value1) || '',
         'مبلغ سود دوم': roundValue(item.value2) || '',
         'مبلغ سود سوم': roundValue(item.value3) || '',

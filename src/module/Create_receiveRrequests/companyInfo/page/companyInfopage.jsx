@@ -1,4 +1,14 @@
-import { Typography, Paper, Box, Grid, TextField, Button, Fade, Divider } from '@mui/material';
+import {
+  Typography,
+  Paper,
+  Box,
+  Grid,
+  TextField,
+  Button,
+  Fade,
+  Divider,
+  Autocomplete,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
@@ -588,34 +598,75 @@ const CompanyInfoPage = ({ companyInfo, refetch }) => {
             </Typography>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={8}>
-                <TextField
-                  fullWidth
-                  label="شناسه کاربر"
-                  value={userIdentifier}
-                  onChange={(e) => setUserIdentifier(e.target.value)}
-                  InputProps={{
-                    sx: {
-                      height: '40px',
-                      backgroundColor: theme.primary.light,
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: theme.secondary.light,
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: theme.secondary.main,
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: theme.primary.main,
-                      },
-                    },
+                <Autocomplete
+                  freeSolo
+                  options={userData || []}
+                  getOptionLabel={(option) => {
+                    if (typeof option === 'string') return option;
+                    return `${option.private_person?.firstName || ''} ${option.private_person?.lastName || ''} - ${option.uniqueIdentifier || ''}`;
                   }}
+                  value={userIdentifier}
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === 'string') {
+                      setUserIdentifier(newValue);
+                    } else if (newValue) {
+                      setUserIdentifier(newValue.uniqueIdentifier);
+                    } else {
+                      setUserIdentifier('');
+                    }
+                  }}
+                  onInputChange={(event, newInputValue) => {
+                    setUserIdentifier(newInputValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="شناسه کاربر"
+                      InputProps={{
+                        ...params.InputProps,
+                        sx: {
+                          height: '40px',
+                          backgroundColor: theme.primary.light,
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.secondary.light,
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.secondary.main,
+                          },
+                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: theme.primary.main,
+                          },
+                        },
+                      }}
+                      sx={{
+                        '.MuiInputBase-input': {
+                          fontWeight: 600,
+                          color: theme.text.primary,
+                          boxSizing: 'border-box',
+                          padding: '8px 12px',
+                        },
+                      }}
+                    />
+                  )}
+                  renderOption={(props, option) => (
+                    <li {...props}>
+                      <Box>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          {option.private_person?.firstName} {option.private_person?.lastName}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: theme.text.hint }}>
+                          شناسه: {option.uniqueIdentifier}
+                        </Typography>
+                      </Box>
+                    </li>
+                  )}
                   sx={{
-                    '.MuiInputBase-input': {
-                      fontWeight: 600,
-                      color: theme.text.primary,
-                      boxSizing: 'border-box',
-                      padding: '8px 12px',
+                    '& .MuiAutocomplete-popper': {
+                      backgroundColor: theme.background.paper,
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     },
                   }}
                 />
