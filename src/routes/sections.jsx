@@ -18,6 +18,7 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ProcessProjectPage = lazy(() => import('src/pages/processProject'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const InvoicePage = lazy(() => import('src/module/Create_receiveRrequests/ExecutiveContract/feature/payment_invoice'));
 
 export const EvaluationCommittee = lazy(
   () => import('src/module/evaluationCommittee/page/evaluationCommitteePage')
@@ -87,6 +88,7 @@ export default function Router() {
         { path: '/executiveContract/:uuid', element: motionWrapper(ExecutiveContract) },
         { path: '/WarTreaty/:uuid', element: motionWrapper(WarTreaty) },
         { path: 'analyzes', element: motionWrapper(AnalyzesPage) },
+        { path: '/invoice/:cartId', element: motionWrapper(InvoicePage) },
       ],
     },
     {

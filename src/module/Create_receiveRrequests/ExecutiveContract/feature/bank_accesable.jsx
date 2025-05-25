@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, Switch, FormControlLabel } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Box, Typography, Switch, FormControlLabel, Button } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFees } from '../../Fees/service/BoardOfDirectors';
 
 const BankAccesable = ({ allData }) => {
   const { cartId } = useParams();
+  const navigate = useNavigate();
+  console.log(allData);
 
   const { mutate } = useFees(cartId);
 
   const [paymentGatewayEnabled, setPaymentGatewayEnabled] = useState(
     allData?.status_payment || false
   );
-
 
   const handlePaymentGatewayToggle = (event) => {
     const newValue = event.target.checked;
@@ -21,6 +22,10 @@ const BankAccesable = ({ allData }) => {
       investor_request_id: cartId,
       status_payment: newValue,
     });
+  };
+
+  const handleInvoiceDownload = () => {
+    navigate(`/invoice/${cartId}`);
   };
 
   return (
@@ -83,6 +88,9 @@ const BankAccesable = ({ allData }) => {
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
           شماره پیگیری پرداخت: {allData?.track_id_payment}
         </Typography>
+        <Button variant="contained" color="primary" onClick={handleInvoiceDownload}>
+          دانلود صورتحساب
+        </Button>
       </Box>
     </Box>
   );
