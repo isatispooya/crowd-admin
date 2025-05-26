@@ -28,6 +28,8 @@ const BankAccesable = ({ allData }) => {
     navigate(`/invoice/${cartId}`);
   };
 
+  const showBtn = allData?.investor_request?.code_status_payment === 'success';
+
   return (
     <Box
       sx={{
@@ -76,21 +78,26 @@ const BankAccesable = ({ allData }) => {
         }}
       >
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-          مبلغ پرداخت: {allData?.amount_of_payment}
+          مبلغ پرداخت: {allData?.investor_request?.amount_of_payment}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
           وضعیت پرداخت:{' '}
-          {allData?.code_status_payment === 'success' ? 'پرداخت شده' : ' در انتظار پرداخت'}
+          {allData?.investor_request?.code_status_payment === 'success'
+            ? 'پرداخت شده'
+            : ' در انتظار پرداخت'}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-          شماره پیگیری پرداخت: {allData?.reference_number_payment}
+          شماره پیگیری پرداخت: {allData?.investor_request?.reference_number_payment}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-          شماره پیگیری پرداخت: {allData?.track_id_payment}
+          شماره پیگیری پرداخت: {allData?.investor_request?.track_id_payment}
         </Typography>
-        <Button variant="contained" color="primary" onClick={handleInvoiceDownload}>
-          دانلود صورتحساب
-        </Button>
+
+        {showBtn && (
+          <Button variant="contained" color="primary" onClick={handleInvoiceDownload}>
+            دانلود صورتحساب
+          </Button>
+        )}
       </Box>
     </Box>
   );

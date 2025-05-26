@@ -196,6 +196,9 @@ const PaymentInvoice = () => {
         </div>
 
         <div className="p-8" ref={invoiceRef}>
+          <div className="text-left">
+            <p>شماره قرارداد: {`5${invoiceData.investor_request.contract_number}`}</p>
+          </div>
           {/* Seller and Buyer Information */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <InfoCard title=" اطلاعات فروشنده " icon={<StorefrontOutlined className="text-2xl" />}>
