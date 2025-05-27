@@ -47,13 +47,15 @@ const BankLetter = () => {
   ];
 
   const getBankNameById = (id) => {
-    if (!banks || !Array.isArray(banks)) {
-      return 'لیست بانک‌ها نامعتبر است';
-    }
+    if (!id) return '';
 
     const numericId = Number(id);
     if (Number.isNaN(numericId)) {
-      return 'شناسه نامعتبر است';
+      return id;
+    }
+
+    if (!banks || !Array.isArray(banks)) {
+      return 'لیست بانک‌ها نامعتبر است';
     }
 
     const bank = banks.find((bankss) => bankss.id === numericId);
@@ -100,6 +102,8 @@ const BankLetter = () => {
     { label: 'شماره', value: bankLetter?.bank_letter_number },
     { label: 'پیوست', value: 'ندارد' },
   ];
+
+  console.log(bankLetter?.bank);
 
   const title = `ریاست محترم ${getBankNameById(bankLetter?.bank)}  شعبه ${bankLetter?.bank_branch} (کد شعبه ${bankLetter?.bank_branch_code})`;
   const subtitle = `موضوع: اخذ مجوز صدور ضمانت نامه تعهد پرداخت برای شرکت ${bankLetter?.company_name}`;
