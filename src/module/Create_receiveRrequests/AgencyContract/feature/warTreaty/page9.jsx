@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import moment from 'jalali-moment';
 
 const Page9 = ({ agencyContract }) => {
   if (!agencyContract) return null;

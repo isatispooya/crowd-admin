@@ -7,6 +7,7 @@ import Warranty from './components/warranty';
 import AuditReport from './components/auditReport';
 import ProgressReport from './components/prgressReport';
 import Bazar from './components/bazar';
+import AllPayment from './components/allPayment';
 
 const Tasks = () => {
   const [value, setValue] = useState(0);
@@ -29,6 +30,8 @@ const Tasks = () => {
         return <AuditReport />;
       case 5:
         return <Bazar />;
+      case 6:
+        return <AllPayment />;
       default:
         return null;
     }
@@ -60,6 +63,7 @@ const Tasks = () => {
               <Tab label="گزارش پیشرفت" />
               <Tab label="گزارش حسابرسی" />
               <Tab label="گزارش بازاریابی" />
+              <Tab label="پرداخت های انجام شده" />
             </Tabs>
             {renderTabsComponents()}
           </motion.div>

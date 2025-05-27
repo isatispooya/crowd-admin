@@ -40,7 +40,12 @@ const Page4 = ({ agencyContract }) => {
             {Number(agencyContract.investor_request.farabours_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
+          {agencyContract.investor_request.method_payment_fee_software ===  "2" && 
+          `  و کارمزد شرکت توسعه اطلاعات مالی ${Number(agencyContract.investor_request.amount_of_payment / 1000000 || 0).toLocaleString()} میلیون ریال `
+          }
+         
           مي باشد و همچنین کارمزد موضوع 4 ماده 3 این قرارداد{' '}
+
           <strong>
             {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
@@ -98,7 +103,9 @@ const Page4 = ({ agencyContract }) => {
           تعهدی(ردیف 2 جدول ماده 5)، كارمزد اين بند را به حساب شمارة 98785727010103 و شمارة شبا
           IR480150000000310107275878 به نام شركت فرابورس ايران نزد بانك سپه واريز نمايد و اصل فيش
           واريزي را به عامل تحويل نمايد.{' '}
+          
         </p>
+
 
         <p className="mb-3 pr-4 text-right">
           <span className="font-bold">5)</span>کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی
@@ -109,6 +116,17 @@ const Page4 = ({ agencyContract }) => {
           میلیون ریال) که متقاضی پس از موفقیت در جمع آوری وجوه به حساب عامل به صورت نقدی پرداخت می
           نماید.
         </p>
+        
+
+        { agencyContract.investor_request.method_payment_fee_software ===  "2" && 
+
+        <p className="mb-3 pr-4 text-right">
+          <span className="font-bold">6)</span>
+         کارمزد شرکت توسعه اطلاعات مالی ایساتیس پویا به جهت هزینه های کارشناسی و امور اجرایی تامین مالی           
+          {Number(agencyContract.investor_request.amount_of_payment / 1000000 || 0).toLocaleString()} میلیون ریال
+          می باشد که متقاضی متعهد است قبل از اخذ نماد به حساب سبدگردانی ایساتیس پویا یا درگاه پرداخت مربوطه در پلتفرم، اساتیس کراد واریز نماید.
+        </p>
+        }
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">تبصره 2: </span>

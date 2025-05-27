@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatAmount, formatMillionRials, formatNumber, formatPercentage } from '../../utils/formatters_func';
+import { formatAmount, formatMillionRials } from '../../utils/formatters_func';
 
 const Page2 = ({ data }) => {
   if (!data) return null;

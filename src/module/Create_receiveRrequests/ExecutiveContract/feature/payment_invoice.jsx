@@ -73,14 +73,15 @@ const PaymentInvoice = () => {
       postalCode: '1234567890',
     },
     buyer: {
-      name: 'نام شرکت ثبت نشده',
-      registrationNumber: 'ثبت نشده',
-      economicCode: 'ثبت نشده',
-      nationalId: 'ثبت نشده',
-      address: 'آدرس ثبت نشده',
-      phone: 'تلفن ثبت نشده',
-      email: 'وب‌سایت ثبت نشده',
-      postalCode: 'کد پستی ثبت نشده',
+      name: 'سبد گردانی ایساتیس پویا ',
+      registrationNumber: '13702',
+      economicCode: '14007805556',
+      nationalId: '14007805556',
+      address:
+        '  استان هرمزگان، شهرستان بندرلنگه، بخش کیش، شهر کیش، بازارمروارید، بلوار ساحلی، بلوار سنایی، پلاک 0، برج انا، طبقه 4، واحد 44',
+      phone: '09129154690',
+      email: 'info@isatispooya.com',
+      postalCode: '7941757334',
     },
     items: [
       {
@@ -103,19 +104,20 @@ const PaymentInvoice = () => {
 
   const data = {
     ...defaultInvoiceData,
-    buyer: invoiceData?.investor_request?.company
-      ? {
-          name: invoiceData.investor_request.company.title || 'نام شرکت ثبت نشده',
-          registrationNumber:
-            invoiceData.investor_request.company.registration_number?.toString() || 'ثبت نشده',
-          economicCode: invoiceData.investor_request.company.economic_code || 'ثبت نشده',
-          nationalId: invoiceData.investor_request.company.national_id || 'ثبت نشده',
-          address: invoiceData.investor_request.company.address || 'آدرس ثبت نشده',
-          phone: invoiceData.investor_request.company.tel || 'تلفن ثبت نشده',
-          email: invoiceData.investor_request.company.website || 'وب‌سایت ثبت نشده',
-          postalCode: invoiceData.investor_request.company.postal_code || 'کد پستی ثبت نشده',
-        }
-      : defaultInvoiceData.buyer,
+    buyer:
+      invoiceData?.investor_request.method_payment_fee_software !== "2"
+        ? {
+            name: invoiceData?.investor_request.company.title || 'نام شرکت ثبت نشده',
+            registrationNumber:
+              invoiceData.investor_request.company.registration_number?.toString() || 'ثبت نشده',
+            economicCode: invoiceData.investor_request.company.economic_code || 'ثبت نشده',
+            nationalId: invoiceData.investor_request.company.national_id || 'ثبت نشده',
+            address: invoiceData.investor_request.company.address || 'آدرس ثبت نشده',
+            phone: invoiceData.investor_request.company.tel || 'تلفن ثبت نشده',
+            email: invoiceData.investor_request.company.website || 'وب‌سایت ثبت نشده',
+            postalCode: invoiceData.investor_request.company.postal_code || 'کد پستی ثبت نشده',
+          }
+        : defaultInvoiceData.buyer,
   };
 
   const formatNumber = (num) => num?.toLocaleString('fa-IR') || '0';
