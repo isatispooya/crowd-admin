@@ -95,7 +95,7 @@ const Page1 = ({ agencyContract }) => {
                     ? 'آقای'
                     : member.gender === 'False'
                       ? 'خانم'
-                      : 'خانم/آقای '}{' '}
+                      : 'آقای/خانم '}{' '}
                   {member.person_title} به شماره ملی {member.uniqueIdentifier}
                   {' سمت '}
                   {member.position_title}
