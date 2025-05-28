@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
@@ -90,10 +91,13 @@ const Page1 = ({ agencyContract }) => {
               ?.filter((member) => member.signature === true)
               .map((member, index, filteredArray) => (
                 <React.Fragment key={member.id}>
-                  {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title} به شماره ملی{' '}
-                  {member.uniqueIdentifier}
-                  سمت 
-                  {" "}
+                  {member.gender === 'True'
+                    ? 'آقای'
+                    : member.gender === 'False'
+                      ? 'خانم'
+                      : 'خانم/آقای '}{' '}
+                  {member.person_title} به شماره ملی {member.uniqueIdentifier}
+                  {' سمت '}
                   {member.position_title}
                   {index < filteredArray.length - 1 ? ' و ' : ''}
                 </React.Fragment>
@@ -120,8 +124,13 @@ const Page1 = ({ agencyContract }) => {
                   <li key={member.id}>
                     <p>
                       {String.fromCharCode(1575 + index)}) نمايندگان طرف نخست، صاحب امضاى مجاز{' '}
-                      {member.gender === 'True' ? 'آقای' : 'خانم'} {member.person_title}، شماره ملى{' '}
-                      {member.uniqueIdentifier}، سمت {" "} {member.first_role} می‌باشد.
+                      {member.gender === 'True'
+                        ? 'آقای'
+                        : member.gender === 'False'
+                          ? 'خانم'
+                          : 'آقای / خانم'}{' '}
+                      {member.person_title}، شماره ملى {member.uniqueIdentifier}، سمت{' '}
+                      {member.first_role} می‌باشد.
                     </p>
                   </li>
                 ))}
@@ -134,8 +143,8 @@ const Page1 = ({ agencyContract }) => {
           (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی 411615733645، و شماره ثبت 13702، در اداره
           ثبت شرکت ها و موسسات تجاری استان هرمزگان، به نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه
           4 واحد 44 شماره تلفن 076-44480555 و کدپستی 7941757334 و با نمایندگی آقای سید علی محمد
-          خبیری به شماره ملی 4431535474 به  {" "}سمت عضو هیئت مدیره و آقای محسن زارعیان به شماره ملی
-          4431855416 به سمت  {" "} مدیرعامل، صاحبان امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ
+          خبیری به شماره ملی 4431535474 به سمت عضو هیئت مدیره و آقای محسن زارعیان به شماره ملی
+          4431855416 به سمت مدیرعامل، صاحبان امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ
           1401/10/24 که از این پس و در این قرارداد، «عامل» نامیده می شود. به وكالت از طرف دارندگان
           گواهي هاي شراكت جهت تأمين منابع مالي مورد نياز متقاضي، براسـاس مجوز صـادره توسـط شـركت
           فرابورس به نامه شـمارة 0042/ف/1403 مورخ 1403/05/15 از طرف ديگر،
@@ -195,8 +204,6 @@ const Page1 = ({ agencyContract }) => {
           کلیه مصوبات، بخشنامه‌ها، ابلاغیه‌ها، اطّلاعیه‌ها، ضوابط و دستورالعمل‌های اجرایی که متعاقب
           آن توسط نهادهای ذیربط مصوب شده است، می‌باشد.
         </p>
-
-
       </div>
     </div>
   );
