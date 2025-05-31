@@ -4,10 +4,12 @@ import { PropTypes } from 'prop-types';
 const Page7 = ({ agencyContract }) => {
   if (!agencyContract) return null;
 
+  const warrantyList = agencyContract.warranty.filter((item) => item.type === 'warranty');
+
   return (
     <div className="contract-page page-1">
       <div className="text-justify leading-relaxed text-[23px]">
-      <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
+        <table className="table-auto w-full border-collapse border border-gray-300 text-[22px]">
           <thead>
             <tr>
               <th className="border border-gray-300 text-[22px] text-right pr-2">ردیف</th>
@@ -23,7 +25,8 @@ const Page7 = ({ agencyContract }) => {
                 تضامین مورد نیاز{' '}
               </td>
               <td className="border border-gray-300 text-[18px] text-right pr-2">
-                متقاضي متعهد است یک فقره ضمانت نامه تعهد پرداخت بانکی برابر اصل مبلغ تامین مالی به
+                متقاضي متعهد است {warrantyList.length} فقره ضمانت نامه تعهد پرداخت بانکی برابر اصل
+                مبلغ تامین مالی {warrantyList.length > 1 ? 'جمعا' : ''}  به{' '}
                 <strong>
                   {Number(
                     agencyContract.investor_request.amount_of_investment / 1000000 || 0
@@ -181,7 +184,6 @@ const Page7 = ({ agencyContract }) => {
           دارندگان گواهي شراكت گردد، بر عهده متقاضي بوده و وي مسئول تمامي خسارتهاي ناشي از اين موضوع
           است. این امر، نافی حق فسخ و مطالبه خسارت وجه التزام نیست.
         </p>
-       
       </div>
     </div>
   );
