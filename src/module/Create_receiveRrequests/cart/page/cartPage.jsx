@@ -176,6 +176,9 @@ const CardPage = () => {
                 columns={columns}
                 options={options}
                 className="custom-tabulator"
+                events={{
+                  rowClick: (e, row) => handleCardClick(row.getData().id),
+                }}
               />
             </div>
           ) : (
