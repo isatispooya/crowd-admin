@@ -3,7 +3,11 @@ import UseCartId from 'src/hooks/card_id';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { BsArchive, BsArchiveFill, BsInbox, BsInboxFill, BsGrid } from 'react-icons/bs';
-import CardFeature from '../feature/cartfeature';
+import { ReactTabulator } from 'react-tabulator';
+import 'react-tabulator/lib/styles.css';
+import 'react-tabulator/css/tabulator_materialize.min.css';
+import { OnRun } from 'src/api/OnRun';
+import Nonlogo from '../feature/Artboard 1 copy 3.png';
 import useGetCards from '../service/cartService';
 
 const CardPage = () => {
@@ -23,10 +27,100 @@ const CardPage = () => {
     return request.archive === filterArchived;
   });
 
+  const columns = [
+    {
+      title: 'لوگو',
+      field: 'logo',
+      formatter: (cell) => {
+        const logo = cell.getValue();
+        return `<img src="${logo ? `${OnRun}/${logo}` : Nonlogo}" alt="logo" class="w-12 h-12 " />`;
+      },
+      width: 100,
+      headerSort: false,
+    },
+
+    {
+      title: 'نام پشنهادی طرح',
+      field: 'suggestion_plan_name',
+      headerFilter: 'input',
+      filter: 'contains',
+      formatter: (cell) => `<div>${cell.getValue() || 'نوع طرح نامشخص'}</div>`,
+    },
+    {
+      title: 'شماره قرارداد',
+      field: 'contract_number',
+      headerFilter: 'input',
+      filter: 'contains',
+      formatter: (cell) => `<div>${cell.getValue() || 'نامشخص'}</div>`,
+    },
+    {
+      title: 'مبلغ طرح',
+      field: 'amount_of_investment',
+      headerFilter: 'input',
+      filter: 'contains',
+      formatter: (cell) => {
+        const value = cell.getValue();
+        return `<div>${
+          value ? `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ریال` : 'نامشخص'
+        }</div>`;
+      },
+    },
+    {
+      title: 'وضعیت پرداخت',
+      field: 'code_status_payment',
+      headerFilter: 'input',
+      headerFilterFunc: (headerValue, rowValue) => {
+        if (!headerValue) return true;
+        const search = headerValue.toString().trim().toLowerCase();
+        const isSuccess = rowValue === 'success';
+        if ('موفق'.includes(search)) {
+          return isSuccess;
+        }
+        if ('ناموفق'.includes(search)) {
+          return !isSuccess;
+        }
+
+        return rowValue?.toString().toLowerCase().includes(search);
+      },
+      formatter: (cell) => {
+        const value = cell.getValue();
+        return `<div>${value === 'success' ? 'موفق' : 'ناموفق'}</div>`;
+      },
+    },
+
+    {
+      title: 'نام شرکت',
+      field: 'company.title',
+      headerFilter: 'input',
+      filter: 'contains',
+      formatter: (cell) => `<div>${cell.getValue() || 'نامشخص'}</div>`,
+    },
+
+    {
+      title: 'شناسه شرکت',
+      field: 'company.national_id',
+      headerFilter: 'input',
+      filter: 'contains',
+      formatter: (cell) => `<div>${cell.getValue() || 'نامشخص'}</div>`,
+    },
+  ];
+
+  const options = {
+    layout: 'fitColumns',
+    responsiveLayout: 'hide',
+    pagination: true,
+    paginationSize: 10,
+    paginationSizeSelector: [10, 20, 50],
+    movableColumns: true,
+    resizableColumns: true,
+    initialSort: [{ column: 'suggestion_plan_name', dir: 'asc' }],
+    rowClick: (e, row) => handleCardClick(row.getData().id),
+  };
+
   return (
-    <div className="sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
-      <div className="bg-white shadow-2xl rounded-3xl p-6 sm:p-8 lg:p-10 max-w-7xl w-full">
-        <div className="bg-gray-200 text-white rounded-t-3xl p-4 sm:p-6 text-center">
+    <div className="sm:p-2 lg:p-2 bg-transparent min-h-screen flex justify-center items-start">
+      <div className="bg-white shadow-2xl rounded-3xl p-2 sm:p-4 lg:p-6 max-w-8xl w-full">
+        <div className="bg-gray-200 text-white rounded-t-3xl p-2 sm:p-4 text-center">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-700">لیست درخواست ها</h1>
         </div>
         <div className="p-4 sm:p-6 flex justify-center space-x-4 rtl:space-x-reverse">
@@ -39,16 +133,16 @@ const CardPage = () => {
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.95 }}
           >
-            <motion.span 
+            <motion.span
               animate={{ rotate: filterArchived === false ? [0, 10, 0] : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
               className="flex items-center justify-center"
             >
               {filterArchived === false ? <BsInboxFill size={16} /> : <BsInbox size={16} />}
             </motion.span>
             فعال
           </motion.button>
-          
+
           <motion.button
             type="button"
             onClick={() => setFilterArchived('all')}
@@ -58,16 +152,16 @@ const CardPage = () => {
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.95 }}
           >
-            <motion.span 
+            <motion.span
               animate={{ rotate: filterArchived === 'all' ? [0, 10, 0] : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
               className="flex items-center justify-center"
             >
               <BsGrid size={16} />
             </motion.span>
             همه
           </motion.button>
-          
+
           <motion.button
             type="button"
             onClick={() => setFilterArchived(true)}
@@ -77,9 +171,9 @@ const CardPage = () => {
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.95 }}
           >
-            <motion.span 
+            <motion.span
               animate={{ rotate: filterArchived === true ? [0, 10, 0] : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
               className="flex items-center justify-center"
             >
               {filterArchived === true ? <BsArchiveFill size={16} /> : <BsArchive size={16} />}
@@ -88,28 +182,21 @@ const CardPage = () => {
           </motion.button>
         </div>
         <div className="p-4 sm:p-6 lg:p-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {filteredRequests.length > 0 ? (
-              filteredRequests.map((request) => (
-                <motion.div
-                  key={request.id}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 150,
-                    damping: 20,
-                  }}
-                  onClick={() => handleCardClick(request.id)}
-                >
-                  <CardFeature cardData={request} handleCardClick={handleCardClick} />
-                </motion.div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-10 text-gray-500">
-                درخواستی با این فیلتر یافت نشد
-              </div>
-            )}
-          </div>
+          {filteredRequests.length > 0 ? (
+            <div className="overflow-x-auto">
+              <ReactTabulator
+                data={filteredRequests}
+                columns={columns}
+                options={options}
+                className="custom-tabulator"
+                events={{
+                  rowClick: (e, row) => handleCardClick(row.getData().id),
+                }}
+              />
+            </div>
+          ) : (
+            <div className="text-center py-10 text-gray-500">درخواستی با این فیلتر یافت نشد</div>
+          )}
         </div>
       </div>
     </div>
