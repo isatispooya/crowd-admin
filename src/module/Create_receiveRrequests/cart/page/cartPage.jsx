@@ -66,15 +66,28 @@ const CardPage = () => {
       },
     },
     {
-      title: ' وضعیت پرداخت',
-      field: 'code-status',
+      title: 'وضعیت پرداخت',
+      field: 'code_status_payment',
       headerFilter: 'input',
-      filter: 'contains',
+      headerFilterFunc: (headerValue, rowValue) => {
+        if (!headerValue) return true;
+        const search = headerValue.toString().trim().toLowerCase();
+        const isSuccess = rowValue === 'success';
+        if ('موفق'.includes(search)) {
+          return isSuccess;
+        }
+        if ('ناموفق'.includes(search)) {
+          return !isSuccess;
+        }
+
+        return rowValue?.toString().toLowerCase().includes(search);
+      },
       formatter: (cell) => {
         const value = cell.getValue();
         return `<div>${value === 'success' ? 'موفق' : 'ناموفق'}</div>`;
       },
     },
+
     {
       title: 'نام شرکت',
       field: 'company.title',

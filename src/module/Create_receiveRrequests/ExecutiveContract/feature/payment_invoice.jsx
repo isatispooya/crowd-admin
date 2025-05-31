@@ -105,7 +105,7 @@ const PaymentInvoice = () => {
   const data = {
     ...defaultInvoiceData,
     buyer:
-      invoiceData?.investor_request.method_payment_fee_software !== "2"
+      invoiceData?.investor_request.method_payment_fee_software !== '2'
         ? {
             name: invoiceData?.investor_request.company.title || 'نام شرکت ثبت نشده',
             registrationNumber:
@@ -298,7 +298,7 @@ const PaymentInvoice = () => {
                       تخفیف (ریال)
                     </th>
                     <th className="px-4 py-3 text-left font-bold text-gray-700 text-sm">
-                      مالیات (ریال)
+                      مالیات بر ارزش افزوده (ریال)
                     </th>
                     <th className="px-4 py-3 text-left font-bold text-gray-700 text-sm">
                       مبلغ کل (ریال)
@@ -349,7 +349,7 @@ const PaymentInvoice = () => {
                   </div>
                   <div className="border-t border-blue-200" />
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">مالیات:</span>
+                    <span className="text-gray-600">مالیات بر ارزش افزوده:</span>
                     <span className="text-lg font-semibold text-gray-800">
                       {formatNumber(tax)} ریال
                     </span>
