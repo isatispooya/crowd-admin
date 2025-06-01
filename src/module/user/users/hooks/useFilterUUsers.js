@@ -5,7 +5,6 @@ const useFilterUsers = (filters) =>
   useQuery({
     queryKey: ['filterUsers', filters],
     queryFn: () => filterUsers(filters),
-    enabled: !!filters,
   });
 
 export default useFilterUsers;

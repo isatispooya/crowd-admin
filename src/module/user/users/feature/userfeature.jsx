@@ -7,6 +7,7 @@ import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
 import { AnimatePresence, motion } from 'framer-motion';
 import moment from 'moment-jalaali';
+import useGetUser from '../services/useGetUser';
 import { exportToExcel } from '../../../../utils/excelExport';
 import useCreateLegal from '../hooks/useCreateLegal';
 import CreateLegalPersonForm from './createLegalPerson';
@@ -60,6 +61,7 @@ const mapUserData = (users) =>
 
 const UserFeature = () => {
   const navigate = useNavigate();
+  const { data: rawData, refetch: refetchUsers } = useGetUser();
   const { mutate: createLegalPerson } = useCreateLegal();
   const [showForm, setShowForm] = useState(false);
   const [searchFilters, setSearchFilters] = useState({
@@ -68,9 +70,9 @@ const UserFeature = () => {
     lastName: '',
     mobile: '',
   });
-  const [shouldSearch, setShouldSearch] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({});
 
-  const { data: filteredData, isLoading } = useFilterUsers(shouldSearch ? searchFilters : null);
+  const { data: filteredData, isLoading } = useFilterUsers(activeFilters);
 
   const handleSearchChange = (field, value) => {
     setSearchFilters((prev) => ({
@@ -80,7 +82,19 @@ const UserFeature = () => {
   };
 
   const handleSearch = () => {
-    setShouldSearch(true);
+    const hasActiveFilters = Object.values(searchFilters).some((value) => value.trim() !== '');
+    setActiveFilters(hasActiveFilters ? searchFilters : {});
+  };
+
+  const handleRefetch = () => {
+    refetchUsers();
+    setActiveFilters({});
+    setSearchFilters({
+      uniqueIdentifier: '',
+      firstName: '',
+      lastName: '',
+      mobile: '',
+    });
   };
 
   const handleRowClick = (params) => {
@@ -147,9 +161,13 @@ const UserFeature = () => {
   ];
 
   const formattedData = useMemo(() => {
-    const users = filteredData?.results || [];
-    return mapUserData(users);
-  }, [filteredData]);
+    // If there are no active filters, use rawData
+    if (Object.keys(activeFilters).length === 0) {
+      return mapUserData(rawData?.results || []);
+    }
+    // Otherwise use filtered data
+    return mapUserData(filteredData?.results || []);
+  }, [filteredData, rawData, activeFilters]);
 
   console.log('Formatted Data:', formattedData);
 
@@ -212,7 +230,13 @@ const UserFeature = () => {
         <h2 className="text-lg font-semibold text-gray-800 mb-4">جستجوی کاربران</h2>
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex-1 flex items-center gap-4 flex-wrap">
-           
+            <SearchInput
+              id="uniqueIdentifier"
+              label="کد ملی"
+              value={searchFilters.uniqueIdentifier}
+              onChange={(e) => handleSearchChange('uniqueIdentifier', e.target.value)}
+              placeholder="کد ملی را وارد کنید"
+            />
 
             <SearchInput
               id="userName"
@@ -228,13 +252,6 @@ const UserFeature = () => {
               onChange={(e) => handleSearchChange('lastName', e.target.value)}
               placeholder="نام خانوادگی را وارد کنید"
             />
-             <SearchInput
-              id="uniqueIdentifier"
-              label="کد ملی"
-              value={searchFilters.uniqueIdentifier}
-              onChange={(e) => handleSearchChange('uniqueIdentifier', e.target.value)}
-              placeholder="کد ملی را وارد کنید"
-            />
 
             <SearchInput
               id="mobile"
@@ -244,14 +261,24 @@ const UserFeature = () => {
               placeholder="شماره همراه را وارد کنید"
             />
           </div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleSearch}
-            className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl whitespace-nowrap"
-          >
-            جستجو
-          </motion.button>
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleSearch}
+              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl whitespace-nowrap"
+            >
+              جستجو
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleRefetch}
+              className="px-6 py-2.5 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl whitespace-nowrap"
+            >
+              بروزرسانی
+            </motion.button>
+          </div>
         </div>
       </div>
 
