@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
 import { AnimatePresence, motion } from 'framer-motion';
 import moment from 'moment-jalaali';
-import useGetUser from '../services/useGetUser';
 import { exportToExcel } from '../../../../utils/excelExport';
 import useCreateLegal from '../hooks/useCreateLegal';
 import CreateLegalPersonForm from './createLegalPerson';
+import SearchInput from './searchInput';
+import useFilterUsers from '../hooks/useFilterUUsers';
 
 const formatDate = (dateString) => {
   if (!dateString) return '';
@@ -17,47 +20,68 @@ const formatDate = (dateString) => {
 };
 
 const mapUserData = (users) =>
-  users.map((user) => {
-    const personalInfo = user.private_person || {};
-    const legalInfo = user.legal_person || {};
-    const accountNumber =
-      user.accounts?.length > 0
-        ? user.accounts.find((account) => account.isDefault === 'True')?.accountNumber ||
-          user.accounts[0]?.accountNumber ||
-          ''
-        : '';
-    const accountBank =
-      user.accounts?.length > 0
-        ? user.accounts.find((account) => account.isDefault === 'True')?.bank ||
-          user.accounts[0]?.bank ||
-          ''
-        : '';
-    const companyInfo = user.legal_person || [];
+  Array.isArray(users)
+    ? users.map((user) => {
+        const personalInfo = user.private_person || {};
+        const legalInfo = user.legal_person || {};
+        const accountNumber =
+          user.accounts?.length > 0
+            ? user.accounts.find((account) => account.isDefault === 'True')?.accountNumber ||
+              user.accounts[0]?.accountNumber ||
+              ''
+            : '';
+        const accountBank =
+          user.accounts?.length > 0
+            ? user.accounts.find((account) => account.isDefault === 'True')?.bank ||
+              user.accounts[0]?.bank ||
+              ''
+            : '';
+        const companyInfo = user.legal_person || [];
 
-    return {
-      id: user.id,
-      fullName: `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim(),
-      fatherName: personalInfo.fatherName || '',
-      uniqueIdentifier: user.uniqueIdentifier || '',
-      mobile: user.mobile || '',
-      companyName: companyInfo.companyName || '',
-      economicCode: legalInfo.economicCode || '',
-      registerNumber: legalInfo.registerNumber || '',
-      registerDate: formatDate(legalInfo.registerDate) || '',
-      birthDate: formatDate(personalInfo.birthDate) || '',
-      accountNumber: accountNumber || '',
-      accountBank: accountBank || '',
-      gender: personalInfo.gender || '',
-      placeOfBirth: personalInfo.placeOfBirth || '',
-      placeOfIssue: personalInfo.placeOfIssue || '',
-    };
-  });
+        return {
+          id: user.id,
+          fullName: `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim(),
+          fatherName: personalInfo.fatherName || '',
+          uniqueIdentifier: user.uniqueIdentifier || '',
+          mobile: user.mobile || '',
+          companyName: companyInfo.companyName || '',
+          economicCode: legalInfo.economicCode || '',
+          registerNumber: legalInfo.registerNumber || '',
+          registerDate: formatDate(legalInfo.registerDate) || '',
+          birthDate: formatDate(personalInfo.birthDate) || '',
+          accountNumber: accountNumber || '',
+          accountBank: accountBank || '',
+          gender: personalInfo.gender || '',
+          placeOfBirth: personalInfo.placeOfBirth || '',
+          placeOfIssue: personalInfo.placeOfIssue || '',
+        };
+      })
+    : [];
 
 const UserFeature = () => {
   const navigate = useNavigate();
-  const { data: rawData } = useGetUser();
   const { mutate: createLegalPerson } = useCreateLegal();
   const [showForm, setShowForm] = useState(false);
+  const [searchFilters, setSearchFilters] = useState({
+    uniqueIdentifier: '',
+    firstName: '',
+    lastName: '',
+    mobile: '',
+  });
+  const [shouldSearch, setShouldSearch] = useState(false);
+
+  const { data: filteredData, isLoading } = useFilterUsers(shouldSearch ? searchFilters : null);
+
+  const handleSearchChange = (field, value) => {
+    setSearchFilters((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSearch = () => {
+    setShouldSearch(true);
+  };
 
   const handleRowClick = (params) => {
     navigate(`/userDetail/${params.row.id}`);
@@ -99,7 +123,6 @@ const UserFeature = () => {
     },
     { field: 'fullName', headerName: 'نام و نام خانوادگی', width: 150, filterable: true },
     { field: 'mobile', headerName: 'شماره همراه', width: 120, filterable: true },
-    // { field: 'fatherName', headerName: 'نام پدر', width: 120, filterable: true },
     { field: 'uniqueIdentifier', headerName: 'کدملی', width: 120, filterable: true },
     {
       field: 'birthDate',
@@ -115,8 +138,6 @@ const UserFeature = () => {
       renderCell: (cell) => (cell.value === 'Female' ? 'زن' : 'مرد'),
       filterable: true,
     },
-    // { field: 'placeOfBirth', headerName: 'محل تولد', width: 120, filterable: true },
-    // { field: 'placeOfIssue', headerName: 'محل صدور', width: 120, filterable: true },
     { field: 'accountNumber', headerName: 'شماره حساب', width: 150, filterable: true },
     { field: 'accountBank', headerName: 'بانک', width: 120, filterable: true },
     { field: 'companyName', headerName: 'نام شرکت', width: 150, filterable: true },
@@ -125,7 +146,12 @@ const UserFeature = () => {
     { field: 'registerDate', headerName: 'تاریخ ثبت', width: 150, filterable: true },
   ];
 
-  const formattedData = useMemo(() => mapUserData(rawData || []), [rawData]);
+  const formattedData = useMemo(() => {
+    const users = filteredData?.results || [];
+    return mapUserData(users);
+  }, [filteredData]);
+
+  console.log('Formatted Data:', formattedData);
 
   const downloadExcel = useCallback(() => {
     try {
@@ -153,18 +179,16 @@ const UserFeature = () => {
       }));
 
       exportToExcel(excelData);
-    } catch (error) {
-      console.error('Error in downloadExcel:', error);
+    } catch (downloadError) {
+      console.error('Error in downloadExcel:', downloadError);
     }
   }, [formattedData]);
 
   const handleSubmit = async (formData) => {
     try {
       await createLegalPerson(formData);
-      // The form will automatically reset and close from the CreateLegalPersonForm component
-    } catch (error) {
-      console.error('Error creating legal person:', error);
-      // Handle error if needed
+    } catch (submitError) {
+      console.error('Error creating legal person:', submitError);
     }
   };
 
@@ -176,15 +200,59 @@ const UserFeature = () => {
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowForm(true)}
-          className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+          className="px-6 py-2.5 bg-gradient-to-r mb-6 from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl whitespace-nowrap"
         >
           ایجاد شخص حقوقی
         </motion.button>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">جستجوی کاربران</h2>
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex-1 flex items-center gap-4 flex-wrap">
+           
+
+            <SearchInput
+              id="userName"
+              label="نام"
+              value={searchFilters.firstName}
+              onChange={(e) => handleSearchChange('firstName', e.target.value)}
+              placeholder="نام را وارد کنید"
+            />
+            <SearchInput
+              id="userName"
+              label="نام خانوادگی"
+              value={searchFilters.lastName}
+              onChange={(e) => handleSearchChange('lastName', e.target.value)}
+              placeholder="نام خانوادگی را وارد کنید"
+            />
+             <SearchInput
+              id="uniqueIdentifier"
+              label="کد ملی"
+              value={searchFilters.uniqueIdentifier}
+              onChange={(e) => handleSearchChange('uniqueIdentifier', e.target.value)}
+              placeholder="کد ملی را وارد کنید"
+            />
+
+            <SearchInput
+              id="mobile"
+              label="شماره همراه"
+              value={searchFilters.mobile}
+              onChange={(e) => handleSearchChange('mobile', e.target.value)}
+              placeholder="شماره همراه را وارد کنید"
+            />
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSearch}
+            className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl whitespace-nowrap"
+          >
+            جستجو
+          </motion.button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -205,6 +273,7 @@ const UserFeature = () => {
         filterMode="client"
         localeText={localeText}
         onRowClick={handleRowClick}
+        loading={isLoading}
         slots={{
           toolbar: (props) => (
             <CustomDataGridToolbar

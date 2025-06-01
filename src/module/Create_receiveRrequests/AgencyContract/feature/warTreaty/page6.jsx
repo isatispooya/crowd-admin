@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { formatNumber } from 'src/utils/formatNumbers';
 import moment from 'jalali-moment';
 
 const Page6 = ({ agencyContract }) => {
