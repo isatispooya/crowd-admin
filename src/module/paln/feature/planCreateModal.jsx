@@ -195,6 +195,7 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                     { value: '3', label: 'تمدید شده' },
                     { value: '4', label: 'سررسید ناموفق' },
                     { value: '5', label: 'تکمیل شده' },
+                    { value: '6', label: 'خاتمه یافته' },
                   ]}
                   onChange={(e) => {
                     setFormData({ ...formData, plan_status: e.target.value });

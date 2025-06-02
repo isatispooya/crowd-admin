@@ -61,10 +61,12 @@ const PlanTableFeature = () => {
         return 'شروع نشده';
       case '3':
         return 'تمدید شده';
-      case '5':
-        return 'تکمیل شده';
       case '4':
         return 'سررسید ناموفق';
+      case '5':
+        return 'تکمیل شده';
+      case '6':
+        return 'خاتمه یافته';
       default:
         return 'نامشخص';
     }
@@ -242,7 +244,7 @@ const PlanTableFeature = () => {
                         }}
                       />
 
-<Box
+                      <Box
                         sx={{
                           position: 'absolute',
                           top: '10px',
@@ -257,7 +259,7 @@ const PlanTableFeature = () => {
                           fontSize: '0.9rem',
                           color: '#333',
                           display: 'flex',
-                          alignItems: 'center', 
+                          alignItems: 'center',
                           justifyContent: 'center',
                           zIndex: 10,
                           transition: 'all 0.2s ease',

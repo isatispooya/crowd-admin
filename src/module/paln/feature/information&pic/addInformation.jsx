@@ -193,17 +193,17 @@ const AddInfo = () => {
               <MenuItem value="1">شروع شده</MenuItem>
               <MenuItem value="2">شروع نشده</MenuItem>
               <MenuItem value="3">تمدید شده</MenuItem>
-              <MenuItem value="5">تکمیل شده</MenuItem>
               <MenuItem value="4">سررسید ناموفق</MenuItem>
+              <MenuItem value="5">تکمیل شده</MenuItem>
+              <MenuItem value="6">خاتمه یافته</MenuItem>
             </Select>
           </FormControl>
 
-        
           <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
             <InputLabel id="payback-period-select-label">دوره بازپرداخت</InputLabel>
-            <Select 
+            <Select
               labelId="payback-period-select-label"
-              value={paybackPeriod} 
+              value={paybackPeriod}
               onChange={handlePaybackPeriodChange}
               displayEmpty
               label="دوره بازپرداخت"
@@ -215,7 +215,7 @@ const AddInfo = () => {
 
           <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
             <TextField
-              type="number" 
+              type="number"
               label="طول دوره (ماه)"
               value={periodLength || ''}
               onChange={(e) => {
@@ -232,13 +232,13 @@ const AddInfo = () => {
               inputProps={{
                 min: 1,
                 max: 12,
-                step: 1
+                step: 1,
               }}
               helperText={periodLength ? `${periodLength} ماهه` : 'لطفا عددی بین 1 تا 12 وارد کنید'}
             />
           </FormControl>
         </Box>
-      
+
         <Box
           sx={{
             width: '100%',
