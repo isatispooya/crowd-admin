@@ -37,6 +37,8 @@ const Warranty = ({ allData }) => {
     type: allData?.warranty?.type || '',
     fishing_id: allData?.warranty?.fishing_id || '',
     exporter: allData?.warranty?.exporter || '',
+    project_end_date: allData?.warranty?.project_end_date || null,
+    warranty_validity_date: allData?.warranty?.warranty_validity_date || null,
   });
   const [loading, setLoading] = React.useState(false);
 
@@ -73,10 +75,33 @@ const Warranty = ({ allData }) => {
     deleteWarranty(id);
   };
 
+  const calculateDateDifference = () => {
+    if (!formData.project_end_date || !formData.warranty_validity_date) return null;
+
+    const projectEnd = new DateObject({
+      date: formData.project_end_date,
+      calendar: persian,
+      locale: persian_fa,
+    }).toDate();
+
+    const warrantyEnd = new DateObject({
+      date: formData.warranty_validity_date,
+      calendar: persian,
+      locale: persian_fa,
+    }).toDate();
+
+    const diffTime = Math.abs(warrantyEnd - projectEnd);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
       let isoDate;
+      let isoProjectEndDate;
+      let isoWarrantyValidityDate;
+
       if (formData.date instanceof Date) {
         isoDate = formData.date.toISOString();
       } else {
@@ -89,10 +114,32 @@ const Warranty = ({ allData }) => {
           .toISOString();
       }
 
+      if (formData.project_end_date) {
+        isoProjectEndDate = new DateObject({
+          date: formData.project_end_date,
+          calendar: persian,
+          locale: persian_fa,
+        })
+          .toDate()
+          .toISOString();
+      }
+
+      if (formData.warranty_validity_date) {
+        isoWarrantyValidityDate = new DateObject({
+          date: formData.warranty_validity_date,
+          calendar: persian,
+          locale: persian_fa,
+        })
+          .toDate()
+          .toISOString();
+      }
+
       const payload = {
         investor_request: allData.id,
         ...formData,
         date: isoDate,
+        project_end_date: isoProjectEndDate,
+        warranty_validity_date: isoWarrantyValidityDate,
       };
 
       await mutate(payload);
@@ -106,6 +153,8 @@ const Warranty = ({ allData }) => {
         type: '',
         fishing_id: '',
         exporter: '',
+        project_end_date: null,
+        warranty_validity_date: null,
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -221,6 +270,41 @@ const Warranty = ({ allData }) => {
                 onChange={handleChange('description')}
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2">تاریخ خاتمه طرح</Typography>
+              <div style={{ direction: 'rtl' }}>
+                <DatePicker
+                  value={formData.project_end_date || null}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, project_end_date: value }))
+                  }
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2">تاریخ اعتبار ضمانت نامه</Typography>
+              <div style={{ direction: 'rtl' }}>
+                <DatePicker
+                  value={formData.warranty_validity_date || null}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, warranty_validity_date: value }))
+                  }
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                />
+              </div>
+            </Grid>
+            {formData.project_end_date && formData.warranty_validity_date && (
+              <Grid item xs={12}>
+                <Typography variant="body2" color="primary">
+                  اختلاف تاریخ: {calculateDateDifference()} روز
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Button
                 variant="contained"
