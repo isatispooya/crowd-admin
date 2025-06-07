@@ -269,7 +269,16 @@ const ExecutiveContract = () => {
               opacity: 1,
             }}
           >
-            <PrintableContractLayout footerChildren={renderFooterSignatures()}>
+            <PrintableContractLayout
+              footerChildren={
+                <>
+                  {renderFooterSignatures()}
+                  <div className="text-center text-[20px] mt-4 border-t border-gray-300 pt-4">
+                    صفحه {index + 1} از {PAGES.length}
+                  </div>
+                </>
+              }
+            >
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
