@@ -126,7 +126,7 @@ const PaymentInvoice = () => {
             phone: invoiceData.investor_request.company.tel || 'تلفن ثبت نشده',
             email: invoiceData.investor_request.company.website || 'وب‌سایت ثبت نشده',
             postalCode:
-              invoiceData.investor_request.company.company.postal_code || 'کد پستی ثبت نشده',
+              invoiceData.investor_request?.company?.company?.postal_code || 'کد پستی ثبت نشده',
           }
         : defaultInvoiceData.buyer,
   };
@@ -195,7 +195,7 @@ const PaymentInvoice = () => {
                 </h1>
                 <p className="text-blue-100 text-sm">
                   {' '}
-                  شماره قرارداد: {`5${invoiceData.investor_request.contract_number}`}
+                  شماره قرارداد: {`5${invoiceData.investor_request.contract_number || ''}`}
                 </p>
                 <p className="text-blue-100 text-sm">
                   تاریخ پرداخت:{' '}
@@ -245,27 +245,27 @@ const PaymentInvoice = () => {
                 <InfoRow
                   icon={<ReceiptOutlined fontSize="small" />}
                   label="کد پستی"
-                  value={data.seller.postalCode}
+                  value={data.seller.postalCode || 'کد پستی ثبت نشده'}
                 />
                 <InfoRow
                   icon={<ReceiptOutlined fontSize="small" />}
                   label="شناسه ملی"
-                  value={data.seller.economicCode}
+                  value={data.seller.economicCode || 'شناسه ملی ثبت نشده'}
                 />
                 <InfoRow
                   icon={<LocationOnOutlined fontSize="small" />}
                   label="آدرس"
-                  value={data.seller.address}
+                  value={data.seller.address || 'آدرس ثبت نشده'}
                 />
                 <InfoRow
                   icon={<PhoneOutlined fontSize="small" />}
                   label="تلفن"
-                  value={data.seller.phone}
+                  value={data.seller.phone || 'تلفن ثبت نشده'}
                 />
                 <InfoRow
                   icon={<EmailOutlined fontSize="small" />}
                   label="ایمیل"
-                  value={data.seller.email}
+                  value={data.seller.email || 'ایمیل ثبت نشده'}
                 />
               </div>
             </InfoCard>
@@ -275,37 +275,37 @@ const PaymentInvoice = () => {
                 <InfoRow
                   icon={<BusinessOutlined fontSize="small" />}
                   label="نام شخص حقوقی"
-                  value={data.buyer.name}
+                  value={data.buyer.name || 'نام شخص حقوقی ثبت نشده'}
                 />
                 <InfoRow
                   icon={<ReceiptOutlined fontSize="small" />}
                   label="شماره ثبت"
-                  value={data.buyer.registrationNumber}
+                  value={data.buyer.registrationNumber || 'شماره ثبت ثبت نشده'}
                 />
                 <InfoRow
                   icon={<ReceiptOutlined fontSize="small" />}
                   label="کد پستی"
-                  value={data.buyer.postalCode}
+                  value={data.buyer.postalCode || 'کد پستی ثبت نشده'}
                 />
                 <InfoRow
                   icon={<ReceiptOutlined fontSize="small" />}
                   label="شناسه ملی"
-                  value={data.buyer.economicCode}
+                  value={data.buyer.economicCode || 'شناسه ملی ثبت نشده'}
                 />
                 <InfoRow
                   icon={<LocationOnOutlined fontSize="small" />}
                   label="آدرس"
-                  value={data.buyer.address}
+                  value={data.buyer.address || 'آدرس ثبت نشده'}
                 />
                 <InfoRow
                   icon={<PhoneOutlined fontSize="small" />}
                   label="تلفن"
-                  value={data.buyer.phone}
+                  value={data.buyer.phone || 'تلفن ثبت نشده'}
                 />
                 <InfoRow
                   icon={<EmailOutlined fontSize="small" />}
                   label="ایمیل"
-                  value={data.buyer.email}
+                  value={data.buyer.email || 'ایمیل ثبت نشده'}
                 />
               </div>
             </InfoCard>
