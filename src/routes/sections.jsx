@@ -45,6 +45,9 @@ export const WarTreaty = lazy(
   () => import('src/module/Create_receiveRrequests/AgencyContract/page/warTreaty')
 );
 export const AnalyzesPage = lazy(() => import('src/module/Analyzes/page/Analyzes.page'));
+export const AppendixContract = lazy(
+  () => import('src/module/Create_receiveRrequests/AppendixContract/Appendix')
+);
 
 const motionWrapper = (Component = React.FC) => (
   <motion.div
@@ -89,6 +92,7 @@ export default function Router() {
         { path: '/WarTreaty/:uuid', element: motionWrapper(WarTreaty) },
         { path: 'analyzes', element: motionWrapper(AnalyzesPage) },
         { path: '/invoice/:cartId', element: motionWrapper(InvoicePage) },
+        { path: '/appendixContract/:uuid', element: motionWrapper(AppendixContract) },
       ],
     },
     {

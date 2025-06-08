@@ -15,6 +15,18 @@ const PrintableContractLayout = ({
 }) => {
   const printRef = useRef();
 
+
+
+  console.log(headerInfo, 123123123);
+  console.log(headerChildren, 123123123);
+  console.log(footerChildren, 123123123);
+  console.log(footerText, 123123123);
+  console.log(signatureImage, 123123123);
+  console.log(qrCodeComponent, 123123123);
+  console.log(title, 123123123);
+  console.log(subtitle, 123123123);
+  console.log(children, 123123123);
+
   
   return (
     <div>
