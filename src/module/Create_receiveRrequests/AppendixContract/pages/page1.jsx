@@ -14,13 +14,6 @@ const Page1 = ({ agencyContract }) => {
   const renderHeaderContent = () => {
     if (!agencyContract) return null;
 
-    console.log(agencyContract?.investor_request?.farabours_wage, 'farabours_wage');
-    console.log(
-      agencyContract?.investor_request?.company_certificate_wage,
-      'company_certificate_wage'
-    );
-    console.log(agencyContract?.investor_request?.marketing_wage, 'marketing_wage');
-
     return (
       <div className="flex flex-col gap-1 text-left">
         {agencyContract?.investor_request?.logo && (
@@ -112,13 +105,13 @@ const Page1 = ({ agencyContract }) => {
                 ?.filter((member) => member.signature === true)
                 .map((member, index, filteredArray) => (
                   <React.Fragment key={member.id}>
-                    {getGenderTitle(member.gender)} {member.person_title} به شماره ملی{' '}
-                    {member.uniqueIdentifier}
+                    {getGenderTitle(member.gender)} {member.person_title}
                     {' سمت '}
-                    {member.position_title}
-                    {index < filteredArray.length - 1 ? ' و ' : ''}
+                    {member.position_title} به شماره ملی {member.uniqueIdentifier} شماره تماس{' '}
+                    {member.phone_number} {index < filteredArray.length - 1 ? ' و ' : ''}
                   </React.Fragment>
-                ))}
+                ))}{' '}
+              می باشد.
             </p>
           </div>
 
@@ -128,21 +121,21 @@ const Page1 = ({ agencyContract }) => {
               شرکت سبدگردان ایساتیس پویا کیش (سهامی خاص) به شناسه ملی 14007805556، کد اقتصادی
               411615733645، و شماره ثبت 13702، در اداره ثبت شرکت ها و موسسات تجاری استان هرمزگان، به
               نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4 واحد 44 شماره تلفن 076-44480555 و
-              کدپستی 7941757334
+              کدپستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت
+              عضو هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان
+              امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ 24/10/1401 که از این پس و در این
+              قرارداد، «عامل» نامیده می شود. به وكالت از طرف دارندگان گواهي هاي شراكت جهت تأمين
+              منابع مالي مورد نياز متقاضي، براسـاس مجوز صـادره توسـط شـركت فرابورس به نامه شـمارة
+              1403/ف/0042 مورخ 15/05/1403 از طرف ديگر،
             </p>
-            <p className="mb-3 text-[23px]">
-              و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت عضو هیئت مدیره و
-              آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان امضای مجاز بر اساس
-              روزنامه رسمی شماره22670، مورخ 24/10/1401 که از این پس و در این قرارداد، «عامل» نامیده
-              می شود.
-            </p>
+            <p className="mb-3 text-[23px]">به شرح مواد زير منعقد گرديد</p>
           </div>
         </div>
 
         <div className="contract-section">
           <h3 className="font-bold mb-2 text-[23px]">ماده 2) موضوع الحاقیه</h3>
           <p className="mb-3 pr-4 text-[23px]">
-            2-1 موضوع این‌ الحاقیه عبارت است‌ از: مازاد کارمزد ارائه خدمات تامین مالی موضوع ماده 4
+            1-2. موضوع این‌ الحاقیه عبارت است‌ از: مازاد کارمزد ارائه خدمات تامین مالی موضوع ماده 4
             قرارداد عاملیت به شماره{' '}
             {`1${agencyContract?.investor_request?.contract_number || '**********'}`} مورخ{' '}
             {agencyContract?.investor_request?.agency_agreement_date
@@ -150,6 +143,17 @@ const Page1 = ({ agencyContract }) => {
                   'jYYYY/jMM/jDD'
                 )
               : ''}
+            از مبلغ{' '}
+            {(() => {
+              const wage = agencyContract?.investor_request?.company_certificate_wage;
+              return Number(wage ?? 0) / 1000000;
+            })().toLocaleString()}{' '}
+            میلیون ریال به{' '}
+            {(() => {
+              const amount = agencyContract?.investor_request?.amount_of_payment;
+              return Number(amount ?? 0) / 1000000;
+            })().toLocaleString()}{' '}
+            میلیون ریال که مورد تراضی طرفین واقع گردید.
           </p>
         </div>
 
@@ -160,12 +164,21 @@ const Page1 = ({ agencyContract }) => {
             شرکت به سرمایه گذاران و هزینه های کارشناسی و اموراجرایی تامین مالی به متقاضي، جمعا به
             مبلغ{' '}
             <strong>
-              {Number(
-                ((agencyContract?.investor_request?.farabours_wage || 0) +
-                  (agencyContract?.investor_request?.company_certificate_wage || 0) +
-                  (agencyContract?.investor_request?.marketing_wage || 0)) /
-                  1000000
-              ).toFixed(2)}{' '}
+              {(() => {
+                const faraboursWage = agencyContract?.investor_request?.farabours_wage;
+                const certificateWage = agencyContract?.investor_request?.company_certificate_wage;
+                const marketingWage = agencyContract?.investor_request?.marketing_wage;
+                const amountOfPayment = agencyContract?.investor_request?.amount_of_payment;
+
+                const total = (
+                  Number(faraboursWage ?? 0) +
+                  Number(certificateWage ?? 0) +
+                  Number(marketingWage ?? 0) +
+                  Number(amountOfPayment ?? 0)
+                ) / 1000000;
+
+                return total.toLocaleString();
+              })()}{' '}
               میلیون ریال
             </strong>{' '}
             مي باشد كه پس از موفقيت در جمع آوری وجوه به حساب عامل به صورت نقدی یا مطابق تبصره 2 ماده
@@ -179,7 +192,8 @@ const Page1 = ({ agencyContract }) => {
           <h3 className="font-bold mb-2 text-[23px]">ماده 4) سایر شرایط</h3>
           <p className="mb-3 pr-4 text-[23px]">
             متقاضی با امضای این الحاقیه ضمن اسقاط کافه خیارات و خیار غبن ولو افحش هر درجه بالا رود
-            را از خود سلب وساقط نمود
+            را از خود سلب وساقط نمود و هرگونه مغایرت قرارداد عاملیت صدر الذکر با الحاقیه حاضر ملغی
+            شده و سایر مفاد قرارداد عاملیت کماکان به قوت و اعتبار خود باقیست.
           </p>
         </div>
 
@@ -187,7 +201,7 @@ const Page1 = ({ agencyContract }) => {
           <h3 className="font-bold mb-2 text-[23px]">ماده 5) اعتبار قرارداد</h3>
           <p className="mb-3 pr-4 text-[23px]">
             این الحاقیه در 5 ماده، در دو نسخه واحد و بدون پیوست، تنظیم گردید که پس از امضاء کلیه نسخ
-            آن در حكم واحد بوده و لاازم الاجرا می باشند.
+            آن در حكم واحد بوده و لاازم الاجرا می باشند .
           </p>
         </div>
       </div>
@@ -226,6 +240,7 @@ Page1.propTypes = {
         uniqueIdentifier: PropTypes.string,
         position_title: PropTypes.string,
         signature_document: PropTypes.string,
+        phone_number: PropTypes.string,
       })
     ),
   }),

@@ -168,16 +168,7 @@ const Appendix = () => {
             className="mb-8 bg-white relative"
             style={{ breakInside: 'avoid', pageBreakAfter: 'always' }}
           >
-            <PrintableContractLayout
-              footerChildren={
-                <>
-                  {renderFooterSignatures()}
-                  <div className="text-center text-[20px] mt-4 border-t border-gray-300 pt-4">
-                    صفحه {index + 1} از {PAGES_APPENDIX.length}
-                  </div>
-                </>
-              }
-            >
+            <PrintableContractLayout footerChildren={<>{renderFooterSignatures()}</>}>
               <div className="bg-whitetext-xs">
                 <PageComponent agencyContract={agencyContract} pageNumber={index + 1} />
               </div>
