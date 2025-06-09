@@ -11,6 +11,18 @@ const getGenderTitle = (gender) => {
 };
 
 const Page1 = ({ agencyContract }) => {
+  const company_certificate_wage = agencyContract?.investor_request?.company_certificate_wage ?? 0;
+  const design_wage = agencyContract?.investor_request?.design_wage ?? 0;
+  const execution_wage = agencyContract?.investor_request?.execution_wage ?? 0;
+  const marketing_wage = agencyContract?.investor_request?.marketing_wage ?? 0;
+  const software_fee =
+    agencyContract?.investor_request?.method_payment_fee_software === '2'
+      ? agencyContract?.investor_request?.method_payment_fee_software_fee
+      : 0;
+
+  const total_fee =
+    company_certificate_wage + design_wage + execution_wage + marketing_wage + software_fee;
+
   const renderHeaderContent = () => {
     if (!agencyContract) return null;
 
@@ -68,7 +80,8 @@ const Page1 = ({ agencyContract }) => {
             {`1${agencyContract?.investor_request?.contract_number || '**********'}`} می باشد در شهر
             یزد منعقد می‌گردد و طرفین اظهار و اعلام می‌نمایند که هیچ‌گونه محدودیت یا ممنوعیتی جهت
             امضای این قرارداد نداشته و دارای صلاحیت لازم و کمال صحت عقل و اراده شخصی جهت امضای
-            قرارداد هستند و از تاریخ انعقاد، طرفین ملزم و متعهد به اجرای مفاد آن می‌باشند.
+            قرارداد هستند در شهر یزد و از تاریخ انعقاد، طرفین ملزم و متعهد به اجرای مفاد آن
+            می‌باشند.
           </p>
         </div>
 
@@ -123,7 +136,7 @@ const Page1 = ({ agencyContract }) => {
               نشانی کیش، میدان امیرکبیر، برج مالی آنا، طبقه 4 واحد 44 شماره تلفن 076-44480555 و
               کدپستی 7941757334 و با نمایندگی آقای سید علی محمد خبیری به شماره ملی 4431535474 به سمت
               عضو هیئت مدیره و آقای محسن زارعیان به شماره ملی 4431855416 به سمت مدیرعامل، صاحبان
-              امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ  1401/10/24  که از این پس و در این
+              امضای مجاز بر اساس روزنامه رسمی شماره22670، مورخ 1401/10/24 که از این پس و در این
               قرارداد، «عامل» نامیده می شود. به وكالت از طرف دارندگان گواهي هاي شراكت جهت تأمين
               منابع مالي مورد نياز متقاضي، براسـاس مجوز صـادره توسـط شـركت فرابورس به نامه شـمارة
               1403/ف/0042 مورخ 1403/05/15 از طرف ديگر،
@@ -135,7 +148,7 @@ const Page1 = ({ agencyContract }) => {
         <div className="contract-section">
           <h3 className="font-bold mb-2 text-[23px]">ماده 2) موضوع الحاقیه</h3>
           <p className="mb-3 pr-4 text-[23px]">
-            1-2. موضوع این‌ الحاقیه عبارت است‌ از: مازاد کارمزد ارائه خدمات تامین مالی موضوع ماده 4
+            1-2. موضوع این‌ الحاقیه عبارت است‌ از: تغییر کارمزد ارائه خدمات تامین مالی موضوع ماده 4
             قرارداد عاملیت به شماره{' '}
             {`1${agencyContract?.investor_request?.contract_number || '**********'}`} مورخ{' '}
             {agencyContract?.investor_request?.agency_agreement_date
@@ -148,11 +161,7 @@ const Page1 = ({ agencyContract }) => {
               const wage = agencyContract?.investor_request?.company_certificate_wage;
               return Number(wage ?? 0) / 1000000;
             })().toLocaleString()}{' '}
-            میلیون ریال به{' '}
-            {(() => {
-              const amount = agencyContract?.investor_request?.amount_of_payment;
-              return Number(amount ?? 0) / 1000000;
-            })().toLocaleString()}{' '}
+            میلیون ریال به {(total_fee / 1000000).toLocaleString()}
             میلیون ریال که مورد تراضی طرفین واقع گردید.
           </p>
         </div>
@@ -170,12 +179,12 @@ const Page1 = ({ agencyContract }) => {
                 const marketingWage = agencyContract?.investor_request?.marketing_wage;
                 const amountOfPayment = agencyContract?.investor_request?.amount_of_payment;
 
-                const total = (
-                  Number(faraboursWage ?? 0) +
-                  Number(certificateWage ?? 0) +
-                  Number(marketingWage ?? 0) +
-                  Number(amountOfPayment ?? 0)
-                ) / 1000000;
+                const total =
+                  (Number(faraboursWage ?? 0) +
+                    Number(certificateWage ?? 0) +
+                    Number(marketingWage ?? 0) +
+                    Number(amountOfPayment ?? 0)) /
+                  1000000;
 
                 return total.toLocaleString();
               })()}{' '}
@@ -219,6 +228,10 @@ Page1.propTypes = {
       farabours_wage: PropTypes.number,
       marketing_wage: PropTypes.number,
       amount_of_payment: PropTypes.number,
+      design_wage: PropTypes.number,
+      execution_wage: PropTypes.number,
+      method_payment_fee_software: PropTypes.string,
+      method_payment_fee_software_fee: PropTypes.number,
     }),
     company: PropTypes.shape({
       title: PropTypes.string,
@@ -240,7 +253,6 @@ Page1.propTypes = {
         uniqueIdentifier: PropTypes.string,
         position_title: PropTypes.string,
         signature_document: PropTypes.string,
-        phone_number: PropTypes.string,
       })
     ),
   }),
