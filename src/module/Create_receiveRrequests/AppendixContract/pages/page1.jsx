@@ -10,6 +10,7 @@ const getGenderTitle = (gender) => {
   return 'آقای/خانم';
 };
 
+
 const Page1 = ({ agencyContract }) => {
   const company_certificate_wage = agencyContract?.investor_request?.company_certificate_wage ?? 0;
   const design_wage = agencyContract?.investor_request?.design_wage ?? 0;
