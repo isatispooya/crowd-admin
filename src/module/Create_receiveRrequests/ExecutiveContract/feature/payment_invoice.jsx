@@ -120,7 +120,7 @@ const PaymentInvoice = () => {
             name: invoiceData?.investor_request.company.title || 'نام شرکت ثبت نشده',
             registrationNumber:
               invoiceData.investor_request.company.registration_number?.toString() || 'ثبت نشده',
-            economicCode: invoiceData.investor_request.company.economic_code || 'ثبت نشده',
+            economicCode: invoiceData.investor_request.company.national_id || 'ثبت نشده',
             nationalId: invoiceData.investor_request.company.national_id || 'ثبت نشده',
             address: invoiceData.investor_request.company.address || 'آدرس ثبت نشده',
             phone: invoiceData.investor_request.company.tel || 'تلفن ثبت نشده',
@@ -435,7 +435,6 @@ PaymentInvoice.propTypes = {
       company: PropTypes.shape({
         title: PropTypes.string,
         registration_number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        economic_code: PropTypes.string,
         national_id: PropTypes.string,
         address: PropTypes.string,
         tel: PropTypes.string,
