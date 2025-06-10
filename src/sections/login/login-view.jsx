@@ -95,6 +95,7 @@ export default function LoginView() {
       .then((response) => {
         if (response.data?.access) {
           setCookie('accessApi', response.data.access, 1);
+          setCookie('refreshApi', response.data.refresh, 1);
           toast.success('ورود با موفقیت انجام شد');
 
           if (registerd) {

@@ -24,11 +24,11 @@ export async function refreshToken() {
   try {
     const { data } = await axios.post(`${OnRun}/api/token/refresh/`, { refresh });
     setCookie('accessApi', data.access, 1);
+    setCookie('refreshApi', data.refresh, 1);
     if (data.refresh) setCookie('refreshApi', data.refresh, 1);
     return data.access;
   } catch (err) {
     setCookie('accessApi', '', 0);
-    setCookie('refreshApi', '', 0);
     if (navigationFunction) navigationFunction('/login');
     throw err;
   }
