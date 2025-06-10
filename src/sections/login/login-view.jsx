@@ -89,7 +89,7 @@ export default function LoginView() {
 
     axios({
       method: 'POST',
-      url: `${OnRun}/api/login/admin/`,
+      url: `${OnRun}/api/login/`,
       data: { uniqueIdentifier: nationalCode, code: otp },
     })
       .then((response) => {
