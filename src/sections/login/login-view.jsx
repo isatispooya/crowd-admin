@@ -58,7 +58,7 @@ export default function LoginView() {
       setLoading(true);
       axios({
         method: 'POST',
-        url: `${OnRun}/api/otp/admin/`,
+        url: `${OnRun}/api/otp/`,
         data: {
           uniqueIdentifier: nationalCode,
           encrypted_response,
