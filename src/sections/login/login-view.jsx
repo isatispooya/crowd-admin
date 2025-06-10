@@ -58,7 +58,7 @@ export default function LoginView() {
       setLoading(true);
       axios({
         method: 'POST',
-        url: `${OnRun}/api/otp/admin/`,
+        url: `${OnRun}/api/otp/`,
         data: {
           uniqueIdentifier: nationalCode,
           encrypted_response,
@@ -89,12 +89,13 @@ export default function LoginView() {
 
     axios({
       method: 'POST',
-      url: `${OnRun}/api/login/admin/`,
-      data: { uniqueIdentifier: nationalCode, code: otp },
+      url: `${OnRun}/api/login/`,
+      data: { uniqueIdentifier: nationalCode, otp },
     })
       .then((response) => {
         if (response.data?.access) {
           setCookie('accessApi', response.data.access, 1);
+          setCookie('refreshApi', response.data.refresh, 1);
           toast.success('ورود با موفقیت انجام شد');
 
           if (registerd) {

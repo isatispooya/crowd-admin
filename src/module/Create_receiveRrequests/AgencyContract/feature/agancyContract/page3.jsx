@@ -28,11 +28,9 @@ const Page4 = ({ agencyContract }) => {
         <p className="mb-2">
           كارمزد ارائة خدمات موضوع ماده ٣ ( موضوعات 1و2و3) اين قرارداد توسط عامل، جمعا{' '}
           <strong>
-            {(
-              Number(agencyContract.investor_request.design_wage / 1000000 || 0) +
-              Number(agencyContract.investor_request.company_certificate_wage / 1000000 || 0) +
-              Number(agencyContract.investor_request.execution_wage / 1000000 || 0)
-            ).toLocaleString()}{' '}
+          {Number(
+            agencyContract.investor_request.company_certificate_wage / 1000000 || 0
+          ).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
           و علاوه بر آن كارمزد شركت فرابورس{' '}
@@ -40,7 +38,7 @@ const Page4 = ({ agencyContract }) => {
             {Number(agencyContract.investor_request.farabours_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
-          {agencyContract.investor_request.method_payment_fee_software ===  "2" && 
+          {/* {agencyContract.investor_request.method_payment_fee_software ===  "2" && 
           `  و کارمزد شرکت توسعه اطلاعات مالی ${Number(agencyContract.investor_request.amount_of_payment / 1000000 || 0).toLocaleString()} میلیون ریال `
           }
          
@@ -50,11 +48,13 @@ const Page4 = ({ agencyContract }) => {
             {Number(agencyContract.investor_request.marketing_wage / 1000000 || 0).toLocaleString()}{' '}
             میلیون ریال{' '}
           </strong>
-          كه به تفكيك زير، توسط متقاضي در وجه عامل و شركت فرابورس ايران ظرف مدت یک روز پرداخت
+          كه به تفكيك زير
+           */}
+          ، توسط متقاضي در وجه عامل و شركت فرابورس ايران ظرف مدت یک روز پرداخت
           ميگردد:
         </p>
 
-        <p className="mb-3 pr-4">
+        {/* <p className="mb-3 pr-4">
           <span className="font-bold">1) </span>
           کارمزد طراحی شیوه تامین مالی و تهیه گزارش توجیحی به منظور فراهم نمودن مقدمات اخذ مجوز از
           شرکت فرابورس ایران جهت انتشار و فروش گواهی شراکت به دارندگان گواهی های شراکت
@@ -67,23 +67,23 @@ const Page4 = ({ agencyContract }) => {
             3002.115.15884588.1 نزد بانک پاسارگاد بلوار جمهوری و شماره شبا IR4705703002115158845881
             به نام شركت سبدگردان ایساتیس پویا کیش واريز نمايد IR.
           </span>
-        </p>
+        </p> */}
         <p className="mb-3 pr-4">
           <span className="font-bold">تبصره 1 :</span>
           در صورت عدم واريز كارمزد بند 4-1 اين ماده حداكثر طي 10 روز كاري از تاريخ اين قرارداد، عامل
           تعهدي نسبت به انجام موضوع قرارداد نداشته و مخير به فسخ قرارداد ميباشد و متقاضي متعهد به
           اجراي بند ١-١ مادة ٩ اين قرارداد ميباشد.
         </p>
-        <p className="mb-3 pr-4 text-right">
+        {/* <p className="mb-3 pr-4 text-right">
           <span className="font-bold">2)</span> كارمزد ارائه خدمات بازاريابي به متقاضي،{' '}
           {Number(agencyContract.investor_request.execution_wage / 1000000 || 0).toLocaleString()}{' '}
           ميليون ريال ميباشد كه در صورت موفقيت كمپين، حداكثر طي يك روز كاري پيش از واريز وجوه تأمين
           مالی شده به حساب متقاضي، از متقاضي به صورت نقدي/ چك در وجه حساب معرفي شده در بند 4-١- اين
           ماده دريافت خواهد شد و لازم هست تا رسیدی اخذ گردد که عدم ارائه رسید به منزله عدم ایفای
           تعهد است.
-        </p>
+        </p> */}
         <p className="mb-3 pr-4 text-right">
-          <span className="font-bold">3)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
+          <span className="font-bold">1)</span> كارمزد انتشار و فروش گواهي شراكت، جمعاً{' '}
           {Number(
             agencyContract.investor_request.company_certificate_wage / 1000000 || 0
           ).toLocaleString()}{' '}
@@ -93,7 +93,7 @@ const Page4 = ({ agencyContract }) => {
         </p>
 
         <p className="mb-3 pr-4 text-right">
-          <span className="font-bold">4)</span>
+          <span className="font-bold">2)</span>
           كارمزد شركت فرابورس ايران،{' '}
           <strong>
             {Number(agencyContract.investor_request.farabours_wage / 1000000 || 0).toLocaleString()}{' '}
@@ -107,32 +107,32 @@ const Page4 = ({ agencyContract }) => {
         </p>
 
 
-        <p className="mb-3 pr-4 text-right">
-          <span className="font-bold">5)</span>کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی
+        {/* <p className="mb-3 pr-4 text-right">
+          <span className="font-bold">3)</span>کارمزد ارائه خدمات بازارسازی به متقاضی از طریق طراحی
           و برنامه‌ریزی کمپین‌های تبلیغاتی جمعا به مبلغ 1 درصد مبلغ تامین مالی(
           {Number(
             agencyContract.investor_request.marketing_wage / 1000000 || 0
           ).toLocaleString()}{' '}
           میلیون ریال) که متقاضی پس از موفقیت در جمع آوری وجوه به حساب عامل به صورت نقدی پرداخت می
           نماید.
-        </p>
+        </p> */}
         
 
-        { agencyContract.investor_request.method_payment_fee_software ===  "2" && 
+        {/* { agencyContract.investor_request.method_payment_fee_software ===  "2" && 
 
         <p className="mb-3 pr-4 text-right">
-          <span className="font-bold">6)</span>
+          <span className="font-bold">4)</span>
          کارمزد شرکت توسعه اطلاعات مالی ایساتیس پویا به جهت هزینه های کارشناسی و امور اجرایی تامین مالی           
           {Number(agencyContract.investor_request.amount_of_payment / 1000000 || 0).toLocaleString()} میلیون ریال
           می باشد که متقاضی متعهد است قبل از اخذ نماد به حساب سبدگردانی ایساتیس پویا یا درگاه پرداخت مربوطه در پلتفرم، ایساتیس کراد واریز نماید.
         </p>
-        }
+        } */}
 
         <p className="mb-3 pr-4 text-[23px]">
           <span className="font-bold text-[23px]">تبصره 2: </span>
-          عامل حق دارد پس از تکمیل فرایند تأمین مالی جمعی و موفقیت پروژه، مبلغ قرارداد را رأسا از
+          عامل حق دارد پس از تکمیل فرایند تأمین مالی جمعی و موفقیت پروژه،,  مبلغ قرارداد والحاقیه های آن را رأسا از
           مجموع مبالغ جمع آوری شده کسر نماید و باقیمانده را در اختیار متقاضی قرار دهد. متقاضی، تأمین
-          کنندگان و نهاد مالی به صورت غیرقابل برگشت، حق برداشت از این مبلغ و تسویه مبلغ قرارداد توسط
+          کنندگان و نهاد مالی به صورت غیرقابل برگشت، حق برداشت از این مبلغ و تسویه مبلغ قرارداد و الحاقیه های آن توسط
           عامل را به عامل اعطا کرده و حق هرگونه ادعایی را در این خصوص از خود سلب و ساقط نموده اند.
         </p>
 

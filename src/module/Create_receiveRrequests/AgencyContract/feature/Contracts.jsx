@@ -23,6 +23,7 @@ const Contracts = ({ data }) => {
   const links = [
     { id: 1, title: 'قرارداد عاملیت', path: `/agency/${data?.uuid}`, disabled: checkPayment },
     { id: 3, title: 'نامه بانکی', path: `/bankLetter/?uuid=${data?.uuid}`, disabled: checkPayment },
+    { id: 4, title: 'الحاقیه قرارداد عاملیت', path: `/appendixContract/${data?.uuid}`, disabled: checkPayment },
     {
       id: 4,
       title: 'قرارداد اجرایی',
