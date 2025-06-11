@@ -10,16 +10,18 @@ const getGenderTitle = (gender) => {
   return 'آقای/خانم';
 };
 
-
 const Page1 = ({ agencyContract }) => {
-  const company_certificate_wage = agencyContract?.investor_request?.company_certificate_wage ?? 0;
-  const design_wage = agencyContract?.investor_request?.design_wage ?? 0;
-  const execution_wage = agencyContract?.investor_request?.execution_wage ?? 0;
-  const marketing_wage = agencyContract?.investor_request?.marketing_wage ?? 0;
-  const software_fee =
+  const company_certificate_wage = Number(
+    agencyContract?.investor_request?.company_certificate_wage ?? 0
+  );
+  const design_wage = Number(agencyContract?.investor_request?.design_wage ?? 0);
+  const execution_wage = Number(agencyContract?.investor_request?.execution_wage ?? 0);
+  const marketing_wage = Number(agencyContract?.investor_request?.marketing_wage ?? 0);
+  const software_fee = Number(
     agencyContract?.investor_request?.method_payment_fee_software === '2'
-      ? agencyContract?.investor_request?.method_payment_fee_software_fee
-      : 0;
+      ? (agencyContract?.investor_request?.method_payment_fee_software_fee ?? 0)
+      : 0
+  );
 
   const total_fee =
     company_certificate_wage + design_wage + execution_wage + marketing_wage + software_fee;
@@ -105,27 +107,26 @@ const Page1 = ({ agencyContract }) => {
                 : ''}{' '}
               {agencyContract?.company?.tel ? `، شماره تماس ${agencyContract?.company?.tel}` : ''}
             </p>
-            <p className="mb-3 text-[23px]">
-              به استناد آگهی روزنامه رسمی به شماره{' '}
-              {agencyContract?.company_members?.filter(
-                (member) => member.signature_document !== null
-              )[0]?.signature_document || ''}{' '}
-              نمایندگان مجاز و صاحب امضا طرف اول قرارداد در خصوص امضا و استکتاب اسناد تعهد آور طرف
-              اول اشخاص ذیل می‌باشند:
-            </p>
-            <p className="mb-3 text-[23px]">
-              الف) نمایندگان طرف نخست:{' '}
-              {agencyContract?.company_members
-                ?.filter((member) => member.signature === true)
-                .map((member, index, filteredArray) => (
-                  <React.Fragment key={member.id}>
-                    {getGenderTitle(member.gender)} {member.person_title}
-                    {' سمت '}
-                    {member.position_title} به شماره ملی {member.uniqueIdentifier} شماره تماس{' '}
-                    {member.phone_number} {index < filteredArray.length - 1 ? ' و ' : ''}
-                  </React.Fragment>
-                ))}{' '}
-              می باشد.
+            <p className="mb-3 pr-4 text-[23px]">
+              به استناد{' '}
+              {agencyContract.company_members.find((member) => member.signature === true)
+                ?.signature_document || ''}{' '}
+              نمایندگان مجاز و صاحبان امضای طرف اول قرارداد در خصوص امضا و استنکاب اسناد تعهد آور
+              طرف اول اشخاص ذیل می‌باشند:
+              <ul className="list-disc pr-8">
+                {agencyContract.company_members
+                  ?.filter((member) => member.signature === true)
+                  .map((member, index) => (
+                    <li key={member.id}>
+                      <p>
+                        {String.fromCharCode(1575 + index)}) نمايندگان طرف نخست، صاحب امضاى مجاز{' '}
+                        {getGenderTitle(member.gender)}
+                        {member.person_title}، شماره ملى {member.uniqueIdentifier}، سمت{' '}
+                        {member.position_title} می‌باشد.
+                      </p>
+                    </li>
+                  ))}
+              </ul>
             </p>
           </div>
 

@@ -4,12 +4,14 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import PropTypes from 'prop-types';
 import { useQuery } from '@tanstack/react-query';
+import useUserPermissions from 'src/hooks/usePermission';
 import { Box, Typography } from '@mui/material';
 import { fetchCommit } from '../service/commentService';
 import PlanCommentsModal from './planCommentModal';
 
 const PlanComments = ({ idRow }) => {
   const [selectedComment, setSelectedComment] = useState(null);
+  const { checkPermission } = useUserPermissions();
   const [openModal, setOpenModal] = useState(false);
 
   const { data, refetch } = useQuery({
@@ -58,6 +60,8 @@ const PlanComments = ({ idRow }) => {
     },
   ];
 
+  const permissions = checkPermission(['plan.can_access_comment_answer']);
+
   return (
     <div>
       <Box sx={{ padding: 3 }}>
@@ -99,13 +103,15 @@ const PlanComments = ({ idRow }) => {
           </Box>
         )}
       </Box>
-      <PlanCommentsModal
-        openModal={openModal}
-        handleCloseModal={handleCloseModal}
-        selectedComment={selectedComment}
-        setSelectedComment={setSelectedComment}
-        refetch={refetch}
-      />
+      {permissions && (
+        <PlanCommentsModal
+          openModal={openModal}
+          handleCloseModal={handleCloseModal}
+          selectedComment={selectedComment}
+          setSelectedComment={setSelectedComment}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import useUserPermissions from 'src/hooks/usePermission';
 import Addresses from './addresses';
 import FinancialInfo from './financialInfo';
 import JobInfo from './jobInfo';
@@ -47,33 +48,21 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-const sections = [
-  { id: 'private', label: 'اطلاعات شخصی', component: <PrivatePerson /> },
-  { id: 'address', label: 'اطلاعات آدرس', component: <Addresses /> },
-  { id: 'financial', label: 'اطلاعات مالی', component: <FinancialInfo /> },
-  { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
-  { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
-  { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
-  { id: 'companies', label: 'اطلاعات شرکت', component: <CompanyDetails /> },
-];
-
 const UserDetail = () => {
   const [expandedPanel, setExpandedPanel] = React.useState(false);
+  const { checkPermission } = useUserPermissions();
   const [showRefresh, setShowRefresh] = useState(false);
   const { mutate } = usePostOtpUser();
   const { userId } = useParams();
   const { data, isLoading, refetch } = useGetUserDetail(userId);
-  const nationalCode = data?.private_person?.[0]?.uniqueIdentifier ;
-  const uniqueIdentifier = data?.uniqueIdentifier ;
+  const nationalCode = data?.private_person?.[0]?.uniqueIdentifier;
+  const uniqueIdentifier = data?.uniqueIdentifier;
   const { mutate: oneTimeLogin } = useOneTimeLogin();
 
   const handleOneTimeLogin = () => {
-    oneTimeLogin(
-      {
-        uniqueIdentifier,
-      },
-
-    );
+    oneTimeLogin({
+      uniqueIdentifier,
+    });
   };
   const handleChange = (panel) => (event, newExpanded) => {
     setExpandedPanel(newExpanded ? panel : false);
@@ -88,7 +77,17 @@ const UserDetail = () => {
     refetch();
   }, [refetch]);
 
+  const permissions = checkPermission(['authentication.can_access_user_dashboard']);
 
+  const sections = [
+    permissions && { id: 'private', label: 'اطلاعات شخصی', component: <PrivatePerson /> },
+    permissions && { id: 'address', label: 'اطلاعات آدرس', component: <Addresses /> },
+    permissions && { id: 'financial', label: 'اطلاعات مالی', component: <FinancialInfo /> },
+    permissions && { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
+    permissions && { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
+    permissions && { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
+    permissions && { id: 'companies', label: 'اطلاعات شرکت', component: <CompanyDetails /> },
+  ];
 
   if (isLoading) {
     return (
@@ -134,7 +133,7 @@ const UserDetail = () => {
           >
             <AutoModeIcon className="text-black text-3xl" />
           </motion.button>
-          {showRefresh && <Refresh setShowRefresh={setShowRefresh} />}
+          {showRefresh && permissions && <Refresh setShowRefresh={setShowRefresh} />}
         </Box>
 
         {sections.map(({ id, label, component }) => (
@@ -147,7 +146,7 @@ const UserDetail = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>{component}</AccordionDetails>
-          </Accordion>  
+          </Accordion>
         ))}
       </Box>
       <ToastContainer />

@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import { formatNumber } from 'src/utils/formatNumbers';
 import { errorMsg } from './dargahmsg';
 import { useDialogPopup } from './hooks/popup';
+// import useUserPermissions from 'src/hooks/usePermission';
 
 const DialogPopup = ({
   openDialog,
@@ -38,6 +39,9 @@ const DialogPopup = ({
     localData,
     setLocalData
   );
+  // const { checkPermission } = useUserPermissions();
+
+  // const permissions = checkPermission(['plan.can-']);
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;

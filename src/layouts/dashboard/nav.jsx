@@ -15,6 +15,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { getCookie } from 'src/api/cookie';
 import SvgColor from 'src/components/svg-color';
 import { Typography } from '@mui/material';
+import useUserPermissions from 'src/hooks/usePermission';
 import { motion } from 'framer-motion';
 import navConfig from './config-navigation';
 import { NAV } from './config-layout';
@@ -22,6 +23,9 @@ import usePostLogOut from './service/getpost';
 
 export default function Nav({ openNav, onCloseNav }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data, checkPermission } = useUserPermissions();
+
+  console.log(data);
   const router = useRouter();
   const cookie = getCookie('sym');
   const pathname = usePathname();
