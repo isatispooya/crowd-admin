@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { CircularProgress, Paper, Container, alpha, Switch, FormControlLabel } from '@mui/material';
-import useUserPermissions from 'src/hooks/usePermission';
+
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';
@@ -18,11 +18,6 @@ import useCompanyInfoStore from '../store/companyInfo.store';
 import Contracts from '../AgencyContract/feature/Contracts';
 
 const CapitalCapable = () => {
-  const { checkPermission } = useUserPermissions();
-
-  const permissions = checkPermission(['authentication.can_access_user_dashboard']);
-
-  console.log(permissions, '112344');
   const { cartId } = useParams();
   const { data: companyInfo, refetch } = useGetCompanyInfo(cartId);
   const { toggleArchive } = useCompanyInfoStore();
@@ -66,7 +61,7 @@ const CapitalCapable = () => {
 
   const safeData = investorRequest || {};
   const contents = [
-    permissions && <CompanyInfoPage companyInfo={safeData} refetch={refetch} />,
+    <CompanyInfoPage companyInfo={safeData} refetch={refetch} />,
     <BoardofDirectorsPage data={safeData} refetch={refetch} />,
     <AgencyContractPage data={safeData} refetch={refetch} />,
     <AdditionalInformationPage data={safeData} refetch={refetch} />,

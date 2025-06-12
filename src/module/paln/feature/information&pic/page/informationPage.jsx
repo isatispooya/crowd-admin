@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Box, ToggleButtonGroup, ToggleButton, Typography } from '@mui/material';
+import useUserPermissions from 'src/hooks/usePermission';
 import AddInfo from '../addInformation';
 import PlanAddPic from '../planAddPic';
 
@@ -17,6 +18,9 @@ const TabPanel = ({ children, value, index, ...other }) => (
 
 const InformationPage = () => {
   const [tabValue, setTabValue] = useState('');
+  const { checkPermission } = useUserPermissions();
+
+  const permissions = checkPermission(['plan.can_access_information_plan']);
 
   const handleChange = (event, newValue) => {
     if (newValue !== null) setTabValue(newValue);
@@ -34,7 +38,7 @@ const InformationPage = () => {
         sx={{ marginBottom: 2 }}
       >
         <ToggleButton value="pic">افزودن عکس و ویدیو</ToggleButton>
-        <ToggleButton value="info">افزودن اطلاعات تکمیلی</ToggleButton>
+        {permissions && <ToggleButton value="info">افزودن اطلاعات تکمیلی</ToggleButton>}
       </ToggleButtonGroup>
 
       <TabPanel value={tabValue} index="pic">

@@ -4,7 +4,7 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import useUserPermissions from 'src/hooks/usePermission';
+
 import PlanCommentsModal from './planCommentModal';
 import useGetComment from '../../service/comment/useGetComment';
 
@@ -13,9 +13,6 @@ const PlanComments = () => {
   const [selectedComment, setSelectedComment] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { data, isPending } = useGetComment(trace_code);
-  const { checkPermission } = useUserPermissions();
-
-  const permissions = checkPermission(['plan.can_access_comment_user']);
 
   const handleRowClick = (e, row) => {
     if (row && row.getData) {
@@ -99,7 +96,7 @@ const PlanComments = () => {
           </Typography>
         </Box>
 
-        {permissions && data && Array.isArray(data) && data.length > 0 ? (
+        {data && Array.isArray(data) && data.length > 0 ? (
           <ReactTabulator
             data={data}
             columns={columns}

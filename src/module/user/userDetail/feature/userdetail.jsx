@@ -50,11 +50,12 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const UserDetail = () => {
   const [expandedPanel, setExpandedPanel] = React.useState(false);
-  const { checkPermission } = useUserPermissions();
+
   const [showRefresh, setShowRefresh] = useState(false);
   const { mutate } = usePostOtpUser();
   const { userId } = useParams();
   const { data, isLoading, refetch } = useGetUserDetail(userId);
+  const { checkPermission } = useUserPermissions();
   const nationalCode = data?.private_person?.[0]?.uniqueIdentifier;
   const uniqueIdentifier = data?.uniqueIdentifier;
   const { mutate: oneTimeLogin } = useOneTimeLogin();
@@ -77,17 +78,17 @@ const UserDetail = () => {
     refetch();
   }, [refetch]);
 
-  const permissions = checkPermission(['authentication.can_access_user_dashboard']);
-
   const sections = [
-    permissions && { id: 'private', label: 'اطلاعات شخصی', component: <PrivatePerson /> },
-    permissions && { id: 'address', label: 'اطلاعات آدرس', component: <Addresses /> },
-    permissions && { id: 'financial', label: 'اطلاعات مالی', component: <FinancialInfo /> },
-    permissions && { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
-    permissions && { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
-    permissions && { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
-    permissions && { id: 'companies', label: 'اطلاعات شرکت', component: <CompanyDetails /> },
+    { id: 'private', label: 'اطلاعات شخصی', component: <PrivatePerson /> },
+    { id: 'address', label: 'اطلاعات آدرس', component: <Addresses /> },
+    { id: 'financial', label: 'اطلاعات مالی', component: <FinancialInfo /> },
+    { id: 'job', label: 'اطلاعات شغلی', component: <JobInfo /> },
+    { id: 'trading', label: 'کدهای معاملاتی', component: <TradingCodes /> },
+    { id: 'accounts', label: 'اطلاعات بانکی', component: <UserAccounts /> },
+    { id: 'companies', label: 'اطلاعات شرکت', component: <CompanyDetails /> },
   ];
+
+  const permissions = checkPermission(['authentication.can_access_user_dashboard']);
 
   if (isLoading) {
     return (
@@ -115,15 +116,17 @@ const UserDetail = () => {
           <Typography variant="h4" className="text-gray-700 font-bold">
             اطلاعات کاربر
           </Typography>
-          <motion.button
-            type="button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleOneTimeLogin}
-            transition={{ type: 'spring', stiffness: 150, damping: 25 }}
-            className="bg-blue-500 mt-4 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            ورود به کارتابل کاربر
-          </motion.button>
+          {permissions && (
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.1 }}
+              onClick={handleOneTimeLogin}
+              transition={{ type: 'spring', stiffness: 150, damping: 25 }}
+              className="bg-blue-500 mt-4 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            >
+              ورود به کارتابل کاربر
+            </motion.button>
+          )}
           <motion.button
             type="button"
             onClick={openModal}
@@ -133,7 +136,7 @@ const UserDetail = () => {
           >
             <AutoModeIcon className="text-black text-3xl" />
           </motion.button>
-          {showRefresh && permissions && <Refresh setShowRefresh={setShowRefresh} />}
+          {showRefresh && <Refresh setShowRefresh={setShowRefresh} />}
         </Box>
 
         {sections.map(({ id, label, component }) => (

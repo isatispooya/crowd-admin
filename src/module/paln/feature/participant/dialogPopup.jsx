@@ -15,6 +15,7 @@ import {
 import * as React from 'react';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
+
 import useUserPermissions from 'src/hooks/usePermission';
 import { formatNumber } from 'src/utils/formatNumbers';
 import { errorMsg } from './dargahmsg';
@@ -40,10 +41,7 @@ const DialogPopup = ({
     setLocalData
   );
   const { checkPermission } = useUserPermissions();
-
-  const permissions = checkPermission(["plan.can_access_create_payment_gateway"]);
-
-  const permissionsUpdate = checkPermission(['plan.can_access_update_payment_gateway']);
+  const isEditPayment = checkPermission(['plan.can_access_update_payment_gateway']);
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -59,7 +57,7 @@ const DialogPopup = ({
   return (
     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
       <DialogContent sx={{ p: 4, minWidth: '600px' }}>
-        <FormControl fullWidth>
+        <FormControl fullWidth disabled={!isEditPayment}>
           <InputLabel>وضعیت</InputLabel>
           <Select value={status} onChange={handleStatusChange} label="وضعیت">
             <MenuItem value="0">رد شده</MenuItem>
@@ -141,7 +139,7 @@ const DialogPopup = ({
                     </TableCell>
                   </TableRow>
                 )}
-                {item.document === false && permissions && (
+                {item.document === false && (
                   <TableRow>
                     <TableCell>استعلام پرداخت</TableCell>
                     <TableCell>
@@ -162,16 +160,15 @@ const DialogPopup = ({
           <p>هیچ داده‌ای برای نمایش وجود ندارد.</p>
         )}
       </DialogContent>
-      {permissionsUpdate && (
+
       <DialogActions>
         <Button onClick={() => handleConfirm(statusSwitch, setOpenDialog)} color="primary">
           تایید
         </Button>
         <Button onClick={() => setOpenDialog(false)} color="secondary">
           لغو
-          </Button>
-        </DialogActions>
-      )}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

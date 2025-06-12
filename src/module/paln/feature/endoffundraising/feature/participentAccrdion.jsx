@@ -7,6 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import useGetParticipationsTable from 'src/module/paln/service/participantcertifit/usePostparticipant';
 import { motion, AnimatePresence } from 'framer-motion';
 import { localeText } from 'src/module/tasks/consts/localText';
+import useUserPermissions from 'src/hooks/usePermission';
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import ParticipantDetailsDialog from './ParticipantDetailsDialog';
 import usePostFinishPlanSms from '../hooks/usePostFinishPlanSms';
@@ -14,7 +15,8 @@ import usePostFinishPlanSms from '../hooks/usePostFinishPlanSms';
 const ParticipentAccrdion = ({ form }) => {
   const { trace_code } = useParams();
   const { data, isError, isSuccess, mutate } = useGetParticipationsTable(trace_code);
-
+  const { checkPermission } = useUserPermissions();
+  const isSendParticipant = checkPermission(['plan.can_send_participation_to_farabours']);
   const { mutate: finishSms } = usePostFinishPlanSms(trace_code);
   const [showConfirm, setShowConfirm] = useState(false);
   const [paymentTypeFilter, setPaymentTypeFilter] = useState('all');
@@ -22,9 +24,6 @@ const ParticipentAccrdion = ({ form }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-
-
-
 
   const handleSend = () => {
     const selectedData = data
@@ -64,7 +63,10 @@ const ParticipentAccrdion = ({ form }) => {
           onClick={(e) => e.stopPropagation()}
           className="w-4 h-4 cursor-pointer"
           style={{ transform: 'scale(1.5)' }}
-          disabled={!selectedRows.includes(params.row.track_id) && selectedRows.length >= 3}
+          disabled={
+            !isSendParticipant ||
+            (!selectedRows.includes(params.row.track_id) && selectedRows.length >= 3)
+          }
         />
       ),
     },
@@ -187,6 +189,7 @@ const ParticipentAccrdion = ({ form }) => {
                    shadow-md hover:shadow-lg transition-all duration-200 font-medium
                    flex items-center gap-2"
           onClick={handleFinishSms}
+          disabled={!isSendParticipant}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -200,9 +203,9 @@ const ParticipentAccrdion = ({ form }) => {
         </button>
         <button
           onClick={() => setShowConfirm(true)}
-          disabled={selectedRows.length === 0}
+          disabled={selectedRows.length === 0 || !isSendParticipant}
           className={`px-6 py-2 ${
-            selectedRows.length === 0
+            selectedRows.length === 0 || !isSendParticipant
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-blue-600 hover:bg-blue-700'
           } text-white rounded-lg
@@ -224,7 +227,36 @@ const ParticipentAccrdion = ({ form }) => {
       {isSuccess && filteredData && (
         <DataGrid
           rows={filteredData}
-          columns={columns}
+          columns={columns.map((col) => {
+            if (col.field === 'selection') {
+              return {
+                ...col,
+                renderCell: (params) => (
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(params.row.track_id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        if (selectedRows.length < 3) {
+                          setSelectedRows([...selectedRows, params.row.track_id]);
+                        }
+                      } else {
+                        setSelectedRows(selectedRows.filter((id) => id !== params.row.track_id));
+                      }
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-4 h-4 cursor-pointer"
+                    style={{ transform: 'scale(1.5)' }}
+                    disabled={
+                      !isSendParticipant ||
+                      (!selectedRows.includes(params.row.track_id) && selectedRows.length >= 3)
+                    }
+                  />
+                ),
+              };
+            }
+            return col;
+          })}
           getRowId={(row) => row.track_id}
           pageSize={10}
           rowsPerPageOptions={[10]}

@@ -10,6 +10,7 @@ import { formatNumber } from 'src/utils/formatNumbers';
 
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
+import useUserPermissions from 'src/hooks/usePermission';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import { errorMsg } from './dargahmsg';
 import { exportToExcel } from '../../../../utils/excelExport';
@@ -18,6 +19,8 @@ import DialogPopup from './dialogPopup';
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isPending } = useGetParticipant(trace_code);
+  const { checkPermission } = useUserPermissions();
+  const isEditPayment = checkPermission(['plan.can_access_payment_gateway']);
 
   const [status, setStatus] = useState('0');
   const [openDialog, setOpenDialog] = useState(false);
@@ -130,8 +133,6 @@ const PlanInvestors = () => {
     }
   }, [data]);
 
-  
-
   const columns = [
     {
       field: 'fulname',
@@ -170,7 +171,9 @@ const PlanInvestors = () => {
       width: 150,
       renderCell: (params) => <div>{params.value ? 'فیش بانکی' : 'درگاه'}</div>,
     },
+
     {
+      ...(isEditPayment && {
       field: 'status',
       headerName: 'وضعیت',
       width: 150,
@@ -195,8 +198,9 @@ const PlanInvestors = () => {
             <StatusIcon sx={{ fontSize: 20 }} />
             {statusText}
           </button>
-        );
-      },
+          );
+        },
+      }),
     },
     {
       field: 'track_id',
