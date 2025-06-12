@@ -18,9 +18,11 @@ const useUserPermissions = () => {
       return true;
     }
 
-    const hasPermission = permissionArray.some((perm) =>
-      data.some((item) => item.codename === perm)
-    );
+    // Get permissions array from data
+    const userPermissions = data.permissions || [];
+
+    // Check if any of the requested permissions exist in user's permissions
+    const hasPermission = permissionArray.some((perm) => userPermissions.includes(perm));
 
     return hasPermission;
   };

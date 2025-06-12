@@ -14,6 +14,7 @@ import usePostFinishPlanSms from '../hooks/usePostFinishPlanSms';
 const ParticipentAccrdion = ({ form }) => {
   const { trace_code } = useParams();
   const { data, isError, isSuccess, mutate } = useGetParticipationsTable(trace_code);
+
   const { mutate: finishSms } = usePostFinishPlanSms(trace_code);
   const [showConfirm, setShowConfirm] = useState(false);
   const [paymentTypeFilter, setPaymentTypeFilter] = useState('all');
@@ -21,6 +22,9 @@ const ParticipentAccrdion = ({ form }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+
+
+
 
   const handleSend = () => {
     const selectedData = data

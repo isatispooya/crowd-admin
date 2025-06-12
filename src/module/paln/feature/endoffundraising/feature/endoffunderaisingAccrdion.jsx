@@ -1,12 +1,15 @@
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
+import useUserPermissions from 'src/hooks/usePermission';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import EndOffUndraisingPage from './endoffundraising';
 import ParticipentAccrdion from './participentAccrdion';
 
 export default function ControlledToggleButtons() {
   const [selected, setSelected] = React.useState(null);
+  const { checkPermission } = useUserPermissions();
 
+  const isSendParticipant = checkPermission(['plan.can_send_participation_to_farabours']);
   const handleToggle = (event, newSelected) => {
     setSelected(newSelected);
   };
@@ -30,7 +33,7 @@ export default function ControlledToggleButtons() {
       </ToggleButtonGroup>
 
       {selected === 'panel1' && <EndOffUndraisingPage />}
-      {selected === 'panel2' && <ParticipentAccrdion />}
+      {selected === 'panel2' && isSendParticipant && <ParticipentAccrdion />}
     </div>
   );
 }

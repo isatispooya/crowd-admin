@@ -13,6 +13,7 @@ import {
   ListItemText,
   MobileStepper,
 } from '@mui/material';
+import useUserPermissions from 'src/hooks/usePermission';
 import PlanInvestors from './participant/participant';
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
@@ -53,6 +54,9 @@ function a11yProps(index) {
 
 const PlanDetailTab = ({ planData, idRow, refetch }) => {
   const [value, setValue] = React.useState(0);
+  const { checkPermission } = useUserPermissions();
+
+  const permissions = checkPermission(['plan.can_access_payment_gateway']);
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const [openStepsDialog, setOpenStepsDialog] = React.useState(false);
 
@@ -91,7 +95,7 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       case 5:
         return <PlanComments />;
       case 6:
-        return <PlanInvestors />;
+        return permissions && <PlanInvestors />;
       case 7:
         return <ControlledAccordionsEnd />;
       default:

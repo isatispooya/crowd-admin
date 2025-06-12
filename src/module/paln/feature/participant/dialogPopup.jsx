@@ -15,10 +15,10 @@ import {
 import * as React from 'react';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
+import useUserPermissions from 'src/hooks/usePermission';
 import { formatNumber } from 'src/utils/formatNumbers';
 import { errorMsg } from './dargahmsg';
 import { useDialogPopup } from './hooks/popup';
-// import useUserPermissions from 'src/hooks/usePermission';
 
 const DialogPopup = ({
   openDialog,
@@ -39,9 +39,11 @@ const DialogPopup = ({
     localData,
     setLocalData
   );
-  // const { checkPermission } = useUserPermissions();
+  const { checkPermission } = useUserPermissions();
 
-  // const permissions = checkPermission(['plan.can-']);
+  const permissions = checkPermission(["plan.can_access_create_payment_gateway"]);
+
+  const permissionsUpdate = checkPermission(['plan.can_access_update_payment_gateway']);
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -139,7 +141,7 @@ const DialogPopup = ({
                     </TableCell>
                   </TableRow>
                 )}
-                {item.document === false && (
+                {item.document === false && permissions && (
                   <TableRow>
                     <TableCell>استعلام پرداخت</TableCell>
                     <TableCell>
@@ -160,14 +162,16 @@ const DialogPopup = ({
           <p>هیچ داده‌ای برای نمایش وجود ندارد.</p>
         )}
       </DialogContent>
+      {permissionsUpdate && (
       <DialogActions>
         <Button onClick={() => handleConfirm(statusSwitch, setOpenDialog)} color="primary">
           تایید
         </Button>
         <Button onClick={() => setOpenDialog(false)} color="secondary">
           لغو
-        </Button>
-      </DialogActions>
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

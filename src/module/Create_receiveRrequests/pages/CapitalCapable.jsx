@@ -21,6 +21,8 @@ const CapitalCapable = () => {
   const { checkPermission } = useUserPermissions();
 
   const permissions = checkPermission(['authentication.can_access_user_dashboard']);
+
+  console.log(permissions, '112344');
   const { cartId } = useParams();
   const { data: companyInfo, refetch } = useGetCompanyInfo(cartId);
   const { toggleArchive } = useCompanyInfoStore();
