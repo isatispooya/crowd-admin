@@ -15,6 +15,8 @@ import {
 import * as React from 'react';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
+
+import useUserPermissions from 'src/hooks/usePermission';
 import { formatNumber } from 'src/utils/formatNumbers';
 import { errorMsg } from './dargahmsg';
 import { useDialogPopup } from './hooks/popup';
@@ -38,6 +40,8 @@ const DialogPopup = ({
     localData,
     setLocalData
   );
+  const { checkPermission } = useUserPermissions();
+  const isEditPayment = checkPermission(['plan.can_access_update_payment_gateway']);
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -53,7 +57,7 @@ const DialogPopup = ({
   return (
     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
       <DialogContent sx={{ p: 4, minWidth: '600px' }}>
-        <FormControl fullWidth>
+        <FormControl fullWidth disabled={!isEditPayment}>
           <InputLabel>وضعیت</InputLabel>
           <Select value={status} onChange={handleStatusChange} label="وضعیت">
             <MenuItem value="0">رد شده</MenuItem>
@@ -156,6 +160,7 @@ const DialogPopup = ({
           <p>هیچ داده‌ای برای نمایش وجود ندارد.</p>
         )}
       </DialogContent>
+
       <DialogActions>
         <Button onClick={() => handleConfirm(statusSwitch, setOpenDialog)} color="primary">
           تایید

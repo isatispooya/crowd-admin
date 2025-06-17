@@ -120,7 +120,7 @@ const PaymentInvoice = () => {
             name: invoiceData?.investor_request.company.title || 'نام شرکت ثبت نشده',
             registrationNumber:
               invoiceData.investor_request.company.registration_number?.toString() || 'ثبت نشده',
-            economicCode: invoiceData.investor_request.company.economic_code || 'ثبت نشده',
+            economicCode: invoiceData.investor_request.company.national_id || 'ثبت نشده',
             nationalId: invoiceData.investor_request.company.national_id || 'ثبت نشده',
             address: invoiceData.investor_request.company.address || 'آدرس ثبت نشده',
             phone: invoiceData.investor_request.company.tel || 'تلفن ثبت نشده',
@@ -372,8 +372,6 @@ const PaymentInvoice = () => {
               </table>
             </div>
           </div>
-
-          {/* Summary Section */}
           <div className="flex justify-end">
             <div className="w-full lg:w-5/12">
               <div className="bg-blue-50/50 border border-blue-200 rounded-2xl overflow-hidden">
@@ -406,16 +404,13 @@ const PaymentInvoice = () => {
               این فاکتور به صورت الکترونیکی صادر شده و معتبر می‌باشد
             </p>
 
-            {/* Signature Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-              {/* Seller Signature */}
               <div className="text-center">
                 <div className="border-t border-gray-300 w-48 mx-auto mb-2" />
                 <p className="text-gray-700 font-medium">امضاء فروشنده</p>
                 <p className="text-gray-600 text-sm mt-1">{data.seller.name}</p>
               </div>
 
-              {/* Buyer Signature */}
               <div className="text-center">
                 <div className="border-t border-gray-300 w-48 mx-auto mb-2" />
                 <p className="text-gray-700 font-medium">امضاء خریدار</p>
@@ -435,7 +430,6 @@ PaymentInvoice.propTypes = {
       company: PropTypes.shape({
         title: PropTypes.string,
         registration_number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        economic_code: PropTypes.string,
         national_id: PropTypes.string,
         address: PropTypes.string,
         tel: PropTypes.string,

@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { CircularProgress, Paper, Container, alpha, Switch, FormControlLabel } from '@mui/material';
+
 import { useParams } from 'react-router-dom';
 import { CompanyInfoPage } from '../companyInfo/page';
 import BoardofDirectorsPage from '../BoardOfDrectors/page';

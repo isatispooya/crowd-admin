@@ -18,6 +18,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { SubmitButton } from 'src/components/button';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import useUserPermissions from 'src/hooks/usePermission';
 import DatePicker from 'react-multi-date-picker';
 import DateObject from 'react-date-object';
 import { useGetAddInfo } from '../../service/planPicture/addInfo/useGetAddInfo';
@@ -31,6 +32,8 @@ const AddInfo = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [periodLength, setPeriodLength] = useState('');
   const [paybackPeriod, setPaybackPeriod] = useState('');
+  const { checkPermission } = useUserPermissions();
+  const permissions = checkPermission(['plan.can_access_information_plan_edit']);
 
   const { data, refetch } = useGetAddInfo(trace_code);
 
@@ -154,6 +157,7 @@ const AddInfo = () => {
             value={rateOfReturn}
             onChange={handleInputChange}
             autoComplete="off"
+            disabled={!permissions}
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
@@ -170,7 +174,13 @@ const AddInfo = () => {
             </FormLabel>
             <FormGroup>
               <FormControlLabel
-                control={<Switch checked={statusShow} onChange={handleSwitchChange} />}
+                control={
+                  <Switch
+                    checked={statusShow}
+                    onChange={handleSwitchChange}
+                    disabled={!permissions}
+                  />
+                }
                 label="انتشار و عدم انتشار"
                 sx={{
                   '& .MuiFormControlLabel-label': {
@@ -189,6 +199,7 @@ const AddInfo = () => {
               onChange={handleSelectChange}
               displayEmpty
               label="وضعیت طرح"
+              disabled={!permissions}
             >
               <MenuItem value="1">شروع شده</MenuItem>
               <MenuItem value="2">شروع نشده</MenuItem>
@@ -207,6 +218,7 @@ const AddInfo = () => {
               onChange={handlePaybackPeriodChange}
               displayEmpty
               label="دوره بازپرداخت"
+              disabled={!permissions}
             >
               <MenuItem value="2">در پایان طرح</MenuItem>
               <MenuItem value="1">سه ماهه</MenuItem>
@@ -229,6 +241,7 @@ const AddInfo = () => {
                   setPeriodLength('1');
                 }
               }}
+              disabled={!permissions}
               inputProps={{
                 min: 1,
                 max: 12,
@@ -266,6 +279,7 @@ const AddInfo = () => {
                 locale={persian_fa}
                 value={selectedDate ? new DateObject(selectedDate) : null}
                 onChange={handleDateChange}
+                disabled={!permissions}
                 style={{
                   minWidth: '30em',
                   height: '55px',
@@ -279,7 +293,7 @@ const AddInfo = () => {
         </Box>
 
         <Box mt={2}>
-          <SubmitButton onClick={handleSubmit} disabled={isPending} fullWidth />
+          <SubmitButton onClick={handleSubmit} disabled={isPending || !permissions} fullWidth />
         </Box>
         {isError && (
           <Typography color="error" sx={{ marginTop: '16px', textAlign: 'center' }}>

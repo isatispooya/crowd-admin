@@ -7,8 +7,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Close, CheckCircle, Pending, HourglassEmpty } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { formatNumber } from 'src/utils/formatNumbers';
+
 import CustomDataGridToolbar from 'src/components/common/CustomDataGridToolbar';
 import { localeText } from 'src/module/tasks/consts/localText';
+import useUserPermissions from 'src/hooks/usePermission';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 import { errorMsg } from './dargahmsg';
 import { exportToExcel } from '../../../../utils/excelExport';
@@ -17,6 +19,9 @@ import DialogPopup from './dialogPopup';
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isPending } = useGetParticipant(trace_code);
+  const { checkPermission } = useUserPermissions();
+  const isEditPayment = checkPermission(['plan.can_access_payment_gateway']);
+
   const [status, setStatus] = useState('0');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -25,58 +30,67 @@ const PlanInvestors = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
 
-
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('fa-IR', {
       year: 'numeric',
-      month: 'numeric', 
+      month: 'numeric',
       day: 'numeric',
-      timeZone: 'Asia/Tehran'
+      timeZone: 'Asia/Tehran',
     }).format(date);
   };
 
   const getStatusText = (status) => {
     const statusMap = {
-      '0': 'رد شده',
-      '1': 'در حال بررسی',
-      '2': 'تایید موقت',
-      '3': 'تایید نهایی'
+      0: 'رد شده',
+      1: 'در حال بررسی',
+      2: 'تایید موقت',
+      3: 'تایید نهایی',
     };
     return statusMap[status] || 'نامشخص';
   };
 
-  const transformDataForExcel = data => data.map((item, index) => ({
-    ردیف: (index + 1).toString(),
-    'نام و نام خانوادگی': item.fulname || '',
-    'شماره همراه': item.mobile || '',
-    نوع: item.document ? 'فیش بانکی' : 'درگاه',
-    مقدار: item.amount || '',
-    'کدملی/شناسه': item.user || '',
-    'تاریخ ایجاد': formatDate(item.create_date) || '',
-    مبلغ: formatNumber(item.value) || '',
-    'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
-    'شماره پیگیری': item.track_id || '',
-    'شماره ارجاع درگاه': item.reference_number || '',
-    وضعیت: getStatusText(item.status)
-  }));
+  const transformDataForExcel = (data) =>
+    data.map((item, index) => ({
+      ردیف: (index + 1).toString(),
+      'نام و نام خانوادگی': item.fulname || '',
+      'شماره همراه': item.mobile || '',
+      نوع: item.document ? 'فیش بانکی' : 'درگاه',
+      مقدار: item.amount || '',
+      'کدملی/شناسه': item.user || '',
+      'تاریخ ایجاد': formatDate(item.create_date) || '',
+      مبلغ: formatNumber(item.value) || '',
+      'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
+      'شماره پیگیری': item.track_id || '',
+      'شماره ارجاع درگاه': item.reference_number || '',
+      وضعیت: getStatusText(item.status),
+    }));
 
   const getStatusIcon = (status) => {
     const iconMap = {
-      '0': Close,
-      '1': HourglassEmpty,
-      '2': Pending,
-      '3': CheckCircle
+      0: Close,
+      1: HourglassEmpty,
+      2: Pending,
+      3: CheckCircle,
     };
     return iconMap[status] || HourglassEmpty;
   };
 
-  const customFilter = useCallback(data => data.filter(item => 
-    (statusFilter === 'all' || item.status === statusFilter) && 
-    (typeFilter === 'all' || (typeFilter === 'bank' ? item.document === true : 
-     typeFilter === 'gateway' ? item.document === false : true))
-  ), [statusFilter, typeFilter]);
+  const customFilter = useCallback(
+    (data) =>
+      data.filter(
+        (item) =>
+          (statusFilter === 'all' || item.status === statusFilter) &&
+          (typeFilter === 'all' ||
+            (typeFilter === 'bank'
+              ? item.document === true
+              : typeFilter === 'gateway'
+                ? item.document === false
+                : true))
+      ),
+    [statusFilter, typeFilter]
+  );
 
   useEffect(() => {
     if (data) {
@@ -110,7 +124,7 @@ const PlanInvestors = () => {
         'وضعیت درگاه': errorMsg[item.code_status_payment] || item.code_status_payment || '',
         'شماره پیگیری': item.track_id || '',
         'شماره ارجاع درگاه': item.reference_number || '',
-        وضعیت: getStatusText(item.status)
+        وضعیت: getStatusText(item.status),
       }));
 
       exportToExcel(excelData);
@@ -124,91 +138,91 @@ const PlanInvestors = () => {
       field: 'fulname',
       headerName: 'نام و نام خانوادگی',
       width: 200,
-      filterable: true
+      filterable: true,
     },
     {
       field: 'amount',
       headerName: 'مقدار سهم',
       width: 150,
-      filterable: true
+      filterable: true,
     },
     {
       field: 'value',
       headerName: 'مبلغ',
       width: 200,
-      renderCell: (params) => formatNumber(params.value)
+      renderCell: (params) => formatNumber(params.value),
     },
     {
       field: 'create_date',
       headerName: 'تاریخ ایجاد',
       width: 200,
-      renderCell: (params) => params.value ? 
-        moment(params.value).format('jYYYY/jMM/jDD HH:mm') : 
-        'تاریخ مشخص نشده'
+      renderCell: (params) =>
+        params.value ? moment(params.value).format('jYYYY/jMM/jDD HH:mm') : 'تاریخ مشخص نشده',
     },
     {
       field: 'name_status',
       headerName: 'وضعیت نام',
       width: 150,
-      valueFormatter: (params) => params.value ? 'فعال' : 'غیر فعال'
+      valueFormatter: (params) => (params.value ? 'فعال' : 'غیر فعال'),
     },
     {
       field: 'document',
       headerName: 'نوع',
       width: 150,
-      renderCell: (params) => (
-        <div>{params.value ? 'فیش بانکی' : 'درگاه'}</div>
-      )
+      renderCell: (params) => <div>{params.value ? 'فیش بانکی' : 'درگاه'}</div>,
     },
+
     {
+      ...(isEditPayment && {
       field: 'status',
       headerName: 'وضعیت',
       width: 150,
       renderCell: (params) => {
         const StatusIcon = getStatusIcon(params.value);
         const statusText = getStatusText(params.value);
-        
+
         return (
           <button
             type="button"
             onClick={() => handleStatusClick(params.row)}
             onKeyDown={(e) => e.key === 'Enter' && handleStatusClick(params.row)}
-            style={{ 
+            style={{
               cursor: 'pointer',
               background: 'none',
               border: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
             }}
           >
             <StatusIcon sx={{ fontSize: 20 }} />
             {statusText}
           </button>
-        );
-      }
+          );
+        },
+      }),
     },
     {
       field: 'track_id',
       headerName: 'شماره پیگیری',
-      width: 150
+      width: 150,
     },
     {
-      field: 'reference_number', 
+      field: 'reference_number',
       headerName: 'شماره ارجاع درگاه',
-      width: 200
+      width: 200,
     },
     {
       field: 'code_status_payment',
       headerName: 'وضعیت درگاه',
       width: 200,
-      valueFormatter: (params) => errorMsg[params.value] || params.value
+      valueFormatter: (params) => errorMsg[params.value] || params.value,
     },
     {
       field: 'user',
       headerName: 'کاربر',
-      width: 150
-    }
+      width: 150,
+    },
   ];
 
   if (isPending) {
@@ -221,11 +235,11 @@ const PlanInvestors = () => {
 
   return (
     <div>
-      <Backdrop 
-        sx={{ 
-          color: '#fff', 
-          zIndex: (theme) => theme.zIndex.drawer + 1 
-        }} 
+      <Backdrop
+        sx={{
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open={isPending}
       >
         <CircularProgress color="inherit" />
@@ -238,7 +252,7 @@ const PlanInvestors = () => {
             color: '#333',
             borderRadius: '16px 16px 0 0',
             padding: '16px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           <Typography variant="h4" fontWeight="bold">
@@ -252,7 +266,7 @@ const PlanInvestors = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '300px'
+              height: '300px',
             }}
           >
             <CircularProgress />
@@ -267,7 +281,7 @@ const PlanInvestors = () => {
                 alignItems: 'center',
                 padding: '8px',
                 backgroundColor: '#f5f5f5',
-                borderRadius: '4px'
+                borderRadius: '4px',
               }}
             >
               <button
@@ -280,7 +294,7 @@ const PlanInvestors = () => {
                   color: 'white',
                   border: 'none',
                   borderRadius: '4px',
-                  cursor: localData?.length ? 'pointer' : 'not-allowed'
+                  cursor: localData?.length ? 'pointer' : 'not-allowed',
                 }}
               >
                 دانلود اکسل
@@ -293,7 +307,7 @@ const PlanInvestors = () => {
                   style={{
                     padding: '8px',
                     borderRadius: '4px',
-                    border: '1px solid #ddd'
+                    border: '1px solid #ddd',
                   }}
                 >
                   <option value="all">همه انواع</option>
@@ -307,7 +321,7 @@ const PlanInvestors = () => {
                   style={{
                     padding: '8px',
                     borderRadius: '4px',
-                    border: '1px solid #ddd'
+                    border: '1px solid #ddd',
                   }}
                 >
                   <option value="all">همه وضعیت‌ها</option>
@@ -337,13 +351,13 @@ const PlanInvestors = () => {
                       fileName="سرمایه-گذاران"
                       customExcelData={transformDataForExcel}
                     />
-                  )
+                  ),
                 }}
                 slotProps={{
                   toolbar: {
                     showQuickFilter: true,
-                    quickFilterProps: { debounceMs: 500 }
-                  }
+                    quickFilterProps: { debounceMs: 500 },
+                  },
                 }}
               />
             </div>
@@ -354,7 +368,7 @@ const PlanInvestors = () => {
               borderRadius: '8px',
               padding: '20px',
               textAlign: 'center',
-              mt: 2
+              mt: 2,
             }}
           >
             <Typography variant="h6" fontWeight="bold">

@@ -4,12 +4,14 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import PropTypes from 'prop-types';
 import { useQuery } from '@tanstack/react-query';
+
 import { Box, Typography } from '@mui/material';
 import { fetchCommit } from '../service/commentService';
 import PlanCommentsModal from './planCommentModal';
 
 const PlanComments = ({ idRow }) => {
   const [selectedComment, setSelectedComment] = useState(null);
+
   const [openModal, setOpenModal] = useState(false);
 
   const { data, refetch } = useQuery({
@@ -99,6 +101,7 @@ const PlanComments = ({ idRow }) => {
           </Box>
         )}
       </Box>
+
       <PlanCommentsModal
         openModal={openModal}
         handleCloseModal={handleCloseModal}

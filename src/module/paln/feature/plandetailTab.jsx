@@ -13,6 +13,8 @@ import {
   ListItemText,
   MobileStepper,
 } from '@mui/material';
+
+import useUserPermissions from 'src/hooks/usePermission';
 import PlanInvestors from './participant/participant';
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
@@ -53,6 +55,11 @@ function a11yProps(index) {
 
 const PlanDetailTab = ({ planData, idRow, refetch }) => {
   const [value, setValue] = React.useState(0);
+  const { checkPermission } = useUserPermissions();
+
+  const isEndFundraising = checkPermission(['plan.can_access_end_of_fundraising']);
+  const isComments = checkPermission(['plan.can_access_comment_user']);
+
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const [openStepsDialog, setOpenStepsDialog] = React.useState(false);
 
@@ -62,9 +69,9 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
     'اطلاعات تکمیلی',
     'گزارشات',
     'گزارش سود کاربر',
-    'نظرات',
+    isComments && 'نظرات',
     'سرمایه گذاران',
-    'پایان جمع آوری وجه',
+    isEndFundraising && 'پایان جمع آوری وجه',
   ];
 
   const handleChange = (event, newValue) => {
@@ -89,11 +96,11 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       case 4:
         return <ProfitPage />;
       case 5:
-        return <PlanComments />;
+        return isComments && <PlanComments />;
       case 6:
         return <PlanInvestors />;
       case 7:
-        return <ControlledAccordionsEnd />;
+        return isEndFundraising && <ControlledAccordionsEnd />;
       default:
         return null;
     }

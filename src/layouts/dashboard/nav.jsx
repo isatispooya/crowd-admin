@@ -14,6 +14,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import Scrollbar from 'src/components/scrollbar';
 import { getCookie } from 'src/api/cookie';
 import SvgColor from 'src/components/svg-color';
+import useUserPermissions from 'src/hooks/usePermission';
 import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import navConfig from './config-navigation';
@@ -22,7 +23,17 @@ import usePostLogOut from './service/getpost';
 
 export default function Nav({ openNav, onCloseNav }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data, checkPermission } = useUserPermissions();
+
+  const permissions = checkPermission(['venture_capitalist.can_access_investor_request']);
+
+
+
+
+  console.log(data);
+
   const router = useRouter();
+
   const cookie = getCookie('sym');
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
@@ -51,12 +62,14 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2, color: 'green' }}>
-      {navConfig.map((item) =>
-        cookie === 'fevisa' ? (
-          <NavItem key={item.title} item={item} />
-        ) : (
-          item.title !== 'پیشرفت پروژه' && <NavItem key={item.title} item={item} />
-        )
+      {navConfig.map(
+        (item) =>
+          (permissions || item.title !== 'سرمایه پذیر') &&
+          (cookie === 'fevisa' ? (
+            <NavItem key={item.title} item={item} />
+          ) : (
+            item.title !== 'پیشرفت پروژه' && <NavItem key={item.title} item={item} />
+          ))
       )}
       <ListItemButton
         onClick={exit}
