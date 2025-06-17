@@ -13,7 +13,7 @@ RUN npm install && npm run build
 RUN npm install -g vite
 
 # پورت پیش‌فرض Vite preview
-EXPOSE 4173
+EXPOSE 8210
 
 # اجرای برنامه در حالت production
 CMD ["npm", "start"]
